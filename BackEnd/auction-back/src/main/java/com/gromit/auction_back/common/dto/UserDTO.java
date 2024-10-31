@@ -19,17 +19,10 @@ public class UserDTO {
     private LocalDate birthDate;
     private String address;
     private int cash;
-    private Gender gender;
-    private YesNo isAdult;
-    private YesNo isAdmin;
+    private String gender;
+    private String isAdult;
+    private String isAdmin;
     private String nickname;
-    private YesNo isSuspended;
+    private String isSuspended;
 
-    public enum Gender {
-        남, 여
-    }
-
-    public enum YesNo {
-        y, n
-    }
 }

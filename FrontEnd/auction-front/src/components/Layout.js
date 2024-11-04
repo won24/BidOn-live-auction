@@ -1,5 +1,7 @@
 import {Outlet} from "react-router-dom";
-import Nav from "./navagation/NavigationBar";
+import Nav from "./header/NavigationBar";
+import Footer from "./footer/Footer";
+import Main from "../pages/main/Main";
 
 
 const Layout = () =>{
@@ -7,8 +9,8 @@ const Layout = () =>{
     return(
         <>
             <Nav/>
-            {/*<Outlet/>*/}
-            {/*<Footer/>*/}
+            <Outlet/>
+            <Footer/>
         </>
     )
 }

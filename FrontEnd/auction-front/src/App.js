@@ -1,42 +1,31 @@
-import {useState} from "react";
+
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Live from "./pages/live/Live";
+import Auction from "./pages/acution/Auction";
+import Mypage from "./pages/mypage/Mypage";
+import RequestItem from "./pages/requestItem/RequestItem";
+import Customer from "./pages/customer/Customer";
+import Layout from "./components/Layout";
+import Login from "./pages/login/Login";
 
 function App() {
-    const [users, setUsers] = useState([]);
-
-    const fetchUsers = () => {
-        fetch(`http://localhost:8080/api/users`)
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error('Error fetching users:', error));
-        console.log(users)
-    };
 
     return (
-        <div>
-            <h1>User List</h1>
+       <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout/>}>
+                        <Route path="live" element={<Live/>}/>
+                        <Route path="auction" element={<Auction/>}/>
+                        <Route path="mypage" element={<Mypage/>}/>
+                        <Route path="requestitem" element={<RequestItem/>}/>
+                        <Route path="customer" element={<Customer/>}/>
+                        <Route path="login" element={<Login/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
 
-            <button onClick={fetchUsers}>Fetch All Users</button>
-            {users.length > 0 && (
-                <table border={1}>
-                    <thead>
-                    <tr>
-                        {Object.keys(users[0]).map((key) => (
-                            <th key={key}>{key}</th>
-                        ))}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {users.map((user, index) => (
-                        <tr key={index}>
-                            {Object.values(user).map((value, idx) => (
-                                <td key={idx}>{value}</td>
-                            ))}
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            )}
-        </div>
+       </>
     );
 }
 

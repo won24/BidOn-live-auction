@@ -1,7 +1,7 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Auction from "./pages/acution/Auction";
+import AntiqueItems from "./pages/acution/AntiqueItems";
 import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import Customer from "./pages/customer/Customer";
@@ -16,7 +16,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Layout/>}>
                         <Route path="live" element={<Live/>}/>
-                        <Route path="auction" element={<Auction/>}/>
+                        <Route path="auction" element={<AntiqueItems/>}/>
                         <Route path="mypage" element={<Mypage/>}/>
                         <Route path="requestitem" element={<RequestItem/>}/>
                         <Route path="customer" element={<Customer/>}/>

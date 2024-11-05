@@ -25,7 +25,7 @@ const Main = () =>{
             {/* 메인 페이지 중앙 슬라이드 */}
             <div className="sliders">
                 <a className="slider">
-                    <img className="slide1" src={require('../../assert/슬라이드.png')}/>
+                    <img className="slide1" src={require('../../assets/슬라이드.png')}/>
                 </a>
                 <a className="slider">
                     <img className="slide2" />

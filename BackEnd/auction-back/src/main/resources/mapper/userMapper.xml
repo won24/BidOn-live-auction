@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gromit.auction_back.model.UserDAO">
-    <resultMap id="UserResultMap" type="com.gromit.auction_back.common.dto.UserDTO">
+<mapper namespace="com.gromit.auction_back.User.UserDAO">
+    <resultMap id="UserResultMap" type="com.gromit.auction_back.User.UserDTO">
         <id property="userCode" column="user_code" />
         <result property="id" column="id" />
         <result property="password" column="password" />

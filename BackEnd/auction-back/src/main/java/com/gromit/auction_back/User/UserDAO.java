@@ -1,6 +1,5 @@
-package com.gromit.auction_back.model;
+package com.gromit.auction_back.User;
 
-import com.gromit.auction_back.common.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

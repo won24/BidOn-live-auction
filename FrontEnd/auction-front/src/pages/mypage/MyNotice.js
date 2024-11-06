@@ -13,10 +13,12 @@ const MyNotice = () => {
         <div className="myNotice">
             <h2>내가 쓴 글</h2>
             <ul>
-                {notices.map((notice) => {
+                {notices.map((notice) => (
                     <li key={notice.id}>{notice.title}</li>
-                })}
+                ))}
             </ul>
         </div>
     );
 }
+
+export default MyNotice;

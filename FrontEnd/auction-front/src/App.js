@@ -1,5 +1,5 @@
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Live from "./pages/live/Live";
 import Auction from "./pages/acution/Auction";
 import Mypage from "./pages/mypage/Mypage";

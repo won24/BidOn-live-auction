@@ -1,8 +1,11 @@
 import './Main.css'
+import Nav from "../../components/header/NavigationBar";
 
 const Main = () =>{
 
     return(
+        <>
+        <Nav/>
         <div className="mainPageContainer">
             <div className="centerContainer">
                 {/*메인 페이지 중앙 왼쪽 슬라이드 리스트 */}
@@ -68,6 +71,7 @@ const Main = () =>{
             </div>
             {/*</div>*/}
         </div>
+        </>
     )
 }
 export default Main;

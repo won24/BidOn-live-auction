@@ -12,6 +12,7 @@ const Nav = () =>{
             <NavLink to="/requestitem">경매품신청</NavLink>
             <NavLink to="/customer">고객센터</NavLink>
             <NavLink to="/login">로그인</NavLink>
+            <NavLink to="/checkout">결제하기</NavLink>
         </div>
     )
 }

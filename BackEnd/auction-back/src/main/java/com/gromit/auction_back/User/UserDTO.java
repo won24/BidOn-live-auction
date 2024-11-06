@@ -1,4 +1,4 @@
-package com.gromit.auction_back.common.dto;
+package com.gromit.auction_back.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

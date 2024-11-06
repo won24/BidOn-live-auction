@@ -1,0 +1,17 @@
+.navContainer{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+.menuContainer{
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    font-size: 20px;
+}
+
+.login{
+    font-size: 15px;
+}

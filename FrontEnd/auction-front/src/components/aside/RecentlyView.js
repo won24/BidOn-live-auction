@@ -13,7 +13,7 @@ const RecentlyView = () =>{
 
     return (
         <div>
-            <h3>Recently Viewed Posts</h3>
+            <p>최근 본 게시물</p>
             <ul>
                 {recentViews.map((view, index) => (
                     <li key={index}>{view.img}</li>

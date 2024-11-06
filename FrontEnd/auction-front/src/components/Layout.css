@@ -1,0 +1,22 @@
+.pageContainer {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    justify-content: center; /* 수평 중앙 정렬*/
+    align-items: center; /* 수직 중앙 정렬*/
+}
+
+/* 화면 크기 변경에 따른 비율 유지 */
+@media screen and (max-width: 1920px) {
+    .container {
+        width: 100vw;
+        height: 56.25vw; /* 1920x1080 비율 유지 */
+    }
+}
+
+@media screen and (max-height: 1080px) {
+    .container {
+        height: 100vh;
+        width: 177.77vh; /* 1920x1080 비율 유지, 1920 / 1080 = 1.7777 */
+    }
+}

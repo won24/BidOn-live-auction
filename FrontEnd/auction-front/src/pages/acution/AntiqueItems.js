@@ -6,7 +6,7 @@ const AntiqueItems = ( {antiqueList} ) =>{
 
     const onItemClick = () =>{
         const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
-        const updatedPosts = [post, ...recentPosts.filter(p => p.id !== post.id)];
+        const updatedPosts = [antiqueList, ...recentPosts.filter(p => p.id !== antiqueList.id)];
         localStorage.setItem("recentPosts", JSON.stringify(updatedPosts.slice(0,2))); // 최근 본 게시물 2개
     }; // 게시글 클릭하면 로컬스토리지에 최근 두개까지 저장
 

@@ -7,7 +7,7 @@ const Layout = () =>{
     return(
         <>
             <Nav/>
-            <Outlet/>
+            {/*<Outlet/>*/}
             {/*<Footer/>*/}
         </>
     )

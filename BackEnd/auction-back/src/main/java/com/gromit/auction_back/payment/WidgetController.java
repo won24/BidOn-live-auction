@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,9 +21,9 @@ import java.util.Base64;
 public class WidgetController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${tosspayment.widget-secret-key}")
+    @Value("test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6")
     private String widgetSecretKey;
-
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws PaymentException {
         JSONParser parser = new JSONParser();

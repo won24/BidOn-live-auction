@@ -1,5 +1,4 @@
 
-
  .Mypage {
     padding: 20px;
 }
@@ -9,26 +8,9 @@
      gap: 20px;
  }
 
- .MyPorfile, MyNotice, MyFar {
-     border: 1px solid #ddd;
-     padding: 20px;
-     width: 100%;
- }
-
- h1 {
-     text-align: center;
- }
-
- h2 {
-     color: #9dca9d;
- }
-
- ul {
-     list-style-type: none;
-     padding: 0;
- }
-
- li {
-     margin-bottom: 10px;
- }
+ /*.MyPorfile, MyNotice, MyFar {*/
+ /*    border: 1px solid #ddd;*/
+ /*    padding: 20px;*/
+ /*    width: 100%;*/
+ /*}*/
 

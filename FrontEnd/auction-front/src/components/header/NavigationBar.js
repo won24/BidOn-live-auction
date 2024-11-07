@@ -19,7 +19,6 @@ const Nav = () =>{
                 </div>
                     <NavLink to="/login" className="login">| 로그인 |</NavLink>
             </div>
-            <Main/>
         </>
     )
 }

@@ -9,6 +9,9 @@ import Layout from "./components/Layout";
 import Login from "./pages/login/Login";
 import Main from "./pages/main/Main";
 import Auction from "./pages/acution/Auction";
+import {FailPage} from "./pages/tosspay/TosspayFail";
+import {SuccessPage} from "./pages/tosspay/TosspaySuccess";
+import {CheckoutPage} from "./pages/tosspay/TosspayAPI";
 
 function App() {
 
@@ -24,6 +27,9 @@ function App() {
                         <Route path="requestitem" element={<RequestItem/>}/>
                         <Route path="customer" element={<Customer/>}/>
                         <Route path="login" element={<Login/>}/>
+                        <Route path="checkout" element={<CheckoutPage />} />
+                        <Route path="tosspaySuccess" element={<SuccessPage />} />
+                        <Route path="tosspayFail" element={<FailPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

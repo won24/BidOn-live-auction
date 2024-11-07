@@ -1,4 +1,4 @@
-package com.gromit.auction_back.common.config;
+package com.gromit.auction_back.common.tossPay;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

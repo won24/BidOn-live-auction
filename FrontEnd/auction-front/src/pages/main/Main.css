@@ -1,0 +1,116 @@
+/* 메인 페이지 전체 스타일 */
+.mainPageContainer {
+    display: flex;
+    flex-direction: column;  /* 수직으로 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
+    min-height: 100vh;  /* 화면 전체 높이를 차지하게 */
+    padding: 0;
+    margin: 0;
+}
+
+/* 중앙 컨테이너 스타일 */
+.centerContainer {
+    display: flex;
+    justify-content: space-between;  /* 슬라이드 리스트와 슬라이더를 양옆으로 배치 */
+    align-items: center;  /* 수직 중앙 정렬 */
+    width: 100%;
+    max-width: 1920px;  /* 최대 너비 설정 */
+    padding: 20px;
+}
+
+/* 슬라이드 리스트 스타일 */
+.slideList {
+    display: flex;
+    flex-direction: column;  /* 세로로 나열 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    margin-right: 20px;
+    border: 1px #4E4E4E;
+}
+
+/* 각 슬라이드 아이템 스타일 */
+.list1, .list2, .list3 {
+    display: flex;
+    flex-direction: column; /* 세로 배치 */
+    align-items: center;  /* 이미지와 텍스트를 중앙 정렬 */
+    margin-bottom: 10px;
+}
+
+/* 메인 슬라이드 컨테이너 스타일 */
+.sliders {
+    display: flex;
+    justify-content: space-between; /* 슬라이드들을 가로로 나열 */
+    flex: 1;  /* 슬라이드가 가능한 공간을 모두 차지하게 */
+}
+
+/* 각 슬라이드 스타일 */
+.slider img {
+    width: 100%; /* 슬라이드 이미지가 컨테이너 크기에 맞게 확장 */
+    max-width: 600px;  /* 최대 너비 설정 */
+    height: auto;  /* 비율에 맞게 높이를 자동으로 조정 */
+}
+
+/* 하단 카테고리 영역 */
+.mainCategoryContainer {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;  /* 카테고리 텍스트와 링크들을 중앙 정렬 */
+    gap: 20px;
+}
+
+.textContainer {
+    text-align: center;
+}
+
+.textContainer p {
+    margin: 0;
+    font-size: 24px;
+}
+
+hr {
+    width: 100%;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+/* 각 카테고리 스타일 */
+.antiqueContainer, .limitedContainer, .discontinuationContainer,
+.artproductContainer, .valauablesContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.antiqueText, .limitedText, .discontinuationText,
+.artproductText, .valaublesText {
+    font-size: 18px;
+}
+
+.antiqueContainer a, .limitedContainer a,
+.discontinuationContainer a, .artproductContainer a,
+.valauablesContainer a {
+    display: block; /* 블록 요소로 만들어서 크기를 지정할 수 있게 */
+    width: 120px;
+    height: 120px;
+    background-size: cover; /* 이미지를 영역에 맞게 확대/축소 */
+    background-position: center; /* 이미지를 중앙에 배치 */
+}
+
+.antiqueContainer a {
+    background-image: url("../../assets/antique.png");
+}
+.limitedContainer a{
+
+}
+.discontinuationContainer a {
+    background-image: url("../../assets/discontinuation.png");
+}
+.artproductContainer a {
+    background-image: url("../../assets/artproduct.png");
+}
+.valauablesContainer a {
+    background-image: url("../../assets/valuables.png");
+}
+

@@ -8,3 +8,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:
   mapper-locations: mapper/*.xml
+payment:
+  client-key: test_ck_0RnYX2w532Dg0KN6dLYgrNeyqApQ
+  secret-key: test_sk_Poxy1XQL8RbKZELvzdGL87nO5Wml
+  widget-secret-key: test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6
+  base-url: https://api.tosspayments.com/v1/payments
+  success-url: "http://localhost:8080/api/v1/payments/toss/success"
+  fail-url: "http://localhost:8080/api/v1/payments/toss/fail"
+  cancel-endpoint: /cancel
+  confirm-endpoint: /confirm

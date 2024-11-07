@@ -1,14 +1,15 @@
+import Nav from "./header/NavigationBar"; // Ensure the correct path is used
 import {Outlet} from "react-router-dom";
-import Nav from "./navagation/NavigationBar";
 import Footer from "./footer/Footer";
 
-const Layout = () =>{
-    return(
+const Layout = () => {
+    return (
         <>
-            <Nav/>
-            <Outlet/>
-            <Footer/>
+            <Nav />
+            <Outlet />
+            <Footer />
         </>
-    )
+    );
 }
-export default Layout;
+
+export default Layout;;

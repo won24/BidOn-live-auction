@@ -11,6 +11,11 @@ import Auction from "./pages/acution/Auction";
 import {FailPage} from "./pages/tosspay/TosspayFail";
 import {SuccessPage} from "./pages/tosspay/TosspaySuccess";
 import {CheckoutPage} from "./pages/tosspay/TosspayAPI";
+import Antique from "./pages/acution/Antique";
+import Limited from "./pages/acution/Limited";
+import Discontiuation from "./pages/acution/discontinuation";
+import ArtProduct from "./pages/acution/artProduct";
+import Valuables from "./pages/acution/valuables";
 
 function App() {
 
@@ -22,14 +27,19 @@ function App() {
                     <Route path="/" element={<Layout/>}>
                         <Route path="live" element={<Live/>}/>
                         <Route path="auction" element={<Auction/>}/>
+                        <Route path="auction/antique" element={<Antique/>}/>
+                        <Route path="auction/limited" element={<Limited/>}/>
+                        <Route path="auction/discontinuation" element={<Discontiuation/>}/>
+                        <Route path="auction/artproduct" element={<ArtProduct/>}/>
+                        <Route path="auction/valuables" element={<Valuables/>}/>
                         <Route path="requestitem" element={<RequestItem/>}/>
                         <Route path="mypage" element={<Mypage/>}/>
                         <Route path="customer" element={<Customer/>}/>
                         <Route path="login" element={<Login/>}/>
-                        <Route path="checkout" element={<CheckoutPage />} />
-                        <Route path="tosspaySuccess" element={<SuccessPage />} />
-                        <Route path="tosspayFail" element={<FailPage />} />
                     </Route>
+                    <Route path="checkout" element={<CheckoutPage />} />
+                    <Route path="tosspaySuccess" element={<SuccessPage />} />
+                    <Route path="tosspayFail" element={<FailPage />} />
                 </Routes>
             </BrowserRouter>
        </>

@@ -28,6 +28,21 @@ const Auction = () =>{
 
     return(
         <>
+            <h2>경매 물품 전체보기</h2>
+            <p>쇼미옥의 경매 물품</p>
+            <a href="/auction/antique">골동품</a>
+            <a href="/auction/limited">한정판</a>
+            <a href="/auction/discontinuation">단종품</a>
+            <a href="/auction/artproduct">예술품</a>
+            <a href="/auction/valuables">귀중품</a>
+            <input placeholder="현재 카테고리에서 검색"/>
+            <select name="sort" id="sort">
+                <option value="favorite">인기순</option>
+                <option value="new">최신순</option>
+                <option value="last">오래된순</option>
+            </select>
+            <hr/>
+
             {auctionList.map(list => (
                 <div key={list.id} className="auctionListContainer">
                     <Link to="/auction/{id}" onClick={onItemClick}>

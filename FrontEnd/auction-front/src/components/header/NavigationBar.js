@@ -1,5 +1,4 @@
 import {NavLink} from "react-router-dom";
-import Main from "../../pages/main/Main";
 import './NavigationBar.css'
 
 
@@ -17,8 +16,9 @@ const Nav = () =>{
                     <NavLink to="/requestitem">경매품신청</NavLink>
                     <NavLink to="/customer">고객센터</NavLink>
                 </div>
-                    <NavLink to="/login" className="login">| 로그인 |</NavLink>
+                <NavLink to="/login" className="login">| 로그인 |</NavLink>
             </div>
+            <hr/>
         </>
     )
 }

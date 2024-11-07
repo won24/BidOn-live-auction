@@ -29,6 +29,8 @@ const Live = () =>{
 
     return(
         <>
+            <h1>SHOW ME THE AUCTION's LIVE</h1>
+            <p>쇼미옥 신개념 생방송 스트리밍 경매</p>
             {liveList.map(list => (
                 <div key={list.id} className="liveListContainer">
                     <Link to="/live/{id}" onClick={onItemClick}>

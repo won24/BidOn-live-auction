@@ -26,9 +26,17 @@ const Antique = () =>{
 
     return(
         <>
+            <h1>앤티크 Antique</h1>
+            <input placeholder="현재 카테고리에서 검색"/>
+            <select name="sort" id="sort">
+                <option value="favorite">인기순</option>
+                <option value="new">최신순</option>
+                <option value="last">오래된순</option>
+            </select>
+            <hr/>
             {antiqueList.map(list => (
                 <div key={list.id} className="auctionListContainer">
-                    <Link to="/auction/antique/{id}" onClick={onItemClick}>
+                    <Link to="/auction/{id}" onClick={onItemClick}>
                         <div className="itemName">{list.img}</div>
                         <h2 className="itemTitle">{list.title}</h2>
                     </Link>

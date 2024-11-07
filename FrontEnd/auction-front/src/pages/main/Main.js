@@ -1,5 +1,8 @@
 import './Main.css'
 import Nav from "../../components/header/NavigationBar";
+import Layout from "../../components/Layout";
+import Footer from "../../components/footer/Footer";
+import RecentlyView from "../../components/aside/RecentlyView";
 
 const Main = () =>{
 
@@ -47,7 +50,7 @@ const Main = () =>{
                     <hr/>
                     <p>주요 카테고리</p>
                 </div>
-                {/*<div className="categoryContainer">*/}
+
                 <div className="antiqueContainer">
                     <a href="/auction/antique"/>
                     <p className="antiqueText">골동품</p>
@@ -69,8 +72,9 @@ const Main = () =>{
                     <p className="valaublesText">귀중품</p>
                 </div>
             </div>
-            {/*</div>*/}
         </div>
+            <RecentlyView/>
+            <Footer/>
         </>
     )
 }

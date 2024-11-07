@@ -1,11 +1,12 @@
-package com.gromit.auction_back.common.tossPay;
+package com.gromit.auction_back.payment;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.gromit.auction_back.common.tossPay.PaymentException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,9 @@ import java.util.Base64;
 public class WidgetController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Value("${tosspayment.widget-secret-key}")
+    private String widgetSecretKey;
+
     @RequestMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws PaymentException {
         JSONParser parser = new JSONParser();
@@ -34,7 +38,7 @@ public class WidgetController {
             orderId = (String) requestData.get("orderId");
             amount = (String) requestData.get("amount");
         } catch (ParseException e) {
-            throw new PaymentException("Failed to parse JSON request", e);
+            throw new PaymentException("Failed to parse JSON request 비상비상", e);
         }
 
         JSONObject obj = new JSONObject();
@@ -42,7 +46,6 @@ public class WidgetController {
         obj.put("amount", amount);
         obj.put("paymentKey", paymentKey);
 
-        String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
         String authorizations = "Basic " + new String(encodedBytes);
@@ -72,11 +75,5 @@ public class WidgetController {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-    }
-}
-
-class PaymentException extends Exception {
-    public PaymentException(String message, Throwable cause) {
-        super(message, cause);
     }
 }

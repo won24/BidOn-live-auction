@@ -25,9 +25,9 @@ function App() {
                         <Route path="mypage" element={<Mypage/>}/>
                         <Route path="requestitem" element={<RequestItem/>}/>
                         <Route path="customer" element={<Customer/>}/>
-                        <Route path="login" element={<Login/>}/>
 
                     </Route>
+                    <Route path="login" element={<Login/>}/>
                     <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="tosspaySuccess" element={<SuccessPage />} />
                     <Route path="tosspayFail" element={<FailPage />} />

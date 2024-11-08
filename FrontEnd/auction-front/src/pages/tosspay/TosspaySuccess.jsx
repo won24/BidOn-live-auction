@@ -27,7 +27,7 @@ export function SuccessPage() {
             console.log(json)
             if (!response.ok) {
                 // 결제 실패 비즈니스 로직을 구현하세요.
-                navigate(`/fail?message=${json.message}&code=${json.code}sex`);
+                navigate(`/fail?message=${json.message}&code=${json.code}`);
                 return json;
             }
             // 결제 성공 비즈니스 로직을 구현하세요.

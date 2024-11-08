@@ -11,6 +11,7 @@ import Auction from "./pages/acution/Auction";
 import {FailPage} from "./pages/tosspay/TosspayFail";
 import {SuccessPage} from "./pages/tosspay/TosspaySuccess";
 import {CheckoutPage} from "./pages/tosspay/TosspayAPI";
+import Signup1 from "./pages/signup/Signup1";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
 
                     </Route>
                     <Route path="login" element={<Login/>}/>
+                    <Route path="signup1" element={<Signup1/>}/>
                     <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="tosspaySuccess" element={<SuccessPage />} />
                     <Route path="tosspayFail" element={<FailPage />} />

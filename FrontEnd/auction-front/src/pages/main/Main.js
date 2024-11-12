@@ -1,8 +1,6 @@
 import './Main.css'
-import {useState} from "react";
 
 const Main = () =>{
-
 
     return(
         <>

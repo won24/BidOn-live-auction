@@ -1,0 +1,38 @@
+.faq-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* 콘텐츠가 넘칠 경우 세로 스크롤 허용 */
+    padding: 20px; /* 내부 여백 */
+    box-sizing: border-box; /* 패딩을 포함한 전체 크기 계산 */
+}
+
+.faq-table {
+    width: 100%;
+    border-collapse: collapse; /* 테이블 경계선 겹침 제거 */
+}
+
+.faq-item {
+    border-bottom: 1px solid #ddd; /* 각 항목 하단에 경계선 추가 */
+}
+
+.faq-title {
+    padding: 10px;
+    cursor: pointer; /* 클릭 가능한 커서 표시 */
+    background-color: #f5f5f5; /* 제목 배경색 */
+    font-size: 16px;
+    font-weight: bold; /* 제목을 굵게 표시 */
+}
+
+.faq-content {
+    padding: 10px;
+    font-size: 14px;
+    color: #333; /* 내용 텍스트 색상 */
+    background-color: #fafafa; /* 내용 배경색 */
+    max-height: 0; /* 초기 높이를 0으로 설정하여 숨김 */
+    overflow: hidden; /* 내용이 넘치지 않도록 설정 */
+    transition: max-height 0.3s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.faq-content.open {
+    max-height: 500px; /* 열릴 때 최대 높이를 설정하여 보이도록 */
+}

@@ -12,14 +12,14 @@ const RecentlyView = () =>{
     }, []);
 
     return (
-        <div>
+        <aside className="rightAside">
             <p>최근 본 게시물</p>
             <ul>
                 {recentViews.map((view, index) => (
                     <li key={index}>{view.img}</li>
                 ))}
             </ul>
-        </div>
+        </aside>
     );
 
 }

@@ -6,6 +6,5 @@ import java.util.List;
 
 @Mapper
 public interface UserDAO {
-
     List<UserDTO> selectAllUsers();
 }

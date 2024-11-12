@@ -1,15 +1,3 @@
-.pageContainer {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    justify-content: center; /* 수평 중앙 정렬*/
-    align-items: center; /* 수직 중앙 정렬*/
-}
-
-.navContainer{
-    justify-content: center; /* 수평 중앙 정렬*/
-    align-items: center; /* 수직 중앙 정렬*/
-}
 
 /* 화면 크기 변경에 따른 비율 유지 */
 @media screen and (max-width: 1920px) {

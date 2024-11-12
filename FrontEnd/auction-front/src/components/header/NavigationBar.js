@@ -10,7 +10,6 @@ const Nav = () =>{
         window.open(url, "결제하기", popupFeatures);
     };
     return(
-        <>
             <div className="navContainer">
                 <a href="/" className="logo">로고자리</a>
                 <div className="menuContainer">
@@ -18,12 +17,11 @@ const Nav = () =>{
                     <NavLink to="/auction">경매품</NavLink>
                     <NavLink to="/mypage">마이페이지</NavLink>
                     <NavLink to="/requestitem">경매품신청</NavLink>
-                    <NavLink to="/customer">고객센터</NavLink>
+                    <NavLink to="/customer/faq">고객센터</NavLink>
                     <button onClick={openCheckoutPopup}>충전하기</button>
                 </div>
                 <NavLink to="/login" className="login">| 로그인 |</NavLink>
             </div>
-        </>
     )
 }
 export default Nav;

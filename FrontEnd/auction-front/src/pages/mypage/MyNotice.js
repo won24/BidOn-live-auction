@@ -1,5 +1,5 @@
 // 내가 쓴 글 (/mypage/mynotice)
-// 보통 게시물의 비밀 댓글과 유사한 기능. 작성자와 관리자만 열람 가능
+// 고객센터에서 작성된 1 : 1 상담 글 중 본인이 작성한 상담 글만 보여지는 페이지
 
 import React from "react";
 import axios from "axios";

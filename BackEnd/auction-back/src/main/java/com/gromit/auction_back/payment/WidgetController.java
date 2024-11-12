@@ -67,6 +67,7 @@ public class WidgetController {
             Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             responseStream.close();
+            logger.info("Response Object: {}", jsonObject);
 
             return ResponseEntity.status(code).body(jsonObject);
         } catch (IOException e) {

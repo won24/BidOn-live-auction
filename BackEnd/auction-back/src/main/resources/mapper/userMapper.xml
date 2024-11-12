@@ -24,4 +24,5 @@
         SELECT *
         FROM Users
     </select>
+
 </mapper>

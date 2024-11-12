@@ -1,3 +1,14 @@
+/**
+ * Login.js
+ * react-cookie 모듈 사용 (npm install 후 사용 가능)
+ * 
+ * 아이디와 비밀번호를 입력하고 로그인 버튼을 누를 시 DB와 일치하는지 확인한 후
+ * 일치할 경우 메인페이지로 이동 (미구현)
+ * 
+ * 회원가입, 아이디/비밀번호 찾기 버튼 클릭 시 해당 페이지로 이동 (일부 구현)
+ * 
+ * 쿠키를 이용한 아이디 저장 기능 구현 (완료)
+ */
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -105,7 +116,7 @@ const Login = () =>
                 <button className="signup-btn" onClick={toSignup}>회원가입</button>
             </div>
             <div className="btn-item">
-                <button type="submit" className="find-my-idpw-btn">아이디/비밀번호 찾기</button>
+                <button className="find-my-idpw-btn">아이디/비밀번호 찾기</button>
             </div>
         </>
     );

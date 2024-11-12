@@ -1,0 +1,181 @@
+.signup-container 
+{
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.title 
+{
+    font-size: 24px;
+    text-align: center;
+}
+
+.subtitle 
+{
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Styles for expanding/collapsing agreement content */
+.agreement 
+{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+    padding: 0;
+}
+
+details[open] .agreement 
+{
+    max-height: 500px; /* Adjust the max height based on your content */
+    padding: 10px 0;
+}
+
+/* Animated rotating arrow */
+details summary::after 
+{
+    content: "▼";
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary::after 
+{
+    transform: rotate(-180deg);
+}
+
+/* Additional styling adjustments to ensure smooth animations */
+details 
+{
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+details[open] 
+{
+    border-color: #343434;
+}
+
+
+details summary 
+{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px 0;
+    margin-left: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.agree-all
+{
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    margin-bottom: 10px;
+    accent-color: #343434;
+    zoom: 1.5;
+}
+
+/* Styling for the individual checkbox container */
+.individual-checkbox-container 
+{
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    margin-top: 5px;
+    accent-color: #343434;
+    zoom: 1.5;
+}
+
+.individual-checkbox 
+{
+    margin-right: 6px;
+}
+
+
+.auth-link-wrapper 
+{
+    width: 100%; /* Ensures the wrapper spans the full width */
+    display: flex;
+    justify-content: center; /* Centers the button horizontally */
+    margin-top: 20px; /* Adds spacing above the button */
+}
+
+.auth-link 
+{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #343434;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.auth-link:hover 
+{
+    background-color: #000000;
+}
+
+.auth-link.disabled 
+{
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.marketing-individual-checkbox-container
+{
+    margin-top: 16px;
+    margin-left: 28px;
+}
+
+.marketing-checkbox-container 
+{
+    position: relative;
+    display: inline-block;
+}
+
+.marketing-checkbox-container .message-hovering
+{
+    visibility: hidden;
+    padding: 0.25em 0.5em;
+    background-color: #343434;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.25em;
+    white-space: nowrap;
+    font-size: 12px;
+
+    position: absolute;
+    z-index: 1;
+    top: -20%;
+    left: 15%;
+    transition-property: visibility;
+    transition-delay: 0s;
+}
+
+.marketing-checkbox-container:hover .message-hovering
+{
+    visibility: visible;
+    transition-delay: 0.3s;
+}
+
+details.checked 
+{
+    border: 2px solid #343434;
+}

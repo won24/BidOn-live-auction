@@ -7,16 +7,16 @@ const Antique = () =>{
     const [antiqueList, setAntiqueList] = useState([]);
 
     // 백엔드 연결
-    const getItemList = async () =>{
-        const response = await api.antiqueList();
-        const data = await response.data;
-        console.log(data);
-        setAntiqueList(data);
-    };
-
-    useEffect(() => {
-        getItemList();
-    }, []);
+    // const getItemList = async () =>{
+    //     const response = await api.antiqueList();
+    //     const data = await response.data;
+    //     console.log(data);
+    //     setAntiqueList(data);
+    // };
+    //
+    // useEffect(() => {
+    //     getItemList();
+    // }, []);
 
     const onItemClick = () =>{
         const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];

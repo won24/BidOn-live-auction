@@ -5,8 +5,8 @@ const Personal = () =>{
 
     return(
         <>
-            <div>
-                1ㄷ1상담 확인란
+            <div className="personal-container">
+               <h2>1:1 문의</h2>
             </div>
         </>
     )

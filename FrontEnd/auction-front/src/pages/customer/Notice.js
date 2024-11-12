@@ -5,7 +5,9 @@ const Notice = () =>{
 
     return(
         <>
-            <div>공지사항 확인란</div>
+            <div className="notice-container">
+                <h2>공지사항</h2>
+            </div>
         </>
     )
 }

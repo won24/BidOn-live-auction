@@ -37,6 +37,7 @@ function App() {
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
                     <Route path="/customer" element={<CustomerLayout />}>
+                        <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
                         <Route path="notice" element={<Notice />} />

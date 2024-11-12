@@ -10,7 +10,6 @@ const Nav = () =>{
         window.open(url, "결제하기", popupFeatures);
     };
     return(
-        <>
             <div className="navContainer">
                 <a href="/" className="logo">로고자리</a>
                 <div className="menuContainer">
@@ -23,7 +22,6 @@ const Nav = () =>{
                 </div>
                 <NavLink to="/login" className="login">| 로그인 |</NavLink>
             </div>
-        </>
     )
 }
 export default Nav;

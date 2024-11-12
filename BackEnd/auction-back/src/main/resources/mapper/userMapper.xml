@@ -21,7 +21,6 @@
         <result property="isSuspended" column="is_suspended" />
     </resultMap>
     <select id="selectAllUsers" resultMap="UserResultMap">
-        SELECT *
-        FROM Users
+        SELECT * FROM Users
     </select>
 </mapper>

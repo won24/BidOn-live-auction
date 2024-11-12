@@ -19,6 +19,8 @@ import Limited from "./pages/acution/Limited";
 import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
+import Signup1 from "./pages/signup/Signup1";
+import Signup2 from "./pages/signup/Signup2";
 
 function App() {
     return (
@@ -36,6 +38,8 @@ function App() {
                     <Route path="mypage" element={<Mypage />} />
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
+                    <Route path="signup1" element={<Signup1 />} />
+                    <Route path="signup2" element={<Signup2 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />

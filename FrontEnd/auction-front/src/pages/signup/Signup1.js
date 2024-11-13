@@ -30,6 +30,7 @@ import { useState, useEffect } from "react";
 import "../../css/Signup1.css";
 import { useNavigate } from "react-router-dom";
 import { useSignupContext } from './SignupContext';
+import { SignupSequence } from "./SignupSequence";
 
 
 const Signup1 = () => 
@@ -139,8 +140,10 @@ const Signup1 = () =>
     return (
         <div className="signup-container">
             <h2 className="title">회원가입</h2>
+            <SignupSequence/>
+            <br/>
             <h3 className="subtitle">약관동의</h3>
-
+            <hr className="line"/>
             <label className="agree-all">
                 <input
                     type="checkbox"

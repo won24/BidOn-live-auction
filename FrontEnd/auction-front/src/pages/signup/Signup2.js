@@ -4,6 +4,7 @@
  * 
  */
 import { useSignupContext } from "./SignupContext"; // Adjust the path as needed
+import { SignupSequence } from "./SignupSequence";
 
 const Signup2 = () => 
 {
@@ -13,12 +14,15 @@ const Signup2 = () =>
     return (
         <div>
             <h2>회원가입</h2>
-            <h3>정보입력</h3>
-            <p>마케팅 수신 동의 상태:</p>
-            <ul>
-                <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
-                <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
-            </ul>
+            <SignupSequence/>
+            {/* div check: 페이지 완성 후 삭제 예정 */}
+            <div className="check">
+                <p>마케팅 수신 동의 상태:</p>
+                <ul>
+                    <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
+                    <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
+                </ul>
+            </div>
         </div>
     );
 };

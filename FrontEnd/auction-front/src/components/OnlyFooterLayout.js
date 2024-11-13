@@ -1,19 +1,21 @@
 /**
  * OnlyFooterLayout.js
  * 
- * Footer만 필요할 때 사용할 수 있는 레이아웃
+ * Layout that only includes Footer with a margin around the Outlet content.
  */
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "./footer/Footer";
-import "../css/Layout.css";
+import "../css/OnlyFooterLayout.css";
 
-const OnlyFooterLayout = () =>
-{
+const OnlyFooterLayout = () => {
     return (
         <>
-            <Outlet/>
-            <Footer/>
+            <div className="outlet-container">
+                <Outlet />
+            </div>
+            <Footer />
         </>
     );
 }
+
 export default OnlyFooterLayout;

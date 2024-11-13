@@ -1,6 +1,7 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
+import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
@@ -24,6 +25,7 @@ import MyPageLayout from "./components/header/MyPageLayout";
 import MyNotice from "./pages/mypage/MyNotice";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
+import OnlyFooterLayout from "./components/OnlyFooterLayout";
 
 function App() {
     return (
@@ -44,15 +46,17 @@ function App() {
                         <Route path="myfar" element={<MyFar/>}/>
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup1" element={<Signup1 />} />
-                    <Route path="signup2" element={<Signup2 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
-                        <Route path="faq" element={<FAQ/>} />lb
+                        <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
+                </Route>
+                <Route path ="/member" element={<OnlyFooterLayout/>}>
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup1" element={<Signup1 />} />
+                        <Route path="signup2" element={<Signup2 />} />
                 </Route>
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />

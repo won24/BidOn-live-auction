@@ -2,6 +2,7 @@
  * Signup1.js (도메인 및 파일명 수정 예정)
  * - 회원가입 과정 중 필수 및 선택 사항 동의에 대한 부분을 담당
  * 
+ * Nov 11,
  * 약관은 terms_and_conditions.html로, 개인정보취급방침은 privacy_policy.html로
  * 두 파일 모두 public 폴더에 임시저장되어 있음 (경로 변경 예정)
  * 
@@ -22,19 +23,22 @@
  * 
  * [선택] 항목에 마우스 오버 시, 안내 문구 출력 (완료)
  * 
+ * Nov 13,
  * '다음으로' 버튼 클릭 시,
- * 1) 동의한 [선택] 항목에 대한 정보를 useContext를 이용하여 다음 페이지로 전달 (완료)
- * 2) 회원가입에 필요한 정보 입력 페이지로 이동 (완료)
+ * 1) 동의한 [선택] 항목에 대한 정보를 useContext를 이용하여 다른 .js 파일로 전달 (일단 삭제, 재도입 예정)
+ * 2) 다음으로 버튼이 사라지며 정보입력 폼이 하단에 등장
+ * X) 회원가입에 필요한 정보 입력 페이지로 이동 (취소)
  */
+
 import { useState, useEffect } from "react";
 import "../../css/Signup1.css";
-import { useNavigate } from "react-router-dom";
 import { useSignupContext } from './SignupContext';
 import { SignupSequence } from "./SignupSequence";
-
+import SignupForm from "./SignupForm";
 
 const Signup1 = () => 
 {
+    // States for checkbox control
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [agreePrivacy, setAgreePrivacy] = useState(false);
     const [agreeAll, setAgreeAll] = useState(false);
@@ -42,15 +46,17 @@ const Signup1 = () =>
     const [sendEmail, setSendEmail] = useState(false);
     const [sendMessage, setSendMessage] = useState(false);
     const [checkedDetails, setCheckedDetails] = useState({ terms: false, privacy: false });
-    const navigate = useNavigate();
-    const { setMarketingPreferences } = useSignupContext();
+    const [buttonClicked, setButtonClicked] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const { setCurrentStep, setMarketingPreferences } = useSignupContext();
 
-
-    const goToNextPage = () => 
+    const goToNextStep = () => 
     {
         setMarketingPreferences({ sendEmail, sendMessage });
-        navigate("/member/signup2");
-    }
+        setButtonClicked(true);
+        setIsDisabled(true);
+        setCurrentStep(2);
+    };
 
     const handleAgreeAllChange = () => 
     {
@@ -61,7 +67,6 @@ const Signup1 = () =>
         setAgreeMarketing(newState);
         setSendEmail(newState);
         setSendMessage(newState);
-
         setCheckedDetails({ terms: newState, privacy: newState });
     };
 
@@ -80,7 +85,7 @@ const Signup1 = () =>
         }
     };
 
-    const handleAgreeAllMarketingChange = () => 
+    const handleMarketingChange = () => 
     {
         const newState = !agreeMarketing;
         setAgreeMarketing(newState);
@@ -93,18 +98,18 @@ const Signup1 = () =>
         setter(isChecked);
     };
 
-    // Automatically check `agreeMarketing` when both `sendEmail` and `sendMessage` are checked
+    // Synchronize related checkboxes
     useEffect(() => 
     {
         setAgreeMarketing(sendEmail && sendMessage);
     }, [sendEmail, sendMessage]);
 
-    // Automatically check `agreeAll` when all individual checkboxes are checked
     useEffect(() => 
     {
         setAgreeAll(agreeTerms && agreePrivacy && agreeMarketing);
     }, [agreeTerms, agreePrivacy, agreeMarketing]);
 
+    // Close other open <details> elements when one is expanded
     useEffect(() => 
     {
         const allDetails = document.querySelectorAll("details");
@@ -115,10 +120,10 @@ const Signup1 = () =>
                 if (details.open) 
                 {
                     allDetails.forEach((item) => 
-                    { 
-                        if (item !== e.target && item.open)
-                        { 
-                            item.open = false; 
+                    {
+                        if (item !== e.target && item.open) 
+                        {
+                            item.open = false;
                         }
                     });
                 }
@@ -126,65 +131,51 @@ const Signup1 = () =>
         });
     }, []);
 
-    const embedPart1 = () => (
+    const embedHtml = (src) => (
     {
-        __html: '<embed src="/terms_and_conditions.html" width="100%" height="450px" style="border: none;"/>',
+        __html: `<embed src="${src}" width="100%" height="450px" style="border: none;"/>`,
     });
-
-    const embedPart2 = () => (
-    {
-        __html: '<embed src="/privacy_policy.html" width="100%" height="450px" style="border: none;"/>',
-    });
-
 
     return (
         <div className="signup-container">
             <h2 className="title">회원가입</h2>
-            <SignupSequence/>
-            <br/>
+            <SignupSequence />
             <h3 className="subtitle">약관동의</h3>
-            <hr className="line"/>
+            <hr className="line" />
+
             <label className="agree-all">
                 <input
                     type="checkbox"
-                    name="agreeAll"
                     checked={agreeAll}
                     onChange={handleAgreeAllChange}
+                    disabled={isDisabled}
                 />
-                &nbsp;<span>모든 약관을 확인하였으며 전체 동의합니다.</span>
+                <span>모든 약관을 확인하였으며 전체 동의합니다.</span>
             </label>
 
             <details className={checkedDetails.terms ? "checked" : ""}>
-                <summary>
-                    <span>온라인경매 이용약관 동의</span>
-                </summary>
-                <div className="agreement" dangerouslySetInnerHTML={embedPart1()} />
+                <summary>온라인경매 이용약관 동의</summary>
+                <div className="agreement" dangerouslySetInnerHTML={embedHtml("/terms_and_conditions.html")} />
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
-                        className="individual-checkbox"
                         checked={agreeTerms}
-                        onChange={(e) =>
-                            handleIndividualChange(setAgreeTerms, e.target.checked, e, "terms")
-                        }
+                        onChange={(e) => handleIndividualChange(setAgreeTerms, e.target.checked, e, "terms")}
+                        disabled={isDisabled}
                     />
                     <span>[필수] 온라인 서비스 이용약관을 확인하였으며 이에 동의합니다.</span>
                 </label>
             </details>
 
             <details className={checkedDetails.privacy ? "checked" : ""}>
-                <summary>
-                    <span>개인정보 수집 및 이용 동의</span>
-                </summary>
-                <div className="agreement" dangerouslySetInnerHTML={embedPart2()} />
+                <summary>개인정보 수집 및 이용 동의</summary>
+                <div className="agreement" dangerouslySetInnerHTML={embedHtml("/privacy_policy.html")} />
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
-                        className="individual-checkbox"
                         checked={agreePrivacy}
-                        onChange={(e) =>
-                            handleIndividualChange(setAgreePrivacy, e.target.checked, e, "privacy")
-                        }
+                        onChange={(e) => handleIndividualChange(setAgreePrivacy, e.target.checked, e, "privacy")}
+                        disabled={isDisabled}
                     />
                     <span>[필수] 개인정보취급방침을 확인하였으며 이에 동의합니다.</span>
                 </label>
@@ -194,9 +185,9 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
-                        className="individual-checkbox"
                         checked={agreeMarketing}
-                        onChange={handleAgreeAllMarketingChange}
+                        onChange={handleMarketingChange}
+                        disabled={isDisabled}
                     />
                     <span>[선택] 홍보 및 마케팅 목적의 정보 수신 전체 동의</span>
                 </label>
@@ -204,23 +195,21 @@ const Signup1 = () =>
                     *거래와 관련된 정보는 수신 동의 여부와 상관없이 발신됩니다.
                 </span>
                 <div className="marketing-individual-checkbox-container">
-                    <label className="individual-checkbox-container">
+                    <label>
                         <input
                             type="checkbox"
-                            className="individual-checkbox"
                             checked={sendEmail}
-                            onChange={(e) =>
-                                handleMarketingIndividualChange(setSendEmail, e.target.checked)
-                            }
+                            onChange={(e) => handleMarketingIndividualChange(setSendEmail, e.target.checked)}
+                            disabled={isDisabled}
                         />
-                        <span>이메일</span>&nbsp;
+                        <span>이메일</span>
+                    </label>
+                    <label>
                         <input
                             type="checkbox"
-                            className="individual-checkbox"
                             checked={sendMessage}
-                            onChange={(e) =>
-                                handleMarketingIndividualChange(setSendMessage, e.target.checked)
-                            }
+                            onChange={(e) => handleMarketingIndividualChange(setSendMessage, e.target.checked)}
+                            disabled={isDisabled}
                         />
                         <span>SMS</span>
                     </label>
@@ -228,13 +217,17 @@ const Signup1 = () =>
             </div>
 
             <div className="auth-link-wrapper">
-                <button
-                    className={`auth-link ${agreeTerms && agreePrivacy ? "" : "disabled"}`}
-                    disabled={!agreeTerms || !agreePrivacy}
-                    onClick={goToNextPage}
-                >
-                    <span>다음으로</span>
-                </button>
+                {!buttonClicked ? (
+                    <button
+                        className={`auth-link ${agreeTerms && agreePrivacy ? "" : "disabled"}`}
+                        disabled={!agreeTerms || !agreePrivacy}
+                        onClick={goToNextStep}
+                    >
+                        <span>다음으로</span>
+                    </button>
+                ) : (
+                    <SignupForm />
+                )}
             </div>
         </div>
     );

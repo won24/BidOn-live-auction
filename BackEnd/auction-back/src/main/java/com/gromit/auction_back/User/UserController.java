@@ -21,9 +21,10 @@ import java.util.List;
 //    public String showRequestUsersPage() {
 //        return "requestUsers"; // db연동 테스트
 //    }
-
+//8080/api/users
         @GetMapping("/users")
         public List<UserDTO> getAllUsers() {
             return userService.getAllUsers();
         }
+
 }

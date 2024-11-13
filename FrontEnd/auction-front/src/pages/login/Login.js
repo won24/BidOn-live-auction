@@ -17,9 +17,9 @@ const Login = () =>
 {
     const navigate = useNavigate();
 
-    const toSignup = () => 
+    const goToSignup = () => 
     {
-        navigate("/signup1");
+        navigate("/member/signup1");
     }
 
     const [loginForm, setLoginForm] = useState(
@@ -113,7 +113,7 @@ const Login = () =>
                 </form>
             </div>
             <div className="btn-item">
-                <button className="signup-btn" onClick={toSignup}>회원가입</button>
+                <button className="signup-btn" onClick={goToSignup}>회원가입</button>
             </div>
             <div className="btn-item">
                 <button className="find-my-idpw-btn">아이디/비밀번호 찾기</button>

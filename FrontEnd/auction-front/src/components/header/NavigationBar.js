@@ -20,7 +20,7 @@ const Nav = () =>{
                     <NavLink to="/customer/faq">고객센터</NavLink>
                     <button onClick={openCheckoutPopup}>충전하기</button>
                 </div>
-                <NavLink to="/login" className="login">| 로그인 |</NavLink>
+                <NavLink to="/member/login" className="login">| 로그인 |</NavLink>
             </div>
     )
 }

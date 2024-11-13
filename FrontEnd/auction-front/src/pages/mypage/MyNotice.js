@@ -10,6 +10,7 @@
 
 import { Component } from "react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 class MyNotice extends Component {
 
@@ -43,6 +44,10 @@ class MyNotice extends Component {
         return (
             <div>
                 <h2>고객센터</h2>
+                <div>
+                    <Link to="/mypage/auction">경매품</Link>
+                    <Link to="/mypage/inquiry">1 : 1 문의</Link>
+                </div>
                 <h3>1 : 1 상담 글 목록</h3>
                 <ul>
                     {/* 필터링 된 사용자가 볼 수 있는 상담 글을 순회하여 목록으로 출력 */}

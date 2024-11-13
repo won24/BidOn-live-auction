@@ -1,7 +1,6 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
@@ -21,6 +20,10 @@ import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
 import Signup2 from "./pages/signup/Signup2";
+import MyPageLayout from "./components/header/MyPageLayout";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyFar from "./pages/mypage/MyFar";
 
 function App() {
     return (
@@ -35,7 +38,11 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="mypage" element={<Mypage />} />
+                    <Route path="/mypage" element={<MyPageLayout />} >
+                        <Route path="mynotice" element={<MyNotice/>}/>
+                        <Route path="myprofile" element={<MyProfile/>}/>
+                        <Route path="myfar" element={<MyFar/>}/>
+                    </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
                     <Route path="signup1" element={<Signup1 />} />

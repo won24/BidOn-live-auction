@@ -23,4 +23,5 @@
     <select id="selectAllUsers" resultMap="UserResultMap">
         SELECT * FROM Users
     </select>
+
 </mapper>

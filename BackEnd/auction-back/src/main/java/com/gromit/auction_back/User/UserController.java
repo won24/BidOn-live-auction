@@ -24,8 +24,7 @@ import java.util.List;
 //8080/api/users
         @GetMapping("/users")
         public List<UserDTO> getAllUsers() {
-            List<UserDTO> userList = userService.getAllUsers();
-            return userList;
+            return userService.getAllUsers();
         }
 
 }

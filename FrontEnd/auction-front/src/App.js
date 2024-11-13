@@ -18,8 +18,10 @@ import Limited from "./pages/acution/Limited";
 import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
-import MyNotice from "./pages/mypage/MyNotice";
+import Signup1 from "./pages/signup/Signup1";
+import Signup2 from "./pages/signup/Signup2";
 import MyPageLayout from "./components/header/MyPageLayout";
+import MyNotice from "./pages/mypage/MyNotice";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
 
@@ -43,7 +45,10 @@ function App() {
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
+                    <Route path="signup1" element={<Signup1 />} />
+                    <Route path="signup2" element={<Signup2 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
+                        <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
                         <Route path="notice" element={<Notice />} />

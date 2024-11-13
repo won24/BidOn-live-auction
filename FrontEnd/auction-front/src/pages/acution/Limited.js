@@ -17,6 +17,10 @@ const Limited = () =>{
     useEffect(() => {
         getItemList();
     }, []);
+    // 메인페이지에서 한정판 로고 클릭 시 오류 화면 잠깐 뜨면서 limited 페이지로 들어감
+    // 백엔드 연결 부분 부터 useEffect 부분까지 주석처리 시 오류 없이 매끄럽게 들어감
+    // (백엔드 코드 구현 시 없어질 것으로 예상)
+
 
     // 최근 본 게시물
     const onItemClick = () =>{

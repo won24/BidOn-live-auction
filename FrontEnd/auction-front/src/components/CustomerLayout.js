@@ -1,11 +1,20 @@
-import {NavLink, Outlet} from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+import "../css/CustomerLayout.css";
+import {useState} from "react";
 
-const CustomerLayout = () => {
+    const CustomerLayout = () => {
+
+
+
     return (
         <div className="customer-layout">
-            <aside className="customer-sidebar">
-                <div className="sidebar-title">고객센터</div>
+            <aside className="customer-aside">
                 <ul>
+                    <li>
+                        <NavLink to="/customer" activeClassName="active-link" className="customer-center-link">
+                           고객센터
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink to="/customer/faq" activeClassName="active-link">
                             자주하는 질문
@@ -23,10 +32,10 @@ const CustomerLayout = () => {
                     </li>
                 </ul>
             </aside>
-            <main className="customer-content">
-                <Outlet />
-            </main>
+            <div className="outlet-fixsize">
+                <Outlet/>
+            </div>
         </div>
     );
-}
+    }
 export default CustomerLayout;

@@ -21,6 +21,7 @@ import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
 import Signup2 from "./pages/signup/Signup2";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<Auction />} />
+                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>

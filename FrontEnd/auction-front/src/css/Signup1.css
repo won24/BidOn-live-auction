@@ -4,6 +4,10 @@
     width: 100%;
     max-width: 1200px;
     margin: auto;
+    /* Align everything left within the container */
+    /* display: flex;
+    flex-direction: column;
+    align-items: flex-start; */
 }
 
 /* Title and subtitle styling */
@@ -23,9 +27,10 @@
 /* Divider line styling */
 .line 
 {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 10px 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto; /* Centers the line */
+    border: 1px solid #ccc; /* Customize as needed */
 }
 
 /* Styles for "agree all" checkbox */
@@ -121,6 +126,7 @@ details.checked {
 {
     position: relative;
     display: inline-block;
+    accent-color: #343434;
 }
 
 /* Tooltip for marketing consent message */
@@ -167,7 +173,7 @@ details.checked {
 /* Styling for "다음으로" button */
 .auth-link 
 {
-    display: inline-block;
+    /* display: inline-block; */
     padding: 10px 25px;
     background-color: #343434;
     color: white;
@@ -189,4 +195,13 @@ details.checked {
     background-color: #cccccc;
     color: #666666;
     cursor: not-allowed;
+}
+
+.signup-form-container 
+{
+    /* display: flex;
+    justify-content: flex-start;  */
+    /* Align the form to the left */
+    width: 100%;
+    max-width: 1200px;
 }

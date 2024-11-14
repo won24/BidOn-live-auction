@@ -25,7 +25,7 @@
  * 
  * Nov 13,
  * '다음으로' 버튼 클릭 시,
- * 1) 동의한 [선택] 항목에 대한 정보를 useContext를 이용하여 다른 .js 파일로 전달 (일단 삭제, 재도입 예정)
+ * 1) 동의한 [선택] 항목에 대한 정보를 useContext를 이용하여 SignupForm.js 파일로 전달 (완료)
  * 2) 다음으로 버튼이 사라지며 정보입력 폼이 하단에 등장
  * X) 회원가입에 필요한 정보 입력 페이지로 이동 (취소)
  */
@@ -226,7 +226,9 @@ const Signup1 = () =>
                         <span>다음으로</span>
                     </button>
                 ) : (
-                    <SignupForm />
+                    <div className="signup-form-container">
+                        <SignupForm />
+                    </div>
                 )}
             </div>
         </div>

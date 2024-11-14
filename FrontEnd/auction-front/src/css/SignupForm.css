@@ -27,6 +27,7 @@
     width: 100%; /* Full-width for better alignment */
     margin-left: auto;
     margin-right: auto; /* Center align input fields within the form */
+    
 }
 
 .form-group label 
@@ -56,7 +57,7 @@
 
 .signup-button 
 {
-    width: 112.89px;
+    width: 112.88px;
     height: 48px;
     padding: 10px 25px;
     background-color: #343434;
@@ -88,4 +89,11 @@
     color: green;
     text-align: center;
     margin-top: 10px;
+}
+
+.input-description 
+{
+    margin-left: 10px;
+    font-size: 0.85em;
+    color: #666;
 }

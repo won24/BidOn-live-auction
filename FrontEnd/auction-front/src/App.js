@@ -20,7 +20,6 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
-import Signup2 from "./pages/signup/Signup2";
 import MyPageLayout from "./components/header/MyPageLayout";
 import MyNotice from "./pages/mypage/MyNotice";
 import MyProfile from "./pages/mypage/MyProfile";
@@ -56,7 +55,6 @@ function App() {
                 <Route path ="/member" element={<OnlyFooterLayout/>}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup1" element={<Signup1 />} />
-                        <Route path="signup2" element={<Signup2 />} />
                 </Route>
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />

@@ -1,6 +1,19 @@
 /**
  * SignupForm.js
  * - 회원가입 과정 중 회원 정보 입력 부분을 담당
+ * 
+ * Nov 13,
+ * Signup1(가칭)에서 '다음으로' 버튼 클릭 시 해당 위치에 생성되며,
+ * 각 <label>에 해당하는 요소를 입력 받음.
+ * 
+ * 현재 에러 메시지는 '가입하기' 버튼 위에 출력되나, 변경 예정
+ * 
+ * 입력 받는 순서 변경 가능
+ * 1) 아이디: 
+ * 2) 비밀번호: 
+ * 3) 비밀번호 확인: 비밀번호와 똑같은 값이 입력되어야 하며, 불일치 시 에러 메시지 출력 (완료)
+ * 
+ * 피자 먹으면서 축구 봐야 되니까 내일 마저 씀
  */
 
 import { useState } from 'react';
@@ -21,7 +34,7 @@ const SignupForm = () =>
         name: '',
         email: '',
         phone: '',
-        address: '', // This will now be set by AddressSearch
+        address: '', // This will now be set by Postcode
         birth: '',
         gender: '',
         nickname: '',
@@ -33,6 +46,11 @@ const SignupForm = () =>
     {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    const handleAddressSelect = (address) => 
+    {
+        setFormData({ ...formData, address });
     };
 
     const handleSubmit = async (e) => 
@@ -161,7 +179,16 @@ const SignupForm = () =>
 
             <div className="form-group">
                 <label htmlFor="address">주소</label>
-                    <Postcode />
+                <Postcode onAddressSelect={handleAddressSelect} />
+                {/* DB에 저장되는 주소 양식 확인용, 주석 상태로 유지하고 필요할 때만 사용할 것 */}
+                {/* <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    readOnly
+                /> */}
             </div>
 
             <div className="form-group">
@@ -211,13 +238,13 @@ const SignupForm = () =>
                 <button type="submit" className="signup-button">가입하기</button>
             </div>
 
-            <div>
-                <p>[개발용, 삭제예정] 마케팅 수신 동의 상태 확인</p>
+            {/* 홍보 및 마케팅 용도의 이메일, SMS 수신 여부 useContext 확인용, 주석 상태로 유지하고 필요할 때만 사용할 것 */}
+            {/* <div>
                 <ul>
                     <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
                     <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
                 </ul>
-            </div>
+            </div> */}
         </form>
     );
 };

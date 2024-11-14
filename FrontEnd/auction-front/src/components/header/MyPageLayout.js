@@ -5,8 +5,9 @@ const MyPageLayout = () => {
 
     return (
         <div className="mypage-layout">
+            <h1>마이페이지</h1>
             <aside className="mypage-sidebar">
-                <div className="sidebar-title">마이페이지</div>
+                <div className="sidebar-title"></div>
                 <ul>
                     <li>
                         <NavLink to="/mypage/myfar" activeClassName="active-link">즐겨찾기</NavLink>

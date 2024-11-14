@@ -1,7 +1,6 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
@@ -25,6 +24,7 @@ import MyNotice from "./pages/mypage/MyNotice";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
+
 
 function App() {
     return (

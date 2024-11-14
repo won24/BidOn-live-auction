@@ -20,6 +20,10 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
+import MyPageLayout from "./components/header/MyPageLayout";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
 
 function App() {
@@ -35,7 +39,11 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="mypage" element={<Mypage />} />
+                    <Route path="/mypage" element={<MyPageLayout />} >
+                        <Route path="mynotice" element={<MyNotice/>}/>
+                        <Route path="myprofile" element={<MyProfile/>}/>
+                        <Route path="myfar" element={<MyFar/>}/>
+                    </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />

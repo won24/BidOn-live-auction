@@ -7,10 +7,10 @@ import MyNotice from "../../pages/mypage/MyNotice";
 
 const MyPageLayout = () => {
 
-    const [showNavLinks, setShowNavKLinks] = useState(true);
+    const [showNavLinks, setShowNavLinks] = useState(true);
 
     const handleLinkClick = (shouldShow) => {
-        setShowNavKLinks(shouldShow);
+        setShowNavLinks(shouldShow);
     };
 
     return (

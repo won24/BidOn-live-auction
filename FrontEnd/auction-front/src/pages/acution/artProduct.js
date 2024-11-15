@@ -1,48 +1,101 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import * as api from "../../apis/AuctionItem";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
-const ArtProduct = () =>{
-    const [artProductList, setArtProductList] = useState([]);
+const ArtProduct = () => {
+    const [artList, setArtList] = useState([]);
+    const [searchItem, setSearchItem] = useState("");
+    const [searchItemList, setSearchItemList] = useState([]);
+    const [categoryCode, setCategoryCode] = useState("");
 
-    // 백엔드 연결
-    const getItemList = async () =>{
+
+    // 백엔드 연결 -> 전체목록
+    const getItemList = async () => {
         const response = await api.artProductList();
         const data = await response.data;
-        setArtProductList(data);
+        const categoryCode = data[0].categoryCode;
+        setArtList(data);
+        setCategoryCode(categoryCode)
     };
 
     useEffect(() => {
         getItemList();
     }, []);
 
-    // 최근 본 게시물
-    const onItemClick = () =>{
-        const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
-        const updatedPosts = [artProductList, ...recentPosts.filter(p => p.id !== artProductList.id)];
-        localStorage.setItem("recentPosts", JSON.stringify(updatedPosts.slice(0,2))); // 최근 본 게시물 2개
-    }; // 게시글 클릭하면 로컬스토리지에 최근 두개까지 저장
 
-    return(
+    // 최근 본 게시글
+    const onItemClick = (list) => {
+        const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
+        console.log("recentPosts :", recentPosts)
+
+
+        const updatedPosts = [list, ...recentPosts.filter(p => p.postId !== list.postId)];
+        localStorage.setItem("recentPosts", JSON.stringify(updatedPosts.slice(0, 2))); // 최근 본 게시물 2개
+    };
+
+
+    // 검색해서 물건 찾기
+    const onValueGet = (e) => {
+        setSearchItem(e.target.value);
+    }
+
+    const search = async (e) => {
+        e.preventDefault();  // 페이지 리로드를 막을라고
+
+        if (!searchItem.trim()) {
+            alert("검색어를 입력해주세요.");
+            return;
+        }
+
+        try {
+            const response = await api.searchItemList(searchItem, categoryCode);
+            const data = await response.data;
+            setSearchItemList(data);
+            console.log("검색 결과:", data);
+        } catch (error) {
+            console.error("검색 실패:", error);
+        }
+    };
+
+
+
+
+    return (
         <>
-            <h1>예술품 Art Product</h1>
-            <input placeholder="현재 카테고리에서 검색"/>
+            <h1>예술품 ART PRODUCT</h1>
+
+            <form onSubmit={search}>
+                <input
+                    placeholder="현재 카테고리에서 검색"
+                    value={searchItem}
+                    onChange={onValueGet}
+                />
+                <button type="submit">검색</button>
+            </form>
+
             <select name="sort" id="sort">
                 <option value="favorite">인기순</option>
                 <option value="new">최신순</option>
                 <option value="last">오래된순</option>
             </select>
+
             <hr/>
-            {artProductList.map(list => (
-                <div key={list.postId} className="auctionListContainer">
-                <Link to={`/auction/${list.postId}`} onClick={onItemClick}>
-                <img className="itemImg" src={list.imageUrl} alt="경매품 이미지"/>
-                <h2 className="itemTitle">{list.title}</h2>
-                </Link>
-                </div>
-            ))}
+            <div className="auctionListContainer">
+                {(searchItemList.length > 0 ? searchItemList : artList).map((list) => (
+                    <div key={list.postId} className="auctionItem">
+                        <Link to={`/auction/${list.postId}`} onClick={() => onItemClick(list)}>
+                            <img className="itemImg" src={list.imageUrl} alt="경매품 이미지"/>
+                            <h2 className="itemTitle">{list.title}</h2>
+                        </Link>
+                    </div>
+                ))}
+                {searchItemList.length === 0 && artList.length === 0 && (
+                    <p>해당하는 경매품이 없습니다.</p>
+                )}
+            </div>
         </>
-    )
+    );
 }
+
 export default ArtProduct;

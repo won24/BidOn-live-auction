@@ -50,7 +50,7 @@ public class AuctionService {
         return auctionDTO;
     }
 
-    public List<AuctionDTO> searchItems(String q) {
-        return auctionDAO.selectSearchItems(q);
+    public List<AuctionDTO> searchItems(String q, String categoryCode) {
+        return auctionDAO.selectSearchItems(q, categoryCode);
     }
 }

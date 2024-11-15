@@ -7,13 +7,16 @@ const Antique = () => {
     const [antiqueList, setAntiqueList] = useState([]);
     const [searchItem, setSearchItem] = useState("");
     const [searchItemList, setSearchItemList] = useState([]);
+    const [categoryCode, setCategoryCode] = useState("");
 
 
     // 백엔드 연결 -> 전체목록
     const getItemList = async () => {
         const response = await api.antiqueList();
         const data = await response.data;
+        const categoryCode = data[0].categoryCode;
         setAntiqueList(data);
+        setCategoryCode(categoryCode)
     };
 
     useEffect(() => {
@@ -24,7 +27,9 @@ const Antique = () => {
     // 최근 본 게시글
     const onItemClick = (list) => {
         const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
-        // 기존 최근 본 게시물에서 현재 클릭한 게시물이 없다면 추가하고, 최근 2개까지만 저장
+        console.log("recentPosts :", recentPosts)
+        console.log("리스트 : ",list)
+
         const updatedPosts = [list, ...recentPosts.filter(p => p.postId !== list.postId)];
         localStorage.setItem("recentPosts", JSON.stringify(updatedPosts.slice(0, 2))); // 최근 본 게시물 2개
     };
@@ -36,7 +41,7 @@ const Antique = () => {
     }
 
     const search = async (e) => {
-        e.preventDefault();  // 페이지 리로드를 막음
+        e.preventDefault();  // 페이지 리로드를 막을라고
 
         if (!searchItem.trim()) {
             alert("검색어를 입력해주세요.");
@@ -44,7 +49,7 @@ const Antique = () => {
         }
 
         try {
-            const response = await api.antiqueSearchItem(searchItem);
+            const response = await api.searchItemList(searchItem, categoryCode);
             const data = await response.data;
             setSearchItemList(data);
             console.log("검색 결과:", data);
@@ -80,17 +85,13 @@ const Antique = () => {
                 {(searchItemList.length > 0 ? searchItemList : antiqueList).map((list) => (
                     <div key={list.postId} className="auctionItem">
                         <Link to={`/auction/${list.postId}`} onClick={() => onItemClick(list)}>
-                            <img
-                                className="itemImg"
-                                src={list.imageUrl}
-                                alt="경매품 이미지"
-                            />
+                            <img className="itemImg" src={list.imageUrl} alt="경매품 이미지"/>
                             <h2 className="itemTitle">{list.title}</h2>
                         </Link>
                     </div>
                 ))}
                 {searchItemList.length === 0 && antiqueList.length === 0 && (
-                    <p>검색 결과가 없습니다.</p>
+                    <p>해당하는 경매품이 없습니다.</p>
                 )}
             </div>
         </>

@@ -17,10 +17,10 @@ export const liveList = ()=> axios.get("http://localhost:8080/live");
 
 export const postDetail = (postId) => axios.get(`${BASE_URL}/${postId}`);
 
-export const antiqueSearchItem = (searchItem) => {
+export const searchItemList = (searchItem,categoryCode) => {
     const encodedSearchItem = encodeURIComponent(searchItem);
-    return axios.get(`${BASE_URL}/antique`, {
-        params: { q: encodedSearchItem }
+    return axios.get(`${BASE_URL}/search`, {
+        params: { q: encodedSearchItem, categoryCode : categoryCode }
     });
 };
 

@@ -77,10 +77,10 @@
 
     <!-- 검색 조회 -->
     <select id="selectSearchItems" resultMap="auctionResultMap">
-        SELECT
-            *
-          FROM board
-        WHERE title LIKE CONCAT ('%', #{q}, '%')and CategoryCode = "a"
+        SELECT *
+        FROM board
+        WHERE title LIKE CONCAT('%', #{q}, '%')
+        AND CategoryCode = #{categoryCode};
     </select>
 
 </mapper>

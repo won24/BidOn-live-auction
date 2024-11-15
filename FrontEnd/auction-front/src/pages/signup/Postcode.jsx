@@ -104,7 +104,7 @@ const Postcode = ({ onAddressSelect }) =>
 
     return (
         <div>
-            <input value={zipCode} readOnly required placeholder="우편번호" />
+            <input className="zipCode" value={zipCode} readOnly required placeholder="우편번호" />
             <button className="find-address-button" onClick={toggleLayer}>
                 우편번호 검색
             </button>

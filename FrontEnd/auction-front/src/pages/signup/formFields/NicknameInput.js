@@ -17,7 +17,7 @@ const NicknameInput = ({ value, onChange }) =>
         if (nickname.length === 0) 
         {
             setDescriptionColor("#666"); // Reset to initial color
-            return "닉네임을 입력하세요.";
+            return "닉네임을 입력해주세요.";
         }
         else if (nickname.length < 2 || nickname.length > 10) 
         {

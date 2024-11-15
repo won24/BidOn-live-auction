@@ -10,7 +10,7 @@ const IdInput = ({ value, onChange }) =>
         if (id.length === 0) 
         {
             setDescriptionColor("#666"); // Reset to initial color
-            return "아이디를 입력하세요.";
+            return "아이디를 입력해주세요.";
         }
         else if (id.length < 5 || id.length > 15) 
         {

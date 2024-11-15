@@ -5,13 +5,13 @@
 *
 * 비밀번호는 직접 표시하지 않고 '******' 로 숨겨 보안 처리 함
 *
-* page-container 와 content-container 는 CSS 로 전체 페이지, 내용 중앙 정렬함
+* page-container 와 content-container 는 CSS 로 전체 페이지, 내용 중앙 정렬함 -> 우선 CSS 제외
 * */
 
 import React from "react";
 import {useState} from "react";
 
-import './MyProfile.css';
+// import './MyProfile.css';
 
 const MyProfile = () => {
 

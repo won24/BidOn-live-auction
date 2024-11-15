@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class FavoDTO {
     private int userCode;
     private int postId;
+    // 이렇게 하면 게터세터 안 해도 됨
 }

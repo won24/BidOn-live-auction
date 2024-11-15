@@ -37,7 +37,7 @@
     font-weight: bold;
 }
 
-.form-group input 
+.form-group input, select
 {
     width: 100%;
     max-width: 400px;
@@ -45,6 +45,9 @@
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .button-wrapper 
@@ -70,6 +73,7 @@
     transition: background-color 0.3s ease;
     text-decoration: none;
     margin-left: 20px;
+    margin-bottom: 50px;
 }
 
 .signup-button:hover 

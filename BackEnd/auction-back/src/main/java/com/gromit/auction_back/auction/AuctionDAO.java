@@ -23,4 +23,6 @@ public interface AuctionDAO {
     void updateHits(int postId);
 
     AuctionDTO selectAuctionDetail(int postId);
+
+    List<AuctionDTO> selectSearchItems(String q);
 }

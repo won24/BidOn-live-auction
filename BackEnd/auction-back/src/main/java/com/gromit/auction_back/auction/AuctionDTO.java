@@ -22,4 +22,5 @@ public class AuctionDTO {
     private Date endDay;
     private int userCode;
     private int currentCash;
+
 }

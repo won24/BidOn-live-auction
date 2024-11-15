@@ -29,40 +29,40 @@
         SELECT
             *
         FROM board
-        WHERE categoryCode = a
+        WHERE categoryCode = "a"
     </select>
 
     <select id="limitedList" resultMap="auctionResultMap">
         SELECT
             *
         FROM board
-        WHERE categoryCode = l
+        WHERE categoryCode = 'l'
     </select>
 
     <select id="discontinuationList" resultMap="auctionResultMap">
         SELECT
             *
         FROM board
-        WHERE categoryCode = d
+        WHERE categoryCode = 'd'
     </select>
 
     <select id="artProductList" resultMap="auctionResultMap">
         SELECT
             *
         FROM board
-        WHERE categoryCode = ap
+        WHERE categoryCode = 'ap'
     </select>
 
     <select id="valuablesList" resultMap="auctionResultMap">
         SELECT
             *
         FROM board
-        WHERE categoryCode = v
+        WHERE categoryCode = 'v'
     </select>
 
 
 <!-- 상세 조회 -->
-    <update id="updateHits" parameterType="Long">
+    <update id="updateHits" parameterType="int">
         UPDATE board
             SET hits = hits +1
         WHERE postId=#{postId}
@@ -73,6 +73,14 @@
             *
         FROM board
         WHERE postId = #{postId}
+    </select>
+
+    <!-- 검색 조회 -->
+    <select id="selectSearchItems" resultMap="auctionResultMap">
+        SELECT
+            *
+          FROM board
+        WHERE title LIKE CONCAT ('%', #{q}, '%')and CategoryCode = "a"
     </select>
 
 </mapper>

@@ -10,7 +10,6 @@ const Valuables = () =>{
     const getItemList = async () =>{
         const response = await api.valuablesList();
         const data = await response.data;
-        console.log(data);
         setValuableList(data);
     };
 
@@ -38,7 +37,7 @@ const Valuables = () =>{
             {valuablesList.map(list => (
                 <div key={list.postId} className="auctionListContainer">
                     <Link to={`/auction/${list.postId}`} onClick={onItemClick}>
-                        <img className="listImg" src={list.imageUrl} alt="경매품 이미지"/>
+                        <img className="itemImg" src={list.imageUrl} alt="경매품 이미지"/>
                         <h2 className="itemTitle">{list.title}</h2>
                     </Link>
                 </div>

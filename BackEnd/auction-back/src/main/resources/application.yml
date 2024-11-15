@@ -1,5 +1,7 @@
 server:
   port: 8080
+  tomcat:
+    uri-encoding: UTF-8
 spring:
   datasource:
     url: jdbc:mysql://112.221.66.174:3306/sunflowerDB
@@ -17,3 +19,6 @@ payment:
   fail-url: "http://localhost:8080/api/v1/payments/toss/fail"
   cancel-endpoint: /cancel
   confirm-endpoint: /confirm
+file:
+  upload-dir: "C:\\20240801-gnagnam\\Project\\img"  # Windows 경로에서 백슬래시 두 개 사용
+  base-url: "http://localhost:8080/uploads/"

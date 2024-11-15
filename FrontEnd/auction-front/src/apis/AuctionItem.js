@@ -1,17 +1,26 @@
 import axios from "axios";
+const BASE_URL = "http://localhost:8080/auction";
 
-export const totalAuctionList = () => axios.get("http://localhost:8080/auction");
+export const totalAuctionList = () => axios.get(`${BASE_URL}`);
 
-export const antiqueList = () => axios.get("http://localhost:8080/auction/antique");
+export const antiqueList = () => axios.get(`${BASE_URL}/antique`);
 
-export const limitedList = () => axios.get("http://localhost:8080/auction/limited");
+export const limitedList = () => axios.get(`${BASE_URL}/limited`);
 
-export const discontinuationList = () => axios.get("http://localhost:8080/auction/discontinuation");
+export const discontinuationList = () => axios.get(`${BASE_URL}/discontinuation`);
 
-export const artProductList = () => axios.get("http://localhost:8080/auction/artproduct");
+export const artProductList = () => axios.get(`${BASE_URL}/artproduct`);
 
-export const valuablesList = () => axios.get("http://localhost:8080/auction/valuables");
+export const valuablesList = () => axios.get(`${BASE_URL}/valuables`);
 
 export const liveList = ()=> axios.get("http://localhost:8080/live");
 
-export const postDetail = (postId) => axios.get(`http://localhost:8080/auction/${postId}`);
+export const postDetail = (postId) => axios.get(`${BASE_URL}/${postId}`);
+
+export const antiqueSearchItem = (searchItem) => {
+    const encodedSearchItem = encodeURIComponent(searchItem);
+    return axios.get(`${BASE_URL}/antique`, {
+        params: { q: encodedSearchItem }
+    });
+};
+

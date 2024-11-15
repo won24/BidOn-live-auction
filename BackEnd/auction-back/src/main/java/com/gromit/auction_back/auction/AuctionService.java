@@ -15,7 +15,6 @@ public class AuctionService {
         this.auctionDAO = auctionDAO;
     }
 
-
     public List<AuctionDTO> getAllList() {
         return auctionDAO.selectAllAuction();
     }
@@ -49,5 +48,9 @@ public class AuctionService {
     public AuctionDTO detail(int postId) {
         AuctionDTO auctionDTO = auctionDAO.selectAuctionDetail(postId);
         return auctionDTO;
+    }
+
+    public List<AuctionDTO> searchItems(String q) {
+        return auctionDAO.selectSearchItems(q);
     }
 }

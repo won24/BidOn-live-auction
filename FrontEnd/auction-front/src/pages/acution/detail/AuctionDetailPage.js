@@ -14,9 +14,7 @@ const AuctionDetailPage = () =>{
 
         const response = await api.postDetail(postId);
         const data = response.data;
-
         setBoard(data);
-        console.log(board)
     }
 
     useEffect( () => {
@@ -27,7 +25,7 @@ const AuctionDetailPage = () =>{
     return(
         <>
             <h2>{board.title}</h2>
-            <p>{board.postStaus}</p>
+            <p>{board.postStatus}</p>
             <hr/>
             <img className="boardImg" src={board.imageUrl} alt="경매품 이미지"/>
             <p>입찰 시작가</p>

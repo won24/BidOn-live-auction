@@ -10,7 +10,6 @@ const Discontiuation = () =>{
     const getItemList = async () =>{
         const response = await api.discontinuationList();
         const data = await response.data;
-        console.log(data);
         setDiscontiuationList(data);
     };
 
@@ -36,9 +35,9 @@ const Discontiuation = () =>{
             </select>
             <hr/>
             {discontinuationList.map(list => (
-                <div key={list.id} className="auctionListContainer">
-                    <Link to="/auction/{id}" onClick={onItemClick}>
-                        <div className="itemName">{list.img}</div>
+                <div key={list.postId} className="auctionListContainer">
+                    <Link to={`/auction/${list.postId}`} onClick={onItemClick}>
+                        <img className="itemImg" src={list.imageUrl} alt="경매품 이미지"/>
                         <h2 className="itemTitle">{list.title}</h2>
                     </Link>
                 </div>

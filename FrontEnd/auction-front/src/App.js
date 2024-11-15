@@ -19,11 +19,13 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
-import MyPageLayout from "./components/header/MyPageLayout";
-import MyNotice from "./pages/mypage/MyNotice";
-import MyProfile from "./pages/mypage/MyProfile";
-import MyFar from "./pages/mypage/MyFar";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import MyFar from "./pages/mypage/MyFar";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyPageLayout from "./components/header/MyPageLayout";
+
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<Auction />} />
+                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
@@ -45,6 +48,8 @@ function App() {
                         <Route path="myfar" element={<MyFar/>}/>
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup1" element={<Signup1 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />

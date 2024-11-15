@@ -1,2 +1,12 @@
-package com.gromit.auction_back.mypage.favorite;public class FavoDTO {
+package com.gromit.auction_back.mypage.favorite;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class FavoDTO {
+    private int userCode;
+    private int postId;
 }

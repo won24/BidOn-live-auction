@@ -134,10 +134,10 @@
     cursor: pointer;
     margin-left: 6px;
     padding-top: 2px;
-    padding-bottom: 6px;
+    padding-bottom: 5px;
     /* 입력 필드와 버튼 사이의 간격 */
     transition: background-color 0.3s ease;
-    width: 75px;
+    width: 79px;
     height: 33px;
 }
 
@@ -161,7 +161,7 @@
     padding-bottom: 6px;
     /* 입력 필드와 버튼 사이의 간격 */
     transition: background-color 0.3s ease;
-    width: 90px;
+    width: 99px;
     height: 33px;
 }
 
@@ -182,10 +182,10 @@
     cursor: pointer;
     margin-left: 6px;
     padding-top: 2px;
-    padding-bottom: 6px;
+    padding-bottom: 5px;
     /* 입력 필드와 버튼 사이의 간격 */
     transition: background-color 0.3s ease;
-    width: 105px;
+    width: 114px;
     height: 33px;
 }
 

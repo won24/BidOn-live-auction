@@ -117,7 +117,7 @@ const Postcode = ({ onAddressSelect }) =>
                 readOnly
                 required
                 placeholder="우편번호"
-                style={{ width: "280px", margin: "0px 0px 2px 0px" }}
+                style={{ width: "280px", margin: "0px 6px 2px 0px" }}
             />
             <button className="find-address-button" onClick={toggleLayer}>
                 우편번호 검색
@@ -127,13 +127,13 @@ const Postcode = ({ onAddressSelect }) =>
                 value={roadAddress}
                 readOnly
                 placeholder="도로명 주소"
-                style={{ width: "280px", margin: "0px 5px 2px 0px" }}
+                style={{ width: "280px", margin: "0px 6px 2px 0px" }}
             />
             <input
                 type="text"
                 value={extraAddr}
                 placeholder="참고항목"
-                style={{ width: "97px" }}
+                style={{ width: "96px", margin: "-2px 0px 2px 0px" }}
                 readOnly
             />
             <br />
@@ -142,6 +142,8 @@ const Postcode = ({ onAddressSelect }) =>
                 onChange={handleDetailAddressChange}
                 value={detailAddress}
                 placeholder="상세주소"
+                style={{ margin: "0px 0px 5px 0px" }}
+
                 required
             />
             <br />

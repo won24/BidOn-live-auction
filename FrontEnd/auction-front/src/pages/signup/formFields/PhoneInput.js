@@ -44,6 +44,8 @@ const PhoneInput = ({ phone, setFormData, formData }) => (
             style={{ width: "80px", margin: "0px 0px 0px 2px" }}
             required
         />
+        <button className="auth-phone-button">전화번호 인증</button>
+        <span className="input-description">인증 가능한 전화번호를 입력하세요.</span>
     </div>
 );
 

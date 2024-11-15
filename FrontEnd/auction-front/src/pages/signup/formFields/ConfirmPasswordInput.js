@@ -7,6 +7,7 @@ const ConfirmPasswordInput = ({ value, onChange }) => (
             name="confirmPassword"
             value={value}
             onChange={onChange}
+            style={{ width: "120px"}}
             required
         />
         <span className="input-description">비밀번호를 한 번 더 입력해주세요.</span>

@@ -7,6 +7,7 @@ const NameInput = ({ value, onChange }) => (
             name="name"
             value={value}
             onChange={onChange}
+            style={{ width: "120px"}}
             required
         />
     </div>

@@ -30,7 +30,7 @@
  * X) 회원가입에 필요한 정보 입력 페이지로 이동 (취소)
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../css/Signup1.css";
 import { useSignupContext } from './SignupContext';
 import { SignupSequence } from "./SignupSequence";
@@ -49,6 +49,7 @@ const Signup1 = () =>
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const { setCurrentStep, setMarketingPreferences } = useSignupContext();
+    const formContainerRef = useRef(null);
 
     const goToNextStep = () => 
     {
@@ -131,6 +132,21 @@ const Signup1 = () =>
         });
     }, []);
 
+    // Scroll to the signup form container when the button is clicked
+    useEffect(() => 
+    {
+        if (buttonClicked) 
+        {
+            const timeoutId = setTimeout(() => 
+            {
+                formContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 1); // 1ms delay
+
+            // Clear the timeout on cleanup
+            return () => clearTimeout(timeoutId);
+        }
+    }, [buttonClicked]);
+
     const embedHtml = (src) => (
     {
         __html: `<embed src="${src}" width="100%" height="450px" style="border: none;"/>`,
@@ -142,7 +158,7 @@ const Signup1 = () =>
             <SignupSequence />
             <h3 className="subtitle">약관동의</h3>
             <hr className="line" />
-
+            <span className="message">회원가입을 위해 아래의 필수 약관에 모두 동의해주세요.</span>
             <label className="agree-all">
                 <input
                     type="checkbox"
@@ -226,7 +242,7 @@ const Signup1 = () =>
                         <span>다음으로</span>
                     </button>
                 ) : (
-                    <div className="signup-form-container">
+                    <div className="signup-form-container" ref={formContainerRef}>
                         <SignupForm />
                     </div>
                 )}

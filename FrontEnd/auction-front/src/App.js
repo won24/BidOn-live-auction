@@ -19,16 +19,13 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
-<<<<<<< HEAD
-import Signup2 from "./pages/signup/Signup2";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
-=======
-import MyPageLayout from "./components/header/MyPageLayout";
-import MyNotice from "./pages/mypage/MyNotice";
-import MyProfile from "./pages/mypage/MyProfile";
-import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
->>>>>>> 80f0a41c52e242653a378acf5b39421b84294981
+import MyFar from "./pages/mypage/MyFar";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyPageLayout from "./components/header/MyPageLayout";
+
 
 
 function App() {
@@ -45,11 +42,14 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="mypage" element={<Mypage />} />
+                    <Route path="/mypage" element={<MyPageLayout />} >
+                        <Route path="mynotice" element={<MyNotice/>}/>
+                        <Route path="myprofile" element={<MyProfile/>}/>
+                        <Route path="myfar" element={<MyFar/>}/>
+                    </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
                     <Route path="signup1" element={<Signup1 />} />
-                    <Route path="signup2" element={<Signup2 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
@@ -57,13 +57,10 @@ function App() {
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>
-<<<<<<< HEAD
-=======
                 <Route path ="/member" element={<OnlyFooterLayout/>}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup1" element={<Signup1 />} />
                 </Route>
->>>>>>> 80f0a41c52e242653a378acf5b39421b84294981
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />
                 <Route path="tosspayFail" element={<FailPage />} />

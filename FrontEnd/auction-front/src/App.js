@@ -20,8 +20,16 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
+<<<<<<< HEAD
 import Signup2 from "./pages/signup/Signup2";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
+=======
+import MyPageLayout from "./components/header/MyPageLayout";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyFar from "./pages/mypage/MyFar";
+import OnlyFooterLayout from "./components/OnlyFooterLayout";
+>>>>>>> 80f0a41c52e242653a378acf5b39421b84294981
 
 function App() {
     return (
@@ -49,6 +57,13 @@ function App() {
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>
+<<<<<<< HEAD
+=======
+                <Route path ="/member" element={<OnlyFooterLayout/>}>
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup1" element={<Signup1 />} />
+                </Route>
+>>>>>>> 80f0a41c52e242653a378acf5b39421b84294981
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />
                 <Route path="tosspayFail" element={<FailPage />} />

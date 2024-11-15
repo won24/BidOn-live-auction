@@ -11,7 +11,7 @@
 import React from "react";
 import {useState} from "react";
 
-import './MyPage.css';
+import './MyProfile.css';
 
 const MyProfile = () => {
 

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
@@ -28,13 +28,15 @@ const RequestItem = () => {
         return hour >= 12; // 12시 이후 시간만 활성화
     };
 
+    const [imageFiles, setImageFiles] = useState([]); // 이미지 파일들을 저장
+    const [imageURLs, setImageURLs] = useState([]); // 이미지 URL 미리보기용
+
     const [formData, setFormData] = useState({
         categoryCode: '',
         date: new Date(),
         title: '',
         content: '',
         userCode: loginInfo.UserCode, // 로그인 정보를 formData에 포함
-        imageURL: null, // 이미지 파일을 저장할 state
         currentCash: 0
     });
 
@@ -55,63 +57,73 @@ const RequestItem = () => {
         }));
     };
 
-    // 이미지 파일 선택 시 처리
-    const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        console.log(file)
-        if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
+    // 이미지 선택 시 처리
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        setImageFiles(files); // 선택된 파일을 상태에 저장
 
-            try {
-                const response = await axios.post('/upload-image', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                console.log(response.data.imageUrl)
-                // 서버로부터 받은 이미지 URL을 상태에 저장
-                setFormData(prevState => ({
-                    ...prevState,
-                    imageURL: response.data.imageUrl
-                }));
-            } catch (error) {
-                console.error('이미지 업로드 실패:', error);
-                // 에러 처리 로직 (예: 사용자에게 알림)
-            }
-        }
+        // 이미지 미리보기
+        const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
+        setImageURLs(fileURLs);
     };
 
     // 폼 제출 시 실행할 함수
     const handleSubmit = async (e) => {
         e.preventDefault(); // 페이지 새로고침 방지
-        const submissionData = {
-            ...formData,
-            userCode: loginInfo.UserCode // 최신 로그인 정보를 사용
-        };
+        console.log(formData)
 
+        // 폼 데이터를 서버에 전송하여 postId를 생성
         try {
-            const response = await axios.post('/request-item', submissionData, {
+            const response = await axios.post('/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 필요한 경우 인증 토큰 추가
-                    // 'Authorization': `Bearer ${yourAuthToken}`
                 }
             });
 
             if (response.status === 200 || response.status === 201) {
-                console.log('경매품 신청 성공:', response.data);
-                // 성공 메시지 표시 또는 다른 페이지로 리다이렉트
-                alert('경매품 신청이 완료되었습니다.');
-                // 예: history.push('/success-page');
+                // 서버로부터 postId를 받아옴
+                const postId = response.data.postId;
+                console.log('폼 데이터가 저장되었습니다. postId:', postId);
+
+                // 이미지 업로드를 진행
+                await handleImageUpload(postId); // 2단계: 이미지 업로드 함수 호출
             } else {
                 throw new Error('서버 응답이 올바르지 않습니다.');
             }
         } catch (error) {
-            console.error('경매품 신청 실패:', error);
-            alert('경매품 신청 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            console.error('폼 제출 실패:', error);
+            alert('폼 제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     };
+
+    const handleImageUpload = async (postId) => {
+         // 선택한 이미지 파일들
+        const formData = new FormData();
+
+        // 이미지 파일들을 formData에 추가
+        for (const element of imageFiles) {
+            formData.append('images', element);
+        }
+
+
+        try {
+            // 서버로 이미지 파일과 postId 전송
+            const response = await axios.post('/images/upload', formData, {
+                params: { postId }  // postId를 URL 파라미터로 전송
+            });
+
+            if (response.status === 200 || response.status === 201) {
+                console.log('이미지 업로드 성공');
+                alert('이미지가 성공적으로 업로드되었습니다.');
+            } else {
+                throw new Error('이미지 업로드 실패');
+            }
+        } catch (error) {
+            console.error('이미지 업로드 실패:', error);
+            alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        }
+    };
+
     return (
         <div className="requestitem-container">
             <h1>경매품 신청하기</h1>
@@ -173,19 +185,33 @@ const RequestItem = () => {
                 {/* 이미지 파일 업로드 필드 추가 */}
                 <div className="form-group">
                     <label htmlFor="image">이미지 첨부</label>
-                    <input type="file" id="image" name="image" onChange={handleImageChange} accept="image/*"/>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        onChange={handleImageChange}
+                        accept="image/*"
+                        multiple // 여러 이미지 선택 가능
+                    />
                 </div>
 
-                {formData.imageURL && (
+                {/* 미리보기 영역 */}
+                {imageURLs.length > 0 && (
                     <div className="image-preview">
-                        <img src={formData.imageURL} alt="미리보기" style={{maxWidth: '200px', maxHeight: '200px'}}/>
+                        {imageURLs.map((url, index) => (
+                            <img
+                                key={index}
+                                src={url}
+                                alt={`미리보기 ${index + 1}`}
+                                style={{ maxWidth: '200px', maxHeight: '200px', marginRight: '10px' }}
+                            />
+                        ))}
                     </div>
                 )}
-
                 <button type="submit">제출하기</button>
             </form>
         </div>
     );
-}
+};
 
 export default RequestItem;

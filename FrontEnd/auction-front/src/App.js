@@ -1,7 +1,6 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
@@ -20,8 +19,14 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup1 from "./pages/signup/Signup1";
-import Signup2 from "./pages/signup/Signup2";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
+import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import MyFar from "./pages/mypage/MyFar";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyNotice from "./pages/mypage/MyNotice";
+import MyPageLayout from "./components/header/MyPageLayout";
+
+
 
 function App() {
     return (
@@ -37,17 +42,24 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="mypage" element={<Mypage />} />
+                    <Route path="/mypage" element={<MyPageLayout />} >
+                        <Route path="mynotice" element={<MyNotice/>}/>
+                        <Route path="myprofile" element={<MyProfile/>}/>
+                        <Route path="myfar" element={<MyFar/>}/>
+                    </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="login" element={<Login />} />
                     <Route path="signup1" element={<Signup1 />} />
-                    <Route path="signup2" element={<Signup2 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
+                </Route>
+                <Route path ="/member" element={<OnlyFooterLayout/>}>
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup1" element={<Signup1 />} />
                 </Route>
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />

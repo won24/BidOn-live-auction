@@ -28,7 +28,6 @@ const Antique = () => {
     const onItemClick = (list) => {
         const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
         console.log("recentPosts :", recentPosts)
-        console.log("리스트 : ",list)
 
         const updatedPosts = [list, ...recentPosts.filter(p => p.postId !== list.postId)];
         localStorage.setItem("recentPosts", JSON.stringify(updatedPosts.slice(0, 2))); // 최근 본 게시물 2개

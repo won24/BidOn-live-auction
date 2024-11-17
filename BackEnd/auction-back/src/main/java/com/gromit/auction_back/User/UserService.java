@@ -6,16 +6,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService {
-    private final UserDAO userDAO;
+public class UserService
+{
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(UserRepository userRepository)
+    {
+        this.userRepository = userRepository;
     }
 
     public List<UserDTO> getAllUsers() {
         return userDAO.selectAllUsers();
     }
 
+    public boolean isIdDuplicate(String id)
+    {
+        return userRepository.existsById(id);
+    }
 }

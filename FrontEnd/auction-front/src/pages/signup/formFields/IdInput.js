@@ -4,12 +4,13 @@ const IdInput = ({ value, onChange }) =>
 {
     const [description, setDescription] = useState("아이디는 5-15자의 영문자 혹은 영문자와 숫자의 조합이어야 합니다.");
     const [descriptionColor, setDescriptionColor] = useState("#666"); // Initial color
+    const [isChecking, setIsChecking] = useState(false); // Loading state
 
     const validateId = (id) => 
     {
         if (id.length === 0) 
         {
-            setDescriptionColor("#666"); // Reset to initial color
+            setDescriptionColor("#666");
             return "아이디를 입력해주세요.";
         }
         else if (id.length < 5 || id.length > 15) 
@@ -19,7 +20,6 @@ const IdInput = ({ value, onChange }) =>
         } 
         else if (/^\d+$/.test(id)) 
         { 
-            // Check if the ID is only a number
             setDescriptionColor("red");
             return "아이디는 숫자만으로 구성될 수 없습니다.";
         }
@@ -38,10 +38,64 @@ const IdInput = ({ value, onChange }) =>
     const handleChange = (e) => 
     {
         const id = e.target.value;
-        onChange(e); // Pass the event to the parent handler
-        setDescription(validateId(id)); // Update the description and color
+        onChange(e); 
+        setDescription(validateId(id));
     };
 
+    const checkDuplication = async () => 
+    {
+        const validationMessage = validateId(value);
+        if (validationMessage !== "사용 가능한 아이디 형식입니다.") 
+        {
+            setDescription(validationMessage);
+            return;
+        }
+    
+        setIsChecking(true);
+        try {
+            const response = await fetch("http://localhost:8080/api/check-id", 
+            {
+                method: "POST",
+                headers: 
+                {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value), // Send ID as JSON string
+            });
+    
+            const isDuplicate = await response.json();
+    
+            if (isDuplicate) 
+            {
+                setDescription("이미 사용 중인 아이디입니다.");
+                setDescriptionColor("red");
+            } 
+            else 
+            {
+                setDescription("사용 가능한 아이디입니다.");
+                setDescriptionColor("green");
+            }
+        } catch (error) {
+            setDescription("아이디 중복 확인에 실패했습니다.");
+            setDescriptionColor("red");
+        } finally {
+            setIsChecking(false);
+        }
+    };
+
+    // 중복검사 버튼 광클로 인한 부하 방지
+    const debounce = (func, delay) => 
+    {
+        let timer;
+        return (...args) => 
+        {
+            clearTimeout(timer);
+            timer = setTimeout(() => func(...args), delay);
+        };
+    };
+    
+    const debouncedCheckDuplication = debounce(checkDuplication, 500);
+    
     return (
         <div className="form-group">
             <label htmlFor="id">아이디</label>
@@ -55,7 +109,14 @@ const IdInput = ({ value, onChange }) =>
                 style={{ width: "120px" }}
                 required
             />
-            <button className="check-button">중복확인</button>
+            <button 
+                type="button" 
+                className="check-button" 
+                onClick={debouncedCheckDuplication}
+                disabled={isChecking}
+            >
+                {isChecking ? "확인 중..." : "중복확인"}
+            </button>
             <span
                 className="input-description"
                 style={{ color: descriptionColor }}

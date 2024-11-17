@@ -28,6 +28,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId;
@@ -43,6 +44,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -59,6 +61,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -74,6 +77,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -89,6 +93,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -104,6 +109,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -127,6 +133,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
@@ -143,6 +150,7 @@
             b.createdAt,
             b.startDay,
             b.currentCash,
+            b.postStatus,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId

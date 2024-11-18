@@ -29,6 +29,7 @@ const PhoneInput = ({ phone, setFormData, formData }) => (
                 phone: { ...phone, middle: e.target.value }
             })}
             placeholder="1234"
+            maxLength={4}
             style={{ width: "80px", margin: "0px 0px 0px 2px" }}
             required
         />
@@ -41,6 +42,7 @@ const PhoneInput = ({ phone, setFormData, formData }) => (
                 phone: { ...phone, last: e.target.value }
             })}
             placeholder="5678"
+            maxLength={4}
             style={{ width: "80px", margin: "0px 0px 0px 2px" }}
             required
         />

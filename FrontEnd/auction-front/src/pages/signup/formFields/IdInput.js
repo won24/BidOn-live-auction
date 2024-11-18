@@ -53,14 +53,13 @@ const IdInput = ({ value, onChange }) =>
     
         setIsChecking(true);
         try {
-            const response = await fetch("http://localhost:8080/api/check-id", 
+            const response = await fetch("http://localhost:8080/api/check-id?id=" + value,
             {
-                method: "POST",
+                method: "GET",
                 headers: 
                 {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(value), // Send ID as JSON string
             });
     
             const isDuplicate = await response.json();
@@ -76,7 +75,15 @@ const IdInput = ({ value, onChange }) =>
                 setDescriptionColor("green");
             }
         } catch (error) {
-            setDescription("아이디 중복 확인에 실패했습니다.");
+            if (error.response && error.response.status === 500) 
+            {
+                setDescription("서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            } 
+            else 
+            {
+                setDescription("네트워크 오류로 중복 확인에 실패했습니다.");
+                console.log(error);
+            }
             setDescriptionColor("red");
         } finally {
             setIsChecking(false);
@@ -95,7 +102,7 @@ const IdInput = ({ value, onChange }) =>
     };
     
     const debouncedCheckDuplication = debounce(checkDuplication, 500);
-    
+
     return (
         <div className="form-group">
             <label htmlFor="id">아이디</label>

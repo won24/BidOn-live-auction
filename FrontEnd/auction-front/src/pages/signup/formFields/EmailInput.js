@@ -1,25 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const EmailInput = ({ value, onChange }) => 
 {
-    const [emailId, setEmailId] = useState(value.split("@")[0] || "");
-    const [domain, setDomain] = useState(value.split("@")[1] || "");
+    const [emailId, setEmailId] = useState("");
+    const [domain, setDomain] = useState("");
     const [isCustomDomain, setIsCustomDomain] = useState(false);
 
-    const predefinedDomains = ["gmail.com", "naver.com", "daum.net", "hanmail.net", "직접 입력"];
+    const predefinedDomains = ["gmail.com", "naver.com", "hanmail.net", "직접 입력"];
 
-    const handleEmailIdChange = (e) => 
+    // Split the initial value (if provided)
+    useEffect(() => 
     {
-        setEmailId(e.target.value);
-        onChange(`${e.target.value}@${domain}`);
-    };
+        if (value) 
+        {
+            const [initialId, initialDomain] = value.split("@");
+            setEmailId(initialId || "");
+            setDomain(initialDomain || "");
+        }
+    }, [value]);
+
+    // Update parent only when emailId or domain changes
+    useEffect(() => 
+    {
+        if (emailId && domain) 
+        {
+            const newEmail = `${emailId}@${domain}`;
+            if (newEmail !== value) 
+            {
+                onChange({ target: { name: "email", value: newEmail } });
+            }
+        }
+    }, [emailId, domain, onChange, value]);
+
+    const handleEmailIdChange = (e) => setEmailId(e.target.value);
 
     const handleDomainSelectChange = (e) => 
     {
-        if (!e?.target?.value)        
-        {
-            return;
-        }
         const selectedDomain = e.target.value;
         if (selectedDomain === "직접 입력") 
         {
@@ -30,34 +46,25 @@ const EmailInput = ({ value, onChange }) =>
         {
             setIsCustomDomain(false);
             setDomain(selectedDomain);
-            onChange(`${emailId}@${selectedDomain}`);
         }
     };
 
-    const handleDomainChange = (e) => 
-    {
-        setDomain(e.target.value);
-        onChange(`${emailId}@${e.target.value}`);
-    };
+    const handleDomainChange = (e) => setDomain(e.target.value.trim());
 
     return (
         <div className="form-group">
             <label htmlFor="email">이메일</label>
             <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-                {/* Email ID Input (Box 1) */}
                 <input
                     type="text"
                     id="email-id"
                     name="email-id"
                     value={emailId}
                     onChange={handleEmailIdChange}
-                    style={{ width: "120px"}}
+                    style={{ width: "120px" }}
                     required
                 />
-
                 <span>@</span>
-
-                {/* Domain Input (Box 2) */}
                 <input
                     type="text"
                     id="domain"
@@ -65,12 +72,10 @@ const EmailInput = ({ value, onChange }) =>
                     value={domain}
                     onChange={handleDomainChange}
                     placeholder={isCustomDomain ? "직접 입력" : ""}
-                    style={{ width: "120px"}}
+                    style={{ width: "120px" }}
                     readOnly={!isCustomDomain}
                     required
                 />
-
-                {/* Domain Select (Box 3) */}
                 <select
                     id="domain-select"
                     name="domain-select"
@@ -79,7 +84,9 @@ const EmailInput = ({ value, onChange }) =>
                     style={{ width: "113px", height: "33px" }}
                     required
                 >
-                    <option value="" disabled>도메인 선택</option>
+                    <option value="" disabled>
+                        도메인 선택
+                    </option>
                     {predefinedDomains.map((d) => (
                         <option key={d} value={d}>
                             {d}
@@ -87,7 +94,6 @@ const EmailInput = ({ value, onChange }) =>
                     ))}
                 </select>
                 <button className="auth-email-button">이메일 인증</button>
-                <span className="input-description">인증 가능한 이메일 주소를 입력하세요.</span>
             </div>
         </div>
     );

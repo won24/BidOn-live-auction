@@ -5,23 +5,23 @@
 
 <mapper namespace="com.gromit.auction_back.User.UserDAO">
     <resultMap id="UserResultMap" type="com.gromit.auction_back.User.UserDTO">
-        <id property="userCode" column="user_code" />
-        <result property="id" column="id" />
-        <result property="password" column="password" />
-        <result property="name" column="name" />
+        <id property="userCode" column="UserCode" />
+        <result property="id" column="Id" />
+        <result property="password" column="Password" />
+        <result property="name" column="Name" />
         <result property="email" column="email" />
         <result property="phone" column="phone" />
-        <result property="birthDate" column="birth_date" />
+        <result property="birthDate" column="birthDate" />
         <result property="address" column="address" />
         <result property="cash" column="cash" />
         <result property="gender" column="gender" />
         <result property="isAdult" column="is_adult" />
         <result property="isAdmin" column="is_admin" />
         <result property="nickname" column="nickname" />
-        <result property="isSuspended" column="is_suspended" />
+        <result property="isSuspended" column="isSuspended" />
     </resultMap>
     <select id="selectAllUsers" resultMap="UserResultMap">
-        SELECT * FROM Users
+        SELECT * FROM users
     </select>
 
 </mapper>

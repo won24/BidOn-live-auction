@@ -1,5 +1,5 @@
 /**
- * Signup1.js (도메인 및 파일명 수정 예정)
+ * Signup1.js -> SignupTerms.js
  * - 회원가입 과정 중 필수 및 선택 사항 동의에 대한 부분을 담당
  * 
  * Nov 11,
@@ -32,12 +32,11 @@
  */
 
 import { useState, useEffect, useRef } from "react";
-import "../../css/Signup1.css";
+import "../../css/SignupTerms.css";
 import { useSignupContext } from './SignupContext';
-import { SignupSequence } from "./SignupSequence";
 import SignupForm from "./SignupForm";
 
-const Signup1 = () => 
+const SignupTerms = () => 
 {
     // States for checkbox control
     const [agreeTerms, setAgreeTerms] = useState(false);
@@ -155,14 +154,13 @@ const Signup1 = () =>
 
     return (
         <div className="signup-container">
-            <h2 className="title">회원가입</h2>
-            <SignupSequence />
             <h3 className="subtitle">약관동의</h3>
             <hr className="line" />
             <span className="message">회원가입을 위해 아래의 필수 약관에 모두 동의해주세요.</span>
             <label className="agree-all">
                 <input
                     type="checkbox"
+                    id="agreeAll"
                     checked={agreeAll}
                     onChange={handleAgreeAllChange}
                     disabled={isDisabled}
@@ -176,6 +174,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreeTerms"
                         checked={agreeTerms}
                         onChange={(e) => handleIndividualChange(setAgreeTerms, e.target.checked, e, "terms")}
                         disabled={isDisabled}
@@ -190,6 +189,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreePrivacy"
                         checked={agreePrivacy}
                         onChange={(e) => handleIndividualChange(setAgreePrivacy, e.target.checked, e, "privacy")}
                         disabled={isDisabled}
@@ -202,6 +202,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreeMarketing"
                         checked={agreeMarketing}
                         onChange={handleMarketingChange}
                         disabled={isDisabled}
@@ -215,6 +216,7 @@ const Signup1 = () =>
                     <label>
                         <input
                             type="checkbox"
+                            id="sendEmail"
                             checked={sendEmail}
                             onChange={(e) => handleMarketingIndividualChange(setSendEmail, e.target.checked)}
                             disabled={isDisabled}
@@ -224,6 +226,7 @@ const Signup1 = () =>
                     <label>
                         <input
                             type="checkbox"
+                            id="sendMessage"
                             checked={sendMessage}
                             onChange={(e) => handleMarketingIndividualChange(setSendMessage, e.target.checked)}
                             disabled={isDisabled}
@@ -252,4 +255,4 @@ const Signup1 = () =>
     );
 };
 
-export default Signup1;
+export default SignupTerms;

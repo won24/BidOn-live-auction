@@ -9,7 +9,8 @@
 import { useSignupContext } from "./SignupContext";
 import "../../css/SignupSequence.css";
 
-export const SignupSequence = () => {
+export const SignupSequence = () => 
+{
     const { currentStep } = useSignupContext();
 
     return (

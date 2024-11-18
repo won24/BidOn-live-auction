@@ -2,8 +2,10 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const RequestItem = () => {
+    const navigate = useNavigate();
     const [loginInfo, setLoginInfo] = useState({
         UserCode: 7,
         Id: 'user7',
@@ -114,7 +116,9 @@ const RequestItem = () => {
 
             if (response.status === 200 || response.status === 201) {
                 console.log('이미지 업로드 성공');
-                alert('이미지가 성공적으로 업로드되었습니다.');
+                alert('경매품 등록을 완료했습니다. 자세한 사항은 1:1 문의에 보내드리겠습니다');
+
+                navigate('/customer/notice');
             } else {
                 throw new Error('이미지 업로드 실패');
             }
@@ -138,11 +142,11 @@ const RequestItem = () => {
                     <select id="categoryCode" name="categoryCode" value={formData.categoryCode} onChange={handleChange}
                             required>
                         <option value="" disabled hidden>카테고리 선택</option>
-                        <option value="AT1">골동품</option>
-                        <option value="LT1">한정판</option>
-                        <option value="ED1">단종품</option>
-                        <option value="AR1">예술품</option>
-                        <option value="VA1">귀중품</option>
+                        <option value="a">골동품</option>
+                        <option value="l">한정판</option>
+                        <option value="d">단종품</option>
+                        <option value="ap">예술품</option>
+                        <option value="v">귀중품</option>
                     </select>
                 </div>
 

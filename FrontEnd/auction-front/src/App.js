@@ -25,6 +25,7 @@ import MyFar from "./pages/mypage/MyFar";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyNotice from "./pages/mypage/MyNotice";
 import MyPageLayout from "./components/header/MyPageLayout";
+import PersonalInquire from "./pages/customer/PersonalInquire";
 
 
 
@@ -54,6 +55,7 @@ function App() {
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
+                        <Route path="personalinquire" element={<PersonalInquire/>}/>
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>

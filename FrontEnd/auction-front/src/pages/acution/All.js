@@ -3,9 +3,9 @@ import * as api from "../../apis/AuctionItem";
 import { Link } from "react-router-dom";
 import { updateRecentPosts } from "../../components/aside/RecentlyView";
 
-const Antique = () => {
-    const [antiqueList, setAntiqueList] = useState([]);
-    const [categoryCode, setCategoryCode] = useState([]);
+const AllList = () => {
+
+    const [allList, setAllList] = useState([]);
     const searchItemRef = useRef("");
     const [searchItemList, setSearchItemList] = useState([]);
 
@@ -32,12 +32,11 @@ const Antique = () => {
     // 카테고리 전체목록 가져오기
     const getItemList = async () => {
         try {
-            const response = await api.antiqueList();
+            const response = await api.totalAuctionList();
             const data = response.data;
-            const category = data[0].categoryCode;
+
             if (data && data.length > 0) {
-                setAntiqueList(data);
-                setCategoryCode(category);
+                setAllList(data);
             } else {
                 console.warn("받은 데이터가 비어 있습니다.");
             }
@@ -71,7 +70,7 @@ const Antique = () => {
         }
 
         try {
-            const response = await api.searchItemList(searchItemRef.current, categoryCode);
+            const response = await api.searchItemAllList(searchItemRef.current);
             const data = response.data;
             setSearchItemList(data);
             console.log("검색 결과:", data);
@@ -91,7 +90,7 @@ const Antique = () => {
         }));
     };
 
-    // 검색했을 때 체크박스 결과 필터링
+    // 검색했을 때 체크박스 결과
     const filteredSearchItems = useMemo(
         () =>
             sortItemsByStatus(
@@ -104,17 +103,17 @@ const Antique = () => {
         [searchItemList, checkBoxStates.search]
     );
 
-    //전체 목록에서 체크박스 필터링
+    //전체 목록에서 체크박스 결과
     const filteredMainItems = useMemo(
         () =>
             sortItemsByStatus(
-                antiqueList.filter((item) =>
+                allList.filter((item) =>
                     checkBoxStates.main.some(
                         (box) => box.isChecked && box.status === item.postStatus
                     )
                 )
             ),
-        [antiqueList, checkBoxStates.main]
+        [allList, checkBoxStates.main]
     );
 
     const renderAuctionItems = () => {
@@ -143,13 +142,17 @@ const Antique = () => {
 
     return (
         <>
-            <h1>앤티크 Antique</h1>
+            <h2>경매 물품 전체보기</h2>
+            <p>쇼미옥의 경매 물품</p>
+
+            <a href="/auction/antique">골동품</a>
+            <a href="/auction/limited">한정판</a>
+            <a href="/auction/discontinuation">단종품</a>
+            <a href="/auction/artproduct">예술품</a>
+            <a href="/auction/valuables">귀중품</a>
 
             <form onSubmit={search}>
-                <input
-                    placeholder="현재 카테고리에서 검색"
-                    onChange={onValueGet}
-                />
+                <input placeholder="모든 카테고리에서 검색" onChange={onValueGet}/>
                 <button type="submit">검색</button>
             </form>
 
@@ -206,7 +209,7 @@ const Antique = () => {
 
             <div className="auctionListContainer">
                 {renderAuctionItems()}
-                {searchItemList.length === 0 && antiqueList.length === 0 && (
+                {searchItemList.length === 0 && allList.length === 0 && (
                     <p>해당하는 카테고리의 경매품이 없습니다.</p>
                 )}
             </div>
@@ -214,4 +217,4 @@ const Antique = () => {
     );
 }
 
-export default Antique;
+export default AllList;

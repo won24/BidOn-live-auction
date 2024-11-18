@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import * as api from "../../../apis/AuctionItem";
 import {useEffect, useState} from "react";
-import Live from "../../live/Live";
+import LiveDetail from "../../live/LiveDetail";
 
 
 const AuctionDetailPage = () =>{
@@ -9,16 +9,25 @@ const AuctionDetailPage = () =>{
     const {postId} = useParams();
     const [board, setBoard] = useState({});
     const [postStatus, setPostStatus] = useState("");
-    const [favorite, setFavorite] = useState("off");
     const [isLoading, setIsLoading] = useState(true);
 
+
+    const [logintest,setLoginTest] = useState({
+        UserCode: 7,
+        Id: 'user7', Password: 'password7',
+        Name: '나야,오류', email: 'user7@example.com',
+        phone: '010-7777-7777', birthDate: '1996-07-07',
+        address: '울산시 남구', cash: 7000, gender: '남',
+        isAdult: 'y',isAdmin: 'n', nickName: 'nickname7',
+        isSuspended: 'n'
+    });
 
     const getBoard = async () => {
 
         setIsLoading(true);
 
         try {
-            const response = await api.postDetail(postId, favorite);
+            const response = await api.postDetail(postId);
             const data = response.data;
             setBoard(data);
             setPostStatus(data.postStatus);
@@ -32,12 +41,12 @@ const AuctionDetailPage = () =>{
 
     useEffect( () => {
         getBoard()
-    },[favorite]) // 즐겨찾기 추가 되면 재 실행
+    },[])
 
     const addFavorite = () =>{
-        setFavorite("on")
+
         alert("즐겨찾기에 추가 되었습니다.")
-        getBoard(); // 즐겨찾기 업데이트해서 데이터 가져오기
+     //   getBoard(); // 즐겨찾기 업데이트해서 데이터 가져오기
     }
 
 
@@ -45,7 +54,7 @@ const AuctionDetailPage = () =>{
 
         switch (postStatus) {
             case "on":
-                return (<Live/>);
+                return <LiveDetail/>
             case "off":
                 return (
                     <>
@@ -60,7 +69,7 @@ const AuctionDetailPage = () =>{
                             loading="lazy"
                         />
                         <p>입찰 시작가</p>
-                        <p>{board.currentCash}</p>
+                        <p>{board.startCash}</p>
                         <p>경매 날짜</p>
                         <p>{board.startDay}</p>
                         <hr/>
@@ -78,6 +87,7 @@ const AuctionDetailPage = () =>{
                     <>
                         <h2>{board.title}</h2>
                         <p>낙찰 완료</p>
+                        <button onClick={addFavorite}>즐겨찾기</button>
                         <hr/>
                         <img
                             className="itemImg"
@@ -88,7 +98,7 @@ const AuctionDetailPage = () =>{
                         <p>최종 낙찰가</p>
                         <p>{board.finalCash}</p>
                         <p>입찰 시작가</p>
-                        <p>{board.currentCash}</p>
+                        <p>{board.startCash}</p>
                         <p>경매 날짜</p>
                         <p>{board.startDay}</p>
                         <hr/>

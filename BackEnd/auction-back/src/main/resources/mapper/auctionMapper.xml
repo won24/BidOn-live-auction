@@ -15,7 +15,8 @@
         <result property="startDay" column="startDay"/>
         <result property="endDay" column="endDay"/>
         <result property="userCode" column="userCode"/>
-        <result property="currentCash" column="currentCash"/>
+        <result property="startCash" column="startCash"/>
+        <result property="finalCash" column="finalCash"/>
         <result property="imageUrl" column="imageUrl"/>
     </resultMap>
 
@@ -26,9 +27,11 @@
             b.categoryCode,
             b.content,
             b.createdAt,
-            b.startDay,
-            b.currentCash,
             b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId;
@@ -37,15 +40,17 @@
 
     <select id="antiqueList" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.categoryCode = 'a';
@@ -54,15 +59,17 @@
 
     <select id="limitedList" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.categoryCode = 'l';
@@ -70,15 +77,17 @@
 
     <select id="discontinuationList" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.categoryCode = 'd';
@@ -86,15 +95,17 @@
 
     <select id="artProductList" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.categoryCode = 'ap';
@@ -102,15 +113,17 @@
 
     <select id="valuablesList" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.categoryCode = 'v';
@@ -118,23 +131,19 @@
 
 
 <!-- 상세 조회 -->
-    <update id="updateHits" parameterType="int">
-        UPDATE board
-            SET hits = hits +1
-        WHERE postId=#{postId}
-    </update>
-
     <select id="selectAuctionDetail" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.startDay,
-            b.currentCash,
-            b.postStatus,
-            i.imageUrl
+        b.postId,
+        b.title,
+        b.categoryCode,
+        b.content,
+        b.createdAt,
+        b.postStatus,
+        b.startDay,
+        b.userCode,
+        b.startCash,
+        b.finalCash,
+        i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.postId = #{postId};
@@ -148,14 +157,90 @@
             b.categoryCode,
             b.content,
             b.createdAt,
-            b.startDay,
-            b.currentCash,
             b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
             i.imageUrl
         FROM board b
         LEFT JOIN imageUrl i ON b.postId = i.postId
         WHERE b.title LIKE CONCAT('%', #{q}, '%')
         AND b.categoryCode = #{categoryCode};
+    </select>
+
+    <select id="selectSearchItemsAllCategory" resultMap="auctionResultMap">
+        SELECT
+            b.postId,
+            b.title,
+            b.categoryCode,
+            b.content,
+            b.createdAt,
+            b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
+            i.imageUrl
+          FROM board b
+         LEFT JOIN imageUrl i ON b.postId = i.postId
+        WHERE b.title LIKE CONCAT('%', #{q}, '%');
+    </select>
+
+
+    <!--postStatus 로 가져오기 -->
+    <select id="selectDoneList" resultMap="auctionResultMap">
+        SELECT
+            b.postId,
+            b.title,
+            b.categoryCode,
+            b.content,
+            b.createdAt,
+            b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
+            i.imageUrl
+          FROM board b
+          LEFT JOIN imageUrl i ON b.postId = i.postId
+        WHERE postStatus = 'done';
+    </select>
+
+    <select id="selectOnList" resultMap="auctionResultMap">
+        SELECT
+            b.postId,
+            b.title,
+            b.categoryCode,
+            b.content,
+            b.createdAt,
+            b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
+            i.imageUrl
+        FROM board b
+        LEFT JOIN imageUrl i ON b.postId = i.postId
+        WHERE postStatus = 'on';
+    </select>
+
+    <select id="selectOffList" resultMap="auctionResultMap">
+        SELECT
+            b.postId,
+            b.title,
+            b.categoryCode,
+            b.content,
+            b.createdAt,
+            b.postStatus,
+            b.startDay,
+            b.userCode,
+            b.startCash,
+            b.finalCash,
+            i.imageUrl
+        FROM board b
+        LEFT JOIN imageUrl i ON b.postId = i.postId
+        WHERE postStatus = 'off';
     </select>
 
 </mapper>

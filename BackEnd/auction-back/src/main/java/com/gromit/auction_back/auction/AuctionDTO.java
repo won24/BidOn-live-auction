@@ -20,7 +20,7 @@ public class AuctionDTO {
     private Date startDay;
     private Date endDay;
     private int userCode;
-    private int currentCash;
+    private int startCash;
+    private int finalCash;
     private String imageUrl;
-
 }

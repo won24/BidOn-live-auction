@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.beans.Encoder;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -68,8 +66,7 @@ public class AuctionController {
     // 게시글 상세 조회
     @GetMapping("/{postId}")
     public ResponseEntity<?> getAuctionDetail(@PathVariable int postId){
-        // 조회수
-//        auctionService.updateHits(postId);
+
         try {
             AuctionDTO auctionDTO = auctionService.detail(postId);
             System.out.println("디테일"+auctionDTO);
@@ -110,8 +107,20 @@ public class AuctionController {
         }
     }
 
+    // 전체 리스트에서 검색
+    @GetMapping("/searchitem")
+    public ResponseEntity<List<AuctionDTO>> searchItemAllCategory(@RequestParam(required = false) String q){
+        try {
+            String decodedQ = URLDecoder.decode(q, "UTF-8");
+            System.out.println(decodedQ);
 
-
-
+            List<AuctionDTO> items = auctionService.searchItemAllCategory(decodedQ);
+            System.out.println(items);
+            return ResponseEntity.ok(items);
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 }

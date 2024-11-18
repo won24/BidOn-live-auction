@@ -40,9 +40,7 @@ public class AuctionService {
         return auctionDAO.valuablesList();
     }
 
-    public void updateHits(int postId) {
-        auctionDAO.updateHits(postId);
-    }
+
 
 
     public AuctionDTO detail(int postId) {
@@ -52,5 +50,21 @@ public class AuctionService {
 
     public List<AuctionDTO> searchItems(String q, String categoryCode) {
         return auctionDAO.selectSearchItems(q, categoryCode);
+    }
+
+    public List<AuctionDTO> searchItemAllCategory(String decodedQ) {
+        return auctionDAO.selectSearchItemsAllCategory(decodedQ);
+    }
+
+    public List<AuctionDTO> getDoneList() {
+        return auctionDAO.selectDoneList();
+    }
+
+    public List<AuctionDTO> getOnList() {
+        return auctionDAO.selectOnList();
+    }
+
+    public List<AuctionDTO> getOffList() {
+        return auctionDAO.selectOffList();
     }
 }

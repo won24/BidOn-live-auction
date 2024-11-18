@@ -25,7 +25,7 @@ function MyNotice({ loggedInUser }) {
                 setError(null);
 
                 // 서버에서 데이터 요청
-                const response = await axios.get('/');
+                const response = await axios.get('http://localhost:8080/mypage/mynotice');
                 const data = response.data;
 
                 // 로그인한 사용자에게 보여줄 글 필터링

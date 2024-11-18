@@ -8,60 +8,62 @@
 * 로그인한 사용자가 본인의 1 : 1 상담 글을 볼 수 있으며, 공개 상담 글은 누구나 볼 수 있음
 * */
 
-import { Component } from "react";
-import React from "react";
-import { Link } from "react-router-dom";
 
-class MyNotice extends Component {
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            loggedInUser: { id: 3, name: "sua"}, // 로그인한 사용자 정보
-            comments: [
-                { id: 1, content: "첫 번째 1 : 1 상담 글입니다.", author: 1, isSecret: true},  // 첫 번째 상담 글(작성자 1, 비밀 글)
-                { id: 2, content: "두 번째 1 : 1 상금 글입니다. 작성자와 관리자만 열람 가능합니다.", author: 2, isSecret: true}, // 두 번째 상담 글(작성자 2, 비밀 글)
-                { id: 3, content: "세 번째 공개 상담 글입니다.", author: 3, isSecret: false}   // 세 번째 상담 글(작성 자 3, 공개 글)
-            ]
+function MyNotice({ loggedInUser }) {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // 서버에서 데이터 가져오기
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                // 서버에서 데이터 요청
+                const response = await axios.get('http://localhost:8080/mypage/mynotice');
+                const data = response.data;
+
+                // 로그인한 사용자에게 보여줄 글 필터링
+                const filterPosts = data.filter(post =>
+                post.isPublic || post.author === loggedInUser);
+
+                setPosts(filterPosts);
+            } catch (err) {
+                setError("데이터를 가져오는 중 오류가 발생했습니다.")
+            } finally {
+                setLoading(false);
+            }
         };
-    }
 
-    // 사용자가 작성한 1 : 1 상담 글 필터링 메소드
-    getUserComments = () => {
-        const { comments, loggedInUser } = this.state;
+        fetchPosts();
+    }, [loggedInUser]);
 
-        // 댓글 목록에서 사용자가 작성한 비밀 댓글과 공개 댓글 필터링
-        return comments.filter(comment => {
-            // 비밀 댓글(isSecret 이 true) 인 경우, 작성자 ID 가 로그인 한 사용자와 일치하면 필터링
-            // 공개 댓글(isSecret 이 false) 인 경우에는 모두 포시
-            return (comment.isSecret && comment.author === loggedInUser.id) || !comment.isSecret;
-        });
-    };
+    if (loading) return <p>로딩 중 ... </p>
+    if (error) return <p>{error}</p>;
 
-    render() {
-        const userComments = this.getUserComments();  // 사용자가 볼 수 있는 상담 글만 가져옴
-
-        return (
-            <div>
-                <h2>고객센터</h2>
-                <div>
-                    <Link to="/mypage/auction">경매품</Link>
-                    <Link to="/mypage/inquiry">1 : 1 문의</Link>
+    return (
+        <div>
+            <h2>1 : 1 상담</h2>
+            {posts.map(post => (
+                <div key={post.id} style={{ marginBottom: '20px', border: '1px soild #ccc', padding: '10px'}}>
+                    <h3>{post.title}</h3>
+                    <p>
+                        {post.author === loggedInUser ? "본인 작성" : "관리자 또는 작성자만 열람 가능"}
+                    </p>
+                    {post.author === loggedInUser || post.isPublic ? (
+                        <p>{post.content}</p>
+                    ) : (
+                        <p>이 글은 열람할 수 없습니다.</p>
+                    )}
                 </div>
-                <h3>1 : 1 상담 글 목록</h3>
-                <ul>
-                    {/* 필터링 된 사용자가 볼 수 있는 상담 글을 순회하여 목록으로 출력 */}
-                    {userComments.map((comment) => (
-                        <li key={comment.id}>
-                            <p>{comment.content}</p>
-                            {/* 상담 글이 본인 작성인지 관리자 또는 다른 작성자만 볼 수 있는 글인지 표시 */}
-                            <small>{comment.author === this.state.loggedInUser.id ? "본인 작성" : "관리자 또는 작성자만 열람 가능"}</small>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
+            ))}
+        </div>
+    );
 }
-export default MyNotice;
 
+export default MyNotice;

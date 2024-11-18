@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gromit.auction_back.mypage.favorite.FavoDAO">
+    <resultMap id="favoResultMap" type="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        <id property="userCode" column="user_code" />
+        <result property="postId" column="postId" />
+        <result property="title" column="title" />
+        <result property="imageUrl" column="imageUrl" />
+    </resultMap>
+
+    <select id="getAllFavoList" resultMap="favoResultMap">
+<!--        SELECT * FROM favorites WHERE user_code = #{userCode}-->
+        SELECT
+        b.title,
+        b.postId,
+        i.imageUrl
+        FROM
+        Board b
+        JOIN
+        users u ON b.userCode = u.userCode
+        LEFT JOIN
+        ImageUrl i ON b.postId = i.postId
+        WHERE
+        u.UserCode = #{userCode}
+    </select>
+
+</mapper>

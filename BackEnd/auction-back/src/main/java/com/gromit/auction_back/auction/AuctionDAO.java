@@ -20,9 +20,15 @@ public interface AuctionDAO {
 
     List<AuctionDTO> valuablesList();
 
-    void updateHits(int postId);
-
     AuctionDTO selectAuctionDetail(int postId);
 
-    List<AuctionDTO> selectSearchItems(String q);
+    List<AuctionDTO> selectSearchItems(String q, String categoryCode);
+
+    List<AuctionDTO> selectSearchItemsAllCategory(String decodedQ);
+
+    List<AuctionDTO> selectDoneList();
+
+    List<AuctionDTO> selectOnList();
+
+    List<AuctionDTO> selectOffList();
 }

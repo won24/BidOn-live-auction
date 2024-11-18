@@ -6,7 +6,6 @@ import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
 import Login from "./pages/login/Login";
 import Main from "./pages/main/Main";
-import Auction from "./pages/acution/Auction";
 import { FailPage } from "./pages/tosspay/TosspayFail";
 import { SuccessPage } from "./pages/tosspay/TosspaySuccess";
 import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
@@ -36,7 +35,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
-                    <Route path="auction" element={<Auction />} />
+                    <Route path="auction" element={<AllList />} />
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
@@ -55,7 +54,7 @@ function App() {
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
-                        <Route path="personalinquire" element={<PersonalInquire/>}/>
+                        <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>

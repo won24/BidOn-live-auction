@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import "../../css/Login.css";
+import ReactModal from "react-modal";
+import FindId from "../find/FindId";
 
 const Login = () => 
 {
@@ -24,7 +26,8 @@ const Login = () =>
     });
     const [isRemember, setIsRemember] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["rememberUserId"]);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [modalSwitch, setModalSwitch] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
 
     // Load cookie on initial render if `loginForm.id` is empty
     useEffect(() => 
@@ -36,13 +39,18 @@ const Login = () =>
         }
     }, [cookies.rememberUserId]);
 
+    const toggleModal = () => 
+    {
+        setModalSwitch((prev) => !prev);
+    };
+
     const handleOnChange = (e) => 
     {
         const isChecked = e.target.checked;
         setIsRemember(isChecked);
         if (isChecked) 
         {
-            setCookie("rememberUserId", loginForm.id, { maxAge: 2592000 });
+            setCookie("rememberUserId", loginForm.id, { maxAge: 2592000 }); // 30 days
         } 
         else 
         {
@@ -64,10 +72,9 @@ const Login = () =>
     const handleSubmit = async (e) => 
     {
         e.preventDefault();
-        setErrorMessage("");
-
+    
         try {
-            const response = await fetch("http://localhost:8080/api/login", 
+            const response = await fetch("http://localhost:8080/api/auth/login", 
             {
                 method: "POST",
                 headers: 
@@ -76,21 +83,44 @@ const Login = () =>
                 },
                 body: JSON.stringify(loginForm),
             });
-
-            if (response.ok) 
-            {
-                const data = await response.json();
-                // Redirect or save authentication token
-                navigate("/dashboard"); // Example redirection
-            } 
-            else 
-            {
-                const errorData = await response.json();
-                setErrorMessage(errorData.message || "로그인에 실패했습니다.");
+    
+            if (response.ok) {
+                const contentType = response.headers.get("Content-Type");
+                let responseData;
+    
+                if (contentType && contentType.includes("application/json")) 
+                {
+                    responseData = await response.json();
+                    console.log("Response JSON:", responseData);
+                } 
+                else 
+                {
+                    throw new Error("Unexpected response format.");
+                }
+    
+                // Store relevant details in sessionStorage
+                sessionStorage.setItem("isLoggedIn", "true");
+                sessionStorage.setItem("userId", loginForm.id);
+                sessionStorage.setItem("userCode", responseData.userCode); // Store userCode
+                sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
+    
+                setIsLoggedIn(true);
+                navigate("/"); // Navigate to the main page or dashboard
+            } else {
+                console.error("Login failed");
+                alert("아이디 또는 비밀번호가 일치하지 않습니다.");
             }
         } catch (error) {
-            setErrorMessage("서버와 연결할 수 없습니다.");
+            console.error("Error logging in:", error);
+            alert("로그인 중 오류가 발생했습니다.");
         }
+    };
+    
+    const handleLogout = () => 
+    {
+        sessionStorage.clear(); // Clear all session storage
+        setIsLoggedIn(false);
+        navigate("/member/login"); // Redirect to login page
     };
 
     return (
@@ -99,65 +129,83 @@ const Login = () =>
                 <h3 className="subtitle">로그인</h3>
                 <hr className="line" />
                 <span className="message">로그인 후 이용해주세요.</span>
-                <form className="login-group" id="loginForm" method="post" onSubmit={handleSubmit}>
-                    <div className="item">
-                        <div className="inputs-wrapper">
-                            <input
-                                type="text"
-                                name="id"
-                                id="usrId"
-                                className="form-control"
-                                placeholder="아이디"
-                                value={loginForm.id}
-                                onChange={handleInputChange}
-                                maxLength={15}
-                            />
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                className="form-control"
-                                placeholder="비밀번호"
-                                value={loginForm.password}
-                                onChange={handleInputChange}
-                            />
+                {/* {!isLoggedIn ? ( */}
+                    <form className="login-group" id="loginForm" method="post" onSubmit={handleSubmit}>
+                        <div className="item">
+                            <div className="inputs-wrapper">
+                                <input
+                                    type="text"
+                                    name="id"
+                                    id="usrId"
+                                    className="form-control"
+                                    placeholder="아이디"
+                                    value={loginForm.id}
+                                    onChange={handleInputChange}
+                                    maxLength={15}
+                                />
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    className="form-control"
+                                    placeholder="비밀번호"
+                                    value={loginForm.password}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="login-button"
+                                disabled={!loginForm.id || !loginForm.password}
+                            >
+                                로그인
+                            </button>
                         </div>
-                        <button 
-                            type="submit" 
-                            className="login-button" 
-                            disabled={!loginForm.id || !loginForm.password}
-                        >
-                            로그인
+                        <label htmlFor="saveId" className="check-item">
+                            <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="saveId"
+                                onChange={handleOnChange}
+                                checked={isRemember}
+                            />
+                            <span>아이디 저장</span>
+                        </label>
+                    </form>
+                {/* ) : (
+                    <div>
+                        <h3>로그인 상태입니다.</h3>
+                        <button className="login-button2" onClick={handleLogout}>
+                            로그아웃
                         </button>
                     </div>
-                    <label htmlFor="saveId" className="check-item">
-                        <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="saveId"
-                            onChange={handleOnChange}
-                            checked={isRemember}
-                        />
-                        <span>아이디 저장</span>
-                    </label>
-                    {errorMessage && <div className="error-message">{errorMessage}</div>}
-                </form>
-                <span className="description">회원가입 안내 메시지</span>
-                <div className="login-button-wrapper">
-                    <button className="login-button2" onClick={() => navigate("/member/signup")}>
-                        회원가입
-                    </button>
-                </div>
-                <span className="description">아이디/비밀번호 찾기 안내 메시지</span>
-                <div className="login-button-wrapper">
-                    <button className="login-button2">
-                        아이디/비밀번호 찾기
-                    </button>
-                </div>
+                )} */}
+                {!isLoggedIn && (
+                    <>
+                        <span className="description">아직 회원이 아니신가요?</span>
+                        <div className="login-button-wrapper">
+                            <button className="login-button2" onClick={() => navigate("/member/signup")}>
+                                회원가입
+                            </button>
+                        </div>
+                        <span className="description">아이디나 비밀번호를 잊어버리셨나요?</span>
+                        <div className="login-button-wrapper">
+                            <button className="login-button2" onClick={toggleModal}>
+                                아이디/비밀번호 찾기(미구현)
+                                {/* <ReactModal
+                                    isOpen={modalSwitch}
+                                    ariaHideApp={false}
+                                    onRequestClose={toggleModal}
+                                >
+                                    <FindId />
+                                </ReactModal> */}
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
 };
 
 export default Login;
- 

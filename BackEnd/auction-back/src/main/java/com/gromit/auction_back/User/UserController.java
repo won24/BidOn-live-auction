@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class UserController
@@ -57,5 +59,17 @@ public class UserController
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
         }
+    }
+
+    public boolean validateUser(String id, String password)
+    {
+        UserDTO user = userRepository.findById(id);
+
+        if(user == null)
+        {
+            return false;
+        }
+
+        return user.getPassword().equals(password);
     }
 }

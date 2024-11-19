@@ -142,11 +142,13 @@ const Login = () =>
                     </label>
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                 </form>
+                <span className="description">회원가입 안내 메시지</span>
                 <div className="login-button-wrapper">
                     <button className="login-button2" onClick={() => navigate("/member/signup")}>
                         회원가입
                     </button>
                 </div>
+                <span className="description">아이디/비밀번호 찾기 안내 메시지</span>
                 <div className="login-button-wrapper">
                     <button className="login-button2">
                         아이디/비밀번호 찾기

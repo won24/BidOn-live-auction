@@ -148,3 +148,9 @@
     width: auto; /* Adjust button width to fit content */
     flex-shrink: 0; /* Prevent button from shrinking */
 }
+
+.description 
+{
+    font-size: 0.85em;
+    color: #666;
+}

@@ -11,19 +11,26 @@
     </resultMap>
 
     <select id="getAllFavoList" resultMap="favoResultMap">
-<!--        SELECT * FROM favorites WHERE user_code = #{userCode}-->
         SELECT
         b.title,
         b.postId,
         i.imageUrl
         FROM
-        Board b
+        favorites b
         JOIN
+        <!-- FROM 을 favorites 로 바꿔 (완료) -->
+        <!-- JOIN 으로 (하는 중) -->
         users u ON b.userCode = u.userCode
         LEFT JOIN
         ImageUrl i ON b.postId = i.postId
         WHERE
-        u.UserCode = #{userCode}
+        u.userCode = #{userCode}
+
     </select>
+
+    <delete id="deleteFavoriteById" parameterType="int">
+        DELETE FROM favorites
+        WHERE userCode = #{userCode}
+    </delete>
 
 </mapper>

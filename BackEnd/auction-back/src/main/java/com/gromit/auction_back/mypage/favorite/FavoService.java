@@ -1,6 +1,7 @@
 package com.gromit.auction_back.mypage.favorite;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,11 @@ public class FavoService {
     public List<FavoDTO> allselect(FavoDTO favoDTO) {
         int userCode = favoDTO.getUserCode();
         System.out.println(userCode);
-        return favoDAO.getAllFavoList(userCode);
+        List<FavoDTO> result = favoDAO.getAllFavoList(userCode);
+        return result;
     }
+
+//    public void deleteFavo(FavoDTO favoDTO) {
+//        favoDTO.deleteFavoById(d);
+//    }
 }

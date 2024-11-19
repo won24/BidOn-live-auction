@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./MyFar.css"; // 스타일 적용
+import "./MyFar.css";
 
 const MyFar = () => {
-    const [favorites, setFavorites] = useState([
-        { id: 1, name: "오늘은 2024년 11월 18일 월요일이닷" },
-        { id: 2, name: "역시나 프로젝트를 위해 계속 코딩을 한다 후후" },
-    ]); // 초기 데이터 추가
-
+    const [favorites, setFavorites] = useState([]); // 초기 상태를 빈 배열로 설정
     const [loginInfo, setLoginInfo] = useState({
         UserCode: 7,
         Id: "user7",
@@ -26,55 +22,44 @@ const MyFar = () => {
     });
 
     useEffect(() => {
-        // 서버에서 즐겨찾기 목록 가져오기
         const fetchFavorites = async () => {
             try {
-                const userCode= loginInfo.UserCode;
-                const response = await axios.post('/favo/favoList', {userCode});
+                const userCode = loginInfo.UserCode; // 사용자 코드
+                const response = await axios.post('/favo/favoList', { userCode });
 
+                // 데이터 복사하여 원본 보호
+                const dataCopy = [...response.data];
 
-                setFavorites(response.data);
-                console.log(response.data)
+                // [수정 전 코드] 중복 제거
+                // const uniqueFavorites = response.data.filter(
+                //     (item, index, self) => index === self.findIndex(fav => fav.id === item.id)
+                // );
+
+                // [수정 후 코드] 중복 제거(Set 사용)
+                const uniqueIds = new Set(dataCopy.map(item => item.id));
+                const uniqueFavorites = dataCopy.filter(item => uniqueIds.has(item.id));
+
+                setFavorites(uniqueFavorites); // 상태 업데이트
+                console.log("중복 제거 후 데이터:", uniqueFavorites);
             } catch (error) {
-                console.error("즐겨찾기 목록 가져오기 실패 : ", error);
+                console.error("즐겨찾기 목록 가져오기 실패:", error);
             }
         };
+
         fetchFavorites();
-    },[]);
+    }, []);  // 최초 한 번만 실행되도록.
+
 
     const handleDeleteFavorite = async (id) => {
         try {
-            // 서버에 삭제 요청 보내기
             await axios.delete(`/favo/favoList/${id}`);
-            setFavorites(favorites.filter((item)  => item.id !== id));
+
+            // 삭제된 항목을 제외한 새로운 배열로 상태 업데이트
+            setFavorites(favorites.filter((item) => item.id !== id));
         } catch (error) {
             console.error("즐겨찾기 삭제 실패 : ", error);
         }
     };
-
-    // const handleRequest = async () => {
-    //     try {
-    //         const response = await axios.post("/favo/favoList", loginInfo, {
-    //             headers: { "Content-Type": "application/json" },
-    //         });
-    //         console.log("서버 응답:", response.data);
-    //     } catch (error) {
-    //         console.error("요청 중 에러 발생:", error);
-    //     }
-    // };
-    //
-    // useEffect(() => {
-    //     const storedFavorites = JSON.parse(localStorage.getItem("favorites"));
-    //     if (storedFavorites) {
-    //         setFavorites(storedFavorites);
-    //     }
-    // }, []);
-    //
-    // const handleDeleteFavorite = (id) => {
-    //     const newFavorites = favorites.filter((item) => item.id !== id);
-    //     setFavorites(newFavorites);
-    //     localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    // };
 
     return (
         <div className="favorites-container">
@@ -90,7 +75,7 @@ const MyFar = () => {
                 <tbody>
                 {favorites.map((favorite, index) => (
                     <tr key={favorite.id}>
-                        <td key={index}>{index + 1}</td>
+                        <td>{index + 1}</td>
                         <td>{favorite.name}</td>
                         <td>
                             <button

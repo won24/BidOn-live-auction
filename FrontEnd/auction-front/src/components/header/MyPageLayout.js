@@ -2,7 +2,7 @@ import {NavLink, Route, Routes} from "react-router-dom";
 import {useState} from "react";
 import MyFar from "../../pages/mypage/MyFar";
 import MyProfile from "../../pages/mypage/MyProfile";
-import MyNotice from "../../pages/mypage/MyNotice";
+import MyAuctionItem from "../../pages/mypage/MyAuctionItem";
 
 
 const MyPageLayout = () => {
@@ -26,7 +26,7 @@ const MyPageLayout = () => {
             <Routes>
                 <Route path="myfar" element={<MyFar />}/>
                 <Route path="myprofile" element={<MyProfile />}/>
-                <Route path="mynotice" element={<MyNotice />} />
+                <Route path="mynotice" element={<MyAuctionItem />} />
             </Routes>
         </div>
     );

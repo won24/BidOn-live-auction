@@ -1,5 +1,5 @@
-// 내가 쓴 글 (/mypage/mynotice)
-// 고객센터에서 작성된 1 : 1 상담 글 중 본인이 작성한 상담 글만 보여지는 페이지
+// 내가 쓴 글 (/mypage/myauctionitem)
+// 판매자(회원) 가 경매품 신청 후 이동되는 페이지
 
 /*
 * 각 상담 글은 author 가 현재 로그인한 사용자와 일치하면 "본인 작성" 이라고 표시되고,
@@ -12,7 +12,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function MyNotice({ loggedInUser }) {
+function MyAuctionItem({ loggedInUser }) {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -66,4 +66,4 @@ function MyNotice({ loggedInUser }) {
     );
 }
 
-export default MyNotice;
+export default MyAuctionItem;

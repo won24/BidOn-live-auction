@@ -21,7 +21,7 @@ import Signup from "./pages/signup/Signup";
 import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
 import MyProfile from "./pages/mypage/MyProfile";
-import MyNotice from "./pages/mypage/MyNotice";
+import MyAuctionItem from "./pages/mypage/MyAuctionItem";
 import MyPageLayout from "./components/header/MyPageLayout";
 import PersonalInquire from "./pages/customer/PersonalInquire";
 import AllList from "./pages/acution/All";
@@ -44,7 +44,7 @@ function App() {
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
                     <Route path="/mypage/*" element={<MyPageLayout />} >
-                        <Route path="mynotice" element={<MyNotice/>}/>
+                        <Route path="mynotice" element={<MyAuctionItem/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
                     </Route>

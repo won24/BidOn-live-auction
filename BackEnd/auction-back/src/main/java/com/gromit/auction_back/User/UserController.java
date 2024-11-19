@@ -60,16 +60,4 @@ public class UserController
             return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
         }
     }
-
-    public boolean validateUser(String id, String password)
-    {
-        UserDTO user = userRepository.findById(id);
-
-        if(user == null)
-        {
-            return false;
-        }
-
-        return user.getPassword().equals(password);
-    }
 }

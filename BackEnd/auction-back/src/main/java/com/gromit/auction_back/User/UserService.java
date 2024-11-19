@@ -44,7 +44,8 @@ public class UserService {
         // Map User entity to UserDTO
         UserDTO userDTO = new UserDTO();
         userDTO.setUserCode(user.getUserCode());
-        userDTO.setIsAdmin(user.getIsAdmin()); // Ensure this is not null
+        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setNickname(user.getNickname());
         return userDTO;
     }
 }

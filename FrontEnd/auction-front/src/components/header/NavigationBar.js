@@ -1,13 +1,14 @@
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import './NavigationBar.css'
 
 
 const Nav = () =>
 {
-    const username = sessionStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     const userCode = sessionStorage.getItem("userCode");
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const userNickname = sessionStorage.getItem("userNickname");
     const navigate = useNavigate();
 
     const openCheckoutPopup = () => 
@@ -20,8 +21,11 @@ const Nav = () =>
 
     const handleLogout = () => 
     {
-        sessionStorage.clear(); // Clear all session storage
-        navigate("/");
+        if(window.confirm("로그아웃 하시겠습니까?"))
+        {
+            sessionStorage.clear(); // Clear all session storage
+            navigate(-1);
+        }
     };
 
     return(
@@ -38,12 +42,12 @@ const Nav = () =>
                         <div>
                             <span className="user-welcome">
                                 {/* {userCode} */}
-                                {isAdmin ? "[관리자] " : ""}{username}님, 환영합니다.
+                                {isAdmin ? "[관리자] " : ""}{userNickname}님, 환영합니다.
                             </span>
+                            <button onClick={openCheckoutPopup}>충전하기</button>
                             <button className="login-button2" onClick={handleLogout}>
                                 로그아웃
                             </button>
-                            <button onClick={openCheckoutPopup}>충전하기</button>
                         </div>
                 ) : (
                     <button className="login-button2" onClick={() => navigate("/member/login")}>로그인</button>

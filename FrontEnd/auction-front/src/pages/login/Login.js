@@ -3,7 +3,7 @@
  * react-cookie 모듈 사용 (npm install 후 사용 가능)
  * 
  * 아이디와 비밀번호를 입력하고 로그인 버튼을 누를 시 DB와 일치하는지 확인한 후
- * 일치할 경우 메인페이지로 이동 (미구현)
+ * 일치할 경우 이전 페이지로 이동 (완료)
  * 
  * 회원가입, 아이디/비밀번호 찾기 버튼 클릭 시 해당 페이지로 이동 (일부 구현)
  * 
@@ -84,14 +84,16 @@ const Login = () =>
                 body: JSON.stringify(loginForm),
             });
     
-            if (response.ok) {
+            if (response.ok) 
+            {
                 const contentType = response.headers.get("Content-Type");
                 let responseData;
     
                 if (contentType && contentType.includes("application/json")) 
                 {
                     responseData = await response.json();
-                    console.log("Response JSON:", responseData);
+                    // 백엔드에서 넘어오는 데이터 확인
+                    // console.log("Response JSON:", responseData);
                 } 
                 else 
                 {
@@ -103,25 +105,25 @@ const Login = () =>
                 sessionStorage.setItem("userId", loginForm.id);
                 sessionStorage.setItem("userCode", responseData.userCode); // Store userCode
                 sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
-    
+                sessionStorage.setItem("userNickname", responseData.nickname);
                 setIsLoggedIn(true);
-                navigate("/"); // Navigate to the main page or dashboard
-            } else {
-                console.error("Login failed");
+                navigate(-1); // Navigate to the previous page
+            } 
+            else 
+            {
                 alert("아이디 또는 비밀번호가 일치하지 않습니다.");
             }
         } catch (error) {
-            console.error("Error logging in:", error);
+            // console.error("Error logging in:", error);
             alert("로그인 중 오류가 발생했습니다.");
         }
     };
-    
-    const handleLogout = () => 
+
+    // 로그인 된 상태에서는 로그인 페이지 진입 불가능
+    if(isLoggedIn)
     {
-        sessionStorage.clear(); // Clear all session storage
-        setIsLoggedIn(false);
-        navigate("/member/login"); // Redirect to login page
-    };
+        navigate(-1);
+    }
 
     return (
         <div className="login-form">
@@ -129,7 +131,6 @@ const Login = () =>
                 <h3 className="subtitle">로그인</h3>
                 <hr className="line" />
                 <span className="message">로그인 후 이용해주세요.</span>
-                {/* {!isLoggedIn ? ( */}
                     <form className="login-group" id="loginForm" method="post" onSubmit={handleSubmit}>
                         <div className="item">
                             <div className="inputs-wrapper">
@@ -156,6 +157,7 @@ const Login = () =>
                             <button
                                 type="submit"
                                 className="login-button"
+                                // onClick={() => navigate(-1)}
                                 disabled={!loginForm.id || !loginForm.password}
                             >
                                 로그인
@@ -172,14 +174,6 @@ const Login = () =>
                             <span>아이디 저장</span>
                         </label>
                     </form>
-                {/* ) : (
-                    <div>
-                        <h3>로그인 상태입니다.</h3>
-                        <button className="login-button2" onClick={handleLogout}>
-                            로그아웃
-                        </button>
-                    </div>
-                )} */}
                 {!isLoggedIn && (
                     <>
                         <span className="description">아직 회원이 아니신가요?</span>

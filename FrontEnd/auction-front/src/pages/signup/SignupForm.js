@@ -9,13 +9,14 @@
  * 
  * <form> 요구사항:
  * 1) <input> 우측 dynamic 메시지를 통한 값 요구사항 표시 (완료)
- * 2) <button>과 <input> 상호작용 추가 필요 (미구현)
+ * 2) 일부 항목에 대한 중복확인 절차 추가 (완료)
  * 
  * Nov 15:
  * formFields 폴더 생성, <label> 별로 파일 분리
  */
 
-import { useState } from 'react';
+// import GenderInput from './formFields/GenderInput';
+import { useState, useEffect } from 'react';
 import "../../css/SignupForm.css";
 import { useSignupContext } from "./SignupContext";
 import IdInput from './formFields/IdInput';
@@ -27,14 +28,12 @@ import BirthInput from './formFields/BirthInput';
 import EmailInput from './formFields/EmailInput';
 import PhoneInput from './formFields/PhoneInput';
 import AddressInput from './formFields/AddressInput';
-// import GenderInput from './formFields/GenderInput';
 
 const SignupForm = () => 
 {
     const { setCurrentStep, marketingPreferences } = useSignupContext();
     const { sendEmail, sendMessage } = marketingPreferences;
 
-    // Form state initialization
     const [formData, setFormData] = useState(
     {
         id: '',
@@ -45,18 +44,18 @@ const SignupForm = () =>
         phone: { areaCode: '', middle: '', last: '' },
         address: '',
         birth: '',
-        // gender: '',
         nickname: '',
     });
     const [success, setSuccess] = useState(false);
+    const [formValid, setFormValid] = useState(false);
 
     // Generalized change handler
     const handleChange = (e) => 
     {
         if (!e || !e.target) return;
-    
+
         const { name, value } = e.target;
-    
+
         setFormData((prevData) => 
         {
             return { ...prevData, [name]: value };
@@ -72,6 +71,26 @@ const SignupForm = () =>
             address: `[${addressData.zipCode}] ${addressData.roadAddress} ${addressData.detailAddress} (${addressData.extraAddr})`,
         }));
     };
+
+    // Validation function
+    useEffect(() => 
+    {
+        const isValid = 
+            formData.id.trim() !== '' &&
+            formData.password.trim() !== '' &&
+            formData.confirmPassword.trim() !== '' &&
+            formData.password === formData.confirmPassword &&
+            formData.name.trim() !== '' &&
+            formData.email.trim() !== '' &&
+            formData.nickname.trim() !== '' &&
+            formData.birth.trim() !== '' &&
+            formData.address.trim() !== '' &&
+            formData.phone.areaCode.trim() !== '' &&
+            formData.phone.middle.trim() !== '' &&
+            formData.phone.last.trim() !== '';
+        
+        setFormValid(isValid);
+    }, [formData]); // Validate whenever `formData` changes
 
     // Form submission handler
     const handleSubmit = async (e) => 
@@ -101,13 +120,10 @@ const SignupForm = () =>
             if (response.ok) 
             {
                 setSuccess(true);
-            } 
-            else 
-            {
-                console.error(`회원가입 실패: ${response.statusText}`);
             }
-        } catch (err) {
-            console.error("DB 저장 실패:", err);
+        } catch (err) 
+        {
+            // console.error(err);
         }
     };
 
@@ -150,7 +166,9 @@ const SignupForm = () =>
                 /> */}
                 {/* <GenderInput value={formData.gender} onChange={handleChange} /> */}
                 <div className="button-wrapper">
-                    <button type="submit" className="auth-link">가입하기</button>
+                    <button type="submit" className={`auth-link ${formValid ? "" : "disabled"}`} disabled={!formValid}>
+                        가입하기
+                    </button>
                 </div>
             </form>
             {/* 마케팅 수신 동의 확인용 */}

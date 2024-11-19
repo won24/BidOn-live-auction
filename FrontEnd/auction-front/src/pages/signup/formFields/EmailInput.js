@@ -62,7 +62,6 @@ const EmailInput = ({ value, onChange }) =>
                     value={emailId}
                     onChange={handleEmailIdChange}
                     style={{ width: "120px" }}
-                    required
                 />
                 <span>@</span>
                 <input

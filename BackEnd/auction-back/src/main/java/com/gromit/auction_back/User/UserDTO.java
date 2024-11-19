@@ -34,5 +34,5 @@ public class UserDTO
     private boolean sendEmail;
     private boolean sendMessage;
 
-    public UserDTO(String id, int userCode, Boolean isAdmin) {}
+    public UserDTO(String id, int userCode, Boolean isAdmin, String nickname) {}
 }

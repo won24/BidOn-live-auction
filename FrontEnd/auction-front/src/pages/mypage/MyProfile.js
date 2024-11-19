@@ -16,8 +16,8 @@ const MyProfile = () => {
             // 서버에서 사용자 정보를 불러오는 함수 정의
             try {
                 const response = await fetch("http://localhost:8080/mypage/myprofile", {
-                    // 서버로 GET 요청 보내기
-                    method: "GET",
+                    // 서버로 POST 요청 보내기
+                    method: "POST",
                 });
                 const data = await response.json();
                 // 서버로부터 받은 응답 데이터를 JSON 형식으로 변환

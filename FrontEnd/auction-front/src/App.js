@@ -42,7 +42,7 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="/mypage" element={<MyPageLayout />} >
+                    <Route path="/mypage/*" element={<MyPageLayout />} >
                         <Route path="mynotice" element={<MyNotice/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>

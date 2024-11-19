@@ -90,7 +90,7 @@ const MyFar = () => {
                 <tbody>
                 {favorites.map((favorite, index) => (
                     <tr key={favorite.id}>
-                        <td>{index + 1}</td>
+                        <td key={index}>{index + 1}</td>
                         <td>{favorite.name}</td>
                         <td>
                             <button

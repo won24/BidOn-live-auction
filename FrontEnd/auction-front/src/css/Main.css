@@ -99,18 +99,18 @@ hr {
 }
 
 .antiqueContainer a {
-    background-image: url("../../assets/antique.png");
+    background-image: url("../assets/antique.png");
 }
 .limitedContainer a{
-    background-image: url("../../assets/limited.png");
+    background-image: url("../assets/limited.png");
 }
 .discontinuationContainer a {
-    background-image: url("../../assets/discontinuation.png");
+    background-image: url("../assets/discontinuation.png");
 }
 .artproductContainer a {
-    background-image: url("../../assets/artproduct.png");
+    background-image: url("../assets/artproduct.png");
 }
 .valauablesContainer a {
-    background-image: url("../../assets/valuables.png");
+    background-image: url("../assets/valuables.png");
 }
 

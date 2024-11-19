@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import * as api from "../../../apis/AuctionItem";
 import {useEffect, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
+import '../../../css/AuctionDetail.css'
 
 
 const AuctionDetailPage = () =>{
@@ -10,20 +11,9 @@ const AuctionDetailPage = () =>{
     const [board, setBoard] = useState({});
     const [postStatus, setPostStatus] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-
-
-    const [loginTest,setLoginTest] = useState({
-        UserCode: 7,
-        Id: 'user7', Password: 'password7',
-        Name: '나야,오류', email: 'user7@example.com',
-        phone: '010-7777-7777', birthDate: '1996-07-07',
-        address: '울산시 남구', cash: 7000, gender: '남',
-        isAdult: 'y',isAdmin: 'n', nickName: 'nickname7',
-        isSuspended: 'n'
-    });
-
+    const userCode = sessionStorage.getItem("userCode");
     const [fav, setFav] = useState({
-        userCode: loginTest.UserCode,
+        userCode: userCode,
         status: false
     })
 
@@ -58,19 +48,19 @@ const AuctionDetailPage = () =>{
 
     const favorite = async () => {
         try {
-            if (loginTest.UserCode === null) {
+            if (userCode === null) {
                 alert("로그인이 필요합니다.");
                 return;
             }
 
             if (fav.status === false) {
-                console.log(`${loginTest.UserCode}, 즐겨찾기 추가 요청`);
-                await api.addFavorite(postId, loginTest.UserCode);
-                updateFavoriteStatus(loginTest.UserCode, true);
-            } else if (fav.status === true && loginTest.UserCode === fav.userCode) {
-                console.log(`${loginTest.UserCode}, 즐겨찾기 해제 요청`);
-                await api.deleteFavorite(postId, loginTest.UserCode);
-                updateFavoriteStatus(loginTest.UserCode, false);
+                console.log(`${userCode}, 즐겨찾기 추가 요청`);
+                await api.addFavorite(postId, userCode);
+                updateFavoriteStatus(userCode, true);
+            } else if (fav.status === true && userCode === fav.userCode) {
+                console.log(`${userCode}, 즐겨찾기 해제 요청`);
+                await api.deleteFavorite(postId, userCode);
+                updateFavoriteStatus(userCode, false);
             }
         } catch (error) {
             console.error(
@@ -93,9 +83,9 @@ const AuctionDetailPage = () =>{
             case "off":
                 return (
                     <>
-                        <h2>{board.title}</h2>
-                        <button onClick={favorite}>즐겨찾기</button>
-                        <p>경매 에정</p>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button onClick={favorite} className="favBtn">즐겨찾기</button>
+                        <p className="boardStatus">경매 에정</p>
                         <hr/>
                         <img
                             className="itemImg"
@@ -103,13 +93,13 @@ const AuctionDetailPage = () =>{
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
-                        <p>입찰 시작가</p>
-                        <p>{board.startCash}</p>
-                        <p>경매 날짜</p>
-                        <p>{board.startDay}</p>
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{board.startDay}</p>
                         <hr/>
-                        <p>상세 정보</p>
-                        <p>{board.content}</p>
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
                         <img className="boardContentImg"
                              src={board.imageUrl}
                              alt={`${board.title}의 상세 이미지`}
@@ -120,9 +110,9 @@ const AuctionDetailPage = () =>{
             case "done":
                 return (
                     <>
-                        <h2>{board.title}</h2>
-                        <p>낙찰 완료</p>
-                        <button onClick={favorite}>즐겨찾기</button>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button onClick={favorite} className="favBtn">즐겨찾기</button>
+                        <p className="boardStatus">낙찰 완료</p>
                         <hr/>
                         <img
                             className="itemImg"
@@ -130,15 +120,15 @@ const AuctionDetailPage = () =>{
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
-                        <p>최종 낙찰가</p>
-                        <p>{board.finalCash}</p>
-                        <p>입찰 시작가</p>
-                        <p>{board.startCash}</p>
-                        <p>경매 날짜</p>
-                        <p>{board.startDay}</p>
+                        <p className="finalCashText">최종 낙찰가</p>
+                        <p className="finalCash">{board.finalCash}</p>
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{board.startDay}</p>
                         <hr/>
-                        <p>상세 정보</p>
-                        <p>{board.content}</p>
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
                         <img className="boardContentImg"
                              src={board.imageUrl}
                              alt={`${board.title}의 상세 이미지`}
@@ -147,7 +137,7 @@ const AuctionDetailPage = () =>{
                     </>
                 )
             default:
-                return  <p>해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
+                return  <p className="boardText">해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
         }
     }
 
@@ -155,7 +145,7 @@ const AuctionDetailPage = () =>{
     return (
         <>
             <div>
-                {isLoading ? <p>해당 경매품의 상세 페이지를 가져오는 중입니다.</p> : showDetailPage(postStatus)}
+                {isLoading ? <p className="boardText">해당 경매품의 상세 페이지를 가져오는 중입니다.</p> : showDetailPage(postStatus)}
             </div>
         </>
     )

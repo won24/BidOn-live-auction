@@ -26,4 +26,21 @@
         u.UserCode = #{userCode}
     </select>
 
+
+    <!--즐겨찾기 추가-->
+    <insert id="addFav" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        INSERT
+            INTO favorites
+            ( user_code, post_id )
+        VALUES
+            ( #{userCode}, #{postId} )
+    </insert>
+
+<!--    즐겨찾기 삭제 -->
+    <delete id="deleteFav" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        DELETE
+            FROM favorites
+        WHERE user_code = #{userCode} AND post_id = #{postId}
+    </delete>
+
 </mapper>

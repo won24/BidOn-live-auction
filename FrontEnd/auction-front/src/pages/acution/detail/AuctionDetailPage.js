@@ -12,7 +12,7 @@ const AuctionDetailPage = () =>{
     const [isLoading, setIsLoading] = useState(true);
 
 
-    const [logintest,setLoginTest] = useState({
+    const [loginTest,setLoginTest] = useState({
         UserCode: 7,
         Id: 'user7', Password: 'password7',
         Name: '나야,오류', email: 'user7@example.com',
@@ -21,6 +21,12 @@ const AuctionDetailPage = () =>{
         isAdult: 'y',isAdmin: 'n', nickName: 'nickname7',
         isSuspended: 'n'
     });
+
+    const [fav, setFav] = useState({
+        userCode: loginTest.UserCode,
+        status: false
+    })
+
 
     const getBoard = async () => {
 
@@ -38,16 +44,45 @@ const AuctionDetailPage = () =>{
         }
     };
 
-
     useEffect( () => {
         getBoard()
     },[])
 
-    const addFavorite = () =>{
 
-        alert("즐겨찾기에 추가 되었습니다.")
-     //   getBoard(); // 즐겨찾기 업데이트해서 데이터 가져오기
-    }
+
+    // 즐겨 찾기
+    const updateFavoriteStatus = (userCode, status) => {
+        setFav({ userCode, status });
+        console.log(`${userCode}, ${status ? "즐겨찾기 추가 성공" : "즐겨찾기 해제"}`);
+    };
+
+    const favorite = async () => {
+        try {
+            if (loginTest.UserCode === null) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            if (fav.status === false) {
+                console.log(`${loginTest.UserCode}, 즐겨찾기 추가 요청`);
+                await api.addFavorite(postId, loginTest.UserCode);
+                updateFavoriteStatus(loginTest.UserCode, true);
+            } else if (fav.status === true && loginTest.UserCode === fav.userCode) {
+                console.log(`${loginTest.UserCode}, 즐겨찾기 해제 요청`);
+                await api.deleteFavorite(postId, loginTest.UserCode);
+                updateFavoriteStatus(loginTest.UserCode, false);
+            }
+        } catch (error) {
+            console.error(
+                `${fav.status === false ? "즐겨찾기 추가" : "즐겨찾기 해제"} 중 오류:`,
+                error
+            );
+        }
+    };
+
+    useEffect(() => {
+        console.log("즐겨찾기 상태 업데이트:", fav);
+    }, [fav]);
 
 
     const showDetailPage = (postStatus) =>{
@@ -59,7 +94,7 @@ const AuctionDetailPage = () =>{
                 return (
                     <>
                         <h2>{board.title}</h2>
-                        <button onClick={addFavorite}>즐겨찾기</button>
+                        <button onClick={favorite}>즐겨찾기</button>
                         <p>경매 에정</p>
                         <hr/>
                         <img
@@ -87,7 +122,7 @@ const AuctionDetailPage = () =>{
                     <>
                         <h2>{board.title}</h2>
                         <p>낙찰 완료</p>
-                        <button onClick={addFavorite}>즐겨찾기</button>
+                        <button onClick={favorite}>즐겨찾기</button>
                         <hr/>
                         <img
                             className="itemImg"

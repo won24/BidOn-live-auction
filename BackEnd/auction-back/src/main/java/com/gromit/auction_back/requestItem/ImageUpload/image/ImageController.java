@@ -67,8 +67,14 @@ public class ImageController {
     private String saveFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(uploadDir, fileName);
-        Files.createDirectories(filePath.getParent());
-        Files.write(filePath, file.getBytes());
+
+        // 로그 추가
+        System.out.println("파일 저장 경로: " + filePath.toString());
+
+        Files.createDirectories(filePath.getParent()); // 디렉토리 생성
+        Files.write(filePath, file.getBytes()); // 파일 저장
+        System.out.println("파일 저장 완료: " + fileName);
+
         return fileName;
     }
 }

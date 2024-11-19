@@ -1,13 +1,11 @@
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
 import Login from "./pages/login/Login";
 import Main from "./pages/main/Main";
-import Auction from "./pages/acution/Auction";
 import { FailPage } from "./pages/tosspay/TosspayFail";
 import { SuccessPage } from "./pages/tosspay/TosspaySuccess";
 import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
@@ -20,16 +18,14 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup from "./pages/signup/Signup";
-import MyPageLayout from "./components/header/MyPageLayout";
-import MyNotice from "./pages/mypage/MyNotice";
-import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
-import MyFar from "./pages/mypage/MyFar";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyNotice from "./pages/mypage/MyNotice";
 import MyPageLayout from "./components/header/MyPageLayout";
 import PersonalInquire from "./pages/customer/PersonalInquire";
+import AllList from "./pages/acution/All";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 
 
 
@@ -57,6 +53,7 @@ function App() {
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
+                        <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>

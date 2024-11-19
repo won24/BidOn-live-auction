@@ -1,5 +1,5 @@
 /**
- * Signup1.js (도메인 및 파일명 수정 예정)
+ * Signup1.js -> SignupTerms.js
  * - 회원가입 과정 중 필수 및 선택 사항 동의에 대한 부분을 담당
  * 
  * Nov 11,
@@ -26,17 +26,17 @@
  * Nov 13,
  * '다음으로' 버튼 클릭 시,
  * 1) 동의한 [선택] 항목에 대한 정보를 useContext를 이용하여 SignupForm.js 파일로 전달 (완료)
- * 2) 다음으로 버튼이 사라지며 정보입력 폼이 하단에 등장
+ * 2) 다음으로 버튼이 사라지며 정보입력 폼이 하단에 등장 (완료)
+ * 3) 정보입력 폼이 한 화면에 보이도록 자동 스크롤 (완료)
  * X) 회원가입에 필요한 정보 입력 페이지로 이동 (취소)
  */
 
-import { useState, useEffect } from "react";
-import "../../css/Signup1.css";
+import { useState, useEffect, useRef } from "react";
+import "../../css/SignupTerms.css";
 import { useSignupContext } from './SignupContext';
-import { SignupSequence } from "./SignupSequence";
 import SignupForm from "./SignupForm";
 
-const Signup1 = () => 
+const SignupTerms = () => 
 {
     // States for checkbox control
     const [agreeTerms, setAgreeTerms] = useState(false);
@@ -49,6 +49,7 @@ const Signup1 = () =>
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const { setCurrentStep, setMarketingPreferences } = useSignupContext();
+    const formContainerRef = useRef(null);
 
     const goToNextStep = () => 
     {
@@ -131,6 +132,21 @@ const Signup1 = () =>
         });
     }, []);
 
+    // Scroll to the signup form container when the button is clicked
+    useEffect(() => 
+    {
+        if (buttonClicked) 
+        {
+            const timeoutId = setTimeout(() => 
+            {
+                formContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 1); // 1ms delay
+
+            // Clear the timeout on cleanup
+            return () => clearTimeout(timeoutId);
+        }
+    }, [buttonClicked]);
+
     const embedHtml = (src) => (
     {
         __html: `<embed src="${src}" width="100%" height="450px" style="border: none;"/>`,
@@ -138,14 +154,13 @@ const Signup1 = () =>
 
     return (
         <div className="signup-container">
-            <h2 className="title">회원가입</h2>
-            <SignupSequence />
             <h3 className="subtitle">약관동의</h3>
             <hr className="line" />
-
+            <span className="message">회원가입을 위해 아래의 필수 약관에 모두 동의해주세요.</span>
             <label className="agree-all">
                 <input
                     type="checkbox"
+                    id="agreeAll"
                     checked={agreeAll}
                     onChange={handleAgreeAllChange}
                     disabled={isDisabled}
@@ -159,6 +174,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreeTerms"
                         checked={agreeTerms}
                         onChange={(e) => handleIndividualChange(setAgreeTerms, e.target.checked, e, "terms")}
                         disabled={isDisabled}
@@ -173,6 +189,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreePrivacy"
                         checked={agreePrivacy}
                         onChange={(e) => handleIndividualChange(setAgreePrivacy, e.target.checked, e, "privacy")}
                         disabled={isDisabled}
@@ -185,6 +202,7 @@ const Signup1 = () =>
                 <label className="individual-checkbox-container">
                     <input
                         type="checkbox"
+                        id="agreeMarketing"
                         checked={agreeMarketing}
                         onChange={handleMarketingChange}
                         disabled={isDisabled}
@@ -198,6 +216,7 @@ const Signup1 = () =>
                     <label>
                         <input
                             type="checkbox"
+                            id="sendEmail"
                             checked={sendEmail}
                             onChange={(e) => handleMarketingIndividualChange(setSendEmail, e.target.checked)}
                             disabled={isDisabled}
@@ -207,6 +226,7 @@ const Signup1 = () =>
                     <label>
                         <input
                             type="checkbox"
+                            id="sendMessage"
                             checked={sendMessage}
                             onChange={(e) => handleMarketingIndividualChange(setSendMessage, e.target.checked)}
                             disabled={isDisabled}
@@ -226,7 +246,7 @@ const Signup1 = () =>
                         <span>다음으로</span>
                     </button>
                 ) : (
-                    <div className="signup-form-container">
+                    <div className="signup-form-container" ref={formContainerRef}>
                         <SignupForm />
                     </div>
                 )}
@@ -235,4 +255,4 @@ const Signup1 = () =>
     );
 };
 
-export default Signup1;
+export default SignupTerms;

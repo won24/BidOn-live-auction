@@ -6,7 +6,6 @@ import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
 import Login from "./pages/login/Login";
 import Main from "./pages/main/Main";
-import Auction from "./pages/acution/Auction";
 import { FailPage } from "./pages/tosspay/TosspayFail";
 import { SuccessPage } from "./pages/tosspay/TosspaySuccess";
 import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
@@ -18,13 +17,15 @@ import Limited from "./pages/acution/Limited";
 import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
-import Signup1 from "./pages/signup/Signup1";
-import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
-import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import Signup from "./pages/signup/Signup";
 import MyFar from "./pages/mypage/MyFar";
+import OnlyFooterLayout from "./components/OnlyFooterLayout";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyNotice from "./pages/mypage/MyNotice";
 import MyPageLayout from "./components/header/MyPageLayout";
+import PersonalInquire from "./pages/customer/PersonalInquire";
+import AllList from "./pages/acution/All";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 
 
 
@@ -35,7 +36,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
-                    <Route path="auction" element={<Auction />} />
+                    <Route path="auction" element={<AllList />} />
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
@@ -48,18 +49,17 @@ function App() {
                         <Route path="myfar" element={<MyFar/>}/>
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup1" element={<Signup1 />} />
                     <Route path="/customer" element={<CustomerLayout />}>
                         <Route index element={<FAQ />} />
                         <Route path="faq" element={<FAQ/>} />
                         <Route path="personal" element={<Personal />} />
+                        <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
                 </Route>
                 <Route path ="/member" element={<OnlyFooterLayout/>}>
                         <Route path="login" element={<Login />} />
-                        <Route path="signup1" element={<Signup1 />} />
+                        <Route path="signup" element={<Signup/>} />
                 </Route>
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />

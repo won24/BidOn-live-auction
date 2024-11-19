@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -19,6 +19,7 @@ public class AuctionController {
         this.auctionService = auctionService;
     }
 
+    // 전체 / 카테고리별 리스트 받아오기
     @GetMapping
     public List<AuctionDTO> auctionList(){
         List<AuctionDTO> auctionList = auctionService.getAllList();
@@ -61,10 +62,11 @@ public class AuctionController {
         return auctionList;
     }
 
+
+    // 게시글 상세 조회
     @GetMapping("/{postId}")
     public ResponseEntity<?> getAuctionDetail(@PathVariable int postId){
-        // 조회수
-//        auctionService.updateHits(postId);
+
         try {
             AuctionDTO auctionDTO = auctionService.detail(postId);
             System.out.println("디테일"+auctionDTO);
@@ -85,18 +87,19 @@ public class AuctionController {
     }
 
 
-    @GetMapping("/auction/antique")
-    public ResponseEntity<List<AuctionDTO>> searchItems(@RequestParam(required = false) String q) {
-        System.out.println("검색어 : " + q);
+    // 카테고리 내에서 검색한 리스트
+    @GetMapping("/search")
+    public ResponseEntity<List<AuctionDTO>> searchItems(@RequestParam(required = false) String q,
+                                                        @RequestParam(required = false) String categoryCode) {
 
-        if (q == null || q.trim().isEmpty()) {
-            System.out.println("검색 실패");
-            List<AuctionDTO> allItems = auctionService.getAllList();  // 전체 리스트 반환
-            return ResponseEntity.ok(allItems);
-        }
+        System.out.println("categoryCode = " + categoryCode);
 
         try {
-            List<AuctionDTO> items = auctionService.searchItems(q);
+            String decodedQ = URLDecoder.decode(q, "UTF-8");
+            System.out.println(decodedQ);
+
+            List<AuctionDTO> items = auctionService.searchItems(decodedQ,categoryCode);
+            System.out.println(items);
             return ResponseEntity.ok(items);
         } catch (Exception e) {
             System.out.println("에러 발생: " + e.getMessage());
@@ -104,8 +107,20 @@ public class AuctionController {
         }
     }
 
+    // 전체 리스트에서 검색
+    @GetMapping("/searchitem")
+    public ResponseEntity<List<AuctionDTO>> searchItemAllCategory(@RequestParam(required = false) String q){
+        try {
+            String decodedQ = URLDecoder.decode(q, "UTF-8");
+            System.out.println(decodedQ);
 
-
-
+            List<AuctionDTO> items = auctionService.searchItemAllCategory(decodedQ);
+            System.out.println(items);
+            return ResponseEntity.ok(items);
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 }

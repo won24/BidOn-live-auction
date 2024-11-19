@@ -16,13 +16,14 @@
 {
     width: 100%;
     max-width: 1200px;
-    margin: 20px auto; /* Centers the line */
+    margin: 20px 0px auto; /* Centers the line */
     border: 1px solid #ccc; /* Customize as needed */
 }
 
 
 .form-group 
 {
+    margin-top: 4px;
     margin-bottom: 15px;
     width: 100%; /* Full-width for better alignment */
     margin-left: auto;
@@ -37,7 +38,7 @@
     font-weight: bold;
 }
 
-.form-group input 
+.form-group input
 {
     width: 100%;
     max-width: 400px;
@@ -45,6 +46,22 @@
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.form-group select
+{
+    width: 100%;
+    max-width: 400px;
+     /* Ensures input fields don't exceed 400px */
+    padding: 7px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .button-wrapper 
@@ -55,7 +72,7 @@
     margin-top: 20px;
 }
 
-.signup-button 
+/* .signup-button 
 {
     width: 112.88px;
     height: 48px;
@@ -70,30 +87,96 @@
     transition: background-color 0.3s ease;
     text-decoration: none;
     margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .signup-button:hover 
 {
     background-color: #000;
-}
-
-.error-message 
-{
-    color: red;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.success-message 
-{
-    color: green;
-    text-align: center;
-    margin-top: 10px;
-}
+} */
 
 .input-description 
 {
     margin-left: 10px;
     font-size: 0.85em;
     color: #666;
+}
+
+.message
+{
+    font-size: 0.75em;
+    color: #777;
+}
+
+.check-button
+{
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #343434;
+    /* 버튼의 배경 색상 */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    /* 입력 필드와 버튼 사이의 간격 */
+    transition: background-color 0.3s ease;
+    width: 79px;
+    height: 33px;
+}
+
+.check-button:hover 
+{
+    background-color: #000;
+    /* 버튼에 마우스를 올렸을 때의 배경 색상 변경 */
+}
+
+.auth-email-button
+{
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #343434;
+    /* 버튼의 배경 색상 */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1px;
+    padding-top: 2px;
+    padding-bottom: 6px;
+    /* 입력 필드와 버튼 사이의 간격 */
+    transition: background-color 0.3s ease;
+    width: 99px;
+    height: 33px;
+}
+
+.auth-email-button:hover 
+{
+    background-color: #000;
+    /* 버튼에 마우스를 올렸을 때의 배경 색상 변경 */
+}
+
+.auth-phone-button
+{
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #343434;
+    /* 버튼의 배경 색상 */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    /* 입력 필드와 버튼 사이의 간격 */
+    transition: background-color 0.3s ease;
+    width: 114px;
+    height: 33px;
+}
+
+.auth-phone-button:hover 
+{
+    background-color: #000;
+    /* 버튼에 마우스를 올렸을 때의 배경 색상 변경 */
 }

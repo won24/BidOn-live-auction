@@ -9,14 +9,14 @@
             startDAY,
             categoryCode,
             userCode,
-            currentCash
+            startCash
         ) VALUES (
                      #{title},
                      #{content},
                      #{date},
                      #{categoryCode},
                      #{userCode},
-                     #{currentCash}
+                     #{startCash}
                  )
     </insert>
 </mapper>

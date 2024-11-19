@@ -12,48 +12,42 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import "../../css/Login.css";
 
-const Login = () => 
-{
+const Login = () => {
     const navigate = useNavigate();
 
-    const goToSignup = () => 
-    {
-        navigate("/member/signup1");
-    }
+    const goToSignup = () => navigate("/member/signup");
 
     const [loginForm, setLoginForm] = useState(
     {
-        userId: "",
-        userPassword: "",
+        id: "",
+        password: "",
     });
-      
-    /* 아이디 기억하기 */
+
     const [isRemember, setIsRemember] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["rememberUserId"]);
-    
-    // Load cookie on initial render if `loginForm.userId` is empty
+
+    // Load cookie on initial render if `loginForm.id` is empty
     useEffect(() => 
     {
-        if (!loginForm.userId && cookies.rememberUserId) 
+        if (!loginForm.id && cookies.rememberUserId) 
         {
-            setLoginForm((prevForm) => ({ ...prevForm, userId: cookies.rememberUserId }));
+            setLoginForm((prevForm) => ({ ...prevForm, id: cookies.rememberUserId }));
             setIsRemember(true);
         }
-    }, [cookies.rememberUserId]);  // Dependency on cookie to ensure it updates when cookie changes
+    }, [cookies.rememberUserId]);
 
     const handleOnChange = (e) => 
     {
-        // Toggle checkbox state
-        setIsRemember(e.target.checked);
-        if (e.target.checked) 
+        const isChecked = e.target.checked;
+        setIsRemember(isChecked);
+        if (isChecked) 
         {
-            // Save userId in cookie with 30-day expiration
-            setCookie("rememberUserId", loginForm.userId, { maxAge: 2592000 });
+            setCookie("rememberUserId", loginForm.id, { maxAge: 2592000 });
         }
-        else
+        else 
         {
-            // Remove cookie if unchecked
             removeCookie("rememberUserId");
         }
     };
@@ -64,62 +58,71 @@ const Login = () =>
         setLoginForm((prevForm) => ({ ...prevForm, [name]: value }));
 
         // Update cookie when `isRemember` is true
-        if (name === "userId" && isRemember) 
+        if (name === "id" && isRemember) 
         {
             setCookie("rememberUserId", value, { maxAge: 2592000 });
         }
     };
 
     return (
-        <>
-            <h1>로그인</h1>
+        <div className="login-form">
             <div className="login-div">
+                <h3 className="subtitle">로그인</h3>
+                <hr className="line" />
+                <span className="message">로그인 후 이용해주세요.</span>
                 <form className="login-group" id="loginForm" method="post">
                     <div className="item">
-                        <input 
-                            type="text" 
-                            name="userId" 
-                            id="usrId" 
-                            className="form-control" 
-                            placeholder="아이디" 
-                            value={loginForm.userId} 
+                        <input
+                            type="text"
+                            name="id"
+                            id="usrId"
+                            className="form-control"
+                            placeholder="아이디"
+                            value={loginForm.id}
                             onChange={handleInputChange}
+                            maxLength={15}
                         />
                     </div>
                     <div className="item">
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="userPassword" 
-                            className="form-control" 
-                            placeholder="비밀번호" 
-                            value={loginForm.userPassword} 
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            className="form-control"
+                            placeholder="비밀번호"
+                            value={loginForm.password}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div className="check-item">
-                        <input 
-                            type="checkbox" 
-                            className="form-check-input" 
-                            id="saveId" 
-                            onChange={handleOnChange} 
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="saveId"
+                            onChange={handleOnChange}
                             checked={isRemember}
                         />
                         <label htmlFor="saveId">아이디 저장</label>
                     </div>
-                    <div className="btn-item">
-                        <button type="submit" className="login-btn">로그인</button>
+                    <div className="login-button-wrapper">
+                        <button type="submit" className="login-button">
+                            로그인
+                        </button>
                     </div>
                 </form>
+                <div className="login-button-wrapper">
+                    <button className="login-button" onClick={goToSignup}>
+                        회원가입
+                    </button>
+                </div>
+                <div className="login-button-wrapper">
+                    <button className="login-button">
+                        아이디/비밀번호 찾기
+                    </button>
+                </div>
             </div>
-            <div className="btn-item">
-                <button className="signup-btn" onClick={goToSignup}>회원가입</button>
-            </div>
-            <div className="btn-item">
-                <button className="find-my-idpw-btn">아이디/비밀번호 찾기</button>
-            </div>
-        </>
+        </div>
     );
-}
+};
 
 export default Login;

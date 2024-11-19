@@ -15,12 +15,12 @@ public class AuctionDTO {
     private String title;
     private String categoryCode;
     private String content;
-    private String imageUrl;
-    private Date createAt;
+    private Date createdAt;
     private String postStatus;
     private Date startDay;
     private Date endDay;
     private int userCode;
-    private int currentCash;
-
+    private int startCash;
+    private int finalCash;
+    private String imageUrl;
 }

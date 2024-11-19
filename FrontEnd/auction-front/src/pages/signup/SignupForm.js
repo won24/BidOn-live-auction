@@ -1,31 +1,40 @@
 /**
- * SignupForm.js
+ * Signup2.js -> SignupForm.js
  * - 회원가입 과정 중 회원 정보 입력 부분을 담당
  * 
- * Nov 13,
- * Signup1(가칭)에서 '다음으로' 버튼 클릭 시 해당 위치에 생성되며,
- * 각 <label>에 해당하는 요소를 입력 받음.
+ * Nov 13:
+ * 1) '다음으로' 버튼 클릭 시 <form> 생성 (완료)
+ * 2) 각 <label>에 해당하는 입력 요소를 포함한 <form> 표시 (완료)
+ * 3) useRef 이용, 자동 스크롤 처리 (완료)
  * 
- * 현재 에러 메시지는 '가입하기' 버튼 위에 출력되나, 변경 예정
+ * <form> 요구사항:
+ * 1) <input> 우측 dynamic 메시지를 통한 값 요구사항 표시 (완료)
+ * 2) <button>과 <input> 상호작용 추가 필요 (미구현)
  * 
- * 입력 받는 순서 변경 가능
- * 1) 아이디: 
- * 2) 비밀번호: 
- * 3) 비밀번호 확인: 비밀번호와 똑같은 값이 입력되어야 하며, 불일치 시 에러 메시지 출력 (완료)
- * 
- * 피자 먹으면서 축구 봐야 되니까 내일 마저 씀
+ * Nov 15:
+ * formFields 폴더 생성, <label> 별로 파일 분리
  */
 
 import { useState } from 'react';
 import "../../css/SignupForm.css";
 import { useSignupContext } from "./SignupContext";
-import Postcode from './Postcode';
+import IdInput from './formFields/IdInput';
+import PasswordInput from './formFields/PasswordInput';
+import ConfirmPasswordInput from './formFields/ConfirmPasswordInput';
+import NameInput from './formFields/NameInput';
+import NicknameInput from './formFields/NicknameInput';
+import BirthInput from './formFields/BirthInput';
+import EmailInput from './formFields/EmailInput';
+import PhoneInput from './formFields/PhoneInput';
+import AddressInput from './formFields/AddressInput';
+// import GenderInput from './formFields/GenderInput';
 
 const SignupForm = () => 
 {
-    const { marketingPreferences } = useSignupContext();
+    const { setCurrentStep, marketingPreferences } = useSignupContext();
     const { sendEmail, sendMessage } = marketingPreferences;
 
+    // Form state initialization
     const [formData, setFormData] = useState(
     {
         id: '',
@@ -33,154 +42,103 @@ const SignupForm = () =>
         confirmPassword: '',
         name: '',
         email: '',
-        phone: '',
-        address: '', // This will now be set by Postcode
+        phone: { areaCode: '', middle: '', last: '' },
+        address: '',
         birth: '',
-        gender: '',
+        // gender: '',
         nickname: '',
     });
-    const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    // Generalized change handler
     const handleChange = (e) => 
     {
+        if (!e || !e.target) return;
+    
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    
+        setFormData((prevData) => 
+        {
+            return { ...prevData, [name]: value };
+        });
     };
 
-    const handleAddressSelect = (address) => 
+    // Address selection handler
+    const handleAddressSelect = (addressData) => 
     {
-        setFormData({ ...formData, address });
+        setFormData((prevData) => (
+        {
+            ...prevData,
+            address: `[${addressData.zipCode}] ${addressData.roadAddress} ${addressData.detailAddress} (${addressData.extraAddr})`,
+        }));
     };
 
+    // Form submission handler
     const handleSubmit = async (e) => 
     {
         e.preventDefault();
-        setError(null);
 
-        if (formData.password !== formData.confirmPassword) 
+        const phoneNumber = `${formData.phone.areaCode}-${formData.phone.middle}-${formData.phone.last}`;
+        const dataToSend = 
         {
-            setError("Passwords do not match");
-            return;
-        }
-
-        const dataToSend = {...formData};
+            ...formData,
+            phone: phoneNumber,
+            marketingPreferences: 
+            {
+                sendEmail,
+                sendMessage,
+            },
+        };
 
         try {
-            const response = await fetch('http://localhost:8080/signup', 
+            const response = await fetch('http://localhost:8080/api/signup', 
             {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(dataToSend)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
             });
 
-            if (!response.ok) 
-            {
-                const message = await response.json();
-                setError(message.error || 'Signup failed');
-            } 
-            else
+            if (response.ok) 
             {
                 setSuccess(true);
+            } 
+            else 
+            {
+                console.error(`회원가입 실패: ${response.statusText}`);
             }
         } catch (err) {
-            setError('An error occurred');
+            console.error("DB 저장 실패:", err);
         }
     };
 
+    // Success case: Render success message
     if (success) 
     {
-        return <div className="success-message">회원가입 완료</div>;
+        setCurrentStep(3);
     }
 
     return (
-        <form onSubmit={handleSubmit} className="signup-form">
-            <h3 className='subtitle'>정보입력</h3>
-            <hr className='line' />
-            
-            {/* Other form fields */}
-            <div className="form-group">
-                <label htmlFor="id">아이디</label>
-                <input
-                    type="text"
-                    id="id"
-                    name="id"
-                    value={formData.id}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description">아이디는 5-20자의 영문자, 숫자 조합이어야 합니다.</span>
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="password">비밀번호</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description">8-20자의 영문, 숫자, 특수문자 조합을 사용하세요.</span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="confirmPassword">비밀번호 확인</label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
+        <div>
+            <form onSubmit={handleSubmit} className="signup-form">
+                <h3 className="subtitle">정보입력</h3>
+                <hr className="line" />
+                <span className="message">
+                    타인의 명의를 도용할 경우 관련 법에 따라 처벌을 받을 수 있으며, 당사는 이에 대해 어떠한 책임도 지지 않습니다.
+                </span>
+                <IdInput value={formData.id} onChange={handleChange} />
+                <PasswordInput value={formData.password} onChange={handleChange} />
+                <ConfirmPasswordInput
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    required
+                    password={formData.password}
                 />
-                <span className="input-description">비밀번호를 한 번 더 입력해주세요.</span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="name">이름</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description"></span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="email">이메일</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description">사용 가능한 이메일 주소를 입력하세요.</span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="phone">전화번호</label>
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description">예: 010-1234-5678 형식으로 입력하세요.</span>
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="address">주소</label>
-                <Postcode onAddressSelect={handleAddressSelect} />
-                {/* DB에 저장되는 주소 양식 확인용, 주석 상태로 유지하고 필요할 때만 사용할 것 */}
+                <NameInput value={formData.name} onChange={handleChange} />
+                <NicknameInput value={formData.nickname} onChange={handleChange} />
+                <BirthInput value={formData.birth} onChange={handleChange} />
+                <EmailInput value={formData.email} onChange={handleChange} />
+                <PhoneInput phone={formData.phone} setFormData={setFormData} formData={formData} />
+                <AddressInput onAddressSelect={handleAddressSelect} />
+                {/* DB 저장용 주소 디버그용 input */}
                 {/* <input
                     type="text"
                     id="address"
@@ -188,64 +146,21 @@ const SignupForm = () =>
                     value={formData.address}
                     onChange={handleChange}
                     readOnly
+                    style={{ width: "400px" }}
                 /> */}
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="birth">생년월일</label>
-                <input
-                    type="date"
-                    id="birth"
-                    name="birth"
-                    value={formData.birth}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description"></span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="gender">성별</label>
-                <select
-                    id="gender"
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    required
-                >
-                    <option value="">선택하세요</option>
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                </select>
-                <span className="input-description">성별을 선택해주세요.</span>
-            </div>
-            
-            <div className="form-group">
-                <label htmlFor="nickname">닉네임</label>
-                <input
-                    type="text"
-                    id="nickname"
-                    name="nickname"
-                    value={formData.nickname}
-                    onChange={handleChange}
-                    required
-                />
-                <span className="input-description">8자 이내로 입력하세요.</span>
-            </div>
-
-            {error && <p className="error-message">{error}</p>}
-            <div className="button-wrapper">
-                <button type="submit" className="signup-button">가입하기</button>
-            </div>
-
-            {/* 홍보 및 마케팅 용도의 이메일, SMS 수신 여부 useContext 확인용, 주석 상태로 유지하고 필요할 때만 사용할 것 */}
+                {/* <GenderInput value={formData.gender} onChange={handleChange} /> */}
+                <div className="button-wrapper">
+                    <button type="submit" className="auth-link">가입하기</button>
+                </div>
+            </form>
+            {/* 마케팅 수신 동의 확인용 */}
             {/* <div>
                 <ul>
                     <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
                     <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
                 </ul>
             </div> */}
-        </form>
+        </div>
     );
 };
 

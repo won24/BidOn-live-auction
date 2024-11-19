@@ -26,50 +26,58 @@ const Postcode = ({ onAddressSelect }) =>
     const [zipCode, setZipcode] = useState("");
     const [roadAddress, setRoadAddress] = useState("");
     const [detailAddress, setDetailAddress] = useState("");
+    const [extraAddr, setExtraAddr] = useState("");
     const [isLayerOpen, setIsLayerOpen] = useState(false);
 
     // Function to handle postcode completion
     const completeHandler = (data) => 
     {
-        let extraAddr = "";
+        let extra = "";
         if (data.userSelectedType === "R") 
         {
-            // Adding extra information like building name or district name
             if (data.bname && /[동|로|가]$/g.test(data.bname)) 
             {
-                extraAddr += data.bname;
+                extra += data.bname;
             }
             if (data.buildingName && data.apartment === "Y") 
             {
-                extraAddr += (extraAddr ? ", " : "") + data.buildingName;
+                extra += (extra ? ", " : "") + data.buildingName;
             }
         }
-    
-        const fullAddress = `[${data.zonecode}] ${data.roadAddress} ${detailAddress}` + (extraAddr ? ` (${extraAddr})` : "");
+
         setZipcode(data.zonecode);
         setRoadAddress(data.roadAddress);
-        document.getElementById("sample2_extraAddress").value = extraAddr;
-    
-        // Send full address with extra address (if any) to parent component
-        onAddressSelect(fullAddress);
+        setExtraAddr(extra);
+
+        // Send structured address data to parent component
+        onAddressSelect(
+        {
+            zipCode: data.zonecode,
+            roadAddress: data.roadAddress,
+            extraAddr: extra,
+            detailAddress: detailAddress
+        });
         setIsLayerOpen(false);
     };
 
     const handleDetailAddressChange = (e) => 
     {
-        setDetailAddress(e.target.value);
-        const fullAddress = `[${zipCode}] ${roadAddress} ${e.target.value}`;
-        onAddressSelect(fullAddress);
+        const updatedDetailAddress = e.target.value;
+        setDetailAddress(updatedDetailAddress);
+        onAddressSelect(
+        {
+            zipCode: zipCode,
+            roadAddress: roadAddress,
+            extraAddr: extraAddr,
+            detailAddress: updatedDetailAddress
+        });
     };
 
     // Function to toggle the postcode search layer
     const toggleLayer = () => setIsLayerOpen((prev) => !prev);
 
     // Close the postcode search layer
-    const closeLayer = () => 
-    {
-        setIsLayerOpen(false);
-    };
+    const closeLayer = () => setIsLayerOpen(false);
 
     // Initialize and position the postcode layer
     const initLayerPosition = () => 
@@ -86,7 +94,6 @@ const Postcode = ({ onAddressSelect }) =>
         elementLayer.style.top = `${(window.innerHeight || document.documentElement.clientHeight) / 2 - height / 2 - borderWidth}px`;
     };
 
-    // Open the postcode layer
     useEffect(() => 
     {
         if (isLayerOpen) 
@@ -103,26 +110,41 @@ const Postcode = ({ onAddressSelect }) =>
     }, [isLayerOpen]);
 
     return (
-        <div>
-            <input className="zipCode" value={zipCode} readOnly required placeholder="우편번호" />
+        <div className="address-input-container">
+            <input
+                className="zipCode"
+                value={zipCode}
+                readOnly
+                required
+                placeholder="우편번호"
+                style={{ width: "280px", margin: "0px 6px 2px 0px" }}
+            />
             <button className="find-address-button" onClick={toggleLayer}>
                 우편번호 검색
             </button>
             <br />
-            <input value={roadAddress} readOnly placeholder="도로명 주소" />
+            <input 
+                value={roadAddress}
+                readOnly
+                placeholder="도로명 주소"
+                style={{ width: "280px", margin: "0px 6px 2px 0px" }}
+            />
+            <input
+                type="text"
+                value={extraAddr}
+                placeholder="참고항목"
+                style={{ width: "96px", margin: "-2px 0px 2px 0px" }}
+                readOnly
+            />
             <br />
             <input
                 type="text"
                 onChange={handleDetailAddressChange}
                 value={detailAddress}
                 placeholder="상세주소"
+                style={{ margin: "0px 0px 5px 0px" }}
+
                 required
-            />
-            <input
-                type="text"
-                id="sample2_extraAddress"
-                placeholder="참고항목"
-                readOnly
             />
             <br />
 

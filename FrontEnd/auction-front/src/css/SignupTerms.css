@@ -29,7 +29,7 @@
 {
     width: 100%;
     max-width: 1200px;
-    margin: 20px auto; /* Centers the line */
+    margin: 20px 0px auto; /* Centers the line */
     border: 1px solid #ccc; /* Customize as needed */
 }
 
@@ -39,6 +39,8 @@
     display: flex;
     align-items: center;
     font-size: 10px;
+    margin-top: 4px;
+    margin-left: -4px;
     margin-bottom: 10px;
     accent-color: #343434;
     zoom: 1.5;
@@ -127,6 +129,7 @@ details.checked {
     position: relative;
     display: inline-block;
     accent-color: #343434;
+    margin-left: -4px;
 }
 
 /* Tooltip for marketing consent message */
@@ -168,6 +171,7 @@ details.checked {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 100px;
 }
 
 /* Styling for "다음으로" button */

@@ -3,6 +3,9 @@ import * as api from "../../../apis/AuctionItem";
 import {useEffect, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
 import '../../../css/AuctionDetail.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 
 const AuctionDetailPage = () =>{
@@ -57,10 +60,12 @@ const AuctionDetailPage = () =>{
                 console.log(`${userCode}, 즐겨찾기 추가 요청`);
                 await api.addFavorite(postId, userCode);
                 updateFavoriteStatus(userCode, true);
+                alert("나의 즐겨찾기에 추가되었습니다.")
             } else if (fav.status === true && userCode === fav.userCode) {
                 console.log(`${userCode}, 즐겨찾기 해제 요청`);
                 await api.deleteFavorite(postId, userCode);
                 updateFavoriteStatus(userCode, false);
+                alert("나의 즐겨찾기에서 삭제 되었습니다.")
             }
         } catch (error) {
             console.error(
@@ -84,8 +89,16 @@ const AuctionDetailPage = () =>{
                 return (
                     <>
                         <h2 className="boardTitle">{board.title}</h2>
-                        <button onClick={favorite} className="favBtn">즐겨찾기</button>
-                        <p className="boardStatus">경매 에정</p>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px" }} />)
+                                :(<FontAwesomeIcon icon={faStarRegular} style={{ color: "#454545", fontSize: "24px" }} />)}
+                        </button>
+                        <p className="boardStatus">경매 예정</p>
                         <hr/>
                         <img
                             className="itemImg"

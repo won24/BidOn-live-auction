@@ -35,4 +35,16 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public UserDTO validateLogin(String id, String password)
+    {
+        UserDTO user = userRepository.findByIdAndPassword(id, password)
+                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+
+        // Map User entity to UserDTO
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserCode(user.getUserCode());
+        userDTO.setIsAdmin(user.getIsAdmin()); // Ensure this is not null
+        return userDTO;
+    }
 }

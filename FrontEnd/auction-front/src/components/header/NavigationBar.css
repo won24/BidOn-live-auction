@@ -15,3 +15,27 @@
 .login{
     font-size: 15px;
 }
+
+.user-welcome 
+{
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.navContainer button 
+{
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #343434;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.navContainer button:hover 
+{
+    background-color: #000000;
+}

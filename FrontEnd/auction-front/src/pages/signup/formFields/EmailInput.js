@@ -93,7 +93,8 @@ const EmailInput = ({ value, onChange }) =>
                         </option>
                     ))}
                 </select>
-                <button className="auth-email-button">이메일 인증</button>
+                {/* <button className="auth-email-button">이메일 인증</button> */}
+                <span className="input-description"></span>
             </div>
         </div>
     );

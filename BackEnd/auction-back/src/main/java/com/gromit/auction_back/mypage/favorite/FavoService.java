@@ -1,7 +1,6 @@
 package com.gromit.auction_back.mypage.favorite;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

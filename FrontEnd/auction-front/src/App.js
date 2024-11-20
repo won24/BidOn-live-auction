@@ -26,7 +26,10 @@ import MyPageLayout from "./components/header/MyPageLayout";
 import PersonalInquire from "./pages/customer/PersonalInquire";
 import AllList from "./pages/acution/All";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
-import Admin from "./pages/admin/Admin";
+import AdminLayout from "./components/AdminLayout";
+import AdminInquire from "./pages/admin/AdminInquire";
+import AdminBoard from "./pages/admin/AdminBoard";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 
 
@@ -36,7 +39,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
-                    <Route path="admin" element={<Admin/>}/>
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
@@ -57,6 +59,12 @@ function App() {
                         <Route path="personal" element={<Personal />} />
                         <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
+                    </Route>
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route index element={<AdminInquire />} />
+                        <Route path="inquiries" element={<AdminInquire />} />
+                        <Route path="posts" element={<AdminBoard />} />
+                        <Route path="users" element={<AdminUsers />} />
                     </Route>
                 </Route>
                 <Route path ="/member" element={<OnlyFooterLayout/>}>

@@ -1,5 +1,6 @@
 import {NavLink, useNavigate} from "react-router-dom";
 import '../../css/NavigationBar.css'
+import {useEffect} from "react";
 
 const Nav = () => {
     const username = sessionStorage.getItem("userId");

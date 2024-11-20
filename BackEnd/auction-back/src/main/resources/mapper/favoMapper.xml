@@ -17,7 +17,7 @@
         b.postId,
         i.imageUrl
         FROM
-        Board b
+        favorites b
         JOIN
         users u ON b.userCode = u.userCode
         LEFT JOIN

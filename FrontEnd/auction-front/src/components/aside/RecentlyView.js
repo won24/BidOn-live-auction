@@ -2,28 +2,29 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const RecentlyView = () => {
+
     const getRecentPosts = () => JSON.parse(localStorage.getItem("recentPosts")) || [];
     const [recentViews, setRecentViews] = useState(getRecentPosts());
 
+    // 브라우저 뒤로가기, 페이지 이동 감지
+    useEffect(() => {
+        const handlePopState = () =>{
+            setRecentViews(getRecentPosts());
+        }
 
-    // useEffect(() => {
-    //     const storedPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
-    //     setRecentViews(storedPosts);
-    // }, []);
+        window.addEventListener("popstate", handlePopState);
 
-    // 게시물 클릭 시 최근 본 게시글 업데이트
-    // const onItemClick = (view) => {
-    //
-    //     const currentPosts = getRecentPosts();
-    //     const updatedPosts = [view, ...currentPosts.filter(p => p.postId !== view.postId)];
-    //
-    //     // 최근 본 게시물 2개 저장
-    //     const slicedPosts = updatedPosts.slice(0, 2);
-    //     localStorage.setItem("recentPosts", JSON.stringify(slicedPosts));
-    //
-    //     // 상태를 강제로 업데이트하여 UI 갱신
-    //     setRecentViews(slicedPosts); // 이 줄은 렌더링 필요 없으면 생략 가능
-    // };
+        // 컴포넌트 언마운트 시 리스너 제거
+        return() =>{
+            window.removeEventListener("popstate", handlePopState)
+        };
+    }, []);
+
+
+    const onItemClick = (post) => {
+        updateRecentPosts(post);
+        setRecentViews(getRecentPosts());  // 클릭하면 상태 업데이트
+    };
 
     return (
         <aside className="rightAside">
@@ -32,7 +33,7 @@ const RecentlyView = () => {
                 {recentViews.length > 0 ? (
                     getRecentPosts().map((view, index) => (
                         <li key={index}>
-                            <Link to={`/auction/${view.postId}`} >
+                            <Link to={`/auction/${view.postId}`} onClick={()=>onItemClick(view)}>
                                 <img
                                     src={view.imageUrl}
                                     alt={view.title}

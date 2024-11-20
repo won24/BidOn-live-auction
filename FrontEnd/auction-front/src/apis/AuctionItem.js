@@ -32,3 +32,14 @@ export const searchItemAllList = (searchItem) => {
         params: { q: encodedSearchItem }
     });
 };
+
+
+export const addFavorite = (postId, userCode) => {
+    return axios.post("http://localhost:8080/favo/addfav",
+        {postId, userCode});
+}
+
+export const deleteFavorite = (postId, userCode) => {
+    return axios.delete(`http://localhost:8080/favo/deletefav?postId=${postId}&userCode=${userCode}`);
+}
+

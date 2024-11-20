@@ -20,4 +20,16 @@ public class FavoService {
         System.out.println(userCode);
         return favoDAO.getAllFavoList(userCode);
     }
+
+
+    public int addFavorite(FavoDTO favoDTO) {
+        int result = favoDAO.addFav(favoDTO);
+        return result;
+
+    }
+
+    public int deleteFavorite(int postId, int userCode) {
+        int result = favoDAO.deleteFav(postId, userCode);
+        return result;
+    }
 }

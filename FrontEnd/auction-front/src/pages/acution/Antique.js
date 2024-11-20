@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as api from "../../apis/AuctionItem";
 import { Link } from "react-router-dom";
 import { updateRecentPosts } from "../../components/aside/RecentlyView";
+import '../../css/Auction.css'
 
 const Antique = () => {
     const [antiqueList, setAntiqueList] = useState([]);
@@ -128,7 +129,7 @@ const Antique = () => {
                 </div>
             ));
         } else if (searchItemRef.current) {
-            return <p>검색 결과가 없습니다.</p>;
+            return <p className="auctionListMessage">검색 결과가 없습니다.</p>;
         } else {
             return filteredMainItems.map((list) => (
                 <div key={list.postId} className="auctionItem">
@@ -143,24 +144,34 @@ const Antique = () => {
 
     return (
         <>
-            <h1>앤티크 Antique</h1>
+            <h1 className="auctionTitle">앤티크 Antique</h1>
 
-            <form onSubmit={search}>
+            <div className="auctionCategory">
+                <a href="/auction/antique">골동품</a>
+                <a href="/auction/limited">한정판</a>
+                <a href="/auction/discontinuation">단종품</a>
+                <a href="/auction/artproduct">예술품</a>
+                <a href="/auction/valuables">귀중품</a>
+            </div>
+
+            <form onSubmit={search} className="auctionSearch">
                 <input
+                    className="auctionSearchInput"
                     placeholder="현재 카테고리에서 검색"
                     onChange={onValueGet}
                 />
-                <button type="submit">검색</button>
+                <button type="submit" className="auctionSearchBtn">검색</button>
             </form>
 
             {!searchItemRef.current && (
                 <>
-                    <ul>
+                    <ul className="checkBoxContainer">
                         {checkBoxStates.main.map((item) => (
                             <div key={item.id}>
-                                <label>
+                                <label className="checkBoxLabel">
                                     <input
                                         type="checkbox"
+                                        className="checkboxInput"
                                         checked={item.isChecked}
                                         onChange={(e) =>
                                             handleCheckboxChange(
@@ -180,12 +191,13 @@ const Antique = () => {
 
             {searchItemRef.current && searchItemList.length > 0 && (
                 <>
-                    <ul>
+                    <ul className="checkBoxContainer">
                         {checkBoxStates.search.map((item) => (
                             <div key={item.id}>
-                                <label>
+                                <label className="checkBoxLabel">
                                     <input
                                         type="checkbox"
+                                        className="checkboxInput"
                                         checked={item.isChecked}
                                         onChange={(e) =>
                                             handleCheckboxChange(
@@ -207,7 +219,7 @@ const Antique = () => {
             <div className="auctionListContainer">
                 {renderAuctionItems()}
                 {searchItemList.length === 0 && antiqueList.length === 0 && (
-                    <p>해당하는 카테고리의 경매품이 없습니다.</p>
+                    <p className="auctionListMessage">해당하는 카테고리의 경매품이 없습니다.</p>
                 )}
             </div>
         </>

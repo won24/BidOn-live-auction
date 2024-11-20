@@ -1,6 +1,5 @@
 import {NavLink, useNavigate} from "react-router-dom";
-import './NavigationBar.css'
-import { useEffect } from 'react';
+import '../../css/NavigationBar.css'
 
 const Nav = () => {
     const username = sessionStorage.getItem("userId");
@@ -19,6 +18,7 @@ const Nav = () => {
         const popupFeatures = "width=600,height=600,scrollbars=yes,resizable=yes";
         window.open(url, "결제하기", popupFeatures);
     };
+    
 
     const handleLogout = () => {
         sessionStorage.clear();
@@ -57,5 +57,4 @@ const Nav = () => {
         </div>
     )
 }
-
 export default Nav;

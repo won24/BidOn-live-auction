@@ -1,0 +1,28 @@
+.finder-button
+{
+    /* display: inline-block; */
+    width: 200px;
+    height: 40px;
+    margin-top: 4px;
+    padding-bottom: 3px;
+    background-color: #343434;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.finder-button:hover 
+{
+    background-color: #000000;
+}
+
+.find-id-result
+{
+    width: 485px;
+    max-height: fit-content;
+    overflow: hidden;
+}

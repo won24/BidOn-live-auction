@@ -12,7 +12,8 @@
  * 2) 일부 항목에 대한 중복확인 절차 추가 (완료)
  * 
  * Nov 15:
- * formFields 폴더 생성, <label> 별로 파일 분리
+ * formFields 폴더 생성, <label> 별로 파일을 분리하였으며,
+ * 각 파일은 파일 이름에 해당하는 요소의 입력을 담당
  */
 
 // import GenderInput from './formFields/GenderInput';
@@ -141,7 +142,7 @@ const SignupForm = () =>
                 <span className="message">
                     타인의 명의를 도용할 경우 관련 법에 따라 처벌을 받을 수 있으며, 당사는 이에 대해 어떠한 책임도 지지 않습니다.
                 </span>
-                <IdInput value={formData.id} onChange={handleChange} />
+                <IdInput value={formData.id} onChange={handleChange} validate={true} />
                 <PasswordInput value={formData.password} onChange={handleChange} />
                 <ConfirmPasswordInput
                     value={formData.confirmPassword}

@@ -4,7 +4,7 @@
  * 
  * Nov 11,
  * 약관은 terms_and_conditions.html로, 개인정보취급방침은 privacy_policy.html로
- * 두 파일 모두 public 폴더에 임시저장되어 있음 (경로 변경 예정)
+ * 두 파일 모두 public 폴더에 저장되어 있음
  * 
  * 약관은 페이지 접근 시 <details>로 접혀있으며, 
  * <details>의 어느 부분을 클릭하여도 <embed>된 약관이 펼쳐짐. (완료)

@@ -1,5 +1,5 @@
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Outlet} from "react-router-dom";
 import Live from "./pages/live/Live";
 import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
@@ -25,6 +25,9 @@ import MyNotice from "./pages/mypage/MyNotice";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import Terms from "./components/footer/Terms";
+import Privacy from "./components/footer/Privacy";
+import FindId2 from "./pages/find/FindId2";
 
 function App() {
     return (
@@ -56,6 +59,16 @@ function App() {
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup/>} />
                 </Route>
+                <Route path ="/finder/id" element={<Outlet/>}>
+                        <Route path="phone" element={<FindId2 />} />
+                        <Route path="email" element={<FindId2 />} />
+                </Route>
+                <Route path ="/finder/pw" element={<Outlet/>}>
+                    <Route path="phone" element={<FindId2 />} />
+                    <Route path="email" element={<FindId2 />} />
+                </Route>
+                <Route path="terms" element={<Terms />} />
+                <Route path="privacy" element={<Privacy />} />
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />
                 <Route path="tosspayFail" element={<FailPage />} />

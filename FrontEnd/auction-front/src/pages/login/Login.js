@@ -5,16 +5,16 @@
  * 아이디와 비밀번호를 입력하고 로그인 버튼을 누를 시 DB와 일치하는지 확인한 후
  * 일치할 경우 이전 페이지로 이동 (완료)
  * 
- * 회원가입, 아이디/비밀번호 찾기 버튼 클릭 시 해당 페이지로 이동 (일부 구현)
+ * 회원가입, 아이디/비밀번호 찾기 버튼 클릭 시 해당 페이지로 이동 (완료)
  * 
  * 쿠키를 이용한 아이디 저장 기능 구현 (완료)
  */
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import ReactModal from "react-modal";
-import FindId from "../find/FindId";
+import FindMyIdAndPw from "../find/FindMyIdAndPw";
 
 const Login = () => 
 {
@@ -25,24 +25,26 @@ const Login = () =>
         password: "",
     });
     const [isRemember, setIsRemember] = useState(false);
-    const [cookies, setCookie, removeCookie] = useCookies(["rememberUserId"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
-
-    // Load cookie on initial render if `loginForm.id` is empty
-    useEffect(() => 
-    {
-        if (!loginForm.id && cookies.rememberUserId) 
-        {
-            setLoginForm((prevForm) => ({ ...prevForm, id: cookies.rememberUserId }));
-            setIsRemember(true);
-        }
-    }, [cookies.rememberUserId]);
+    const location = useLocation();
+    const current = location.pathname;
 
     const toggleModal = () => 
     {
         setModalSwitch((prev) => !prev);
     };
+
+    // Load cookie on initial render if `loginForm.id` is empty
+    useEffect(() => 
+    {
+        if (!loginForm.id && cookies.rememberId) 
+        {
+            setLoginForm((prevForm) => ({ ...prevForm, id: cookies.rememberId }));
+            setIsRemember(true);
+        }
+    }, [cookies.rememberId]);
 
     const handleOnChange = (e) => 
     {
@@ -50,11 +52,11 @@ const Login = () =>
         setIsRemember(isChecked);
         if (isChecked) 
         {
-            setCookie("rememberUserId", loginForm.id, { maxAge: 2592000 }); // 30 days
+            setCookie("rememberId", loginForm.id, { maxAge: 2592000 }); // 30 days
         } 
         else 
         {
-            removeCookie("rememberUserId");
+            removeCookie("rememberId");
         }
     };
 
@@ -65,7 +67,7 @@ const Login = () =>
 
         if (name === "id" && isRemember) 
         {
-            setCookie("rememberUserId", value, { maxAge: 2592000 });
+            setCookie("rememberId", value, { maxAge: 604800 });
         }
     };
 
@@ -107,7 +109,7 @@ const Login = () =>
                 sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
                 sessionStorage.setItem("userNickname", responseData.nickname);
                 setIsLoggedIn(true);
-                navigate(-1); // Navigate to the previous page
+                navigate(current, { replace: true }); // Navigate to the previous page
             } 
             else 
             {
@@ -128,10 +130,10 @@ const Login = () =>
     return (
         <div className="login-form">
             <div className="login-div">
-                <h3 className="subtitle">로그인</h3>
+                <h3 className="subtitle">회원 로그인</h3>
                 <hr className="line" />
                 <span className="message">로그인 후 이용해주세요.</span>
-                    <form className="login-group" id="loginForm" method="post" onSubmit={handleSubmit}>
+                    <form className="login-group" id="loginForm" onSubmit={handleSubmit}>
                         <div className="item">
                             <div className="inputs-wrapper">
                                 <input
@@ -157,7 +159,6 @@ const Login = () =>
                             <button
                                 type="submit"
                                 className="login-button"
-                                // onClick={() => navigate(-1)}
                                 disabled={!loginForm.id || !loginForm.password}
                             >
                                 로그인
@@ -174,29 +175,26 @@ const Login = () =>
                             <span>아이디 저장</span>
                         </label>
                     </form>
-                {!isLoggedIn && (
-                    <>
-                        <span className="description">아직 회원이 아니신가요?</span>
-                        <div className="login-button-wrapper">
-                            <button className="login-button2" onClick={() => navigate("/member/signup")}>
-                                회원가입
-                            </button>
-                        </div>
-                        <span className="description">아이디나 비밀번호를 잊어버리셨나요?</span>
-                        <div className="login-button-wrapper">
-                            <button className="login-button2" onClick={toggleModal}>
-                                아이디/비밀번호 찾기(미구현)
-                                {/* <ReactModal
-                                    isOpen={modalSwitch}
-                                    ariaHideApp={false}
-                                    onRequestClose={toggleModal}
-                                >
-                                    <FindId />
-                                </ReactModal> */}
-                            </button>
-                        </div>
-                    </>
-                )}
+                <span className="description">아직 회원이 아니신가요?</span>
+                <div className="login-button-wrapper">
+                    <button className="login-button2" onClick={() => navigate("/member/signup")}>
+                        회원가입
+                    </button>
+                </div>
+                <span className="description">아이디나 비밀번호를 잊어버리셨나요?</span>
+                <div className="login-button-wrapper">
+                    <button className="login-button2" onClick={toggleModal}>
+                        아이디/비밀번호 찾기
+                        <ReactModal
+                            isOpen={modalSwitch}
+                            ariaHideApp={false}
+                            overlayClassName="react-modal-overlay"
+                            className="react-modal-content"
+                        >
+                            <FindMyIdAndPw toggle={toggleModal}/>
+                        </ReactModal>
+                    </button>
+                </div>
             </div>
         </div>
     );

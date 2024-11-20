@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const NameInput = ({ value, onChange }) => 
 {
-    const [description, setDescription] = useState("외국인의 경우 외국어표기법에 따라 한글로 입력해주세요.");
+    const [description, setDescription] = useState("외국인의 경우 공백 없이 영어로 입력해주세요.");
     const [descriptionColor, setDescriptionColor] = useState("#666"); // Initial color
 
     const validateName = (name) => 

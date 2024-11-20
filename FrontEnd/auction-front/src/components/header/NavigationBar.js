@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import './NavigationBar.css'
 
 
@@ -10,6 +10,8 @@ const Nav = () =>
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const userNickname = sessionStorage.getItem("userNickname");
     const navigate = useNavigate();
+    const location = useLocation();
+    const current = location.pathname;
 
     const openCheckoutPopup = () => 
     {
@@ -24,7 +26,7 @@ const Nav = () =>
         if(window.confirm("로그아웃 하시겠습니까?"))
         {
             sessionStorage.clear(); // Clear all session storage
-            navigate(-1);
+            navigate(current, { replace: true })
         }
     };
 

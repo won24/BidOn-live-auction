@@ -1,3 +1,9 @@
+/**
+ * Signup.js
+ * - SignupTerms.js, SignupForm.js, SignupSequence.js, SignupContext.js 를 이용
+ * 회원가입 과정 전체를 담당
+ */
+
 import SignupTerms from "./SignupTerms";
 import { useSignupContext } from "./SignupContext";
 import { SignupSequence } from "./SignupSequence";

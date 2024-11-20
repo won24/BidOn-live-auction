@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -59,5 +60,31 @@ public class UserController
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/finder")
+    public ResponseEntity<?> findUserId(@RequestParam(required = false) String name,
+                                        @RequestParam(required = false) String phone,
+                                        @RequestParam(required = false) String email)
+    {
+        Optional<String> userId;
+
+        // Ensure that either phone or email is provided, but not both simultaneously.
+        if (phone != null && !phone.isEmpty())
+        {
+            userId = userService.findIdByNameAndPhone(name, phone);
+        }
+        else if (email != null && !email.isEmpty())
+        {
+            userId = userService.findIdByNameAndEmail(name, email);
+        }
+
+        else
+        {
+            return ResponseEntity.badRequest().body("Invalid request data. Please provide phone or email.");
+        }
+
+        return userId.map(id -> ResponseEntity.ok(Map.<String, Object>of("id", id))) // Explicit type
+                .orElse(ResponseEntity.status(404).body(Map.of("error", 404, "message", "User not found")));
     }
 }

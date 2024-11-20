@@ -3,6 +3,8 @@ package com.gromit.auction_back.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -47,5 +49,17 @@ public class UserService {
         userDTO.setIsAdmin(user.getIsAdmin());
         userDTO.setNickname(user.getNickname());
         return userDTO;
+    }
+
+    public Optional<String> findIdByNameAndPhone(String name, String phone)
+    {
+        return userRepository.findIdByNameAndPhone(name, phone);
+
+    }
+
+    public Optional<String> findIdByNameAndEmail(String name, String email)
+    {
+        return userRepository.findIdByNameAndEmail(name, email);
+
     }
 }

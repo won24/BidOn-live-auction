@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface TossDAO {
-    @Update("UPDATE users SET cash = cash + #{amount} WHERE UserCode = #{usercode}")
+    @Update("UPDATE users SET cash = cash + #{amount} WHERE UserCode = #{userCode}")
     void insertPaymentInfo(TossDTO paymentRequest);
 }

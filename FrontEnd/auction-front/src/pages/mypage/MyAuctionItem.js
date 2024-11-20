@@ -1,13 +1,10 @@
-// 내가 쓴 글 (/mypage/myauctionitem)
-// 판매자(회원) 가 경매품 신청 후 이동되는 페이지
+// 경매품 (/mypage/myauctionitem)
 
 /*
-* 각 상담 글은 author 가 현재 로그인한 사용자와 일치하면 "본인 작성" 이라고 표시되고,
-* 그 외의 글은 "관리자 또는 작성자만 열람 가능" 으로 표시됨
-*
-* 로그인한 사용자가 본인의 1 : 1 상담 글을 볼 수 있으며, 공개 상담 글은 누구나 볼 수 있음
+* 내 글(1 : 1 문의)-> 정원님이 고객센터에서 이미 구현하심
+* 내 글(경매품) -> 아직 안 했던 상태
+* 어차피 내 글 안에는 1 : 1 문의와 경매품 2가지가 더 있기 때문에 문의를 빼면 경매품만 남으니까 아예 '내 글'을 '경매품'으로 교체(?)
 * */
-
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -25,7 +22,7 @@ function MyAuctionItem({ loggedInUser }) {
                 setError(null);
 
                 // 서버에서 데이터 요청
-                const response = await axios.get('http://localhost:8080/mypage/mynotice');
+                const response = await axios.get('http://localhost:8080/mypage/myauctionitem');
                 const data = response.data;
 
                 // 로그인한 사용자에게 보여줄 글 필터링

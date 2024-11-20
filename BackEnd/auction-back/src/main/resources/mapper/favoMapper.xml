@@ -11,20 +11,32 @@
     </resultMap>
 
     <select id="getAllFavoList" resultMap="favoResultMap">
+<!--        SELECT-->
+<!--        b.title,-->
+<!--        b.postId,-->
+<!--        i.imageUrl-->
+<!--        FROM-->
+<!--        favorites b-->
+<!--        JOIN-->
+<!--        &lt;!&ndash; FROM 을 favorites 로 바꿔 (완료) &ndash;&gt;-->
+<!--        &lt;!&ndash; JOIN 으로 (하는 중) &ndash;&gt;-->
+<!--        users u ON b.userCode = u.userCode-->
+<!--        LEFT JOIN-->
+<!--        ImageUrl i ON b.postId = i.postId-->
+<!--        WHERE-->
+<!--        u.userCode = #{userCode}-->
+
         SELECT
-        b.title,
-        b.postId,
-        i.imageUrl
+            b.postId,
+            i.imageUrl
         FROM
-        favorites b
+            favorites b
         JOIN
-        <!-- FROM 을 favorites 로 바꿔 (완료) -->
-        <!-- JOIN 으로 (하는 중) -->
-        users u ON b.userCode = u.userCode
+            users u ON b.userCode = u.userCode
         LEFT JOIN
-        ImageUrl i ON b.postId = i.postId
+            ImageUrl i ON b.postId = i.postId
         WHERE
-        u.userCode = #{userCode}
+            u.userCode = #{userCode}
 
     </select>
 

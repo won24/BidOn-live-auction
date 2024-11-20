@@ -8,10 +8,6 @@ const Signup = () =>
 {
     const { currentStep } = useSignupContext();
     const navigate = useNavigate();
-    const goToLogin = () =>
-    {
-        navigate("/member/login");
-    }
 
     if(currentStep === 3)
     {
@@ -24,7 +20,7 @@ const Signup = () =>
                 <span className="message">버튼을 눌러 로그인 화면으로 이동해주세요.</span>
                 <h1 style={{textAlign: "center", margin: "175px"}}>회원가입이 완료되었습니다.</h1>
                 <div className="auth-link-wrapper">
-                    <button className="auth-link" onClick={goToLogin}>로그인 화면으로</button>
+                    <button className="auth-link" onClick={() => navigate("/member/login")}>로그인 화면으로</button>
                 </div>
             </div>
         );

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useLogin } from '../../pages/login/LoginContext'; // LoginContext import 추가
 
 const PersonalInquire = () => {
+    const { user } = useLogin(); // LoginContext에서 user 정보 가져오기
     const [formData, setFormData] = useState({
         title: '',
         content: '',
-        userCode: 7 // 임시로 하드코딩된 사용자 코드
+        userCode: user ? user.userCode : null // 세션에서 가져온 userCode 사용
     });
 
     const handleChange = (e) => {
@@ -18,14 +20,20 @@ const PersonalInquire = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!user) {
+            console.error('로그인 정보가 없습니다.');
+            return;
+        }
+
         try {
-            const response = await axios.post('/customer/personalinquire', formData);
-            console.log(formData);
+            const response = await axios.post('/customer/personalinquire', {
+                ...formData,
+                userCode: user.userCode // 세션에서 가져온 userCode 사용
+            });
             console.log('문의가 성공적으로 제출되었습니다:', response.data);
             // 여기에 성공 메시지를 표시하거나 다른 페이지로 리디렉션하는 로직을 추가할 수 있습니다.
         } catch (error) {
             console.error('문의 제출 중 오류 발생:', error);
-            console.log(formData);
             // 여기에 오류 메시지를 표시하는 로직을 추가할 수 있습니다.
         }
     };

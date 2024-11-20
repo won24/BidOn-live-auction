@@ -43,3 +43,6 @@ export const deleteFavorite = (postId, userCode) => {
     return axios.delete(`http://localhost:8080/favo/deletefav?postId=${postId}&userCode=${userCode}`);
 }
 
+export const getBoardImg = (postId) =>{
+   return axios.get(`http://localhost:8080/images/${postId}`);
+}

@@ -67,4 +67,5 @@ public class AuctionService {
     public List<AuctionDTO> getOffList() {
         return auctionDAO.selectOffList();
     }
+
 }

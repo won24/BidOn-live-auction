@@ -19,6 +19,7 @@ const AuctionDetailPage = () =>{
         userCode: userCode,
         status: false
     })
+    const [img, setImg] = useState({});
 
 
     const getBoard = async () => {
@@ -39,7 +40,29 @@ const AuctionDetailPage = () =>{
 
     useEffect( () => {
         getBoard()
-    },[])
+    },[]);
+
+
+    // 이미지 가져오기
+    const getImg = async () => {
+
+        setIsLoading(true);
+
+        try {
+            const response = await api.getBoardImg(postId);
+            const data = response.data;
+            setImg(data);
+        } catch (error) {
+            console.error("게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
+        }finally {
+            setIsLoading(false)
+        }
+    };
+
+    useEffect( () => {
+        getImg()
+    },[]);
+
 
 
 

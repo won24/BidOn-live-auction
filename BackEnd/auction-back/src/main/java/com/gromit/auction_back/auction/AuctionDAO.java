@@ -31,4 +31,6 @@ public interface AuctionDAO {
     List<AuctionDTO> selectOnList();
 
     List<AuctionDTO> selectOffList();
+
+
 }

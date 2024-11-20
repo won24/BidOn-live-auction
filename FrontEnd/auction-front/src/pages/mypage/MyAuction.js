@@ -1,4 +1,4 @@
-// 참여한 경매 (/mypage/myauction)
+// 참여 경매 (/mypage/myauction)
 // 판매자가 경매품 등록 후 등록 완료 창 확인 클릭 시 이동되는 페이지
 
 /*

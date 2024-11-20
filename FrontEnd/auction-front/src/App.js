@@ -21,12 +21,12 @@ import Signup from "./pages/signup/Signup";
 import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
 import MyProfile from "./pages/mypage/MyProfile";
-import MyNotice from "./pages/mypage/MyNotice";
 import MyPageLayout from "./components/header/MyPageLayout";
 import PersonalInquire from "./pages/customer/PersonalInquire";
 import AllList from "./pages/acution/All";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 import MyAuction from "./pages/mypage/MyAuction";
+import MyAuctionItem from "./pages/mypage/MyAuctionItem";
 
 
 

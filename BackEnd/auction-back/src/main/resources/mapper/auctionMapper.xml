@@ -17,230 +17,74 @@
         <result property="userCode" column="userCode"/>
         <result property="startCash" column="startCash"/>
         <result property="finalCash" column="finalCash"/>
-        <result property="imageUrl" column="imageUrl"/>
     </resultMap>
 
     <select id="selectAllAuction" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId;
+            *
+        FROM board
     </select>
 
 
     <select id="antiqueList" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.categoryCode = 'a';
+           *
+          FROM board
+        WHERE categoryCode = 'a';
 
     </select>
 
     <select id="limitedList" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.categoryCode = 'l';
+           *
+          FROM board
+        WHERE categoryCode = 'l';
     </select>
 
     <select id="discontinuationList" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.categoryCode = 'd';
+           *
+          FROM board
+        WHERE categoryCode = 'd';
     </select>
 
     <select id="artProductList" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.categoryCode = 'ap';
+            *
+          FROM board
+        WHERE categoryCode = 'ap';
     </select>
 
     <select id="valuablesList" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.categoryCode = 'v';
+            *
+          FROM board
+        WHERE categoryCode = 'v';
     </select>
 
 
 <!-- 상세 조회 -->
     <select id="selectAuctionDetail" resultMap="auctionResultMap">
         SELECT
-        b.postId,
-        b.title,
-        b.categoryCode,
-        b.content,
-        b.createdAt,
-        b.postStatus,
-        b.startDay,
-        b.userCode,
-        b.startCash,
-        b.finalCash,
-        i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.postId = #{postId};
+            *
+          FROM board
+        WHERE postId = #{postId};
     </select>
 
     <!-- 검색 조회 -->
     <select id="selectSearchItems" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.title LIKE CONCAT('%', #{q}, '%')
-        AND b.categoryCode = #{categoryCode};
+           *
+          FROM board
+        WHERE title LIKE CONCAT('%', #{q}, '%')
+        AND categoryCode = #{categoryCode};
     </select>
 
     <select id="selectSearchItemsAllCategory" resultMap="auctionResultMap">
         SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-          FROM board b
-         LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE b.title LIKE CONCAT('%', #{q}, '%');
-    </select>
-
-
-    <!--postStatus 로 가져오기 -->
-    <select id="selectDoneList" resultMap="auctionResultMap">
-        SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-          FROM board b
-          LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE postStatus = 'done';
-    </select>
-
-    <select id="selectOnList" resultMap="auctionResultMap">
-        SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE postStatus = 'on';
-    </select>
-
-    <select id="selectOffList" resultMap="auctionResultMap">
-        SELECT
-            b.postId,
-            b.title,
-            b.categoryCode,
-            b.content,
-            b.createdAt,
-            b.postStatus,
-            b.startDay,
-            b.userCode,
-            b.startCash,
-            b.finalCash,
-            i.imageUrl
-        FROM board b
-        LEFT JOIN imageUrl i ON b.postId = i.postId
-        WHERE postStatus = 'off';
+           *
+          FROM board
+        WHERE title LIKE CONCAT('%', #{q}, '%');
     </select>
 
 </mapper>

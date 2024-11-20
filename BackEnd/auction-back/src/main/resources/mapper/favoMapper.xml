@@ -5,7 +5,7 @@
 <mapper namespace="com.gromit.auction_back.mypage.favorite.FavoDAO">
     <resultMap id="favoResultMap" type="com.gromit.auction_back.mypage.favorite.FavoDTO">
         <id property="userCode" column="user_code" />
-        <result property="postId" column="postId" />
+        <result property="postId" column="post_id" />
         <result property="title" column="title" />
         <result property="imageUrl" column="imageUrl" />
     </resultMap>
@@ -31,9 +31,9 @@
     <insert id="addFav" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
         INSERT
             INTO favorites
-            ( user_code, post_id )
+            ( user_code, post_id, status )
         VALUES
-            ( #{userCode}, #{postId} )
+            ( #{userCode}, #{postId}, 1 )
     </insert>
 
 <!--    즐겨찾기 삭제 -->
@@ -42,5 +42,13 @@
             FROM favorites
         WHERE user_code = #{userCode} AND post_id = #{postId}
     </delete>
+
+
+    <select id="getMyFav" resultMap="favoResultMap">
+        SELECT
+            *
+        FROM favorites
+        WHERE user_code = #{userCode} AND post_id = #{postId}
+    </select>
 
 </mapper>

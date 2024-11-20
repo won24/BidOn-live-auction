@@ -15,10 +15,10 @@ public class AuctionService {
         this.auctionDAO = auctionDAO;
     }
 
+
     public List<AuctionDTO> getAllList() {
         return auctionDAO.selectAllAuction();
     }
-
 
     public List<AuctionDTO> getAntiqueList() {
         return auctionDAO.antiqueList();
@@ -40,9 +40,6 @@ public class AuctionService {
         return auctionDAO.valuablesList();
     }
 
-
-
-
     public AuctionDTO detail(int postId) {
         AuctionDTO auctionDTO = auctionDAO.selectAuctionDetail(postId);
         return auctionDTO;
@@ -56,16 +53,6 @@ public class AuctionService {
         return auctionDAO.selectSearchItemsAllCategory(decodedQ);
     }
 
-    public List<AuctionDTO> getDoneList() {
-        return auctionDAO.selectDoneList();
-    }
 
-    public List<AuctionDTO> getOnList() {
-        return auctionDAO.selectOnList();
-    }
-
-    public List<AuctionDTO> getOffList() {
-        return auctionDAO.selectOffList();
-    }
 
 }

@@ -4,14 +4,14 @@ import {useEffect, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
 import '../../../css/AuctionDetail.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {faCaretRight, faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 
 const AuctionDetailPage = () =>{
 
     const {postId} = useParams();
-    const [board, setBoard] = useState({});
+    const [board, setBoard] = useState([]);
     const [postStatus, setPostStatus] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const userCode = sessionStorage.getItem("userCode");
@@ -19,8 +19,8 @@ const AuctionDetailPage = () =>{
         userCode: userCode,
         status: false
     })
-    const [img, setImg] = useState({});
-
+    const [img, setImg] = useState([]);
+    const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
     const getBoard = async () => {
 
@@ -51,56 +51,81 @@ const AuctionDetailPage = () =>{
         try {
             const response = await api.getBoardImg(postId);
             const data = response.data;
-            setImg(data);
+            console.log(data);
+
+            const imageUrls = data.map(item => item.imageUrl);
+            setImg(imageUrls);
         } catch (error) {
             console.error("게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
         }finally {
             setIsLoading(false)
         }
+
+        console.log(img)
     };
 
     useEffect( () => {
-        getImg()
+        getImg();
     },[]);
 
 
 
+    // 이미지 슬라이드
+    const handlePrev = () => {
+        setCurrentImgIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : img.length - 1));
+    };
+
+    const handleNext = () => {
+        setCurrentImgIndex((prevIndex) => (prevIndex < img.length - 1 ? prevIndex + 1 : 0));
+    };
+
+    // 썸네일 클릭 시 슬라이드 이미지 변경
+    const handleThumbnailClick = (index) => {
+        setCurrentImgIndex(index);
+    };
+
 
     // 즐겨 찾기
-    const updateFavoriteStatus = (userCode, status) => {
-        setFav({ userCode, status });
-        console.log(`${userCode}, ${status ? "즐겨찾기 추가 성공" : "즐겨찾기 해제"}`);
-    };
+    useEffect(() => {
+        const fetchFavoriteStatus = async () => {
+            try {
+                const response = await api.getMyFav(postId, userCode);
+                const data = response.data;
+                if (data && data.length > 0) {
+                    setFav({
+                        userCode: userCode,
+                        status: data[0].status,
+                    });
+                }
+            } catch (error) {
+                console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
+            }
+        };
+
+        fetchFavoriteStatus();
+    }, [postId, userCode]);
 
     const favorite = async () => {
         try {
-            if (userCode === null) {
+            if (!userCode) {
                 alert("로그인이 필요합니다.");
                 return;
             }
 
-            if (fav.status === false) {
-                console.log(`${userCode}, 즐겨찾기 추가 요청`);
+            if (!fav.status) {
                 await api.addFavorite(postId, userCode);
-                updateFavoriteStatus(userCode, true);
-                alert("나의 즐겨찾기에 추가되었습니다.")
-            } else if (fav.status === true && userCode === fav.userCode) {
-                console.log(`${userCode}, 즐겨찾기 해제 요청`);
+                alert("나의 즐겨찾기에 추가되었습니다.");
+                setFav({ userCode, status: true });
+            } else {
                 await api.deleteFavorite(postId, userCode);
-                updateFavoriteStatus(userCode, false);
-                alert("나의 즐겨찾기에서 삭제 되었습니다.")
+                alert("나의 즐겨찾기에서 삭제되었습니다.");
+                setFav({ userCode, status: false });
             }
         } catch (error) {
-            console.error(
-                `${fav.status === false ? "즐겨찾기 추가" : "즐겨찾기 해제"} 중 오류:`,
-                error
-            );
+            console.error("즐겨찾기 상태 변경 중 오류:", error);
         }
     };
 
-    useEffect(() => {
-        console.log("즐겨찾기 상태 업데이트:", fav);
-    }, [fav]);
 
 
     const showDetailPage = (postStatus) =>{
@@ -117,15 +142,16 @@ const AuctionDetailPage = () =>{
                             style={{background: "none", border: "none", cursor: "pointer"}}
                             onClick={favorite}
                         >
-                            {fav.status?
-                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px" }} />)
-                                :(<FontAwesomeIcon icon={faStarRegular} style={{ color: "#454545", fontSize: "24px" }} />)}
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
                         </button>
                         <p className="boardStatus">경매 예정</p>
                         <hr/>
                         <img
                             className="itemImg"
-                            src={board.imageUrl}
+                            src={img[0]}
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
@@ -136,23 +162,53 @@ const AuctionDetailPage = () =>{
                         <hr/>
                         <p className="infoText">상세 정보</p>
                         <p className="boardContent">{board.content}</p>
-                        <img className="boardContentImg"
-                             src={board.imageUrl}
-                             alt={`${board.title}의 상세 이미지`}
-                             loading="lazy"
-                        />
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545" , fontSize:"40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545" , fontSize:"40px"}} />
+                            </button>
+                        </div>
+                        <div className="thumbnailContainer">
+                            {img.map((image, index) => (
+                                <img
+                                    key={index}
+                                    className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                    src={image}
+                                    alt={`썸네일 ${index + 1}`}
+                                    onClick={() => handleThumbnailClick(index)}
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
                     </>
                 )
             case "done":
                 return (
                     <>
                         <h2 className="boardTitle">{board.title}</h2>
-                        <button onClick={favorite} className="favBtn">즐겨찾기</button>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
+                        </button>
                         <p className="boardStatus">낙찰 완료</p>
                         <hr/>
                         <img
                             className="itemImg"
-                            src={board.imageUrl}
+                            src={img[0]}
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
@@ -165,15 +221,38 @@ const AuctionDetailPage = () =>{
                         <hr/>
                         <p className="infoText">상세 정보</p>
                         <p className="boardContent">{board.content}</p>
-                        <img className="boardContentImg"
-                             src={board.imageUrl}
-                             alt={`${board.title}의 상세 이미지`}
-                             loading="lazy"
-                        />
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton"
+                                    style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545", fontSize: "40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton"
+                                    style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545", fontSize: "40px"}}/>
+                            </button>
+                    </div>
+                <div className="thumbnailContainer">
+                    {img.map((image, index) => (
+                        <img
+                            key={index}
+                            className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                    src={image}
+                                    alt={`썸네일 ${index + 1}`}
+                                    onClick={() => handleThumbnailClick(index)}
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
                     </>
                 )
             default:
-                return  <p className="boardText">해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
+                return <p className="boardText">해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
         }
     }
 

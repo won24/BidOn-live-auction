@@ -55,7 +55,7 @@ public class FavoController {
 
     // 즐겨찾기 해제
     @DeleteMapping("/deletefav")
-    public ResponseEntity<?> deleteFavorite(@RequestParam int postId, @RequestParam int userCode) {
+    public ResponseEntity<?> deleteFavorite(@RequestParam(required = false) int postId, @RequestParam(required = false) int userCode) {
 
         try {
             int result = favoService.deleteFavorite(postId, userCode);
@@ -69,4 +69,26 @@ public class FavoController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/getfav")
+    public ResponseEntity<List<FavoDTO>> getMyFav(@RequestParam(required = false) int postId,
+                                                  @RequestParam(required = false) int userCode) {
+
+        System.out.println("postId = " + postId);
+        System.out.println("userCode = " + userCode);
+
+        try {
+            List<FavoDTO> myFav = favoService.getMyFav(postId, userCode);
+            System.out.println("myFav = " + myFav);
+            return ResponseEntity.ok(myFav);
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
 }
+
+

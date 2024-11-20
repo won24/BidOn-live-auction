@@ -23,14 +23,14 @@ public class UserController
     }
 
     @GetMapping("/check-id")
-    public ResponseEntity<Boolean> checkId(@RequestParam String id)
+    public ResponseEntity<Boolean> checkId(@RequestParam(required = false)String id)
     {
         boolean isDuplicate = userRepository.existsById(id);
         return ResponseEntity.ok(isDuplicate);
     }
 
     @GetMapping("/check-nickname")
-    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname)
+    public ResponseEntity<Boolean> checkNickname(@RequestParam(required = false)String nickname)
     {
         boolean isDuplicate = userRepository.existsByNickname(nickname);
         return ResponseEntity.ok(isDuplicate);
@@ -62,7 +62,7 @@ public class UserController
         }
     }
 
-    @GetMapping("/finder")
+    @GetMapping("/finder/id")
     public ResponseEntity<?> findUserId(@RequestParam(required = false) String name,
                                         @RequestParam(required = false) String phone,
                                         @RequestParam(required = false) String email)
@@ -86,5 +86,28 @@ public class UserController
 
         return userId.map(id -> ResponseEntity.ok(Map.<String, Object>of("id", id))) // Explicit type
                 .orElse(ResponseEntity.status(404).body(Map.of("error", 404, "message", "User not found")));
+    }
+    
+    @GetMapping("/finder/pw")
+    public ResponseEntity<Boolean> resetUserPassword(@RequestParam(required = false)String id, 
+                                                     @RequestParam(required = false)String name, 
+                                                     @RequestParam(required = false)String email, 
+                                                     @RequestParam(required = false)String phone)
+    {
+        boolean isExists;
+        if(phone != null && !phone.isEmpty())
+        {
+            isExists = userService.existsByIdAndNameAndPhone(id, name, phone);
+        }
+        else if(email != null && !email.isEmpty())
+        {
+            isExists = userService.existsByIdAndNameAndEmail(id, name, email);
+        }
+        else
+        {
+            return ResponseEntity.badRequest().body(false);
+        }
+
+        return ResponseEntity.ok(isExists);
     }
 }

@@ -27,7 +27,8 @@ import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
 import Terms from "./components/footer/Terms";
 import Privacy from "./components/footer/Privacy";
-import FindId2 from "./pages/find/FindId2";
+import FindMyId from "./pages/find/FindMyId";
+import FindMyPw from "./pages/find/FindMyPw";
 
 function App() {
     return (
@@ -60,12 +61,12 @@ function App() {
                         <Route path="signup" element={<Signup/>} />
                 </Route>
                 <Route path ="/finder/id" element={<Outlet/>}>
-                        <Route path="phone" element={<FindId2 />} />
-                        <Route path="email" element={<FindId2 />} />
+                        <Route path="phone" element={<FindMyId />} />
+                        <Route path="email" element={<FindMyId />} />
                 </Route>
                 <Route path ="/finder/pw" element={<Outlet/>}>
-                    <Route path="phone" element={<FindId2 />} />
-                    <Route path="email" element={<FindId2 />} />
+                    <Route path="phone" element={<FindMyPw />} />
+                    <Route path="email" element={<FindMyPw />} />
                 </Route>
                 <Route path="terms" element={<Terms />} />
                 <Route path="privacy" element={<Privacy />} />

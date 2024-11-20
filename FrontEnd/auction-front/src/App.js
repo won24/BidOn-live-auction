@@ -26,6 +26,7 @@ import MyPageLayout from "./components/header/MyPageLayout";
 import PersonalInquire from "./pages/customer/PersonalInquire";
 import AllList from "./pages/acution/All";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
+import Admin from "./pages/admin/Admin";
 
 
 
@@ -35,6 +36,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
+                    <Route path="admin" element={<Admin/>}/>
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />

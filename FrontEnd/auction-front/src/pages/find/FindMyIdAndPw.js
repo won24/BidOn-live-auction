@@ -19,8 +19,8 @@ const openPopup = (type, way) =>
     const baseUrl = `${window.location.origin}/finder/${type}/${way}`;
     const popupFeatures =
         type === "id"
-            ? "width=500, height=225, overflow:hidden, resize=none,noopener"
-            : "width=550, height=330, overflow:hidden, resize=none,noopener";
+            ? "width=500, height=225, overflow:hidden, resize=none, noopener"
+            : "width=600, height=330, overflow:hidden, resize=none, noopener";
     window.open(baseUrl, "아이디/비밀번호 찾기", popupFeatures);
 };
 

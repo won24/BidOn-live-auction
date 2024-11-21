@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import NameInput from "../signup/formFields/NameInput";
 import PhoneInput from "../signup/formFields/PhoneInput";
 import EmailInput from "../signup/formFields/EmailInput";
-import IdInput from "../signup/formFields/IdInput";
 import { useLocation } from "react-router-dom";
 
 // Utility functions for routes
@@ -49,11 +48,11 @@ const ResultMessage = ({ message, onClose }) => (
         <span className="message">고객님의 회원 정보를 토대로 조회한 결과입니다.</span>
         <div>
             <h3 style={{ textAlign: "center" }}>{message}</h3>
-        </div>
-        <div className="button-wrapper">
-            <button className="auth-link" onClick={onClose}>
-                닫기
-            </button>
+            <div className="button-wrapper">
+                <button className="auth-link" onClick={onClose}>
+                    닫기
+                </button>
+            </div>
         </div>
     </div>
 );
@@ -126,7 +125,7 @@ const FindMyId = () =>
             else if (response.status === 404) 
             {
                 setFail(true);
-                setResultMessage("정보를 찾을 수 없습니다.");
+                setResultMessage("일치하는 정보를 찾을 수 없습니다.");
             }
         } catch {
             setResultMessage("잠시 후 다시 시도해주세요.");
@@ -142,8 +141,7 @@ const FindMyId = () =>
     {
         return (
             <div>
-                <h3 className="subtitle">잘못된 접근입니다.</h3>
-                <hr className="line" />
+                <h1 style={{ textAlign: "center" }}>잘못된 접근입니다.</h1>
                 <div className="button-wrapper">
                     <button className="auth-link" onClick={close}>
                         닫기

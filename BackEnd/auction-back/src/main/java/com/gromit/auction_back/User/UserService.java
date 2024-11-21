@@ -11,7 +11,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
 
@@ -71,5 +72,16 @@ public class UserService {
     public boolean existsByIdAndNameAndEmail(String id, String name, String email)
     {
         return userRepository.existsByIdAndNameAndEmail(id, name, email);
+    }
+
+    public void updatePassword(PasswordUpdateRequest request) throws UserNotFoundException
+    {
+        // Find user by id (not primary key) and name
+        UserDTO user = userRepository.findById(request.getId());
+
+        // Update the user's password
+        user.setPassword(request.getPassword());
+
+        userRepository.save(user);
     }
 }

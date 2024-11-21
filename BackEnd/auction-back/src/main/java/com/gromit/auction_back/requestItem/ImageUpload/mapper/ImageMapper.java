@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface ImageMapper  {
 
@@ -12,5 +14,5 @@ public interface ImageMapper  {
     void insertImage(ImageDTO imageDTO);
 
     @Select("SELECT * FROM imageurl WHERE postId = #{postId}")
-    ImageDTO selectImageByPostId(int postId);
+    List<ImageDTO> selectImageByPostId(int postId);
 }

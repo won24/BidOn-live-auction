@@ -9,7 +9,9 @@ const Valuables = () => {
     const [categoryCode, setCategoryCode] = useState([]);
     const searchItemRef = useRef("");
     const [searchItemList, setSearchItemList] = useState([]);
-
+    const [imgMap, setImgMap] = useState({});
+    const [postIds, setPostIds] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [checkBoxStates, setCheckBoxStates] = useState({
         main: [
             { id: 1, title: "경매중", status: "on", isChecked: true },
@@ -36,9 +38,11 @@ const Valuables = () => {
             const response = await api.valuablesList();
             const data = response.data;
             const category = data[0].categoryCode;
+            const postIds = data.map(item => item.postId);
             if (data && data.length > 0) {
                 setValuablesList(data);
                 setCategoryCode(category);
+                setPostIds(postIds);
             } else {
                 console.warn("받은 데이터가 비어 있습니다.");
             }
@@ -50,6 +54,38 @@ const Valuables = () => {
     useEffect(() => {
         getItemList();
     }, []);
+
+
+    // 이미지 가져오기
+    const getImagesForPosts = async () => {
+        setIsLoading(true);
+        try {
+            const imageMap = {};
+            for (const id of postIds) {
+                try {
+                    const response = await api.getBoardImg(id);
+                    const data = response.data;
+                    imageMap[id] = data.map(item => item.imageUrl);
+                } catch (error) {
+                    console.error(`Post ID ${id}의 이미지를 가져오는 중 오류가 발생했습니다:`, error);
+                    imageMap[id] = []; // 오류 발생 시 빈 배열로 대체
+                }
+            }
+            setImgMap(imageMap);
+
+        } catch (error) {
+            console.error("이미지를 가져오는 중 오류가 발생했습니다:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (postIds.length > 0) {
+            getImagesForPosts();
+        }
+    }, [postIds]);
+
 
 
     // 최근 본 게시글
@@ -123,7 +159,7 @@ const Valuables = () => {
             return filteredSearchItems.map((list) => (
                 <div key={list.postId} className="auctionItem">
                     <Link to={`/auction/${list.postId}`} onClick={() => onItemClick(list)}>
-                        <img className="itemImg" src={list.imageUrl} alt={`${list.title}의 이미지`} loading="lazy" />
+                        <img className="itemImg" src={imgMap[list.postId]?.[0] || "/placeholder.png"} alt={`${list.title}의 이미지`} loading="lazy" />
                         <h2 className="itemTitle">{list.title}</h2>
                     </Link>
                 </div>
@@ -134,7 +170,7 @@ const Valuables = () => {
             return filteredMainItems.map((list) => (
                 <div key={list.postId} className="auctionItem">
                     <Link to={`/auction/${list.postId}`} onClick={() => onItemClick(list)}>
-                        <img className="itemImg" src={list.imageUrl} alt={`${list.title}의 이미지`} loading="lazy" />
+                        <img className="itemImg" src={imgMap[list.postId]?.[0] || "/placeholder.png"} alt={`${list.title}의 이미지`} loading="lazy" />
                         <h2 className="itemTitle">{list.title}</h2>
                     </Link>
                 </div>
@@ -217,7 +253,11 @@ const Valuables = () => {
             <hr/>
 
             <div className="auctionListContainer">
-                {renderAuctionItems()}
+                {isLoading ? (
+                    <p className="loadingMessage">경매품을 가져오는 중입니다</p>
+                ) : (
+                    renderAuctionItems()
+                )}
                 {searchItemList.length === 0 && valuablesList.length === 0 && (
                     <p className="auctionListMessage">해당하는 카테고리의 경매품이 없습니다.</p>
                 )}

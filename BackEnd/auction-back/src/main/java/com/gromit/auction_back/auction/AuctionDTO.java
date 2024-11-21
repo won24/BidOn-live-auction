@@ -22,5 +22,4 @@ public class AuctionDTO {
     private int userCode;
     private int startCash;
     private int finalCash;
-    private String imageUrl;
 }

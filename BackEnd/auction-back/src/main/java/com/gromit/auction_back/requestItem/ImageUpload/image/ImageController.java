@@ -54,10 +54,11 @@ public class ImageController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<ImageDTO> getImageByPostId(@PathVariable int postId) {
-        ImageDTO imageDTO = imageService.getImageByPostId(postId);
-        if (imageDTO != null) {
-            return ResponseEntity.ok(imageDTO);
+    public ResponseEntity<List<ImageDTO>> getImageByPostId(@PathVariable int postId) {
+        List<ImageDTO> images = imageService.getImageByPostId(postId);
+
+        if (images != null) {
+            return ResponseEntity.ok(images);
         } else {
             return ResponseEntity.notFound().build();
         }

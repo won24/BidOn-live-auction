@@ -21,7 +21,8 @@ public class ImageService {
         }
     }
 
-    public ImageDTO getImageByPostId(int postId) {
+
+    public List<ImageDTO> getImageByPostId(int postId) {
         return imageMapper.selectImageByPostId(postId);
     }
 }

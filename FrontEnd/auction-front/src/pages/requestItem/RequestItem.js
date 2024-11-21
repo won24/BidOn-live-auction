@@ -64,7 +64,7 @@ const RequestItem = () => {
         console.log(formData);
 
         try {
-            const response = await axios.post('/requestitem', formData, {
+            const response = await axios.post('http://localhost:8080/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

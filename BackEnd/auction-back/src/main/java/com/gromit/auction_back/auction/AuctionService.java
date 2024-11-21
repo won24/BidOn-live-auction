@@ -54,5 +54,18 @@ public class AuctionService {
     }
 
 
+    public int update(AuctionDTO auctionDTO) {
+        int result = auctionDAO.update(auctionDTO);
+        return result;
+    }
 
+    public int deletePost(int postId) {
+        int result = auctionDAO.notUsePost(postId);
+        return result;
+    }
+
+    public int approval(int postId) {
+        int result = auctionDAO.approval(postId);
+        return result;
+    }
 }

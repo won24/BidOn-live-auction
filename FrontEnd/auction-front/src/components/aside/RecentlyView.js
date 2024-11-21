@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import * as api from "../../apis/AuctionItem";
+import * as api from "../../pages/acution/common/AuctionAPIs";
 import '../../css/RecentlyView.css'
 
 const RecentlyView = () => {
@@ -57,7 +57,6 @@ export default RecentlyView;
 
 export const updateRecentPosts = async (post, limit = 2) => {
     const recentPosts = JSON.parse(localStorage.getItem("recentPosts")) || [];
-    const updatedPosts = [post, ...recentPosts.filter((p) => p.postId !== post.postId)];
 
     // 이미지 가져오기
     const postId = post.postId;

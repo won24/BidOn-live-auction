@@ -12,7 +12,6 @@ import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
 import CustomerLayout from "./components/CustomerLayout";
 import Personal from "./pages/customer/Personal";
 import Notice from "./pages/customer/Notice";
-import Antique from "./pages/acution/Antique";
 import Limited from "./pages/acution/Limited";
 import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
@@ -27,6 +26,8 @@ import PersonalInquire from "./pages/customer/PersonalInquire";
 import AllList from "./pages/acution/All";
 import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 import Admin from "./pages/admin/Admin";
+import Antique from "./pages/acution/Antique";
+import PostEditPage from "./pages/acution/detail/PostEditPage";
 
 
 
@@ -39,12 +40,13 @@ function App() {
                     <Route path="admin" element={<Admin/>}/>
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
-                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
+                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
+                    <Route path="/auction/update/:postId" element={<PostEditPage/>}/>
                     <Route path="/mypage" element={<MyPageLayout />} >
                         <Route path="mynotice" element={<MyNotice/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>

@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import * as api from "../../apis/AuctionItem";
+import { useEffect, useRef, useState } from "react";
+import * as api from "./common/AuctionAPIs";
 import { Link } from "react-router-dom";
 import { updateRecentPosts } from "../../components/aside/RecentlyView";
 import '../../css/Auction.css';
-import {post} from "axios";
-import usePagination from "./paging/usePagination";
-import Pagination from "./paging/Pagination";
+import usePagination from "./common/paging/usePagination";
+import Pagination from "./common/paging/Pagination";
+import useFilterItem from "./common/FilterItem";
 
 const AllList = () => {
 
@@ -27,16 +27,6 @@ const AllList = () => {
             { id: 3, title: "경매 종료", status: "done", isChecked: true },
         ],
     });
-
-    const itemsPerPage = 5;
-    const mainPagination = usePagination(allList, itemsPerPage);
-    const searchPagination = usePagination(searchItemList, itemsPerPage);
-
-    // 정렬하기
-    const sortItemsByStatus = (items) => {
-        const order = ["on", "off", "done"];
-        return items.sort((a, b) => order.indexOf(a.postStatus) - order.indexOf(b.postStatus));
-    };
 
 
     // 카테고리 전체목록 가져오기
@@ -93,12 +83,6 @@ const AllList = () => {
     }, [postIds]);
 
 
-    // 최근 본 게시글
-    const onItemClick = (post) => {
-        updateRecentPosts(post);
-    };
-
-
     // 검색어 입력
     const onValueGet = (e) => {
         searchItemRef.current = e.target.value;
@@ -133,34 +117,12 @@ const AllList = () => {
             ),
         }));
     };
+    const { filteredMainItems, filteredSearchItems } = useFilterItem(allList, searchItemList, checkBoxStates);
 
-    // 검색했을 때 체크박스 결과
-    const filteredSearchItems = useMemo(
-        () =>
-            sortItemsByStatus(
-                searchItemList.filter((item) =>
-                    checkBoxStates.search.some(
-                        (box) => box.isChecked && box.status === item.postStatus
-                    )
-                )
-            ),
-        [searchItemList, checkBoxStates.search]
-    );
-
-    //전체 목록에서 체크박스 결과
-    const filteredMainItems = useMemo(
-        () =>
-            sortItemsByStatus(
-                allList.filter((item) =>
-                    checkBoxStates.main.some(
-                        (box) => box.isChecked && box.status === item.postStatus
-                    )
-                )
-            ),
-        [allList, checkBoxStates.main]
-    );
-
-
+    // 페이징 처리
+    const itemsPerPage = 5;
+    const mainPagination = usePagination(filteredMainItems, itemsPerPage);
+    const searchPagination = usePagination(filteredSearchItems, itemsPerPage);
 
 
     // 결과 렌더링
@@ -170,7 +132,7 @@ const AllList = () => {
                 <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)}>
                     <img
                         className="itemImg"
-                        src={item.imageUrl || "/placeholder.png"}
+                        src={imgMap[item.postId]?.[0] || "/placeholder.png"}
                         alt={`${item.title}의 이미지`}
                         loading="lazy"
                     />
@@ -195,7 +157,11 @@ const AllList = () => {
             </div>
 
             <form onSubmit={search} className="auctionSearch">
-                <input placeholder="모든 카테고리에서 검색" onChange={onValueGet} className="auctionSearchInput"/>
+                <input
+                    placeholder="모든 카테고리에서 검색"
+                    onChange={onValueGet}
+                    className="auctionSearchInput"
+                />
                 <button type="submit" className="auctionSearchBtn">검색</button>
             </form>
 
@@ -251,16 +217,23 @@ const AllList = () => {
             <hr/>
 
             <div className="auctionListContainer">
-                {searchItemRef.current ? (
-                    <>
-                        {renderAuctionItems(searchPagination.currentItems)}
-                        <Pagination {...searchPagination} />
-                    </>
+                {isLoading ? (
+                    <p className="loadingMessage">경매품 리스트를 가져오는 중입니다.</p>
                 ) : (
-                    <>
-                        {renderAuctionItems(mainPagination.currentItems)}
-                        <Pagination {...mainPagination} />
-                    </>
+                    searchItemRef.current && searchItemList.length > 0 ? (
+                        <>
+                            {renderAuctionItems(searchPagination.currentItems)}
+                            <Pagination {...searchPagination} />
+                        </>
+                    ) : (
+                        <>
+                            {renderAuctionItems(mainPagination.currentItems)}
+                            <Pagination {...mainPagination} />
+                        </>
+                    )
+                )}
+                {searchItemList.length === 0 && allList.length === 0 && (
+                    <p className="auctionListMessage">현재 경매품이 없습니다.</p>
                 )}
             </div>
         </>

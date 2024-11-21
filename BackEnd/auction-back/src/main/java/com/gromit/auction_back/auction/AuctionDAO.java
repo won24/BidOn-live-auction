@@ -33,4 +33,9 @@ public interface AuctionDAO {
     List<AuctionDTO> selectOffList();
 
 
+    int update(AuctionDTO auctionDTO);
+
+    int notUsePost(int postId);
+
+    int approval(int postId);
 }

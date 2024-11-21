@@ -53,4 +53,25 @@ export const getBoardImg = (postId) =>{
    return axios.get(`http://localhost:8080/images/${postId}`);
 }
 
+export const updatePost = async (formData) => {
+    try {
+        const response = await axios.put('auction/update', formData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log("API 응답:", response.data);
+        return response;
+    } catch (error) {
+        console.error("API 오류:", error.response?.data || error.message);
+        throw error;
+    }
+};
 
+export const deletePost = (postId)=>{
+    return axios.delete(`${BASE_URL}/delete/${postId}`)
+}
+
+export const approval = (postId) =>{
+    return axios.put(`${BASE_URL}/approval/${postId}`)
+}

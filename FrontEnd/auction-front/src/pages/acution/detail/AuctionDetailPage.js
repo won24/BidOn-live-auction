@@ -1,11 +1,12 @@
-import {useParams} from "react-router-dom";
-import * as api from "../../../apis/AuctionItem";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import * as api from "../common/AuctionAPIs";
 import {useEffect, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
 import '../../../css/AuctionDetail.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCaretRight, faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import {useLogin} from "../../login/LoginContext";
 
 
 const AuctionDetailPage = () =>{
@@ -15,12 +16,14 @@ const AuctionDetailPage = () =>{
     const [postStatus, setPostStatus] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const userCode = sessionStorage.getItem("userCode");
+    const { user } = useLogin();
     const [fav, setFav] = useState({
         userCode: userCode,
         status: false
     })
     const [img, setImg] = useState([]);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
+    const navigate = useNavigate();
 
     const getBoard = async () => {
 
@@ -126,7 +129,26 @@ const AuctionDetailPage = () =>{
         }
     };
 
+    const movePrevPage = ()=>{
+        navigate(-1)
+    }
 
+    const onDelete = async () => {
+
+        const response = await api.deletePost(postId);
+        console.log("postDelete",response.data);
+        alert('삭제 완료')
+
+        navigate('/auction')
+    }
+
+    const changeStatus = async ()=>{
+        const response = await api.approval(postId);
+        console.log(response.data);
+        alert("승인 완료")
+
+        navigate('/auction/{postId}')
+    }
 
     const showDetailPage = (postStatus) =>{
 
@@ -188,6 +210,18 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
+                        {user.isAdmin?
+                            (<div>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                    <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                    <button className='btn' onClick={onDelete}>삭제</button>
+                                </div>
+                            ):(
+                                <>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                </>
+                            )
+                        }
                     </>
                 )
             case "done":
@@ -237,11 +271,81 @@ const AuctionDetailPage = () =>{
                                 <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545", fontSize: "40px"}}/>
                             </button>
                     </div>
-                <div className="thumbnailContainer">
-                    {img.map((image, index) => (
+                    <div className="thumbnailContainer">
+                        {img.map((image, index) => (
+                            <img
+                                key={index}
+                                className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                        src={image}
+                                        alt={`썸네일 ${index + 1}`}
+                                        onClick={() => handleThumbnailClick(index)}
+                                        loading="lazy"
+                                    />
+                                ))}
+                            </div>
+                            {user.isAdmin?
+                                (<div>
+                                        <button onClick={movePrevPage}>이전으로</button>
+                                        <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                        <button className='btn' onClick={changeStatus}>승인</button>
+                                        <button className='btn' onClick={onDelete}>삭제</button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <button onClick={movePrevPage}>이전으로</button>
+                                    </>
+                                )
+                            }
+                        </>
+                )
+            case "none":
+                return (
+                    <>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
+                        </button>
+                        <p className="boardStatus">경매 예정</p>
+                        <hr/>
                         <img
-                            key={index}
-                            className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                            className="itemImg"
+                            src={img[0]}
+                            alt={`${board.title}의 이미지`}
+                            loading="lazy"
+                        />
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{board.startDay}</p>
+                        <hr/>
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545" , fontSize:"40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545" , fontSize:"40px"}} />
+                            </button>
+                        </div>
+                        <div className="thumbnailContainer">
+                            {img.map((image, index) => (
+                                <img
+                                    key={index}
+                                    className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
                                     src={image}
                                     alt={`썸네일 ${index + 1}`}
                                     onClick={() => handleThumbnailClick(index)}
@@ -249,6 +353,19 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
+                        {user.isAdmin?
+                            (<div>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                    <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                    <button className='btn' onClick={changeStatus}>승인</button>
+                                    <button className='btn' onClick={onDelete}>삭제</button>
+                                </div>
+                            ):(
+                                <>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                </>
+                            )
+                        }
                     </>
                 )
             default:

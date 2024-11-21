@@ -123,9 +123,58 @@ public class AuctionController {
         }
     }
 
+    // 게시글 수정
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody AuctionDTO auctionDTO) {
+        try {
+            System.out.println("클라이언트로부터 받은 데이터: " + auctionDTO);
+
+            int result = auctionService.update(auctionDTO);
+            if (result > 0) {
+                return new ResponseEntity<>("게시글 수정 완료", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("게시글 수정 실패", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
+    // 게시글 삭제
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable int postId) {
 
+        try {
+            int result = auctionService.deletePost(postId);
+            if (result > 0) {
+                return new ResponseEntity<>("게시글 사용 여부 변경 성공",  HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("게시글 사용 여부 변경 실패", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // 게시글 승인
+    @PutMapping("approval/{postId}")
+    public ResponseEntity<?> approval(@PathVariable int postId) {
+        try {
+            int result = auctionService.approval(postId);
+            if (result > 0) {
+                return new ResponseEntity<>("승인 성공",  HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("승인 실패", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 }

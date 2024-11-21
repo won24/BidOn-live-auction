@@ -12,17 +12,19 @@
         <result property="content" column="content"/>
         <result property="createdAt" column="createdAt" />
         <result property="postStatus" column="postStatus"/>
-        <result property="startDay" column="startDay"/>
-        <result property="endDay" column="endDay"/>
+        <result property="startDay" column="startDAY"/>
+        <result property="endDay" column="endDAY"/>
         <result property="userCode" column="userCode"/>
         <result property="startCash" column="startCash"/>
         <result property="finalCash" column="finalCash"/>
+        <result property="usePost" column="usePost"/>
     </resultMap>
 
     <select id="selectAllAuction" resultMap="auctionResultMap">
         SELECT
             *
         FROM board
+        WHERE usePost = 1;
     </select>
 
 
@@ -30,7 +32,7 @@
         SELECT
            *
           FROM board
-        WHERE categoryCode = 'a';
+        WHERE categoryCode = 'a' and usePost = 1;
 
     </select>
 
@@ -38,28 +40,28 @@
         SELECT
            *
           FROM board
-        WHERE categoryCode = 'l';
+        WHERE categoryCode = 'l' and usePost = 1;
     </select>
 
     <select id="discontinuationList" resultMap="auctionResultMap">
         SELECT
            *
           FROM board
-        WHERE categoryCode = 'd';
+        WHERE categoryCode = 'd' and usePost = 1;
     </select>
 
     <select id="artProductList" resultMap="auctionResultMap">
         SELECT
             *
           FROM board
-        WHERE categoryCode = 'ap';
+        WHERE categoryCode = 'ap' and usePost = 1;
     </select>
 
     <select id="valuablesList" resultMap="auctionResultMap">
         SELECT
             *
           FROM board
-        WHERE categoryCode = 'v';
+        WHERE categoryCode = 'v' and usePost = 1;
     </select>
 
 
@@ -77,14 +79,41 @@
            *
           FROM board
         WHERE title LIKE CONCAT('%', #{q}, '%')
-        AND categoryCode = #{categoryCode};
+        AND categoryCode = #{categoryCode} and usePost = 1;
     </select>
 
     <select id="selectSearchItemsAllCategory" resultMap="auctionResultMap">
         SELECT
            *
           FROM board
-        WHERE title LIKE CONCAT('%', #{q}, '%');
+        WHERE title LIKE CONCAT('%', #{q}, '%') and usePost = 1;
     </select>
+
+    <update id="update">
+        UPDATE board
+        SET
+            title = #{title},
+            categoryCode = #{categoryCode},
+            content = #{content},
+            startDAY = #{startDay},
+            startCash = #{startCash},
+            postStatus = #{postStatus}
+        WHERE postId = #{postId}
+    </update>
+
+
+    <update id="notUsePost">
+        UPDATE board
+        SET
+            usePost = 0
+        WHERE postId = #{postId}
+    </update>
+
+    <update id="approval">
+        UPDATE board
+        SET
+        postStatus = "off"
+        WHERE postId = #{postId}
+    </update>
 
 </mapper>

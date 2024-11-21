@@ -1,5 +1,6 @@
 package com.gromit.auction_back.auction;
 
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Valid
 public class AuctionDTO {
 
     private int postId;
@@ -22,4 +24,5 @@ public class AuctionDTO {
     private int userCode;
     private int startCash;
     private int finalCash;
+    private boolean usePost;
 }

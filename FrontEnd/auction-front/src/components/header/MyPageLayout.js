@@ -1,27 +1,33 @@
-import {NavLink, Outlet} from "react-router-dom";
+import {NavLink, Route, Routes} from "react-router-dom";
+import {useState} from "react";
+import MyFar from "../../pages/mypage/MyFar";
+import MyProfile from "../../pages/mypage/MyProfile";
+import MyNotice from "../../pages/mypage/MyNotice";
 
 
 const MyPageLayout = () => {
 
+    const [showNavLinks, setShowNavLinks] = useState(true);
+
+    const handleLinkClick = (shouldShow) => {
+        setShowNavLinks(shouldShow);
+    };
+
     return (
-        <div className="mypage-layout">
-            <aside className="mypage-sidebar">
-                <div className="sidebar-title">마이페이지</div>
-                <ul>
-                    <li>
-                        <NavLink to="/mypage/myfar" activeClassName="active-link">즐겨찾기</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/mypage/myprofile" activeClassName="active-link">내 정보</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/mypage/mynotice" activeClassName="active-link">내 글</NavLink>
-                    </li>
-                </ul>
-            </aside>
-            <main className="mypage">
-                <Outlet/>
-            </main>
+        <div>
+            {showNavLinks && (
+                <nav>
+                    <NavLink to="/mypage/myfar" onClick={() => handleLinkClick(true)}>즐겨찾기 </NavLink>
+                    <NavLink to="/mypage/myprofile" onClick={() => handleLinkClick(true)}>내 정보 </NavLink>
+                    <NavLink to="/mypage/mynotice" onClick={() => handleLinkClick(true)}>내 글 </NavLink>
+                </nav>
+            )}
+
+            <Routes>
+                <Route path="myfar" element={<MyFar />}/>
+                <Route path="myprofile" element={<MyProfile />}/>
+                <Route path="mynotice" element={<MyNotice />} />
+            </Routes>
         </div>
     );
 };

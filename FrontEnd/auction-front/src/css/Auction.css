@@ -1,0 +1,37 @@
+.auctionTitle{}
+
+.auctionSubTitle{}
+
+.auctionCategory > a{
+    padding: 10px;
+}
+
+.auctionSearch{}
+
+.auctionSearchInput{}
+
+.auctionSearchBtn{}
+
+.checkBoxContainer{}
+
+.checkBoxLabel{}
+
+.checkboxInput{}
+
+.auctionListContainer{}
+
+.auctionItem{}
+
+.itemImg{
+    width: 300px;
+    height: 300px;
+}
+
+.itemTitle{}
+
+.loadingMessage{}
+
+.auctionListMessage{}
+
+
+

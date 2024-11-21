@@ -1,44 +1,43 @@
-import {useState} from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
+import { useLogin } from '../../pages/login/LoginContext';
 
 const RequestItem = () => {
-    const [loginInfo, setLoginInfo] = useState({
-        UserCode: 7,
-        Id: 'user7',
-        Password: 'password7',
-        Name: '나야,오류',
-        email: 'user7@example.com',
-        phone: '010-7777-7777',
-        birthDate: '1996-07-07',
-        address: '울산시 남구',
-        cash: 7000,
-        gender: '남',
-        isAdult: 'y',
-        isAdmin: 'n',
-        nickName: 'nickname7',
-        isSuspended: 'n'
-    });
-
-    const minSelectableDate = new Date();
-    minSelectableDate.setDate(minSelectableDate.getDate() + 7);
-    const filterTime = (time) => {
-        const hour = time.getHours();
-        return hour >= 12; // 12시 이후 시간만 활성화
-    };
-
+    const navigate = useNavigate();
+    const { user } = useLogin();
     const [formData, setFormData] = useState({
         categoryCode: '',
         date: new Date(),
         title: '',
         content: '',
-        userCode: loginInfo.UserCode, // 로그인 정보를 formData에 포함
-        imageURL: null, // 이미지 파일을 저장할 state
+        userCode: '',
         currentCash: 0
     });
 
-    // 입력값 변경 시 상태 업데이트
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imageURLs, setImageURLs] = useState([]);
+    const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prevState => ({
+                ...prevState,
+                userCode: user.userCode
+            }));
+        }
+    }, [user]);
+
+    const minSelectableDate = new Date();
+    minSelectableDate.setDate(minSelectableDate.getDate() + 7);
+
+    const filterTime = (time) => {
+        const hour = time.getHours();
+        return hour >= 12;
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -47,7 +46,6 @@ const RequestItem = () => {
         }));
     };
 
-    // 날짜 변경 시 상태 업데이트
     const handleDateChange = (date) => {
         setFormData(prevState => ({
             ...prevState,
@@ -55,63 +53,74 @@ const RequestItem = () => {
         }));
     };
 
-    // 이미지 파일 선택 시 처리
-    const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        console.log(file)
-        if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        setImageFiles(files);
+        const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
+        setImageURLs(fileURLs);
+    };
 
-            try {
-                const response = await axios.post('/upload-image', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                console.log(response.data.imageUrl)
-                // 서버로부터 받은 이미지 URL을 상태에 저장
-                setFormData(prevState => ({
-                    ...prevState,
-                    imageURL: response.data.imageUrl
-                }));
-            } catch (error) {
-                console.error('이미지 업로드 실패:', error);
-                // 에러 처리 로직 (예: 사용자에게 알림)
-            }
+    // 전체 취소 버튼 처리
+    const handleRemoveAllImages = () => {
+        setImageFiles([]); // 이미지 파일 배열 초기화
+        setImageURLs([]); // 미리보기 URL 배열 초기화
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // input[type="file"] 값 초기화
         }
     };
 
-    // 폼 제출 시 실행할 함수
     const handleSubmit = async (e) => {
-        e.preventDefault(); // 페이지 새로고침 방지
-        const submissionData = {
-            ...formData,
-            userCode: loginInfo.UserCode // 최신 로그인 정보를 사용
-        };
+        e.preventDefault();
+        console.log(formData);
 
         try {
-            const response = await axios.post('/request-item', submissionData, {
+            const response = await axios.post('http://localhost:8080/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 필요한 경우 인증 토큰 추가
-                    // 'Authorization': `Bearer ${yourAuthToken}`
                 }
             });
 
             if (response.status === 200 || response.status === 201) {
-                console.log('경매품 신청 성공:', response.data);
-                // 성공 메시지 표시 또는 다른 페이지로 리다이렉트
-                alert('경매품 신청이 완료되었습니다.');
-                // 예: history.push('/success-page');
+                const postId = response.data.postId;
+                console.log('폼 데이터가 저장되었습니다. postId:', postId);
+                await handleImageUpload(postId);
             } else {
                 throw new Error('서버 응답이 올바르지 않습니다.');
             }
         } catch (error) {
-            console.error('경매품 신청 실패:', error);
-            alert('경매품 신청 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            console.error('폼 제출 실패:', error);
+            alert('폼 제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     };
+
+    const handleImageUpload = async (postId) => {
+        const formData = new FormData();
+        for (const element of imageFiles) {
+            formData.append('images', element);
+        }
+
+        try {
+            const response = await axios.post('/images/upload', formData, {
+                params: { postId }
+            });
+
+            if (response.status === 200 || response.status === 201) {
+                console.log('이미지 업로드 성공');
+                alert('경매품 등록을 완료했습니다. 자세한 사항은 1:1 문의에 보내드리겠습니다');
+                navigate('/customer/notice');
+            } else {
+                throw new Error('이미지 업로드 실패');
+            }
+        } catch (error) {
+            console.error('이미지 업로드 실패:', error);
+            alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        }
+    };
+
+    if (!user) {
+        return <div>로그인이 필요합니다.</div>;
+    }
+
     return (
         <div className="requestitem-container">
             <h1>경매품 신청하기</h1>
@@ -123,17 +132,15 @@ const RequestItem = () => {
                 {/* 기존 폼 필드들 */}
                 <div className="form-group">
                     <label htmlFor="categoryCode">분류</label>
-                    <select id="categoryCode" name="categoryCode" value={formData.categoryCode} onChange={handleChange}
-                            required>
+                    <select id="categoryCode" name="categoryCode" value={formData.categoryCode} onChange={handleChange} required>
                         <option value="" disabled hidden>카테고리 선택</option>
-                        <option value="AT1">골동품</option>
-                        <option value="LT1">한정판</option>
-                        <option value="ED1">단종품</option>
-                        <option value="AR1">예술품</option>
-                        <option value="VA1">귀중품</option>
+                        <option value="a">골동품</option>
+                        <option value="l">한정판</option>
+                        <option value="d">단종품</option>
+                        <option value="ap">예술품</option>
+                        <option value="v">귀중품</option>
                     </select>
                 </div>
-
                 <div className="form-group">
                     <label>날짜</label>
                     <DatePicker
@@ -170,22 +177,41 @@ const RequestItem = () => {
                     />
                 </div>
 
-                {/* 이미지 파일 업로드 필드 추가 */}
+                {/* 이미지 파일 업로드 필드 */}
                 <div className="form-group">
                     <label htmlFor="image">이미지 첨부</label>
-                    <input type="file" id="image" name="image" onChange={handleImageChange} accept="image/*"/>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        onChange={handleImageChange}
+                        accept="image/*"
+                        multiple
+                        ref={fileInputRef}
+                    />
                 </div>
 
-                {formData.imageURL && (
+                {/* 미리보기 영역 */}
+                {imageURLs.length > 0 && (
                     <div className="image-preview">
-                        <img src={formData.imageURL} alt="미리보기" style={{maxWidth: '200px', maxHeight: '200px'}}/>
+                        {imageURLs.map((url, index) => (
+                            <div key={index} style={{ display: 'inline-block', position: 'relative', marginRight: '10px' }}>
+                                <img
+                                    src={url}
+                                    alt={`미리보기 ${index + 1}`}
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            </div>
+                        ))}
+                        <button type="button" onClick={handleRemoveAllImages}>
+                            전체 취소
+                        </button>
                     </div>
                 )}
-
                 <button type="submit">제출하기</button>
             </form>
         </div>
     );
-}
+};
 
 export default RequestItem;

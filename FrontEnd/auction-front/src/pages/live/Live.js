@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as api from "../../apis/AuctionItem";
+import * as api from "../acution/common/AuctionAPIs";
 import {Link} from "react-router-dom";
 
 

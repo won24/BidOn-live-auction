@@ -1,91 +1,108 @@
-// 즐겨찾기 (/mypage/myfar)
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./MyFar.css"; // 스타일 적용
 
-/*
-* posts 는 전체 게시물 목록, fars 는 즐겨찾기된 게시물 목록을 관리
-*
-* toggleFar 메소드는 게시물이 즐겨찾기 목록에 있는지 확인 후 이미 있을 시 제거, 없을 시 추가
-*
-* fars 의 길이에 따라 즐겨찾기된 게시물이 있는지 확인 후 목록을 보여주거나 "즐겨찾기 한 게시물이 없습니다." 라는 메시지 표시
-* */
+const MyFar = () => {
+    const [favorites, setFavorites] = useState([
+        { id: 1, name: "오늘은 2024년 11월 18일 월요일이닷" },
+        { id: 2, name: "역시나 프로젝트를 위해 계속 코딩을 한다 후후" },
+    ]); // 초기 데이터 추가
 
-import React from "react";
-import { Component } from "react";
+    const [loginInfo, setLoginInfo] = useState({
+        UserCode: 7,
+        Id: "user7",
+        Password: "password7",
+        Name: "나야,오류",
+        email: "user7@example.com",
+        phone: "010-7777-7777",
+        birthDate: "1996-07-07",
+        address: "울산시 남구",
+        cash: 7000,
+        gender: "남",
+        isAdult: "y",
+        isAdmin: "n",
+        nickName: "nickname7",
+        isSuspended: "n",
+    });
 
-class MyFar extends Component {
+    useEffect(() => {
+        // 서버에서 즐겨찾기 목록 가져오기
+        const fetchFavorites = async () => {
+            try {
+                const userCode= loginInfo.UserCode;
+                const response = await axios.post('/favo/favoList', {userCode});
 
-    // 생성자 메소드 - 초기 상태 정의
-    constructor(props) {
-        super(props);  // Component 의 생성자 호출
-        this.state = {
-            posts: [  // 게시물 목록을 상태로 저장
-                { id: 1, title: "게시물 1", content: "내용 1" },
-                { id: 2, title: "게시물 2", content: "내용 2" },
-                { id: 3, title: "게시물 3", content: "내용 3" },
-            ],
-            fars: [] // 즐겨찾기 목록을 빈 배열로 초기화
-        };
-    }
 
-    // 즐겨찾기 추가/제거 메서드
-    toggleFar = (post) => {
-        // 상태 업데이트 함수 호출
-        this.setState((prevState) => {
-            // 게시물이 이미 즐겨찾기 목록에 있는지 확인
-            const isFar = (prevState.fars || []).some((fav) => fav.id === post.id); // 오류 수정
-
-            if (isFar) {
-                // 이미 즐겨찾기된 경우, 해당 게시물 제거
-                return {
-                    fars: prevState.fars.filter((fav) => fav.id !== post.id),
-                };
-            } else {
-                // 즐겨찾기에 목록에 없으면, 게시물 추가
-                return {
-                    fars: [...prevState.fars, post],
-                };
+                setFavorites(response.data);
+                console.log(response.data)
+            } catch (error) {
+                console.error("즐겨찾기 목록 가져오기 실패 : ", error);
             }
-        });
+        };
+        fetchFavorites();
+    },[]);
+
+    const handleDeleteFavorite = async (id) => {
+        try {
+            // 서버에 삭제 요청 보내기
+            await axios.delete(`/favo/favoList/${id}`);
+            setFavorites(favorites.filter((item)  => item.id !== id));
+        } catch (error) {
+            console.error("즐겨찾기 삭제 실패 : ", error);
+        }
     };
 
-    // 렌더링 메소드
-    render() {
-        const { posts, fars } = this.state;  // 상태에서 게시물과 즐겨찾기 목록 추출
+    // const handleRequest = async () => {
+    //     try {
+    //         const response = await axios.post("/favo/favoList", loginInfo, {
+    //             headers: { "Content-Type": "application/json" },
+    //         });
+    //         console.log("서버 응답:", response.data);
+    //     } catch (error) {
+    //         console.error("요청 중 에러 발생:", error);
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     const storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+    //     if (storedFavorites) {
+    //         setFavorites(storedFavorites);
+    //     }
+    // }, []);
+    //
+    // const handleDeleteFavorite = (id) => {
+    //     const newFavorites = favorites.filter((item) => item.id !== id);
+    //     setFavorites(newFavorites);
+    //     localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    // };
 
-        return (
-            // 전체 컴포넌트를 감싸는 div
-            <div>
-                <h2>게시물 목록</h2>
-                <ul>
-                    {posts.map((post) => (
-                        // 각 게시물의 제목, 내용, 즐겨찾기 버튼
-                        <li key={post.id}>
-                            <h3>{post.title}</h3>
-                            <p>{post.content}</p>
-                            <button onClick={() => this.toggleFar(post)}>
-                                {fars.some((fav) => fav.id === post.id) ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-
-                <h2>즐겨찾기 게시물</h2>
-                {fars.length > 0 ? (  // 즐겨찾기 게시물이 있는 경우
-                    <ul>
-                        {fars.map((post) => (
-                            // 즐겨찾기된 게시물의 제목과 내용 표시
-                            <li key={post.id}>
-                                <h3>{post.title}</h3>
-                                <p>{post.content}</p>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    // 즐겨찾기된 게시물이 없을 때 표시할 텍스트
-                    <p>즐겨찾기 한 게시물이 없습니다.</p>
-                )}
-            </div>
-        );
-    }
-}
+    return (
+        <div className="favorites-container">
+            <h1 className="favorites-title">즐겨찾기</h1>
+            <table className="favorites-table">
+                <thead>
+                <tr>
+                    <th>목 차</th>
+                    <th>즐겨찾기 목록</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                {favorites.map((favorite, index) => (
+                    <tr key={favorite.id}>
+                        <td>{index + 1}</td>
+                        <td>{favorite.name}</td>
+                        <td>
+                            <button
+                                className={`favorite-button ${favorite.isDeleted ? 'deleted' : ''}`}
+                                onClick={() => handleDeleteFavorite(favorite.id)}>별</button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
 
 export default MyFar;

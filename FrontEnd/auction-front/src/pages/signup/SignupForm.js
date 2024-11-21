@@ -1,160 +1,185 @@
 /**
- * Signup2.js (도메인 및 파일명 수정 예정)
+ * Signup2.js -> SignupForm.js
  * - 회원가입 과정 중 회원 정보 입력 부분을 담당
  * 
+ * Nov 13:
+ * 1) '다음으로' 버튼 클릭 시 <form> 생성 (완료)
+ * 2) 각 <label>에 해당하는 입력 요소를 포함한 <form> 표시 (완료)
+ * 3) useRef 이용, 자동 스크롤 처리 (완료)
+ * 
+ * <form> 요구사항:
+ * 1) <input> 우측 dynamic 메시지를 통한 값 요구사항 표시 (완료)
+ * 2) 일부 항목에 대한 중복확인 절차 추가 (완료)
+ * 
+ * Nov 15:
+ * formFields 폴더 생성, <label> 별로 파일을 분리하였으며,
+ * 각 파일은 파일 이름에 해당하는 요소의 입력을 담당
  */
 
-import { useState } from 'react';
+// import GenderInput from './formFields/GenderInput';
+import { useState, useEffect } from 'react';
 import "../../css/SignupForm.css";
-import { useSignupContext } from "./SignupContext"; // Adjust the path as needed
+import { useSignupContext } from "./SignupContext";
+import IdInput from './formFields/IdInput';
+import PasswordInput from './formFields/PasswordInput';
+import ConfirmPasswordInput from './formFields/ConfirmPasswordInput';
+import NameInput from './formFields/NameInput';
+import NicknameInput from './formFields/NicknameInput';
+import BirthInput from './formFields/BirthInput';
+import EmailInput from './formFields/EmailInput';
+import PhoneInput from './formFields/PhoneInput';
+import AddressInput from './formFields/AddressInput';
 
 const SignupForm = () => 
 {
-    const { marketingPreferences } = useSignupContext();
+    const { setCurrentStep, marketingPreferences } = useSignupContext();
     const { sendEmail, sendMessage } = marketingPreferences;
+
     const [formData, setFormData] = useState(
     {
-        username: '',
+        id: '',
         password: '',
         confirmPassword: '',
+        name: '',
         email: '',
-        phoneNumber: '',
+        phone: { areaCode: '', middle: '', last: '' },
         address: '',
+        birth: '',
+        nickname: '',
     });
-    const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [formValid, setFormValid] = useState(false);
 
-    // Handle input change
+    // Generalized change handler
     const handleChange = (e) => 
     {
+        if (!e || !e.target) return;
+
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        setFormData((prevData) => 
+        {
+            return { ...prevData, [name]: value };
+        });
     };
 
-    // Form submission
+    // Address selection handler
+    const handleAddressSelect = (addressData) => 
+    {
+        setFormData((prevData) => (
+        {
+            ...prevData,
+            address: `[${addressData.zipCode}] ${addressData.roadAddress} ${addressData.detailAddress} (${addressData.extraAddr})`,
+        }));
+    };
+
+    // Validation function
+    useEffect(() => 
+    {
+        const isValid = 
+            formData.id.trim() !== '' &&
+            formData.password.trim() !== '' &&
+            formData.confirmPassword.trim() !== '' &&
+            formData.password === formData.confirmPassword &&
+            formData.name.trim() !== '' &&
+            formData.email.trim() !== '' &&
+            formData.nickname.trim() !== '' &&
+            formData.birth.trim() !== '' &&
+            formData.address.trim() !== '' &&
+            formData.phone.areaCode.trim() !== '' &&
+            formData.phone.middle.trim() !== '' &&
+            formData.phone.last.trim() !== '';
+        
+        setFormValid(isValid);
+    }, [formData]); // Validate whenever `formData` changes
+
+    // Form submission handler
     const handleSubmit = async (e) => 
     {
         e.preventDefault();
-        setError(null);
 
-        if (formData.password !== formData.confirmPassword) 
+        const phoneNumber = `${formData.phone.areaCode}-${formData.phone.middle}-${formData.phone.last}`;
+        const dataToSend = 
         {
-            setError("Passwords do not match");
-            return;
-        }
+            ...formData,
+            phone: phoneNumber,
+            marketingPreferences: 
+            {
+                sendEmail,
+                sendMessage,
+            },
+        };
 
         try {
-            const response = await fetch('http://localhost:8080/signup', 
+            const response = await fetch('http://localhost:8080/api/signup', 
             {
                 method: 'POST',
-                headers: 
-                {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
             });
 
-            if (!response.ok) 
-            {
-                const message = await response.json();
-                setError(message.error || 'Signup failed');
-            } 
-            else 
+            if (response.ok) 
             {
                 setSuccess(true);
             }
-        } catch (err) {
-            setError('An error occurred');
+        } catch (err) 
+        {
+            // console.error(err);
         }
     };
 
+    // Success case: Render success message
     if (success) 
     {
-        return <div className="success-message">Signup successful! You can now log in.</div>;
+        setCurrentStep(3);
     }
 
     return (
-        <form onSubmit={handleSubmit} className="signup-form">
         <div>
-            <p>[개발용, 삭제예정] 마케팅 수신 동의 상태 확인</p>
-            <ul>
-                <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
-                <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
-            </ul>
-
-            {/* Other form fields or components as needed */}
-        </div>
-            <h3>정보입력</h3>
-            <hr className='line' />
-            <div className="form-group">
-                <label htmlFor="username">아이디</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="password">비밀번호</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="confirmPassword">비밀번호 확인</label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
+            <form onSubmit={handleSubmit} className="signup-form">
+                <h3 className="subtitle">정보입력</h3>
+                <hr className="line" />
+                <span className="message">
+                    타인의 명의를 도용할 경우 관련 법에 따라 처벌을 받을 수 있으며, 당사는 이에 대해 어떠한 책임도 지지 않습니다.
+                </span>
+                <IdInput value={formData.id} onChange={handleChange} validate={true} />
+                <PasswordInput value={formData.password} onChange={handleChange} />
+                <ConfirmPasswordInput
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    required
+                    password={formData.password}
                 />
-            </div>
-            <div className="form-group">
-                <label htmlFor="email">이메일</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="phoneNumber">전화번호</label>
-                <input
-                    type="tel"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="address">주소</label>
-                <input
+                <NameInput value={formData.name} onChange={handleChange} />
+                <NicknameInput value={formData.nickname} onChange={handleChange} />
+                <BirthInput value={formData.birth} onChange={handleChange} />
+                <EmailInput value={formData.email} onChange={handleChange} />
+                <PhoneInput phone={formData.phone} setFormData={setFormData} formData={formData} />
+                <AddressInput onAddressSelect={handleAddressSelect} />
+                {/* DB 저장용 주소 디버그용 input */}
+                {/* <input
                     type="text"
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    required
-                />
-            </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="signup-button">가입하기</button>
-        </form>
+                    readOnly
+                    style={{ width: "400px" }}
+                /> */}
+                {/* <GenderInput value={formData.gender} onChange={handleChange} /> */}
+                <div className="button-wrapper">
+                    <button type="submit" className={`auth-link ${formValid ? "" : "disabled"}`} disabled={!formValid}>
+                        가입하기
+                    </button>
+                </div>
+            </form>
+            {/* 마케팅 수신 동의 확인용 */}
+            {/* <div>
+                <ul>
+                    <li>이메일 수신: {sendEmail ? "동의함" : "동의하지 않음"}</li>
+                    <li>SMS 수신: {sendMessage ? "동의함" : "동의하지 않음"}</li>
+                </ul>
+            </div> */}
+        </div>
     );
 };
 

@@ -1,0 +1,41 @@
+package com.gromit.auction_back.auction;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+
+@Mapper
+public interface AuctionDAO {
+
+    List<AuctionDTO> selectAllAuction();
+
+    List<AuctionDTO> antiqueList();
+
+    List<AuctionDTO> limitedList();
+
+    List<AuctionDTO> discontinuationList();
+
+    List<AuctionDTO> artProductList();
+
+    List<AuctionDTO> valuablesList();
+
+    AuctionDTO selectAuctionDetail(int postId);
+
+    List<AuctionDTO> selectSearchItems(String q, String categoryCode);
+
+    List<AuctionDTO> selectSearchItemsAllCategory(String decodedQ);
+
+    List<AuctionDTO> selectDoneList();
+
+    List<AuctionDTO> selectOnList();
+
+    List<AuctionDTO> selectOffList();
+
+
+    int update(AuctionDTO auctionDTO);
+
+    int notUsePost(int postId);
+
+    int approval(int postId);
+}

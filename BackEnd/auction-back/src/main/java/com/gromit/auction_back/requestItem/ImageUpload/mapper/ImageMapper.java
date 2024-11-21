@@ -1,6 +1,7 @@
 package com.gromit.auction_back.requestItem.ImageUpload.mapper;
 
 import com.gromit.auction_back.requestItem.ImageUpload.image.ImageDTO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -15,4 +16,7 @@ public interface ImageMapper  {
 
     @Select("SELECT * FROM imageurl WHERE postId = #{postId}")
     List<ImageDTO> selectImageByPostId(int postId);
+
+    @Delete("DELETE FROM imageurl WHERE postId = #{postId} AND imageUrl = #{imageUrl}")
+    int delete(String imageUrl, int postId);
 }

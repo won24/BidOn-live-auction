@@ -78,4 +78,24 @@ public class ImageController {
 
         return fileName;
     }
+
+
+    // 게시물 수정 페이지 - 이미지 삭제
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteImg( @RequestParam(required = false) String imageUrl,
+                                        @RequestParam(required = false) int postId) {
+        System.out.println("imageUrl = " + imageUrl);
+        System.out.println("postId = " + postId);
+        try {
+            int result = imageService.deleteImg(imageUrl,postId);
+            if (result > 0) {
+                return new ResponseEntity<>("이미지 삭제 성공",  HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("이미지 삭제 실패", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

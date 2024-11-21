@@ -21,8 +21,4 @@ public class FavoService {
         List<FavoDTO> result = favoDAO.getAllFavoList(userCode);
         return result;
     }
-
-//    public void deleteFavo(FavoDTO favoDTO) {
-//        favoDTO.deleteFavoById(d);
-//    }
 }

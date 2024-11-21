@@ -1,5 +1,6 @@
-import {NavLink, useNavigate} from "react-router-dom";
-import './NavigationBar.css'
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import '../../css/NavigationBar.css'
+import {useEffect} from "react";
 
 
 const Nav = () =>

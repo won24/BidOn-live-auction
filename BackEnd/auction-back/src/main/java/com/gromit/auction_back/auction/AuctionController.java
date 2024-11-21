@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auction")
@@ -142,6 +143,7 @@ public class AuctionController {
     }
 
 
+
     // 게시글 삭제
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable int postId) {
@@ -161,7 +163,7 @@ public class AuctionController {
 
 
     // 게시글 승인
-    @PutMapping("approval/{postId}")
+    @PostMapping("approval/{postId}")
     public ResponseEntity<?> approval(@PathVariable int postId) {
         try {
             int result = auctionService.approval(postId);

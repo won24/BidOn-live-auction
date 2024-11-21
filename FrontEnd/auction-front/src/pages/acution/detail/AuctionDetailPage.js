@@ -210,7 +210,7 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
-                        {user.isAdmin?
+                        {user?.isAdmin?
                             (<div>
                                     <button onClick={movePrevPage}>이전으로</button>
                                     <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
@@ -283,7 +283,7 @@ const AuctionDetailPage = () =>{
                                     />
                                 ))}
                             </div>
-                            {user.isAdmin?
+                            {user?.isAdmin?
                                 (<div>
                                         <button onClick={movePrevPage}>이전으로</button>
                                         <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
@@ -353,7 +353,7 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
-                        {user.isAdmin?
+                        {user?.isAdmin?
                             (<div>
                                     <button onClick={movePrevPage}>이전으로</button>
                                     <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>

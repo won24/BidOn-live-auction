@@ -51,7 +51,7 @@
 }
 
 .sliderButton:hover {
-    background-color: #555;
+    background-color: #454545;
 }
 
 .thumbnailContainer {
@@ -94,7 +94,7 @@
 .pagination button.active {
     font-weight: bold;
     color: white;
-    background-color: #007bff;
+    background-color: #454545;
 }
 
 .pagination button:disabled {

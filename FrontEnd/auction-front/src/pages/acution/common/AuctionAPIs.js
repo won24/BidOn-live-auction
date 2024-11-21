@@ -55,7 +55,7 @@ export const getBoardImg = (postId) =>{
 
 export const updatePost = async (formData) => {
     try {
-        const response = await axios.put('auction/update', formData, {
+        const response = await axios.put(`${BASE_URL}/update`, formData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -73,5 +73,5 @@ export const deletePost = (postId)=>{
 }
 
 export const approval = (postId) =>{
-    return axios.put(`${BASE_URL}/approval/${postId}`)
+    return axios.post(`${BASE_URL}/approval/${postId}`)
 }

@@ -12,6 +12,7 @@ import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
 import CustomerLayout from "./components/CustomerLayout";
 import Personal from "./pages/customer/Personal";
 import Notice from "./pages/customer/Notice";
+import Antique from "./pages/acution/Antique";
 import Limited from "./pages/acution/Limited";
 import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
@@ -28,6 +29,11 @@ import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 import Admin from "./pages/admin/Admin";
 import Antique from "./pages/acution/Antique";
 import PostEditPage from "./pages/acution/detail/PostEditPage";
+import AdminLayout from "./components/AdminLayout";
+import AdminInquire from "./pages/admin/AdminInquire";
+import AdminBoard from "./pages/admin/AdminBoard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminUserDetail from "./pages/admin/AdminUserDatail";
 
 
 
@@ -37,9 +43,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
-                    <Route path="admin" element={<Admin/>}/>
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
+                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
@@ -59,6 +65,13 @@ function App() {
                         <Route path="personal" element={<Personal />} />
                         <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
+                    </Route>
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route index element={<AdminInquire />} />
+                        <Route path="inquiries" element={<AdminInquire />} />
+                        <Route path="posts" element={<AdminBoard />} />
+                        <Route path="users" element={<AdminUsers />} />
+                        <Route path="users/:userCode" element={<AdminUserDetail />} />
                     </Route>
                 </Route>
                 <Route path ="/member" element={<OnlyFooterLayout/>}>

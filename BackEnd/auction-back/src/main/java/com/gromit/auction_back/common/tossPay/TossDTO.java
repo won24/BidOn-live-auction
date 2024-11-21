@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TossDTO {
-    private int usercode;
+    private int userCode;
     private int amount;
 }

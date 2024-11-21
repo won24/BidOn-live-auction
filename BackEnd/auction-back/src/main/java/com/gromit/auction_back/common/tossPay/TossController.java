@@ -10,14 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/toss")
 public class TossController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TossController.class);
 
     @Autowired
     private TossService tossService;
@@ -25,16 +22,6 @@ public class TossController {
     @PostMapping("/save")
     public ResponseEntity<String> savePayment(@RequestBody TossDTO paymentRequest, HttpServletRequest request) {
         try {
-            // 요청 본문 로깅
-            String body = getRequestBody(request);
-            logger.info("Request body: {}", body);
-
-            // Content-Type 헤더 로깅
-            String contentType = request.getHeader("Content-Type");
-            logger.info("Content-Type: {}", contentType);
-
-            // TossDTO 객체 로깅
-            logger.info("TossDTO object: {}", paymentRequest);
 
             // TossService를 통해 결제 정보 저장
             tossService.savePaymentInfo(paymentRequest);
@@ -42,7 +29,6 @@ public class TossController {
             return ResponseEntity.ok("Payment information saved successfully");
         } catch (Exception e) {
             // 예외 처리
-            logger.error("Error saving payment information", e);
             return ResponseEntity.badRequest().body("Error saving payment information: " + e.getMessage());
         }
     }

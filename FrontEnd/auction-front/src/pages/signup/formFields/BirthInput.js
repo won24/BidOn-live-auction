@@ -7,7 +7,6 @@ const BirthInput = ({ value, onChange }) => (
             name="birth"
             value={value}
             onChange={onChange}
-            aria-required="true"
             style={{ width: "120px"}}
             required
         />

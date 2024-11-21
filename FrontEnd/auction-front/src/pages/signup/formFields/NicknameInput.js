@@ -77,7 +77,6 @@ const NicknameInput = ({ value, onChange }) =>
             else 
             {
                 setDescription("네트워크 오류로 중복 확인에 실패했습니다.");
-                console.log(error);
             }
             setDescriptionColor("red");
         } finally {
@@ -109,7 +108,6 @@ const NicknameInput = ({ value, onChange }) =>
                 onChange={handleChange}
                 style={{ width: "120px"}}
                 maxLength={10}
-                required
             />
             <button 
                 type="button" 

@@ -34,5 +34,6 @@ public class UserDTO
     private boolean sendEmail;
     private boolean sendMessage;
 
-    public UserDTO(String id, int userCode, Boolean isAdmin) {}
+    // 로그인 시 필요한 정보 전달
+    public UserDTO(String id, int userCode, Boolean isAdmin, String nickname) {}
 }

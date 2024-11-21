@@ -3,13 +3,16 @@ package com.gromit.auction_back.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
 
@@ -44,7 +47,41 @@ public class UserService {
         // Map User entity to UserDTO
         UserDTO userDTO = new UserDTO();
         userDTO.setUserCode(user.getUserCode());
-        userDTO.setIsAdmin(user.getIsAdmin()); // Ensure this is not null
+        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setNickname(user.getNickname());
         return userDTO;
+    }
+
+    public Optional<String> findIdByNameAndPhone(String name, String phone)
+    {
+        return userRepository.findIdByNameAndPhone(name, phone);
+
+    }
+
+    public Optional<String> findIdByNameAndEmail(String name, String email)
+    {
+        return userRepository.findIdByNameAndEmail(name, email);
+
+    }
+
+    public boolean existsByIdAndNameAndPhone(String id, String name, String phone)
+    {
+        return userRepository.existsByIdAndNameAndPhone(id, name, phone);
+    }
+
+    public boolean existsByIdAndNameAndEmail(String id, String name, String email)
+    {
+        return userRepository.existsByIdAndNameAndEmail(id, name, email);
+    }
+
+    public void updatePassword(PasswordUpdateRequest request) throws UserNotFoundException
+    {
+        // Find user by id (not primary key) and name
+        UserDTO user = userRepository.findById(request.getId());
+
+        // Update the user's password
+        user.setPassword(request.getPassword());
+
+        userRepository.save(user);
     }
 }

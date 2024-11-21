@@ -4,7 +4,7 @@
     flex-direction: column;  /* 수직으로 정렬 */
     align-items: center; /* 수평 중앙 정렬 */
     justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
-    min-height: 100vh;  /* 화면 전체 높이를 차지하게 */
+    min-height: 74vh;  /* 화면 전체 높이를 차지하게 */
     padding: 0;
     margin: 0;
 }
@@ -16,7 +16,7 @@
     align-items: center;  /* 수직 중앙 정렬 */
     width: 100%;
     max-width: 1920px;  /* 최대 너비 설정 */
-    padding: 20px;
+    padding: 20px 0px;
 }
 
 /* 슬라이드 리스트 스타일 */
@@ -53,7 +53,7 @@
 /* 하단 카테고리 영역 */
 .mainCategoryContainer {
     width: 100%;
-    padding: 40px 20px;
+    padding: 40px 0px;
     display: flex;
     align-items: center;  /* 카테고리 텍스트와 링크들을 중앙 정렬 */
     gap: 20px;

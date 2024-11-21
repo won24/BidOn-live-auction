@@ -4,6 +4,9 @@
  * 
  * SignupContext.js의 useContext를 이용하여,
  * 1) 버튼을 눌러 다음 단계로 진행할 때마다 진행도 1 증가 (완료)
+ * 
+ * Nov 14,
+ * 뒤로가기 등의 작업 수행 시 진행도 초기화
  */
 
 import { useSignupContext } from "./SignupContext";

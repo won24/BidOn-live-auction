@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const IdInput = ({ value, onChange }) => 
+const IdInput = ({ value, onChange, validate }) => 
 {
     const [description, setDescription] = useState("아이디는 5-15자의 영문자 혹은 영문자와 숫자의 조합이어야 합니다.");
     const [descriptionColor, setDescriptionColor] = useState("#666"); // Initial color
@@ -82,7 +82,6 @@ const IdInput = ({ value, onChange }) =>
             else 
             {
                 setDescription("네트워크 오류로 중복 확인에 실패했습니다.");
-                console.log(error);
             }
             setDescriptionColor("red");
         } finally {
@@ -114,22 +113,24 @@ const IdInput = ({ value, onChange }) =>
                 onChange={handleChange}
                 maxLength={15}
                 style={{ width: "120px" }}
-                required
             />
-            <button 
-                type="button" 
-                className="check-button" 
-                onClick={debouncedCheckDuplication}
-                disabled={isChecking}
-            >
-                {isChecking ? "확인 중..." : "중복확인"}
-            </button>
-            <span
-                className="input-description"
-                style={{ color: descriptionColor }}
-            >
-                {description}
-            </span>
+            {validate ? (
+                <>
+                    <button 
+                        type="button" 
+                        className="check-button" 
+                        onClick={debouncedCheckDuplication}
+                        disabled={isChecking}
+                    >
+                        {isChecking ? "확인 중..." : "중복확인"}
+                    </button>
+                    <span
+                        className="input-description"
+                        style={{ color: descriptionColor }}
+                    >
+                        {description}
+                    </span>
+                </>) : (<></>)}
         </div>
     );
 };

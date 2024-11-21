@@ -126,6 +126,7 @@ const Postcode = ({ onAddressSelect }) =>
             <input 
                 value={roadAddress}
                 readOnly
+                required
                 placeholder="도로명 주소"
                 style={{ width: "280px", margin: "0px 6px 2px 0px" }}
             />
@@ -135,6 +136,7 @@ const Postcode = ({ onAddressSelect }) =>
                 placeholder="참고항목"
                 style={{ width: "96px", margin: "-2px 0px 2px 0px" }}
                 readOnly
+                required
             />
             <br />
             <input
@@ -143,8 +145,6 @@ const Postcode = ({ onAddressSelect }) =>
                 value={detailAddress}
                 placeholder="상세주소"
                 style={{ margin: "0px 0px 5px 0px" }}
-
-                required
             />
             <br />
 

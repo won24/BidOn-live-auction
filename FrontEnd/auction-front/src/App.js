@@ -30,6 +30,7 @@ import AdminLayout from "./components/AdminLayout";
 import AdminInquire from "./pages/admin/AdminInquire";
 import AdminBoard from "./pages/admin/AdminBoard";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminUserDetail from "./pages/admin/AdminUserDatail";
 
 
 
@@ -65,6 +66,7 @@ function App() {
                         <Route path="inquiries" element={<AdminInquire />} />
                         <Route path="posts" element={<AdminBoard />} />
                         <Route path="users" element={<AdminUsers />} />
+                        <Route path="users/:userCode" element={<AdminUserDetail />} />
                     </Route>
                 </Route>
                 <Route path ="/member" element={<OnlyFooterLayout/>}>

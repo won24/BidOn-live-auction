@@ -29,6 +29,8 @@ import Terms from "./components/footer/Terms";
 import Privacy from "./components/footer/Privacy";
 import FindMyId from "./pages/find/FindMyId";
 import FindMyPw from "./pages/find/FindMyPw";
+import ChatWindow from "./pages/live/websocket/ChatWindow";
+import TestPage from "./pages/live/websocket/TestPage";
 
 function App() {
     return (
@@ -68,6 +70,9 @@ function App() {
                     <Route path="phone" element={<FindMyPw />} />
                     <Route path="email" element={<FindMyPw />} />
                 </Route>
+                <Route path="/chattingwindow" element={<TestPage/>}/>
+                <Route path="/chattingwindow/:userId" element={<ChatWindow/>}/>
+
                 <Route path="terms" element={<Terms />} />
                 <Route path="privacy" element={<Privacy />} />
                 <Route path="checkout" element={<CheckoutPage />} />

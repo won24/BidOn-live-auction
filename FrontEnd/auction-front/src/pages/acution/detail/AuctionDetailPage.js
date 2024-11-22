@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import {useLogin} from "../../login/LoginContext";
-import {format, parseISO} from "date-fns";
 import {formatToKoreanDate} from "./FormatDate";
 
 
@@ -66,8 +65,6 @@ const AuctionDetailPage = () =>{
         }finally {
             setIsLoading(false)
         }
-
-        console.log(img)
     };
 
     useEffect( () => {

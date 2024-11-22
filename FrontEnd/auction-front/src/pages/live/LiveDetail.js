@@ -30,6 +30,7 @@ const LiveDetail = () =>{
             const response = await api.postDetail(postId);
             const data = response.data;
             setBoard(data);
+            console.log(data.startDay);
         } catch (error) {
             console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
         }finally {
@@ -147,7 +148,6 @@ const LiveDetail = () =>{
                                                 style={{color: "#454545", fontSize: "24px"}}/>)}
                     </button>
 
-                    <button className="bid-btn">입찰</button>
                     <hr/>
 
                     <img

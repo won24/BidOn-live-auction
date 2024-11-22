@@ -108,6 +108,7 @@ const Login = () =>
                 sessionStorage.setItem("userCode", responseData.userCode); // Store userCode
                 sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
                 sessionStorage.setItem("userNickname", responseData.nickname);
+                sessionStorage.setItem("userCash", responseData.cash);
                 setIsLoggedIn(true);
                 navigate(current, { replace: true }); // Navigate to the previous page
             } 

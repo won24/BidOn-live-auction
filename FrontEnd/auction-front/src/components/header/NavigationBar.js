@@ -64,6 +64,8 @@ const Nav = () =>
                                 <span className="user-welcome">
                                     {/* {userCode} */}
                                     {isAdmin ? "[관리자] " : ""}{userNickname}님, 환영합니다.
+                                    <button className="login-button2"
+                                            onClick={() => navigate("/admin")}>관리자페이지</button>
                                 </span>
                                 <button className="login-button2" onClick={() => navigate("/mypage/myprofile")}>마이페이지</button>
                                 <button className="login-button2" onClick={handleLogout}>로그아웃</button>

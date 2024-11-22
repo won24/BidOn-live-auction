@@ -13,25 +13,56 @@ export const LoginProvider = ({ children }) =>
 {
     const [user, setUser] = useState(null);
 
+    const fetchUserData = async (userId) => 
+    {
+        try {
+            const response = await fetch(`http://localhost:8080/api/id/${userId}`);
+            if (response.ok) 
+            {
+                const data = await response.json();
+                setUser((prevUser) => (
+                {
+                    ...prevUser,
+                    userCash: data.cash, // Update cash
+                    ...data, // Merge other user properties
+                }));
+            } 
+            else 
+            {
+                console.error("Failed to fetch user data");
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+    
     useEffect(() => 
     {
-        // 이런 식으로 선언해서 사용할 것
+        // 대충 이런 식으로 선언해서 사용하면 됨
         const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) 
         {
-            setUser(
+            const userData = 
             {
-                // 사용 가능한 데이터 목록
+                // 조회할 수 있는 column 목록
                 userId: sessionStorage.getItem("userId"),
-                userCode: sessionStorage.getItem("userCode"),
+                userCode: sessionStorage.getItem("userCode"), // Optional if not used
                 userNickname: sessionStorage.getItem("userNickname"),
                 isAdmin: sessionStorage.getItem("isAdmin") === "true",
-            });
+                userCash: sessionStorage.getItem("userCash"),
+            };
+            setUser(userData);
+    
+            // Fetch the latest data from the database using userId
+            if (userData.userId) 
+            {
+                fetchUserData(userData.userId);
+            }
         }
     }, []);
 
     return (
-        <LoginContext.Provider value={{ user, setUser }}>
+        <LoginContext.Provider value={{ user, setUser, fetchUserData }}>
             {children}
         </LoginContext.Provider>
     );

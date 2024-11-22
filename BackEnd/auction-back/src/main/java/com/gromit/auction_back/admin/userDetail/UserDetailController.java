@@ -49,4 +49,20 @@ public class UserDetailController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    @GetMapping("/bid/{userCode}")
+    public ResponseEntity<UserDetailDTO> getUserById(@PathVariable int userCode){
+        try {
+            System.out.println("유저 코드 " + userCode + "의 상세정보");
+            UserDetailDTO user = userDetailService.getUserByCode(userCode);
+            System.out.println(user);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            System.err.println("Error occurred while fetching user: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

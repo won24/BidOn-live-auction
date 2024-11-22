@@ -41,6 +41,7 @@ public class AuctionService {
         return auctionDAO.valuablesList();
     }
 
+
     public AuctionDTO detail(int postId) {
         AuctionDTO auctionDTO = auctionDAO.selectAuctionDetail(postId);
         return auctionDTO;

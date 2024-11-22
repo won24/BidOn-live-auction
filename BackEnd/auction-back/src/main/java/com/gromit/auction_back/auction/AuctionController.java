@@ -1,14 +1,21 @@
 package com.gromit.auction_back.auction;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/auction")
 public class AuctionController {
@@ -20,47 +27,49 @@ public class AuctionController {
         this.auctionService = auctionService;
     }
 
-    // 전체 / 카테고리별 리스트 받아오기
-    @GetMapping
-    public List<AuctionDTO> auctionList(){
-        List<AuctionDTO> auctionList = auctionService.getAllList();
-        System.out.println("auctionList = " + auctionList);
-        return auctionList;
+    private static final Logger logger = LoggerFactory.getLogger(AuctionController.class);
+
+
+    // 전체, 카테고리별 리스트 받아오기
+    private ResponseEntity<List<AuctionDTO>> getAuctionList(Supplier<List<AuctionDTO>> serviceCall, String logMessage) {
+
+        List<AuctionDTO> auctionList = serviceCall.get();
+        logger.info(logMessage + "조회 완료. 항목 수: {}", auctionList.size());
+        return ResponseEntity.ok(auctionList);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<AuctionDTO>> getAllList() {
+        return getAuctionList(auctionService::getAllList, "전체목록");
     }
 
     @GetMapping("/antique")
-    public List<AuctionDTO> antiqueList(){
-        List<AuctionDTO> auctionList = auctionService.getAntiqueList();
-        System.out.println("앤티크 = " + auctionList);
-        return auctionList;
+    public ResponseEntity<List<AuctionDTO>> getAntiqueList() {
+        return getAuctionList(auctionService::getAntiqueList, "앤티크");
     }
+
 
     @GetMapping("/limited")
-    public List<AuctionDTO> limitedList(){
-        List<AuctionDTO> auctionList = auctionService.getLimitedList();
-        System.out.println("한정판 = " + auctionList);
-        return auctionList;
+    public ResponseEntity<List<AuctionDTO>> getLimitedList() {
+        return getAuctionList(auctionService::getLimitedList, "한정판");
     }
+
 
     @GetMapping("/discontinuation")
-    public List<AuctionDTO> discotinuationList(){
-        List<AuctionDTO> auctionList = auctionService.getDiscontinuationList();
-        System.out.println("단종템 = " + auctionList);
-        return auctionList;
+    public ResponseEntity<List<AuctionDTO>> getDiscontinuationList() {
+        return getAuctionList(auctionService::getDiscontinuationList, "단종품");
     }
+
 
     @GetMapping("/artproduct")
-    public List<AuctionDTO> artproductList(){
-        List<AuctionDTO> auctionList = auctionService.getArtProductList();
-        System.out.println("예술품 = " + auctionList);
-        return auctionList;
+    public ResponseEntity<List<AuctionDTO>> getArtProductList() {
+        return getAuctionList(auctionService::getArtProductList, "예술품");
     }
 
+
     @GetMapping("/valuables")
-    public List<AuctionDTO> valuablesList(){
-        List<AuctionDTO> auctionList = auctionService.getValuablesList();
-        System.out.println("귀중품 = " + auctionList);
-        return auctionList;
+    public ResponseEntity<List<AuctionDTO>> getValuablesList() {
+        return getAuctionList(auctionService::getValuablesList, "귀중품");
     }
 
 
@@ -68,21 +77,16 @@ public class AuctionController {
     @GetMapping("/{postId}")
     public ResponseEntity<?> getAuctionDetail(@PathVariable int postId){
 
-        try {
-            AuctionDTO auctionDTO = auctionService.detail(postId);
-            System.out.println("디테일"+auctionDTO);
-            if( auctionDTO == null ) {
-                auctionDTO = new AuctionDTO();
-                auctionDTO.setTitle("데이터 없음");
-                return new ResponseEntity<>(auctionDTO, HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(auctionDTO, HttpStatus.OK);
-            }
+        AuctionDTO auctionDTO = auctionService.detail(postId);
+        logger.info("해당 게시글 상세 조회 " + auctionDTO);
 
-        }catch (Exception e) {
-            System.out.println(e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if( auctionDTO == null ) {
+            auctionDTO = new AuctionDTO();
+            auctionDTO.setTitle("데이터 없음");
+            return new ResponseEntity<>(auctionDTO, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(auctionDTO, HttpStatus.OK);
         }
 
     }
@@ -93,90 +97,91 @@ public class AuctionController {
     public ResponseEntity<List<AuctionDTO>> searchItems(@RequestParam(required = false) String q,
                                                         @RequestParam(required = false) String categoryCode) {
 
-        System.out.println("categoryCode = " + categoryCode);
-
-        try {
-            String decodedQ = URLDecoder.decode(q, "UTF-8");
-            System.out.println(decodedQ);
-
-            List<AuctionDTO> items = auctionService.searchItems(decodedQ,categoryCode);
-            System.out.println(items);
-            return ResponseEntity.ok(items);
-        } catch (Exception e) {
-            System.out.println("에러 발생: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (q == null || q.isEmpty()) {
+            return ResponseEntity.badRequest().body(Collections.emptyList());
         }
+        String decodedQ = URLDecoder.decode(q, StandardCharsets.UTF_8);
+
+        List<AuctionDTO> items = auctionService.searchItems(decodedQ,categoryCode);
+        return ResponseEntity.ok(items);
+
     }
 
     // 전체 리스트에서 검색
     @GetMapping("/searchitem")
     public ResponseEntity<List<AuctionDTO>> searchItemAllCategory(@RequestParam(required = false) String q){
-        try {
-            String decodedQ = URLDecoder.decode(q, "UTF-8");
-            System.out.println(decodedQ);
-
-            List<AuctionDTO> items = auctionService.searchItemAllCategory(decodedQ);
-            System.out.println(items);
-            return ResponseEntity.ok(items);
-        } catch (Exception e) {
-            System.out.println("에러 발생: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (q == null || q.isEmpty()) {
+            return ResponseEntity.badRequest().body(Collections.emptyList());
         }
+        String decodedQ = URLDecoder.decode(q, StandardCharsets.UTF_8);
+
+        List<AuctionDTO> items = auctionService.searchItemAllCategory(decodedQ);
+        return ResponseEntity.ok(items);
     }
+
 
     // 게시글 수정
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody AuctionDTO auctionDTO) {
-        try {
-            System.out.println("클라이언트로부터 받은 데이터: " + auctionDTO);
+    public ResponseEntity<?> updatePost(@RequestBody AuctionDTO auctionDTO) {
 
+        try {
             int result = auctionService.update(auctionDTO);
             if (result > 0) {
-                return new ResponseEntity<>("게시글 수정 완료", HttpStatus.OK);
+                return ResponseEntity.noContent().build();
             } else {
-                return new ResponseEntity<>("게시글 수정 실패", HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 실패");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("수정 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
 
     // 게시글 삭제
-    @DeleteMapping("/delete/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable int postId) {
+    @PostMapping("/delete/{postId}")
+    public ResponseEntity<?> notUsePost(@PathVariable int postId) {
 
         try {
-            int result = auctionService.deletePost(postId);
+            int result = auctionService.notUsePost(postId);
             if (result > 0) {
-                return new ResponseEntity<>("게시글 사용 여부 변경 성공",  HttpStatus.OK);
+                return ResponseEntity.noContent().build();
             } else {
-                return new ResponseEntity<>("게시글 사용 여부 변경 실패", HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 실패");
             }
-        } catch (Exception e) {
-            System.out.println("에러 발생: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception e) {
+            logger.error("삭제 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
     // 게시글 승인
-    @PostMapping("approval/{postId}")
+    @PostMapping("/approval/{postId}")
     public ResponseEntity<?> approval(@PathVariable int postId) {
         try {
             int result = auctionService.approval(postId);
             if (result > 0) {
-                return new ResponseEntity<>("승인 성공",  HttpStatus.OK);
+                return ResponseEntity.noContent().build();
             } else {
-                return new ResponseEntity<>("승인 실패", HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
             }
         } catch (Exception e) {
-            System.out.println("에러 발생: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("승인 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
+    // 라이브 리스트
+    @GetMapping("/live")
+    public ResponseEntity<List<AuctionDTO>> getLiveList() {
+        return getAuctionList(auctionService::getLiveList, "방송중");
+    }
+
+
+
 }
+
+

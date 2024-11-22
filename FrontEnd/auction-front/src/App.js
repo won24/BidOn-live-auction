@@ -47,7 +47,6 @@ function App() {
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
-                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>

@@ -4,6 +4,8 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import * as api from "../common/AuctionAPIs";
 import axios from "axios";
 import '../../../css/PostEditPage.css'
+import {notUseThisPost} from "../common/AuctionAPIs";
+import {format, parseISO} from "date-fns";
 
 
 const PostEditPage = () => {
@@ -23,6 +25,8 @@ const PostEditPage = () => {
     const [imageFiles, setImageFiles] = useState([]);
     const [imageURLs, setImageURLs] = useState([]);
     const fileInputRef = useRef(null);
+
+
     // 게시글 정보 가져오기
     const getBoard = async () => {
         try {
@@ -180,7 +184,7 @@ const PostEditPage = () => {
     // 게시글 삭제
     const onDelete = async () => {
 
-        const response = await api.deletePost(postId);
+        const response = await api.notUseThisPost(postId);
         console.log("postDelete", response.data);
         alert('삭제 완료')
 

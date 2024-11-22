@@ -44,12 +44,18 @@ const AuctionTimer = ({ startTime }) => {
         <div>
             {hasStarted ? (
                 remainingTime > 0 ? (
-                    <p>{formatTime(remainingTime)}</p>
+                    <div>
+                        <p>{formatTime(remainingTime)}</p>
+                        <p>후 경매가 종료됩니다.</p>
+                    </div>
                 ) : (
                     <p>경매 종료</p>
                 )
             ) : (
-                <p>경매 시작 전 남은 시간: {formatTime(remainingTime)}</p>
+                <div>
+                    <p>곧 라이브 경매가 시작됩니다.</p>
+                    <p> {formatTime(remainingTime)}</p>
+                </div>
             )}
         </div>
     );

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gromit.auction_back.mapper.BidMapper">
+    <select id="getCurrentHighestBid" resultType="int">
+        SELECT MAX(bidAmount) FROM bids WHERE postId = #{postId}
+    </select>
+
+    <select id="getUserCash" resultType="int">
+        SELECT cash FROM users WHERE userCode = #{userCode}
+    </select>
+
+    <insert id="updateBid" parameterType="com.gromit.auction_back.websocket.BidDTO">
+        INSERT INTO bid (postId, userCode, bidAmount)
+        VALUES (#{postId}, #{userCode}, #{bidAmount})
+    </insert>
+
+    <update id="updateUserCash">
+        UPDATE users SET cash = #{newCash} WHERE userCode = #{userCode}
+    </update>
+    <select id="getLatestBidInfo" resultType="com.gromit.auction_back.websocket.BidDTO">
+        SELECT * FROM bid WHERE postId = #{postId} ORDER BY bidAmount DESC LIMIT 1
+    </select>
+</mapper>

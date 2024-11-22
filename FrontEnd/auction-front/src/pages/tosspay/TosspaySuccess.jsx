@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect, useRef} from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLogin } from "../login/LoginContext";
 import axios from "axios";
@@ -7,6 +7,7 @@ export function SuccessPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const { user } = useLogin();
+    const hasRun = useRef(false);
 
     useEffect(() => {
         const requestData = {
@@ -15,46 +16,33 @@ export function SuccessPage() {
             paymentKey: searchParams.get("paymentKey"),
         };
 
-        async function confirm() {
-            try {
-                const response = await fetch("/confirm", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(requestData),
-                });
+        async function saveTossPayment() {
+            if (hasRun.current) return; // 이미 실행되었다면 종료
+            hasRun.current = true; // 실행 플래그 설정
 
-                const json = await response.json();
-                console.log(json);
+            console.log("Current user:", user);
+            console.log("User code:", user?.userCode);
 
-                if (!response.ok) {
-                    navigate(`/fail?message=${json.message}&code=${json.code}`);
-                    return json;
+            if (user && user.userCode > 0) {
+                try {
+                    await axios.post('/toss/save', {
+                        userCode: user.userCode,
+                        amount: Number(requestData.amount)
+                    });
+                    console.log('결제 정보가 성공적으로 저장되었습니다.');
+                } catch (error) {
+                    console.error('결제 정보 저장 중 오류 발생:', error);
+                    navigate('/fail?message=결제 정보 저장 중 오류가 발생했습니다.');
                 }
-
-                // 결제 성공 시 /toss/save로 데이터 전송
-                if (user && user.userCode) {
-                    try {
-                        await axios.post('/toss/save', {
-                            userCode: user.userCode,
-                            amount: Number(requestData.amount)
-                        });
-                        console.log('결제 정보가 성공적으로 저장되었습니다.');
-                    } catch (error) {
-                        console.error('결제 정보 저장 중 오류 발생:', error);
-                    }
-                } else {
-                    console.error('사용자 정보가 없습니다.');
-                }
-
-            } catch (error) {
-                console.error('결제 확인 중 오류 발생:', error);
-                navigate('/fail?message=결제 확인 중 오류가 발생했습니다.');
+            } else {
+                console.error('사용자 정보가 없습니다.');
+                navigate('/fail?message=사용자 정보를 찾을 수 없습니다.');
             }
         }
 
-        confirm();
+        if (user && searchParams) {
+            saveTossPayment();
+        }
     }, [navigate, searchParams, user]);
 
     return (

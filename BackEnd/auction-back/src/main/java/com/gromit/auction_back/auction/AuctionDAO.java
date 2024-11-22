@@ -26,9 +26,11 @@ public interface AuctionDAO {
 
     List<AuctionDTO> selectSearchItemsAllCategory(String decodedQ);
 
-    List<AuctionDTO> selectDoneList();
+    int update(AuctionDTO auctionDTO);
 
-    List<AuctionDTO> selectOnList();
+    int notUsePost(int postId);
 
-    List<AuctionDTO> selectOffList();
+    int approval(int postId);
+
+    List<AuctionDTO> getLiveList();
 }

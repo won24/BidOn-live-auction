@@ -41,7 +41,6 @@ const PasswordInput = ({ value, onChange }) =>
                 value={value}
                 onChange={handleChange}
                 style={{ width: "120px" }}
-                required
             />
             <span className="input-description" style={{ color: descriptionColor }}>
                 {description}

@@ -1,26 +1,32 @@
-import {useParams} from "react-router-dom";
-import * as api from "../../../apis/AuctionItem";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import * as api from "../common/AuctionAPIs";
 import {useEffect, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
+import '../../../css/AuctionDetail.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import {useLogin} from "../../login/LoginContext";
+import {format, parseISO} from "date-fns";
+import {formatToKoreanDate} from "./FormatDate";
 
 
 const AuctionDetailPage = () =>{
 
     const {postId} = useParams();
-    const [board, setBoard] = useState({});
+    const [board, setBoard] = useState([]);
     const [postStatus, setPostStatus] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const userCode = sessionStorage.getItem("userCode");
+    const { user } = useLogin();
+    const [fav, setFav] = useState({
+        userCode: userCode,
+        status: false
+    })
+    const [img, setImg] = useState([]);
+    const [currentImgIndex, setCurrentImgIndex] = useState(0);
+    const navigate = useNavigate();
 
-
-    const [logintest,setLoginTest] = useState({
-        UserCode: 7,
-        Id: 'user7', Password: 'password7',
-        Name: '나야,오류', email: 'user7@example.com',
-        phone: '010-7777-7777', birthDate: '1996-07-07',
-        address: '울산시 남구', cash: 7000, gender: '남',
-        isAdult: 'y',isAdmin: 'n', nickName: 'nickname7',
-        isSuspended: 'n'
-    });
 
     const getBoard = async () => {
 
@@ -38,17 +44,115 @@ const AuctionDetailPage = () =>{
         }
     };
 
-
     useEffect( () => {
         getBoard()
-    },[])
+    },[]);
 
-    const addFavorite = () =>{
 
-        alert("즐겨찾기에 추가 되었습니다.")
-     //   getBoard(); // 즐겨찾기 업데이트해서 데이터 가져오기
+    // 이미지 가져오기
+    const getImg = async () => {
+
+        setIsLoading(true);
+
+        try {
+            const response = await api.getBoardImg(postId);
+            const data = response.data;
+            console.log(data);
+
+            const imageUrls = data.map(item => item.imageUrl);
+            setImg(imageUrls);
+        } catch (error) {
+            console.error("게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
+        }finally {
+            setIsLoading(false)
+        }
+
+        console.log(img)
+    };
+
+    useEffect( () => {
+        getImg();
+    },[]);
+
+
+
+    // 이미지 슬라이드
+    const handlePrev = () => {
+        setCurrentImgIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : img.length - 1));
+    };
+
+    const handleNext = () => {
+        setCurrentImgIndex((prevIndex) => (prevIndex < img.length - 1 ? prevIndex + 1 : 0));
+    };
+
+    // 썸네일 클릭 시 슬라이드 이미지 변경
+    const handleThumbnailClick = (index) => {
+        setCurrentImgIndex(index);
+    };
+
+
+    // 즐겨 찾기
+    const fetchFavoriteStatus = async () => {
+        try {
+            const response = await api.getMyFav(postId, userCode);
+            const data = response.data;
+            if (data && data.length > 0) {
+                setFav({
+                    userCode: userCode,
+                    status: data[0].status,
+                });
+            }
+        } catch (error) {
+            console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchFavoriteStatus();
+    }, [postId, userCode]);
+
+    const favorite = async () => {
+        try {
+            if (!userCode) {
+                alert("로그인이 필요합니다.");
+                console.log("비상")
+                return;
+            }
+
+            if (!fav.status) {
+                await api.addFavorite(postId, userCode);
+                alert("나의 즐겨찾기에 추가되었습니다.");
+                setFav({ userCode, status: true });
+            } else {
+                await api.deleteFavorite(postId, userCode);
+                alert("나의 즐겨찾기에서 삭제되었습니다.");
+                setFav({ userCode, status: false });
+            }
+        } catch (error) {
+            console.error("즐겨찾기 상태 변경 중 오류:", error);
+        }
+    };
+
+    const movePrevPage = ()=>{
+        navigate(-1)
     }
 
+    const onDelete = async () => {
+
+        const response = await api.notUseThisPost(postId);
+        console.log("postDelete",response.data);
+        alert('삭제 완료')
+
+        navigate('/auction')
+    }
+
+    const changeStatus = async ()=>{
+        const response = await api.approval(postId);
+        console.log(response.data);
+        alert("승인 완료")
+
+        navigate('/auction/{postId}')
+    }
 
     const showDetailPage = (postStatus) =>{
 
@@ -58,61 +162,218 @@ const AuctionDetailPage = () =>{
             case "off":
                 return (
                     <>
-                        <h2>{board.title}</h2>
-                        <button onClick={addFavorite}>즐겨찾기</button>
-                        <p>경매 에정</p>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
+                        </button>
+                        <p className="boardStatus">경매 예정</p>
                         <hr/>
                         <img
                             className="itemImg"
-                            src={board.imageUrl}
+                            src={img[0]}
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
-                        <p>입찰 시작가</p>
-                        <p>{board.startCash}</p>
-                        <p>경매 날짜</p>
-                        <p>{board.startDay}</p>
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{formatToKoreanDate(board.startDay)}</p>
                         <hr/>
-                        <p>상세 정보</p>
-                        <p>{board.content}</p>
-                        <img className="boardContentImg"
-                             src={board.imageUrl}
-                             alt={`${board.title}의 상세 이미지`}
-                             loading="lazy"
-                        />
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545" , fontSize:"40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545" , fontSize:"40px"}} />
+                            </button>
+                        </div>
+                        <div className="thumbnailContainer">
+                            {img.map((image, index) => (
+                                <img
+                                    key={index}
+                                    className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                    src={image}
+                                    alt={`썸네일 ${index + 1}`}
+                                    onClick={() => handleThumbnailClick(index)}
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
+                        {user?.isAdmin?
+                            (<div>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                    <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                    <button className='btn' onClick={onDelete}>삭제</button>
+                                </div>
+                            ):(
+                                <>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                </>
+                            )
+                        }
                     </>
                 )
             case "done":
                 return (
                     <>
-                        <h2>{board.title}</h2>
-                        <p>낙찰 완료</p>
-                        <button onClick={addFavorite}>즐겨찾기</button>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
+                        </button>
+                        <p className="boardStatus">낙찰 완료</p>
                         <hr/>
                         <img
                             className="itemImg"
-                            src={board.imageUrl}
+                            src={img[0]}
                             alt={`${board.title}의 이미지`}
                             loading="lazy"
                         />
-                        <p>최종 낙찰가</p>
-                        <p>{board.finalCash}</p>
-                        <p>입찰 시작가</p>
-                        <p>{board.startCash}</p>
-                        <p>경매 날짜</p>
-                        <p>{board.startDay}</p>
+                        <p className="finalCashText">최종 낙찰가</p>
+                        <p className="finalCash">{board.finalCash}</p>
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{formatToKoreanDate(board.startDay)}</p>
                         <hr/>
-                        <p>상세 정보</p>
-                        <p>{board.content}</p>
-                        <img className="boardContentImg"
-                             src={board.imageUrl}
-                             alt={`${board.title}의 상세 이미지`}
-                             loading="lazy"
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton"
+                                    style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545", fontSize: "40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton"
+                                    style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545", fontSize: "40px"}}/>
+                            </button>
+                    </div>
+                    <div className="thumbnailContainer">
+                        {img.map((image, index) => (
+                            <img
+                                key={index}
+                                className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                        src={image}
+                                        alt={`썸네일 ${index + 1}`}
+                                        onClick={() => handleThumbnailClick(index)}
+                                        loading="lazy"
+                                    />
+                                ))}
+                            </div>
+                            {user?.isAdmin?
+                                (<div>
+                                        <button onClick={movePrevPage}>이전으로</button>
+                                        <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                        <button className='btn' onClick={changeStatus}>승인</button>
+                                        <button className='btn' onClick={onDelete}>삭제</button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <button onClick={movePrevPage}>이전으로</button>
+                                    </>
+                                )
+                            }
+                        </>
+                )
+            case "none":
+                return (
+                    <>
+                        <h2 className="boardTitle">{board.title}</h2>
+                        <button
+                            className="favBtn"
+                            style={{background: "none", border: "none", cursor: "pointer"}}
+                            onClick={favorite}
+                        >
+                            {fav.status ?
+                                (<FontAwesomeIcon icon={faStar} style={{color: "#FFD43B", fontSize: "24px"}}/>)
+                                : (<FontAwesomeIcon icon={faStarRegular}
+                                                    style={{color: "#454545", fontSize: "24px"}}/>)}
+                        </button>
+                        <p className="boardStatus">경매 예정</p>
+                        <hr/>
+                        <img
+                            className="itemImg"
+                            src={img[0]}
+                            alt={`${board.title}의 이미지`}
+                            loading="lazy"
                         />
+                        <p className="cashText">입찰 시작가</p>
+                        <p className="Cash">{board.startCash}</p>
+                        <p className="dateText">경매 날짜</p>
+                        <p className="date">{board.startDay}</p>
+                        <hr/>
+                        <p className="infoText">상세 정보</p>
+                        <p className="boardContent">{board.content}</p>
+                        <div className="imageSlider">
+                            <button onClick={handlePrev} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545" , fontSize:"40px"}}/>
+                            </button>
+                            <img
+                                className="sliderImage"
+                                src={img[currentImgIndex]}
+                                alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                                loading="lazy"
+                            />
+                            <button onClick={handleNext} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
+                                <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545" , fontSize:"40px"}} />
+                            </button>
+                        </div>
+                        <div className="thumbnailContainer">
+                            {img.map((image, index) => (
+                                <img
+                                    key={index}
+                                    className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                                    src={image}
+                                    alt={`썸네일 ${index + 1}`}
+                                    onClick={() => handleThumbnailClick(index)}
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
+                        {user?.isAdmin?
+                            (<div>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                    <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
+                                    <button className='btn' onClick={changeStatus}>승인</button>
+                                    <button className='btn' onClick={onDelete}>삭제</button>
+                                </div>
+                            ):(
+                                <>
+                                    <button onClick={movePrevPage}>이전으로</button>
+                                </>
+                            )
+                        }
                     </>
                 )
             default:
-                return  <p>해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
+                return <p className="boardText">해당 경매품의 상세 페이지를 불러 올 수 없습니다.</p>
         }
     }
 
@@ -120,7 +381,7 @@ const AuctionDetailPage = () =>{
     return (
         <>
             <div>
-                {isLoading ? <p>해당 경매품의 상세 페이지를 가져오는 중입니다.</p> : showDetailPage(postStatus)}
+                {isLoading ? <p className="boardText">해당 경매품의 상세 페이지를 가져오는 중입니다.</p> : showDetailPage(postStatus)}
             </div>
         </>
     )

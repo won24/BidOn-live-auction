@@ -31,6 +31,8 @@ public class LoginController
             response.put("message", "Login success");
             response.put("userCode", user.getUserCode());
             response.put("isAdmin", user.getIsAdmin()); // Assuming isAdmin is a boolean in UserDTO
+            response.put("nickname", user.getNickname());
+            response.put("cash", user.getCash());
             return ResponseEntity.ok(response);
         }
         else

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
-import { useLogin } from '../../pages/login/LoginContext'; // LoginContext import 추가
+import { useLogin } from '../../pages/login/LoginContext';
 
 const RequestItem = () => {
     const navigate = useNavigate();
-    const { user } = useLogin(); // LoginContext에서 user 정보 가져오기
+    const { user } = useLogin();
     const [formData, setFormData] = useState({
         categoryCode: '',
         date: new Date(),
@@ -19,6 +19,7 @@ const RequestItem = () => {
 
     const [imageFiles, setImageFiles] = useState([]);
     const [imageURLs, setImageURLs] = useState([]);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (user) {
@@ -31,7 +32,7 @@ const RequestItem = () => {
 
     const minSelectableDate = new Date();
     minSelectableDate.setDate(minSelectableDate.getDate() + 7);
-    
+
     const filterTime = (time) => {
         const hour = time.getHours();
         return hour >= 12;
@@ -59,12 +60,21 @@ const RequestItem = () => {
         setImageURLs(fileURLs);
     };
 
+    // 전체 취소 버튼 처리
+    const handleRemoveAllImages = () => {
+        setImageFiles([]); // 이미지 파일 배열 초기화
+        setImageURLs([]); // 미리보기 URL 배열 초기화
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // input[type="file"] 값 초기화
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
 
         try {
-            const response = await axios.post('/requestitem', formData, {
+            const response = await axios.post('http://localhost:8080/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -167,7 +177,7 @@ const RequestItem = () => {
                     />
                 </div>
 
-                {/* 이미지 파일 업로드 필드 추가 */}
+                {/* 이미지 파일 업로드 필드 */}
                 <div className="form-group">
                     <label htmlFor="image">이미지 첨부</label>
                     <input
@@ -176,7 +186,8 @@ const RequestItem = () => {
                         name="image"
                         onChange={handleImageChange}
                         accept="image/*"
-                        multiple // 여러 이미지 선택 가능
+                        multiple
+                        ref={fileInputRef}
                     />
                 </div>
 
@@ -184,13 +195,17 @@ const RequestItem = () => {
                 {imageURLs.length > 0 && (
                     <div className="image-preview">
                         {imageURLs.map((url, index) => (
-                            <img
-                                key={index}
-                                src={url}
-                                alt={`미리보기 ${index + 1}`}
-                                style={{ maxWidth: '200px', maxHeight: '200px', marginRight: '10px' }}
-                            />
+                            <div key={index} style={{ display: 'inline-block', position: 'relative', marginRight: '10px' }}>
+                                <img
+                                    src={url}
+                                    alt={`미리보기 ${index + 1}`}
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            </div>
                         ))}
+                        <button type="button" onClick={handleRemoveAllImages}>
+                            전체 취소
+                        </button>
                     </div>
                 )}
                 <button type="submit">제출하기</button>

@@ -21,7 +21,13 @@ public class ImageService {
         }
     }
 
-    public ImageDTO getImageByPostId(int postId) {
+
+    public List<ImageDTO> getImageByPostId(int postId) {
         return imageMapper.selectImageByPostId(postId);
+    }
+
+    public int deleteImg(String imageUrl, int postId) {
+        int result = imageMapper.delete(imageUrl, postId);
+        return result;
     }
 }

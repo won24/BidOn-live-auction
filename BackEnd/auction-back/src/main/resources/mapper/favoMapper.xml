@@ -5,51 +5,50 @@
 <mapper namespace="com.gromit.auction_back.mypage.favorite.FavoDAO">
     <resultMap id="favoResultMap" type="com.gromit.auction_back.mypage.favorite.FavoDTO">
         <id property="userCode" column="user_code" />
-        <result property="postId" column="postId" />
+        <result property="postId" column="post_id" />
         <result property="title" column="title" />
         <result property="imageUrl" column="imageUrl" />
     </resultMap>
 
     <select id="getAllFavoList" resultMap="favoResultMap">
-<!-- 수정 전  -->
-<!--        SELECT-->
-<!--        b.title,-->
-<!--        b.postId,-->
-<!--        i.imageUrl-->
-<!--        FROM-->
-<!--        favorites b-->
-<!--        JOIN-->
-<!--        &lt;!&ndash; FROM 을 favorites 로 바꿔 (완료) &ndash;&gt;-->
-<!--        &lt;!&ndash; JOIN 으로 (하는 중) &ndash;&gt;-->
-<!--        users u ON b.userCode = u.userCode-->
-<!--        LEFT JOIN-->
-<!--        ImageUrl i ON b.postId = i.postId-->
-<!--        WHERE-->
-<!--        u.userCode = #{userCode}-->
-
-<!-- 수정 후 -->
+<!--        SELECT * FROM favorites WHERE user_code = #{userCode}-->
         SELECT
-            b.title,
-            f.post_id,
-            i.imageUrl
+        b.title,
+        b.postId,
+        i.imageUrl
         FROM
-            favorites f
-        JOIN board b ON f.post_id = b.postId
-        LEFT JOIN ImageUrl i ON f.post_id = i.postId
+        favorites b
+        JOIN
+        users u ON b.userCode = u.userCode
+        LEFT JOIN
+        ImageUrl i ON b.postId = i.postId
         WHERE
-        f.user_code = #{userCode};
-
+        u.UserCode = #{userCode}
     </select>
 
-    <!-- 즐겨찾기 삭제 -->
-    <delete id="deleteFavoriteById" parameterType="long">
-        DELETE FROM favorites
-        WHERE userCode = #{userCode}
+
+    <!--즐겨찾기 추가-->
+    <insert id="addFav" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        INSERT
+            INTO favorites
+            ( user_code, post_id, status )
+        VALUES
+            ( #{userCode}, #{postId}, 1 )
+    </insert>
+
+<!--    즐겨찾기 삭제 -->
+    <delete id="deleteFav" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        DELETE
+            FROM favorites
+        WHERE user_code = #{userCode} AND post_id = #{postId}
     </delete>
 
-    <!-- 특정 사용자의 즐겨찾기 삭제 -->
-    <delete id="deleteFavoriteByUser" parameterType="map">
 
-    </delete>
+    <select id="getMyFav" resultMap="favoResultMap">
+        SELECT
+            *
+        FROM favorites
+        WHERE user_code = #{userCode} AND post_id = #{postId}
+    </select>
 
 </mapper>

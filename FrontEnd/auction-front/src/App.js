@@ -1,5 +1,5 @@
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
@@ -22,12 +22,25 @@ import MyFar from "./pages/mypage/MyFar";
 import OnlyFooterLayout from "./components/OnlyFooterLayout";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyPageLayout from "./components/header/MyPageLayout";
-import PersonalInquire from "./pages/customer/PersonalInquire";
-import AllList from "./pages/acution/All";
-import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
 import MyAuction from "./pages/mypage/MyAuction";
 import MyAuctionItem from "./pages/mypage/MyAuctionItem";
 
+
+import Terms from "./components/footer/Terms";
+import Privacy from "./components/footer/Privacy";
+import FindMyId from "./pages/find/FindMyId";
+import FindMyPw from "./pages/find/FindMyPw";
+import ChatWindow from "./pages/live/websocket/ChatWindow";
+import TestPage from "./pages/live/websocket/TestPage";
+import AllList from "./pages/acution/All";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
+import PostEditPage from "./pages/acution/detail/PostEditPage";
+import PersonalInquire from "./pages/customer/PersonalInquire";
+import AdminLayout from "./components/AdminLayout";
+import AdminInquire from "./pages/admin/AdminInquire";
+import AdminBoard from "./pages/admin/AdminBoard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminUserDetail from "./pages/admin/AdminUserDatail";
 
 
 function App() {
@@ -38,14 +51,16 @@ function App() {
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
-                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
-                    <Route path="/mypage/*" element={<MyPageLayout />} >
                         <Route path="myauctionitem" element={<MyAuctionItem/>}/>
+                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
+                    <Route path="/auction/update/:postId" element={<PostEditPage/>}/>
+                    <Route path="/mypage" element={<MyPageLayout />} >
+                        <Route path="myauction" element={<MyAuction/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
                         <Route path="myauction" element={<MyAuction/>} />
@@ -58,11 +73,32 @@ function App() {
                         <Route path="personalinquire" element={<PersonalInquire />} />
                         <Route path="notice" element={<Notice />} />
                     </Route>
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route index element={<AdminInquire />} />
+                        <Route path="inquiries" element={<AdminInquire />} />
+                        <Route path="posts" element={<AdminBoard />} />
+                        <Route path="users" element={<AdminUsers />} />
+                        <Route path="users/:userCode" element={<AdminUserDetail />} />
+                    </Route>
                 </Route>
                 <Route path ="/member" element={<OnlyFooterLayout/>}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup/>} />
                 </Route>
+                <Route path ="/finder/id" element={<Outlet/>}>
+                        <Route path="phone" element={<FindMyId />} />
+                        <Route path="email" element={<FindMyId />} />
+                </Route>
+                <Route path ="/finder/pw" element={<Outlet/>}>
+                    <Route path="phone" element={<FindMyPw />} />
+                    <Route path="email" element={<FindMyPw />} />
+                </Route>
+
+                <Route path="/chattingwindow" element={<TestPage/>}/>
+                <Route path="/chattingwindow/:userId" element={<ChatWindow/>}/>
+
+                <Route path="terms" element={<Terms />} />
+                <Route path="privacy" element={<Privacy />} />
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="tosspaySuccess" element={<SuccessPage />} />
                 <Route path="tosspayFail" element={<FailPage />} />

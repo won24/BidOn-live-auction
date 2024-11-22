@@ -34,7 +34,6 @@ const ConfirmPasswordInput = ({ value, onChange, password }) =>
                 value={value}
                 onChange={onChange}
                 style={{ width: "120px" }}
-                required
             />
             <span className="input-description" style={{ color: descriptionColor }}>
                 {description}

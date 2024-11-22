@@ -54,10 +54,11 @@ public class ImageController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<ImageDTO> getImageByPostId(@PathVariable int postId) {
-        ImageDTO imageDTO = imageService.getImageByPostId(postId);
-        if (imageDTO != null) {
-            return ResponseEntity.ok(imageDTO);
+    public ResponseEntity<List<ImageDTO>> getImageByPostId(@PathVariable int postId) {
+        List<ImageDTO> images = imageService.getImageByPostId(postId);
+
+        if (images != null) {
+            return ResponseEntity.ok(images);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -76,5 +77,25 @@ public class ImageController {
         System.out.println("파일 저장 완료: " + fileName);
 
         return fileName;
+    }
+
+
+    // 게시물 수정 페이지 - 이미지 삭제
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteImg( @RequestParam(required = false) String imageUrl,
+                                        @RequestParam(required = false) int postId) {
+        System.out.println("imageUrl = " + imageUrl);
+        System.out.println("postId = " + postId);
+        try {
+            int result = imageService.deleteImg(imageUrl,postId);
+            if (result > 0) {
+                return new ResponseEntity<>("이미지 삭제 성공",  HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("이미지 삭제 실패", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

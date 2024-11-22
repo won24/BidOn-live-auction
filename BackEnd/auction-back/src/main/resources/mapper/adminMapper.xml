@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gromit.auction_back.admin.AdminDAO">
+    <resultMap id="adminResultMap" type="com.gromit.auction_back.admin.AdminDTO">
+        <id property="id" column="id" />
+        <result property="userCode" column="userCode" />
+        <result property="content" column="content" />
+        <result property="title" column="title" />
+        <result property="answer" column="answer" />
+        <result property="createdAt" column="createdAt" />
+        <result property="nickName" column="nickName" />
+    </resultMap>
+
+    <select id="getAllInquire" resultMap="adminResultMap">
+        SELECT p.id, p.userCode, p.content, p.title, p.answer, p.createdAt, u.nickName
+        FROM personal p
+        LEFT JOIN users u ON p.userCode = u.UserCode
+        WHERE p.answer IS NULL
+        ORDER BY p.createdAt DESC
+    </select>
+</mapper>

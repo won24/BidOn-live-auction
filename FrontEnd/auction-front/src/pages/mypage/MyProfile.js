@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useLogin} from "../login/LoginContext"; // axios 불러오기
+import { useLogin } from "../login/LoginContext"; // axios 불러오기
 
 const MyProfile = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -57,25 +57,31 @@ const MyProfile = () => {
                 <div className="profile-row">
                     <div className="profile-label">아이디</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.id} readOnly />
+                        <input type="text" value={userInfo.id} readOnly/>
                     </div>
                 </div>
                 <div className="profile-row">
                     <div className="profile-label">비밀번호</div>
                     <div className="profile-value">
-                        <input type="password" value={userInfo.password} readOnly />
+                        <input type="password" value={userInfo.password} readOnly/>
                     </div>
                 </div>
                 <div className="profile-row">
                     <div className="profile-label">휴대전화</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.phone} readOnly />
+                        <input type="text" value={userInfo.phone} readOnly/>
                     </div>
                 </div>
                 <div className="profile-row">
                     <div className="profile-label">주소</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.address} readOnly />
+                        <input type="text" value={userInfo.address} readOnly/>
+                    </div>
+                </div>
+                <div className="profile-row">
+                    <div className="profile-label">보유 캐시</div>
+                    <div className="profile-value">
+                        <input type="text" value={userInfo.cash} readOnly/>
                     </div>
                 </div>
             </div>

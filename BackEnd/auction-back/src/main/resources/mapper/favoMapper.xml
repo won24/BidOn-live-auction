@@ -41,9 +41,15 @@
 
     </select>
 
-<!--    <delete id="deleteFavoriteById" parameterType="int">-->
-<!--        DELETE FROM favorites-->
-<!--        WHERE userCode = #{userCode}-->
-<!--    </delete>-->
+    <!-- 즐겨찾기 삭제 -->
+    <delete id="deleteFavoriteById" parameterType="long">
+        DELETE FROM favorites
+        WHERE userCode = #{userCode}
+    </delete>
+
+    <!-- 특정 사용자의 즐겨찾기 삭제 -->
+    <delete id="deleteFavoriteByUser" parameterType="map">
+
+    </delete>
 
 </mapper>

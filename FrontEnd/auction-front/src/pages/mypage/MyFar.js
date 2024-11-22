@@ -4,81 +4,79 @@ import "./MyFar.css";
 import { useLogin } from "../login/LoginContext";
 
 const MyFar = () => {
-    const [favorites, setFavorites] = useState([]); // 초기 상태를 빈 배열로 설정
-    const [loginInfo, setLoginInfo] = useState({
-        // UserCode: 7,
-        // Id: "user7",
-        // Password: "password7",
-        // Name: "나야,오류",
-        // email: "user7@example.com",
-        // phone: "010-7777-7777",
-        // birthDate: "1996-07-07",
-        // address: "울산시 남구",
-        // cash: 7000,
-        // gender: "남",
-        // isAdult: "y",
-        // isAdmin: "n",
-        // nickName: "nickname7",
-        // isSuspended: "n",
-    });
+    const [favorites, setFavorites] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const { user } = useLogin();
 
     useEffect(() => {
         const fetchFavorites = async () => {
+            setIsLoading(true);
+
+            // console.log(user)
+
             try {
-                const userCode = loginInfo.UserCode; // 사용자 코드
-                const response = await axios.post(`/favo/favoList`, {
+                if (!user || !user.userCode) {
+                    console.error("user 또는 userCode가 유효하지 않습니다.");
+                    return;
+                }
+
+                const response = await axios.post("http://localhost:8080/mypage/myfar", {
                     userCode: user.userCode
                 });
 
-                // 데이터 복사하여 원본 보호
-                const dataCopy = [...response.data];
+                if (!response.data) {
+                    throw new Error("즐겨찾기 데이터가 비어 있습니다.");
+                }
 
-                // [수정 전 코드] 중복 제거
-                // const uniqueFavorites = response.data.filter(
-                //     (item, index, self) => index === self.findIndex(fav => fav.id === item.id)
-                // );
-
-                // [수정 후 코드] 중복 제거(Set 사용)
-                const uniqueIds = new Set(dataCopy.map(item => item.id));
-                const uniqueFavorites = dataCopy.filter(item => uniqueIds.has(item.id));
-
-                setFavorites(uniqueFavorites); // 상태 업데이트
-                console.log("중복 제거 후 데이터:", uniqueFavorites);
+                setFavorites(response.data);
             } catch (error) {
-                console.error("즐겨찾기 목록 가져오기 실패:", error);
+                console.log("즐겨찾기 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchFavorites();
-    }, []);  // 최초 한 번만 실행되도록.
+    }, [user]);
 
+    const handleDelete = async (id) => {
+
+        try {
+            const response = await axios.delete(`/mypage/myfar/${id}`);
+            if (response.status === 200) {
+                setFavorites((prevFavorites) => prevFavorites.filter(fav => fav.id !== id));
+            }
+        } catch (error) {
+            console.error("삭제 실패:", error.message || error);
+            alert("삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        }
+    };
 
     return (
         <div className="favorites-container">
             <h1 className="favorites-title">즐겨찾기</h1>
-            <table className="favorites-table">
-                <thead>
-                <tr>
-                    <th>목 차</th>
-                    <th>즐겨찾기 목록</th>
-                    <th>삭제</th>
-                </tr>
-                </thead>
-                <tbody>
-                {favorites.map((favorite, index) => (
-                    <tr key={favorite.id}>
-                        <td>{index + 1}</td>
-                        <td>{favorite.name}</td>
-                        <td>
-                            <button
-                                className={`favorite-button ${favorite.isDeleted ? 'deleted' : ''}`}
-                                onClick={() => (favorite.id)}>삭제</button>
-                        </td>
+                <table className="favorites-table">
+                    <thead>
+                    <tr>
+                        <th>목 차</th>
+                        <th>즐겨찾기 목록</th>
+                        <th>삭제</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {favorites.map((favorite, index) => (
+                        <tr key={favorite.id}>
+                            <td>{index + 1}</td>
+                            <td>{favorite.name}</td>
+                            <td>
+                                <button className="favorite-button" onClick={() => handleDelete(favorite.id)}>
+                                    삭제
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
         </div>
     );
 };

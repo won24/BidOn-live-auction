@@ -21,7 +21,7 @@ const MyAuction = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch("http://localhost:3000/auction"); // 서버 엔드포인트
+                const response = await fetch("http://localhost:8080/auction"); // 서버 엔드포인트
                 const data = await response.json();
                 setItems(data);
             } catch (error) {
@@ -98,23 +98,18 @@ const MyAuction = () => {
 
             {/* 페이지네이션 버튼 */}
             <div className="pagination">
-                <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                    이전
-                </button>
+                <button onClick={handlePreviousPage} disabled={currentPage === 1}>이전</button>
                 <span>
           {currentPage} / {Math.ceil(items.length / itemsPerPage)}
         </span>
                 <button
                     onClick={handleNextPage}
-                    disabled={currentPage === Math.ceil(items.length / itemsPerPage)}
-                >
-                    다음
-                </button>
+                    disabled={currentPage === Math.ceil(items.length / itemsPerPage)}>다음</button>
             </div>
 
             {/* 열람한 상품 */}
             <div className="viewed-items">
-                <h2>열람한 상품</h2>
+                <h2>참여 경매 열람</h2>
                 {addItems.length > 0 ? (
                     <table className="viewed-table">
                         <thead>
@@ -129,7 +124,7 @@ const MyAuction = () => {
                         {addItems.map((item, index) => (
                             <tr key={item.id}>
                                 <td>{index + 1}</td>
-                                <td>{item.name}</td>
+                                <td>{item.Title}</td>
                                 <td>{item.price}</td>
                                 <td>{item.viewedAt}</td>
                             </tr>

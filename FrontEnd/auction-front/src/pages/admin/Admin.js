@@ -1,9 +1,11 @@
+import Bid from "../bid/Bid";
 
 const Admin=()=>{
 
     return(
         <>
-            <div>관리자 까꿍</div>
+            <Bid/>
+            <div>와이 낫!</div>
         </>
     )
 }

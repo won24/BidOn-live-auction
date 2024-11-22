@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
 import {formatToKoreanDate} from "../acution/detail/FormatDate";
+import Bid from "../bid/Bid";
 
 
 const LiveDetail = () =>{
@@ -148,6 +149,7 @@ const LiveDetail = () =>{
                     </button>
 
                     <button className="bid-btn">입찰</button>
+                    <Bid/>
                     <hr/>
 
                     <img

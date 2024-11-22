@@ -61,7 +61,7 @@ public class AuctionService {
         return result;
     }
 
-    public int deletePost(int postId) {
+    public int notUsePost(int postId) {
         int result = auctionDAO.notUsePost(postId);
         return result;
     }
@@ -71,4 +71,7 @@ public class AuctionService {
         return result;
     }
 
+    public List<AuctionDTO> getLiveList() {
+        return auctionDAO.getLiveList();
+    }
 }

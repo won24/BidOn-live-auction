@@ -1,0 +1,12 @@
+.img-delete-button{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #454545;
+    color: white;
+    border: none;
+    borderRadius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

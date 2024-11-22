@@ -1,13 +1,11 @@
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 import Live from "./pages/live/Live";
-import Mypage from "./pages/mypage/Mypage";
 import RequestItem from "./pages/requestItem/RequestItem";
 import FAQ from "./pages/customer/FAQ";
 import Layout from "./components/Layout";
 import Login from "./pages/login/Login";
 import Main from "./pages/main/Main";
-import Auction from "./pages/acution/Auction";
 import { FailPage } from "./pages/tosspay/TosspayFail";
 import { SuccessPage } from "./pages/tosspay/TosspaySuccess";
 import { CheckoutPage } from "./pages/tosspay/TosspayAPI";
@@ -31,6 +29,17 @@ import FindMyId from "./pages/find/FindMyId";
 import FindMyPw from "./pages/find/FindMyPw";
 import ChatWindow from "./pages/live/websocket/ChatWindow";
 import TestPage from "./pages/live/websocket/TestPage";
+import AllList from "./pages/acution/All";
+import AuctionDetailPage from "./pages/acution/detail/AuctionDetailPage";
+import PostEditPage from "./pages/acution/detail/PostEditPage";
+import PersonalInquire from "./pages/customer/PersonalInquire";
+import AdminLayout from "./components/AdminLayout";
+import AdminInquire from "./pages/admin/AdminInquire";
+import AdminBoard from "./pages/admin/AdminBoard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminUserDetail from "./pages/admin/AdminUserDatail";
+import Bid from "./pages/bid/Bid";
+import Admin from "./pages/admin/Admin";
 
 function App() {
     return (
@@ -40,7 +49,6 @@ function App() {
                     <Route index element={<Main />} />
                     <Route path="live" element={<Live />} />
                     <Route path="auction" element={<AllList />} />
-                    <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="auction/antique" element={<Antique/>}/>
                     <Route path="auction/limited" element={<Limited/>}/>
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
@@ -62,7 +70,7 @@ function App() {
                         <Route path="notice" element={<Notice />} />
                     </Route>
                     <Route path="/admin" element={<AdminLayout />}>
-                        <Route index element={<AdminInquire />} />
+                        <Route index element={<Admin />} />
                         <Route path="inquiries" element={<AdminInquire />} />
                         <Route path="posts" element={<AdminBoard />} />
                         <Route path="users" element={<AdminUsers />} />

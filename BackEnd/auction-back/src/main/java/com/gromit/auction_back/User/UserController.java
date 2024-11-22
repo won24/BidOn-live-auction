@@ -110,4 +110,12 @@ public class UserController
 
         return ResponseEntity.ok(isExists);
     }
+
+    @GetMapping("/id/{userId}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String userId)
+    {
+        return userService.getUserById(userId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

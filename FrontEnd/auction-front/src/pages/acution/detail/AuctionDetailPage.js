@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import {useLogin} from "../../login/LoginContext";
+import {format, parseISO} from "date-fns";
+import {formatToKoreanDate} from "./FormatDate";
 
 
 const AuctionDetailPage = () =>{
@@ -24,6 +26,7 @@ const AuctionDetailPage = () =>{
     const [img, setImg] = useState([]);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
     const navigate = useNavigate();
+
 
     const getBoard = async () => {
 
@@ -89,22 +92,22 @@ const AuctionDetailPage = () =>{
 
 
     // 즐겨 찾기
-    useEffect(() => {
-        const fetchFavoriteStatus = async () => {
-            try {
-                const response = await api.getMyFav(postId, userCode);
-                const data = response.data;
-                if (data && data.length > 0) {
-                    setFav({
-                        userCode: userCode,
-                        status: data[0].status,
-                    });
-                }
-            } catch (error) {
-                console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
+    const fetchFavoriteStatus = async () => {
+        try {
+            const response = await api.getMyFav(postId, userCode);
+            const data = response.data;
+            if (data && data.length > 0) {
+                setFav({
+                    userCode: userCode,
+                    status: data[0].status,
+                });
             }
-        };
+        } catch (error) {
+            console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchFavoriteStatus();
     }, [postId, userCode]);
 
@@ -112,6 +115,7 @@ const AuctionDetailPage = () =>{
         try {
             if (!userCode) {
                 alert("로그인이 필요합니다.");
+                console.log("비상")
                 return;
             }
 
@@ -135,7 +139,7 @@ const AuctionDetailPage = () =>{
 
     const onDelete = async () => {
 
-        const response = await api.deletePost(postId);
+        const response = await api.notUseThisPost(postId);
         console.log("postDelete",response.data);
         alert('삭제 완료')
 
@@ -180,7 +184,7 @@ const AuctionDetailPage = () =>{
                         <p className="cashText">입찰 시작가</p>
                         <p className="Cash">{board.startCash}</p>
                         <p className="dateText">경매 날짜</p>
-                        <p className="date">{board.startDay}</p>
+                        <p className="date">{formatToKoreanDate(board.startDay)}</p>
                         <hr/>
                         <p className="infoText">상세 정보</p>
                         <p className="boardContent">{board.content}</p>
@@ -210,7 +214,7 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
-                        {user.isAdmin?
+                        {user?.isAdmin?
                             (<div>
                                     <button onClick={movePrevPage}>이전으로</button>
                                     <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
@@ -251,7 +255,7 @@ const AuctionDetailPage = () =>{
                         <p className="cashText">입찰 시작가</p>
                         <p className="Cash">{board.startCash}</p>
                         <p className="dateText">경매 날짜</p>
-                        <p className="date">{board.startDay}</p>
+                        <p className="date">{formatToKoreanDate(board.startDay)}</p>
                         <hr/>
                         <p className="infoText">상세 정보</p>
                         <p className="boardContent">{board.content}</p>
@@ -283,7 +287,7 @@ const AuctionDetailPage = () =>{
                                     />
                                 ))}
                             </div>
-                            {user.isAdmin?
+                            {user?.isAdmin?
                                 (<div>
                                         <button onClick={movePrevPage}>이전으로</button>
                                         <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>
@@ -353,7 +357,7 @@ const AuctionDetailPage = () =>{
                                 />
                             ))}
                         </div>
-                        {user.isAdmin?
+                        {user?.isAdmin?
                             (<div>
                                     <button onClick={movePrevPage}>이전으로</button>
                                     <Link to={`/auction/update/${postId}`} className='btn'>수정</Link>

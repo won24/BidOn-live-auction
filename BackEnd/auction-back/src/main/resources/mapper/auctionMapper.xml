@@ -89,6 +89,8 @@
         WHERE title LIKE CONCAT('%', #{q}, '%') and usePost = 1;
     </select>
 
+
+<!--    게시글 수정 -->
     <update id="update">
         UPDATE board
         SET
@@ -101,7 +103,7 @@
         WHERE postId = #{postId}
     </update>
 
-
+<!--게시글 삭제-->
     <update id="notUsePost">
         UPDATE board
         SET
@@ -109,11 +111,23 @@
         WHERE postId = #{postId}
     </update>
 
+
+    <!--경매품 신청 게시글 승인-->
     <update id="approval">
         UPDATE board
         SET
         postStatus = "off"
         WHERE postId = #{postId}
     </update>
+
+
+<!--    라이브 리스트 -->
+    <select id="getLiveList" resultMap="auctionResultMap">
+        SELECT
+            *
+        FROM board
+        WHERE postStatus = 'on' and usePost = 1;
+    </select>
+
 
 </mapper>

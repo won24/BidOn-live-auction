@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AuctionService {
@@ -40,6 +41,7 @@ public class AuctionService {
         return auctionDAO.valuablesList();
     }
 
+
     public AuctionDTO detail(int postId) {
         AuctionDTO auctionDTO = auctionDAO.selectAuctionDetail(postId);
         return auctionDTO;
@@ -59,7 +61,7 @@ public class AuctionService {
         return result;
     }
 
-    public int deletePost(int postId) {
+    public int notUsePost(int postId) {
         int result = auctionDAO.notUsePost(postId);
         return result;
     }
@@ -67,5 +69,9 @@ public class AuctionService {
     public int approval(int postId) {
         int result = auctionDAO.approval(postId);
         return result;
+    }
+
+    public List<AuctionDTO> getLiveList() {
+        return auctionDAO.getLiveList();
     }
 }

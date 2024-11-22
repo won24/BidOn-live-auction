@@ -13,7 +13,7 @@ export const artProductList = () => axios.get(`${BASE_URL}/artproduct`);
 
 export const valuablesList = () => axios.get(`${BASE_URL}/valuables`);
 
-export const liveList = ()=> axios.get("http://localhost:8080/live");
+export const liveList = ()=> axios.get(`${BASE_URL}/live`);
 
 export const postDetail = (postId) => {
     return axios.get(`${BASE_URL}/${postId}`);
@@ -55,7 +55,7 @@ export const getBoardImg = (postId) =>{
 
 export const updatePost = async (formData) => {
     try {
-        const response = await axios.put('auction/update', formData, {
+        const response = await axios.put(`${BASE_URL}/update`, formData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -68,10 +68,10 @@ export const updatePost = async (formData) => {
     }
 };
 
-export const deletePost = (postId)=>{
-    return axios.delete(`${BASE_URL}/delete/${postId}`)
+export const notUseThisPost = (postId)=>{
+    return axios.post(`${BASE_URL}/delete/${postId}`)
 }
 
 export const approval = (postId) =>{
-    return axios.put(`${BASE_URL}/approval/${postId}`)
+    return axios.post(`${BASE_URL}/approval/${postId}`)
 }

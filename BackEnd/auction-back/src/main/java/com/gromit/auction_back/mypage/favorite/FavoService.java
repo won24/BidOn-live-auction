@@ -32,9 +32,12 @@ public class FavoService {
         int result = favoDAO.deleteFav(postId, userCode);
         return result;
     }
+<<<<<<< HEAD
 
     public List<FavoDTO> getMyFav (int postId, int userCode) {
         return favoDAO.getMyFav(postId, userCode);
 
     }
+=======
+>>>>>>> ba9a1363906e08327081328917646d5fbc785a5a
 }

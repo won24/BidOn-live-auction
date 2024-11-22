@@ -23,8 +23,12 @@
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.27.0",
+<<<<<<< HEAD
     "react-scripts": "5.0.1",
     "sockjs-client": "^1.6.1",
+=======
+    "react-scripts": "^5.0.1",
+>>>>>>> ba9a1363906e08327081328917646d5fbc785a5a
     "web-vitals": "^2.1.4"
   },
   "proxy": "http://localhost:8080",

@@ -20,7 +20,7 @@ const MyFar = () => {
                     return;
                 }
 
-                const response = await axios.post("http://localhost:8080/mypage/myfar", {
+                const response = await axios.post("http://localhost:8080/favo/favoList", {
                     userCode: user.userCode
                 });
 
@@ -42,7 +42,7 @@ const MyFar = () => {
     const handleDelete = async (id) => {
 
         try {
-            const response = await axios.delete(`/mypage/myfar/${id}`);
+            const response = await axios.delete(`/favo/favoList/${id}`);
             if (response.status === 200) {
                 setFavorites((prevFavorites) => prevFavorites.filter(fav => fav.id !== id));
             }

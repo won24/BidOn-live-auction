@@ -78,12 +78,6 @@ const MyProfile = () => {
                         <input type="text" value={userInfo.address} readOnly/>
                     </div>
                 </div>
-                <div className="profile-row">
-                    <div className="profile-label">보유 캐시</div>
-                    <div className="profile-value">
-                        <input type="text" value={userInfo.cash} readOnly/>
-                    </div>
-                </div>
             </div>
         </div>
     );

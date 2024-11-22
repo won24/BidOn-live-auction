@@ -38,6 +38,7 @@ public class UserDetailController {
         try {
             System.out.println("유저 코드 " + userCode + "의 게시글 조회");
             List<UserDetailDTO> boards = userDetailService.getBoardsByUserCode(userCode);
+            UserDetailDTO user = userDetailService.getUserByCode(userCode);
             System.out.println(boards);
             if (!boards.isEmpty()) {
                 return ResponseEntity.ok(boards);

@@ -30,9 +30,18 @@ public class LoginController
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Login success");
             response.put("userCode", user.getUserCode());
-            response.put("isAdmin", user.getIsAdmin()); // Assuming isAdmin is a boolean in UserDTO
-            response.put("nickname", user.getNickname());
-            response.put("cash", user.getCash());
+            response.put("userName", user.getName());
+            response.put("userNickname", user.getNickname());
+            response.put("userEmail", user.getEmail());
+            response.put("userPhone", user.getPhone());
+            response.put("userBirth", user.getBirth());
+            response.put("userAddress", user.getAddress());
+            response.put("userCash", user.getCash());
+            response.put("isAdult", user.getIsAdult());
+            response.put("isAdmin", user.getIsAdmin());
+            response.put("isSuspended", user.getIsSuspended());
+            response.put("sendEmail", user.isSendEmail());
+            response.put("sendMessage", user.isSendMessage());
             return ResponseEntity.ok(response);
         }
         else

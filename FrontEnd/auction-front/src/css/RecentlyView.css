@@ -1,12 +1,12 @@
-.rightAside{}
+.right-aside { }
 
-.rightAsideText{}
+.right-aside_text { }
 
-.recentlyViews{}
+.recently-views { }
 
-.recentlyViewsImg{
-    width: 50px;
+.recently-views_img {
     height: 50px;
+    width: 50px;
 }
 
-.recentlyViewsText{}
+.recently-views_text{}

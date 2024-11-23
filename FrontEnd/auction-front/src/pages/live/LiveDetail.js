@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
 import {formatToKoreanDate} from "../acution/detail/FormatDate";
+import {getPostImages} from "../acution/common/Images";
 
 
 const LiveDetail = () =>{
@@ -22,6 +23,7 @@ const LiveDetail = () =>{
     const navigate = useNavigate();
 
 
+    // 경매품 정보 가져오기
     const getBoard = async () => {
 
         setIsLoading(true);
@@ -45,28 +47,20 @@ const LiveDetail = () =>{
 
     // 이미지 가져오기
     const getImg = async () => {
-
         setIsLoading(true);
-
         try {
-            const response = await api.getBoardImg(postId);
-            const data = response.data;
-            console.log(data);
-
-            const imageUrls = data.map(item => item.imageUrl);
+            const imageUrls = await getPostImages(postId);
             setImg(imageUrls);
         } catch (error) {
-            console.error("게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
-        }finally {
-            setIsLoading(false)
+            console.error("이미지를 가져오는 중 오류:", error);
+        } finally {
+            setIsLoading(false);
         }
-
-        console.log(img)
     };
 
-    useEffect( () => {
+    useEffect(() => {
         getImg();
-    },[]);
+    }, [postId]);
 
 
 
@@ -126,10 +120,10 @@ const LiveDetail = () =>{
         }
     };
 
+    // 뒤로가기
     const movePrevPage = ()=>{
         navigate(-1)
     }
-
 
 
     return (
@@ -159,9 +153,9 @@ const LiveDetail = () =>{
                     <p className="live-text">현재가</p>
                     <p className="live-currentCash">여기에 실시간 경매가격 올라가는 거 보여줘야함</p>
                     <p className="live-text">입찰 시작가</p>
-                    <p className="live-cash">{board.startCash}</p>
-                    <p className="live-timer">{<AuctionTimer startTime={board.startDay} />}</p>
-                    <p className="live-startdate">{formatToKoreanDate(board.startDay)}</p>
+                    <div className="live-cash">{board.startCash}</div>
+                    <div className="live-timer">{<AuctionTimer startTime={board.startDay} />}</div>
+                    <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
 
                     <div>채팅방 자리</div>
                     <hr/>

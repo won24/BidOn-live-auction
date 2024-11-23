@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import usePagination from "../acution/common/paging/usePagination";
 import {updateRecentPosts} from "../../components/aside/RecentlyView";
 import Pagination from "../acution/common/paging/Pagination";
+import {getImagesForPosts} from "../acution/common/Images";
 
 
 const Live = () =>{
@@ -15,61 +16,32 @@ const Live = () =>{
 
 
     // 라이브 목록 가져오기
-    const getItemList = async () => {
-        try {
-            const response = await api.liveList();
-            const data = response.data;
-            const postIds = data.map(item => item.postId);
-
-            if (data && data.length > 0) {
-                const sortedData = data.sort((a, b) => new Date(a.startDay) - new Date(b.startDay));
-
-                setLiveList(sortedData);
-                setPostIds(postIds);
-
-            } else {
-                console.warn("받은 데이터가 비어 있습니다.");
-            }
-        } catch (error) {
-            console.error("라이브 경매 목록을 불러오는 데 실패했습니다.", error);
-        }
-    };
-
     useEffect(() => {
+        const getItemList = async () => {
+            try {
+                const response = await api.liveList();
+                const data = response.data;
+
+                if (data && data.length > 0) {
+                    const sortedData = data.sort((a, b) => new Date(a.startDay) - new Date(b.startDay));
+                    const postIds = data.map(item => item.postId);
+                    const images = await getImagesForPosts(postIds);
+                    setImgMap(images);
+                    setLiveList(sortedData);
+
+                } else {
+                    console.warn("받은 데이터가 비어 있습니다.");
+                }
+            } catch (error) {
+                console.error("라이브 경매 목록을 불러오는 데 실패했습니다.", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        setIsLoading(true);
         getItemList();
     }, []);
-
-
-    // 이미지 가져오기
-    const getImagesForPosts = async () => {
-        setIsLoading(true);
-        try {
-            const imageMap = {};
-            for (const id of postIds) {
-                try {
-                    const response = await api.getBoardImg(id);
-                    const data = response.data;
-                    imageMap[id] = data.map(item => item.imageUrl);
-                } catch (error) {
-                    console.error(`Post ID ${id}의 이미지를 가져오는 중 오류가 발생했습니다:`, error);
-                    imageMap[id] = []; // 오류 발생 시 빈 배열로 대체
-                }
-            }
-            setImgMap(imageMap);
-
-        } catch (error) {
-            console.error("이미지를 가져오는 중 오류가 발생했습니다:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (postIds.length > 0) {
-            getImagesForPosts();
-        }
-    }, [postIds]);
-
 
 
     // 페이징 처리
@@ -77,6 +49,7 @@ const Live = () =>{
     const mainPagination = usePagination(liveList, itemsPerPage);
 
 
+    // 결과 렌더링
     const renderAuctionItems = (items) =>
         items.map((item) => (
             <div key={item.postId} className="auctionItem">
@@ -95,8 +68,10 @@ const Live = () =>{
 
     return (
         <>
-            <h1 className="auctionTitle">라이브경매 Live</h1>
-
+            <h1 className="auctionTitle">실시간 경매 Live</h1>
+            <p>인기 경매</p>
+            <div>여기에다 인기 경매방 보여주기</div>
+            <hr/>
             <div className="auctionListContainer">
                 {isLoading ? (
                     <p className="loadingMessage">라이브 경매 리스트를 가져오는 중입니다.</p>

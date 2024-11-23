@@ -55,7 +55,7 @@ const RequestItem = () => {
 
     const handleImageChange = (e) => {
         const files = e.target.files;
-        setImageFiles(files);
+        setImageFiles(Array.from(files));
         const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
         setImageURLs(fileURLs);
     };
@@ -64,6 +64,15 @@ const RequestItem = () => {
     const handleRemoveAllImages = () => {
         setImageFiles([]); // 이미지 파일 배열 초기화
         setImageURLs([]); // 미리보기 URL 배열 초기화
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // input[type="file"] 값 초기화
+        }
+    };
+
+    // 첨부 이미지 개별 삭제
+    const handleRemoveImages = (index) => {
+        setImageFiles((prevImages) => prevImages.filter((_, i) => i !== index));
+        setImageURLs((prevURLs) => prevURLs.filter((_, i) => i !== index));
         if (fileInputRef.current) {
             fileInputRef.current.value = ''; // input[type="file"] 값 초기화
         }
@@ -195,12 +204,18 @@ const RequestItem = () => {
                 {imageURLs.length > 0 && (
                     <div className="image-preview">
                         {imageURLs.map((url, index) => (
-                            <div key={index} style={{ display: 'inline-block', position: 'relative', marginRight: '10px' }}>
+                            <div key={index}
+                                 style={{display: 'inline-block', position: 'relative', marginRight: '10px'}}>
                                 <img
                                     src={url}
                                     alt={`미리보기 ${index + 1}`}
-                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                    style={{maxWidth: '200px', maxHeight: '200px'}}
                                 />
+                                <button className="img-delete-button"
+                                        onClick={() => handleRemoveImages(index)}
+                                >
+                                    X
+                                </button>
                             </div>
                         ))}
                         <button type="button" onClick={handleRemoveAllImages}>

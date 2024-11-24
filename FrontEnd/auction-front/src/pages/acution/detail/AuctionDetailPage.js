@@ -28,43 +28,27 @@ const AuctionDetailPage = () =>{
 
 
     // 게시글 가져오기
-    const getBoard = async () => {
+    useEffect( () => {
+        const getBoard = async () => {
+
+            try {
+                const response = await api.postDetail(postId);
+                const data = response.data;
+                setBoard(data);
+                setPostStatus(data.postStatus);
+                const imageUrls = await getPostImages(postId);
+                setImg(imageUrls);
+            } catch (error) {
+                console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
+            }finally {
+                setIsLoading(false)
+            }
+        };
 
         setIsLoading(true);
-
-        try {
-            const response = await api.postDetail(postId);
-            const data = response.data;
-            setBoard(data);
-            setPostStatus(data.postStatus);
-        } catch (error) {
-            console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
-        }finally {
-            setIsLoading(false)
-        }
-    };
-
-    useEffect( () => {
         getBoard()
     },[]);
 
-
-    // 이미지 가져오기
-    const getImg = async () => {
-        setIsLoading(true);
-        try {
-            const imageUrls = await getPostImages(postId);
-            setImg(imageUrls);
-        } catch (error) {
-            console.error("이미지를 가져오는 중 오류:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getImg();
-    }, [postId]);
 
 
     // 이미지 슬라이드

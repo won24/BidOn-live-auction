@@ -6,7 +6,7 @@
     justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
     min-height: 67vh;  /* 메인 페이지에서 스크롤 생기지 않도록 수시로 조정중 */
     padding: 0;
-    margin: 0;
+    margin: 0px;
 }
 
 /* 중앙 컨테이너 스타일 */

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useLogin } from '../../pages/login/LoginContext';
-import { connectWebSocket, sendBid, disconnectWebSocket } from '../../utils/websocket';
+import {connectWebSocket, disconnectWebSocket, sendBid} from "./Websocket";
+
 
 const Bid = () => {
     const { postId } = useParams();

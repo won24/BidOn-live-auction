@@ -7,6 +7,8 @@ import useFilterItem from "./common/FilterItem";
 import usePagination from "./common/paging/usePagination";
 import Pagination from "./common/paging/Pagination";
 import {getImagesForPosts} from "./common/Images";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 const Discontinuation = () => {
     const [discontinuationList, setDiscontinuationList] = useState([]);
@@ -101,30 +103,31 @@ const Discontinuation = () => {
 
     // 체크박스 렌더링
     const CheckboxGroup = ({ items, type }) => (
-        <ul className="checkBoxContainer">
+        <>
             {items.map((item) => (
-                <div key={item.id}>
-                    <label className="checkBoxLabel">
-                        <input
-                            type="checkbox"
-                            className="checkboxInput"
-                            checked={item.isChecked}
-                            onChange={(e) =>
-                                handleCheckboxChange(item.id, e.target.checked, type)
-                            }
-                        />
+                <div key={item.id} className="checkBoxContainer">
+                    <input
+                        type="checkbox"
+                        className="checkboxInput"
+                        checked={item.isChecked}
+                        onChange={(e) =>
+                            handleCheckboxChange(item.id, e.target.checked, type)
+                        }
+                    />
+                    <p className="checkBoxLabel">
                         {item.title}
-                    </label>
+                    </p>
                 </div>
             ))}
-        </ul>
+        </>
     );
+
 
     // 결과 렌더링
     const renderAuctionItems = (items) =>
         items.map((item) => (
             <div key={item.postId} className="auctionItem">
-                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)}>
+                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)} className="auction-link">
                     <img
                         className="itemImg"
                         src={imgMap[item.postId]?.[0] || "/placeholder.png"}
@@ -136,8 +139,9 @@ const Discontinuation = () => {
             </div>
         ));
 
+
     return (
-        <>
+        <div className="auction-page">
             <h1 className="auctionTitle">단종품 Discontinuation</h1>
 
             <div className="auctionCategory">
@@ -148,18 +152,23 @@ const Discontinuation = () => {
                 <a href="/auction/valuables">귀중품</a>
             </div>
 
-            <form onSubmit={search} className="auctionSearch">
-                <input className="auctionSearchInput"
-                    placeholder="현재 카테고리에서 검색"
-                    onChange={onValueGet}
-                />
-                <button type="submit" className="auctionSearchBtn">검색</button>
-            </form>
+            <div className="search-check">
+                <form onSubmit={search} className="auctionSearch">
+                    <input
+                        className="auctionSearchInput"
+                        placeholder="현재 카테고리에서 검색"
+                        onChange={onValueGet}
+                    />
+                    <button type="submit" className="auctionSearchBtn">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#2d2d2d",}}/>
+                    </button>
+                </form>
 
-            {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main" />}
-            {searchItemRef.current && searchItemList.length > 0 && (
-                <CheckboxGroup items={checkBoxStates.search} type="search" />
-            )}
+                {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main"/>}
+                {searchItemRef.current && searchItemList.length > 0 && (
+                    <CheckboxGroup items={checkBoxStates.search} type="search"/>
+                )}
+            </div>
             <hr/>
 
             <div className="auctionListContainer">
@@ -188,7 +197,7 @@ const Discontinuation = () => {
                     <p className="auctionListMessage">해당하는 카테고리의 경매품이 없습니다.</p>
                 )}
             </div>
-        </>
+        </div>
     );
 }
 

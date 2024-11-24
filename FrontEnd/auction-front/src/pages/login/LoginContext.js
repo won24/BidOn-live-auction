@@ -2,7 +2,6 @@
  * LoginContext.js
  * 
  * 현재 로그인한 계정의 정보 제공
- * 필요한 만큼 갖다 쓰세요.
  */
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -44,12 +43,21 @@ export const LoginProvider = ({ children }) =>
         {
             const userData = 
             {
-                // 조회할 수 있는 column 목록
+                // 조회할 수 있는 column 목록(패스워드 제외 전체)
                 userId: sessionStorage.getItem("userId"),
-                userCode: sessionStorage.getItem("userCode"), // Optional if not used
+                userCode: sessionStorage.getItem("userCode"),
+                userName: sessionStorage.getItem("userName"),
                 userNickname: sessionStorage.getItem("userNickname"),
-                isAdmin: sessionStorage.getItem("isAdmin") === "true",
+                userEmail: sessionStorage.getItem("userEmail"),
+                userPhone: sessionStorage.getItem("userPhone"),
+                userBirth: sessionStorage.getItem("userBirth"),
+                userAddress: sessionStorage.getItem("userAddress"),
                 userCash: sessionStorage.getItem("userCash"),
+                isAdult: sessionStorage.getItem("isAdult"),
+                isAdmin: sessionStorage.getItem("isAdmin") === "true",
+                isSuspended: sessionStorage.getItem("isSuspended"),
+                sendEmail: sessionStorage.getItem("sendEmail"),
+                sendMessage: sessionStorage.getItem("sendMessage"),
             };
             setUser(userData);
     

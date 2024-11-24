@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
 import {formatToKoreanDate} from "../acution/detail/FormatDate";
+import Bid from "../bid/Bid";
 import {getPostImages} from "../acution/common/Images";
 
 
@@ -15,7 +16,7 @@ const LiveDetail = () =>{
     const [isLoading, setIsLoading] = useState(true);
     const userCode = sessionStorage.getItem("userCode");
     const [fav, setFav] = useState({
-        userCode: userCode,
+        userCode,
         status: false
     })
     const [img, setImg] = useState([]);
@@ -24,44 +25,25 @@ const LiveDetail = () =>{
 
 
     // 경매품 정보 가져오기
-    const getBoard = async () => {
+    useEffect( () => {
+        const getBoard = async () => {
+
+            try {
+                const response = await api.postDetail(postId);
+                const data = response.data;
+                setBoard(data);
+                const imageUrls = await getPostImages(postId);
+                setImg(imageUrls);
+            } catch (error) {
+                console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
+            }finally {
+                setIsLoading(false)
+            }
+        };
 
         setIsLoading(true);
-
-        try {
-            const response = await api.postDetail(postId);
-            const data = response.data;
-            setBoard(data);
-            console.log(data.startDay);
-        } catch (error) {
-            console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
-        }finally {
-            setIsLoading(false)
-        }
-    };
-
-    useEffect( () => {
         getBoard()
     },[]);
-
-
-    // 이미지 가져오기
-    const getImg = async () => {
-        setIsLoading(true);
-        try {
-            const imageUrls = await getPostImages(postId);
-            setImg(imageUrls);
-        } catch (error) {
-            console.error("이미지를 가져오는 중 오류:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getImg();
-    }, [postId]);
-
 
 
     // 이미지 슬라이드
@@ -141,7 +123,7 @@ const LiveDetail = () =>{
                             : (<FontAwesomeIcon icon={faStarRegular}
                                                 style={{color: "#454545", fontSize: "24px"}}/>)}
                     </button>
-
+                    <Bid/>
                     <hr/>
 
                     <img

@@ -1,33 +1,138 @@
+.auction-page{
+    display: flex;
+    flex-direction: column;  /* 수직으로 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
+}
 .auctionTitle{}
 
-.auctionSubTitle{}
-
 .auctionCategory > a{
-    padding: 10px;
+    padding: 20px;
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 클릭 후 색 변경 방지 */
 }
 
-.auctionSearch{}
+.search-check{
+    display: flex;
+    align-items: center; /* 세로 정렬 */
+    justify-content: space-between; /* 태그 간 공간 균등 분배 */
+    flex-wrap: wrap; /* 작은 화면에서도 요소가 줄바꿈 가능 */
+    gap: 10px; /* 태그 간 간격 */
+    margin: 10px;
+}
+.auctionSearch{
+    display: flex;
+    justify-content: space-between;  /* 슬라이드 리스트와 슬라이더를 양옆으로 배치 */
+    align-items: center;  /* 수직 중앙 정렬 */
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #A4A4A4;
+}
 
-.auctionSearchInput{}
+.auctionSearchInput{
+    border: none;
+    padding: 5px;
+}
 
-.auctionSearchBtn{}
+.auctionSearchBtn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-right: 10px;
+}
 
-.checkBoxContainer{}
+.checkBoxContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-.checkBoxLabel{}
+.checkBoxLabel{
 
-.checkboxInput{}
+}
 
-.auctionListContainer{}
+.checkboxInput {
+    appearance: none; /* 기본 체크박스 스타일 제거 */
+    -webkit-appearance: none; /* WebKit 브라우저 지원 */
+    width: 16px; /* 체크박스 크기 */
+    height: 16px;
+    border: 1px solid #454545; /* 체크박스 테두리 */
+    border-radius: 4px; /* 둥근 모서리 */
+    outline: none;
+    cursor: pointer;
+    background-color: transparent; /* 배경 투명 */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    position: relative; /* ::after 요소 위치 조정 위해 position 설정 */
+}
 
-.auctionItem{}
+.checkboxInput:checked {
+    background-color: #454545; /* 체크박스가 선택된 경우 배경 색상 */
+    border-color: #454545; /* 선택된 상태에서 테두리 색상 */
+}
+
+.checkboxInput:checked::after {
+    content: "v"; /* 체크 표시 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* 부모 요소 기준으로 정렬 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 부모 요소의 크기만큼 확장 */
+    height: 100%;
+    color: white; /* 체크박스 안의 체크 표시 색 */
+    font-size: 12px; /* 체크 표시 크기 */
+    font-weight: bold; /* 체크 표시 두께 */
+    line-height: 1; /* 텍스트 라인 높이 조정 */
+}
+
+
+.auctionListContainer{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 */
+    gap: 10px; /* 아이템 간의 간격 */
+    margin-top: 20px;
+    width: 1000px;
+
+}
+
+.auctionItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+.auctionItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.auction-link{
+    text-decoration: none; /* 밑줄 제거 */
+}
 
 .itemImg{
-    max-width: 100%;
-    max-height: 300px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    object-position: center center;
 }
 
-.itemTitle{}
+.itemTitle{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+
+}
 
 .loadingMessage{}
 

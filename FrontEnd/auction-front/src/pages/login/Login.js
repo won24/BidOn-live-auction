@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import ReactModal from "react-modal";
 import FindMyIdAndPw from "../find/FindMyIdAndPw";
+import { useLogin } from "./LoginContext";
 
 const Login = () => 
 {
@@ -28,6 +29,7 @@ const Login = () =>
     const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
+    const { user, fetchUserData } = useLogin();
     const location = useLocation();
     const current = location.pathname;
 
@@ -109,6 +111,7 @@ const Login = () =>
                 sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
                 sessionStorage.setItem("userNickname", responseData.nickname);
                 sessionStorage.setItem("userCash", responseData.cash);
+                fetchUserData(responseData.id);
                 setIsLoggedIn(true);
                 navigate(current, { replace: true }); // Navigate to the previous page
             } 

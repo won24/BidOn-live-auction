@@ -104,7 +104,7 @@ const ChatWindow = () =>
                 {message.map((msg, index) => (
                     <div
                         key={index}
-                        className={`message ${msg.type}`}
+                        className={`sendedmessage ${msg.type}`}
                         style={{
                             textAlign: msg.type === 'sent' ? 'right' : 'left',
                             marginTop: '5px',

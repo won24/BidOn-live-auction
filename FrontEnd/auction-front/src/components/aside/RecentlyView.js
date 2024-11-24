@@ -32,7 +32,7 @@ const RecentlyView = () => {
     return (
         <aside className="right-aside">
             <p className="right-aside_Text">최근 본 게시물</p>
-            <ul>
+            <div>
                 {recentViews.length > 0 ? (
                     getRecentPosts().map((view) => (
                         <div key={view.postId} className="recently-views">
@@ -48,7 +48,7 @@ const RecentlyView = () => {
                 ) : (
                     <p className="recently-views_text">최근 본 게시물이 없습니다.</p>
                 )}
-            </ul>
+            </div>
         </aside>
     );
 }

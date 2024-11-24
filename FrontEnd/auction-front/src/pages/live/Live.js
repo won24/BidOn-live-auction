@@ -53,7 +53,7 @@ const Live = () =>{
     const renderAuctionItems = (items) =>
         items.map((item) => (
             <div key={item.postId} className="auctionItem">
-                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)}>
+                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)} className="auction-link">
                     <img
                         className="itemImg"
                         src={imgMap[item.postId]?.[0] || "/placeholder.png"}
@@ -67,7 +67,7 @@ const Live = () =>{
 
 
     return (
-        <>
+        <div className="auction-page">
             <h1 className="auctionTitle">실시간 경매 Live</h1>
             <p>인기 경매</p>
             <div>여기에다 인기 경매방 보여주기</div>
@@ -76,17 +76,17 @@ const Live = () =>{
                 {isLoading ? (
                     <p className="loadingMessage">라이브 경매 리스트를 가져오는 중입니다.</p>
                 ) : (
-                        <>
-                            {renderAuctionItems(mainPagination.currentItems)}
-                            <Pagination {...mainPagination} />
-                        </>
-                    )
+                    <>
+                        {renderAuctionItems(mainPagination.currentItems)}
+                        <Pagination {...mainPagination} />
+                    </>
+                )
                 }
                 {liveList.length === 0 && (
                     <p className="auctionListMessage">현재 경매 중인 경매품이 없습니다.</p>
                 )}
             </div>
-        </>
+        </div>
     );
 }
 export default Live;

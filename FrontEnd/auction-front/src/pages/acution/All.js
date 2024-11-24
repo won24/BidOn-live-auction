@@ -7,6 +7,8 @@ import usePagination from "./common/paging/usePagination";
 import Pagination from "./common/paging/Pagination";
 import useFilterItem from "./common/FilterItem";
 import {getImagesForPosts} from "./common/Images";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AllList = () => {
 
@@ -101,23 +103,23 @@ const AllList = () => {
 
     // 체크박스 렌더링
     const CheckboxGroup = ({ items, type }) => (
-        <ul className="checkBoxContainer">
+        <>
             {items.map((item) => (
-                <div key={item.id}>
-                    <label className="checkBoxLabel">
-                        <input
-                            type="checkbox"
-                            className="checkboxInput"
-                            checked={item.isChecked}
-                            onChange={(e) =>
-                                handleCheckboxChange(item.id, e.target.checked, type)
-                            }
-                        />
+                <div key={item.id} className="checkBoxContainer">
+                    <input
+                        type="checkbox"
+                        className="checkboxInput"
+                        checked={item.isChecked}
+                        onChange={(e) =>
+                            handleCheckboxChange(item.id, e.target.checked, type)
+                        }
+                    />
+                    <p className="checkBoxLabel">
                         {item.title}
-                    </label>
+                    </p>
                 </div>
             ))}
-        </ul>
+        </>
     );
 
 
@@ -125,7 +127,7 @@ const AllList = () => {
     const renderAuctionItems = (items) =>
         items.map((item) => (
             <div key={item.postId} className="auctionItem">
-                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)}>
+                <Link to={`/auction/${item.postId}`} onClick={() => updateRecentPosts(item)} className="auction-link">
                     <img
                         className="itemImg"
                         src={imgMap[item.postId]?.[0] || "/placeholder.png"}
@@ -140,9 +142,8 @@ const AllList = () => {
 
 
     return (
-        <>
+        <div className="auction-page">
             <h2 className="auctionTitle">경매 물품 전체보기</h2>
-            <p className="auctionSubTitle">쇼미옥의 경매 물품</p>
 
             <div className="auctionCategory">
                 <a href="/auction/antique">골동품</a>
@@ -152,20 +153,23 @@ const AllList = () => {
                 <a href="/auction/valuables">귀중품</a>
             </div>
 
-            <form onSubmit={search} className="auctionSearch">
-                <input
-                    className="auctionSearchInput"
-                    placeholder="모든 카테고리에서 검색"
-                    onChange={onValueGet}
-                />
-                <button type="submit" className="auctionSearchBtn">검색</button>
-            </form>
+            <div className="search-check">
+                <form onSubmit={search} className="auctionSearch">
+                    <input
+                        className="auctionSearchInput"
+                        placeholder="모든 카테고리에서 검색"
+                        onChange={onValueGet}
+                    />
+                    <button type="submit" className="auctionSearchBtn">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#2d2d2d",}} />
+                    </button>
+                </form>
 
-
-            {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main" />}
-            {searchItemRef.current && searchItemList.length > 0 && (
-                <CheckboxGroup items={checkBoxStates.search} type="search" />
-            )}
+                {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main" />}
+                {searchItemRef.current && searchItemList.length > 0 && (
+                    <CheckboxGroup items={checkBoxStates.search} type="search" />
+                )}
+            </div>
             <hr/>
 
             <div className="auctionListContainer">
@@ -194,7 +198,7 @@ const AllList = () => {
                     <p className="auctionListMessage">현재 경매품이 없습니다.</p>
                 )}
             </div>
-        </>
+        </div>
     );
 }
 

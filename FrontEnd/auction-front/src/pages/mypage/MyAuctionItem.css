@@ -1,0 +1,94 @@
+/*!* 신청 한 경매품 목록 CSS *!*/
+
+/*!* 전체 컨테이너 *!*/
+/*div {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: auto;*/
+/*    !*text-align: center;*!*/
+/*}*/
+
+/*!* 제목 스타일 *!*/
+/*h1 {*/
+/*    margin-bottom: 20px;*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*!* 테이블 스타일 *!*/
+/*table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    margin: 20px auto;*/
+/*}*/
+
+/*th, td {*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 8px;*/
+/*}*/
+
+/*!* 헤더만 가운데 정렬 *!*/
+/*th {*/
+/*    text-align: center;*/
+/*    background-color: #f4f4f4;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*!* 데이터는 왼쪽 정렬 *!*/
+/*td {*/
+/*    text-align: left;*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*tr:nth-child(even) {*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*tr:hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
+
+/*!* 승인 여부 컬러 스타일 *!*/
+/*.approval-pending {*/
+/*    color: red;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.approval-complete {*/
+/*    color: blue;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.approval-rejected {*/
+/*    color: gray;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* 페이지네이션 스타일 *!*/
+/*.pagination {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.pagination button {*/
+/*    border: 1px solid #ddd;*/
+/*    background-color: white;*/
+/*    color: black;*/
+/*    padding: 5px 10px;*/
+/*    margin: 0 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.pagination button:hover {*/
+/*    background-color: #f0f0f0;*/
+/*}*/
+
+/*.pagination .active {*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*    border-color: #007bff;*/
+/*}*/

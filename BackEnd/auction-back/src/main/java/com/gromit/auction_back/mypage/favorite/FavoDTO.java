@@ -15,4 +15,5 @@ public class FavoDTO {
 
     private String title;
     private String imageUrl;
+
 }

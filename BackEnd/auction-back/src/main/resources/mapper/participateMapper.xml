@@ -4,14 +4,14 @@
 <!-- 참여 경매 쿼리 -->
 
 <mapper namespace="com.gromit.auction_back.mypage.participate.ParticipateDAO">
-    <resultMap id="UserResultMap" type="com.gromit.auction_back.mypage.participate.ParticipateDTO">
+    <resultMap id="participationAuctionResult" type="com.gromit.auction_back.mypage.participate.ParticipateDTO">
         <id property="categoryCode" column="CategoryCode" />
         <result property="userCode" column="UserCode" />
         <result property="title" column="Title" />
         <result property="finalCash" column="FinalCash" />
     </resultMap>
     
-    <select id="participationAuction" parameterType="participationAuctionResult">
+    <select id="participationAuction" resultMap="participationAuctionResult">
         SELECT
             categoryCode,
             title,

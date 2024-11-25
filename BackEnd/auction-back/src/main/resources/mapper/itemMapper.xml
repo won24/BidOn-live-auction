@@ -4,16 +4,16 @@
 <!-- 경매품 쿼리 -->
 
 <mapper namespace="com.gromit.auction_back.mypage.auctionItem.ItemDAO">
-    <resultMap id="UserResultMap" type="com.gromit.auction_back.mypage.auctionItem.ItemDTO">
+    <resultMap id="getAuctionResult" type="com.gromit.auction_back.mypage.auctionItem.ItemDTO">
         <id property="categoryCode" column="CategoryCode" />
-        <result property="tilte" column="Title" />
+        <result property="title" column="Title" />
         <result property="content" column="Content" />
         <result property="price" column="Price" />
         <result property="imageUrl" column="ImageUrl" />
     </resultMap>
 
     <!--  auctionItem : 경매품   -->
-    <select id="auctionItem" parameterType="auctionItemResulMap">
+    <select id="auctionItem" resultType="getAuctionResult">
         SELECT
             categoryCode,
             title,

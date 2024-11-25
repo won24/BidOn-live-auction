@@ -9,11 +9,11 @@ import java.util.List;
 @Service
 public class ParticipateService {
 
-    public List<ParticipateDTO> getParticipatedAuctions(String userCode) {
+    public List<ParticipateDTO> participationAuction(String userCode) {
         return ParticipateDAO.getParticipatedAuctions(userCode);
     }
 
-    public List<ParticipateDTO> getWonAuctions(String userCode) {
+    public List<ParticipateDTO> getAuctions(String userCode) {
         return ParticipateDAO.getWonAuctions(userCode);
     }
 }

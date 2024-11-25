@@ -5,10 +5,7 @@ package com.gromit.auction_back.mypage.auctionItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,11 +14,12 @@ import java.util.List;
 public class ItemController {
 
     @Autowired
-    private ItemService itemService;
+    private ItemService itemService;  // Spring에서 자동으로 주입받기
 
     @GetMapping("/myauctionitem")
-    public ResponseEntity<List<ItemDTO>> getMyAuctionItem(@RequestParam String userCode) {
-        List<ItemDTO> auctionItems = ItemService.getUserItems(userCode);
+    public ResponseEntity<List<ItemDTO>> getAuctionResult(@RequestParam String userCode) {
+        List<ItemDTO> auctionItems = itemService.auctionItem(userCode);
         return ResponseEntity.ok(auctionItems);
     }
 }
+

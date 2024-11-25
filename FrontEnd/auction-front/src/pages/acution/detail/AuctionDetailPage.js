@@ -195,34 +195,35 @@ const AuctionDetailPage = () =>{
                 <hr/>
 
                 <div className="detail-page_middle">
-                    <img className="detail-page_itemImg" src={img[0]} alt={`${board.title}의 이미지`} loading="lazy"/>
-                    <div className="detail-page_middle_info">
-                        <div className="detail-page_text">
-                            {postStatus === "done" && (
-                                <p className="detail-page_middle_info_text">최종 낙찰가</p>
-                            )}
-                            <p className="detail-page_middle_info_text">입찰 시작가</p>
-                            <p className="detail-page_middle_info_text">경매 날짜</p>
-                        </div>
-                        <div className="detail-page_middle_info_value">
-                            <p className="detail-page_cash">{board.startCash}원</p>
-                            {postStatus === "done" && (
-                                <p className="detail-page_finalCash">{board.finalCash}원</p>
-                            )}
-                            <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-
-                <div className="detail-page_bottom">
-                    <p className="detail-page_infoText">상세 정보</p>
-                    <div className="detail-page_info">
+                    <div className="detail-page_middle_left">
                         <div className="detail-page_info_img">
                             {renderImageSlider()}
                         </div>
+
+                        <div className="detail-page_middle_info">
+                            <div className="detail-page_text">
+                                {postStatus === "done" && (
+                                    <p className="detail-page_middle_info_text">최종 낙찰가</p>
+                                )}
+                                <p className="detail-page_middle_info_text">입찰 시작가</p>
+                                <p className="detail-page_middle_info_text">경매 날짜</p>
+                            </div>
+                            <div className="detail-page_middle_info_value">
+                                {postStatus === "done" && (
+                                    <p className="detail-page_finalCash">{board.finalCash}원</p>
+                                )}
+                                <p className="detail-page_cash">{board.startCash}원</p>
+                                <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="detail-page_middle_right">
+                        <p className="detail-page_infoText">상세 정보</p>
                         <p className="detail-page_boardContent">{board.content}</p>
                     </div>
+                </div>
+
+                <div className="detail-page_bottom">
                     <div className="detail-page_button">
                         {isAdmin ? renderAdminActions()
                             :<button onClick={movePrevPage} className="detail-page_backButton">이전</button>

@@ -3,14 +3,11 @@ import '../../css/NavigationBar.css'
 import {useEffect} from "react";
 import { useLogin } from "../../pages/login/LoginContext";
 
-
-
 const Nav = () =>
 {
     const userId = sessionStorage.getItem("userId");
-    const isAdmin = sessionStorage.getItem("isAdmin") === "true";
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    const userNickname = sessionStorage.getItem("userNickname");
+
     const navigate = useNavigate();
     const location = useLocation();
     const current = location.pathname;
@@ -21,7 +18,7 @@ const Nav = () =>
     {
         if (isLoggedIn && userId) 
         {
-            fetchUserData(userId); // Refresh user data on page load
+            fetchUserData(userId);
         }
     }, [isLoggedIn, userId, fetchUserData]);
 
@@ -43,7 +40,7 @@ const Nav = () =>
 
     const handleLogout = () => 
     {
-        sessionStorage.clear(); // Clear all session storage
+        sessionStorage.clear();
         navigate(current, { replace: true });
     };
 
@@ -61,7 +58,7 @@ const Nav = () =>
                             <div style={{ marginBottom: "3px" }}>
                                 <span className="user-welcome">
                                     {/* {userCode} */}
-                                    {isAdmin ? "[관리자] " : ""}{userNickname}님, 환영합니다.
+                                    {user?.isAdmin ? "[관리자] " : ""}{user?.nickname}님, 환영합니다.
                                     <button className="login-button2"
                                             onClick={() => navigate("/admin")}>관리자페이지</button>
                                 </span>
@@ -71,7 +68,7 @@ const Nav = () =>
 
                             <div>
                                 <span className="user-welcome">
-                                    충전된 캐시: {user?.userCash} 캐시
+                                    충전된 캐시: {user?.cash} 캐시
                                 </span>
                                 {/* 코드 고치면서 충전 즉시 반영되게 변경 */}
                                 {/* <button className="login-button2" onClick={refresh}>새로고침</button> */}
@@ -84,4 +81,5 @@ const Nav = () =>
             </div>
     )
 }
+
 export default Nav;

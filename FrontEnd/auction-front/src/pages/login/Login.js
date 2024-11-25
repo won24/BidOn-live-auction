@@ -9,27 +9,22 @@
  * 
  * 쿠키를 이용한 아이디 저장 기능 구현 (완료)
  */
+
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import ReactModal from "react-modal";
 import FindMyIdAndPw from "../find/FindMyIdAndPw";
-import { useLogin } from "./LoginContext";
 
 const Login = () => 
 {
     const navigate = useNavigate();
-    const [loginForm, setLoginForm] = useState(
-    {
-        id: "",
-        password: "",
-    });
+    const [loginForm, setLoginForm] = useState({ id: "", password: "" });
     const [isRemember, setIsRemember] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
-    const { user, fetchUserData } = useLogin();
     const location = useLocation();
     const current = location.pathname;
 
@@ -38,7 +33,6 @@ const Login = () =>
         setModalSwitch((prev) => !prev);
     };
 
-    // Load cookie on initial render if `loginForm.id` is empty
     useEffect(() => 
     {
         if (!loginForm.id && cookies.rememberId) 
@@ -69,7 +63,7 @@ const Login = () =>
 
         if (name === "id" && isRemember) 
         {
-            setCookie("rememberId", value, { maxAge: 604800 });
+            setCookie("rememberId", value, { maxAge: 2592000 });
         }
     };
 
@@ -81,39 +75,24 @@ const Login = () =>
             const response = await fetch("http://localhost:8080/api/auth/login", 
             {
                 method: "POST",
-                headers: 
-                {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(loginForm),
             });
     
             if (response.ok) 
             {
-                const contentType = response.headers.get("Content-Type");
-                let responseData;
-    
-                if (contentType && contentType.includes("application/json")) 
-                {
-                    responseData = await response.json();
-                    // 백엔드에서 넘어오는 데이터 확인
-                    // console.log("Response JSON:", responseData);
-                } 
-                else 
-                {
-                    throw new Error("Unexpected response format.");
-                }
-    
-                // Store relevant details in sessionStorage
+                const data = await response.json();
+
+                Object.entries(data).forEach(([key, value]) => 
+                { 
+                    sessionStorage.setItem(key, value); 
+                });
+
                 sessionStorage.setItem("isLoggedIn", "true");
-                sessionStorage.setItem("userId", loginForm.id);
-                sessionStorage.setItem("userCode", responseData.userCode); // Store userCode
-                sessionStorage.setItem("isAdmin", responseData.isAdmin);  // Store isAdmin flag
-                sessionStorage.setItem("userNickname", responseData.nickname);
-                sessionStorage.setItem("userCash", responseData.cash);
-                fetchUserData(responseData.id);
                 setIsLoggedIn(true);
-                navigate(current, { replace: true }); // Navigate to the previous page
+
+                console.log("User Data Saved in Session:", data);
+                navigate(current, { replace: true });
             } 
             else 
             {
@@ -126,10 +105,13 @@ const Login = () =>
     };
 
     // 로그인 된 상태에서는 로그인 페이지 진입 불가능
-    if(isLoggedIn)
+    useEffect(() => 
     {
-        navigate(-1);
-    }
+        if (isLoggedIn) 
+        {
+            navigate(-1);
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className="login-form">

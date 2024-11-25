@@ -2,6 +2,7 @@
  * LoginContext.js
  * 
  * 현재 로그인한 계정의 정보 제공
+ * 필요한 만큼 갖다 쓰세요.
  */
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -22,8 +23,8 @@ export const LoginProvider = ({ children }) =>
                 setUser((prevUser) => (
                 {
                     ...prevUser,
-                    userCash: data.cash, // Update cash
-                    ...data, // Merge other user properties
+                    userCash: data.cash, 
+                    ...data,
                 }));
             } 
             else 
@@ -34,37 +35,37 @@ export const LoginProvider = ({ children }) =>
             console.error("Error fetching user data:", error);
         }
     };
-    
+
     useEffect(() => 
     {
-        // 대충 이런 식으로 선언해서 사용하면 됨
+        // const 변수명 = sessionStorage.getItem("컬럼명")의 방식으로 선언해서 사용하고
+        // type이 boolean인 컬럼은 아래와 같이 === "true/false"로 필요에 따라 사용할 것
         const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) 
         {
-            const userData = 
+            // users 테이블에 있는 모든 column을 사용할 수 있도록 변경
+            const userData = {};
+            Object.keys(sessionStorage).forEach((key) => 
             {
-                // 조회할 수 있는 column 목록(패스워드 제외 전체)
-                userId: sessionStorage.getItem("userId"),
-                userCode: sessionStorage.getItem("userCode"),
-                userName: sessionStorage.getItem("userName"),
-                userNickname: sessionStorage.getItem("userNickname"),
-                userEmail: sessionStorage.getItem("userEmail"),
-                userPhone: sessionStorage.getItem("userPhone"),
-                userBirth: sessionStorage.getItem("userBirth"),
-                userAddress: sessionStorage.getItem("userAddress"),
-                userCash: sessionStorage.getItem("userCash"),
-                isAdult: sessionStorage.getItem("isAdult"),
-                isAdmin: sessionStorage.getItem("isAdmin") === "true",
-                isSuspended: sessionStorage.getItem("isSuspended"),
-                sendEmail: sessionStorage.getItem("sendEmail"),
-                sendMessage: sessionStorage.getItem("sendMessage"),
+                userData[key] = sessionStorage.getItem(key);
+            });
+
+            const parsedUserData = 
+            {
+                ...userData,
+                isAdmin: userData.isAdmin === "true",
+                isAdult: userData.isAdult === "true",
+                sendEmail: userData.sendEmail === "true",
+                sendMessage: userData.sendMessage === "true",
+                userCash: parseInt(userData.userCash, 10) || 0,
+                userCode: parseInt(userData.userCode, 10) || 0,
             };
-            setUser(userData);
-    
-            // Fetch the latest data from the database using userId
-            if (userData.userId) 
+
+            setUser(parsedUserData);
+
+            if (parsedUserData.userId) 
             {
-                fetchUserData(userData.userId);
+                fetchUserData(parsedUserData.userId);
             }
         }
     }, []);

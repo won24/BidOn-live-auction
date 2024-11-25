@@ -40,6 +40,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
 import Bid from "./pages/bid/Bid";
 import Admin from "./pages/admin/Admin";
+import "./App.css"
 
 function App() {
     return (

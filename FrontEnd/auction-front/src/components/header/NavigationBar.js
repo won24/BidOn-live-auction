@@ -48,10 +48,10 @@ const Nav = () =>
             <div className="navContainer">
                 <a href="/" className="logo">로고자리</a>
                 <div className="menuContainer">
-                    <NavLink to="/live">라이브</NavLink>
-                    <NavLink to="/auction">경매품</NavLink>
-                    <NavLink to="/requestitem">경매품신청</NavLink>
-                    <NavLink to="/customer/faq">고객센터</NavLink>
+                    <NavLink to="/live" className="nav-link">라이브</NavLink>
+                    <NavLink to="/auction" className="nav-link">경매품</NavLink>
+                    <NavLink to="/requestitem" className="nav-link">경매품신청</NavLink>
+                    <NavLink to="/customer/faq" className="nav-link">고객센터</NavLink>
                 </div>
                     {isLoggedIn ? (
                         <div>

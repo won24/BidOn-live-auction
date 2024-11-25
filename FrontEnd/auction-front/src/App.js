@@ -56,7 +56,7 @@ function App() {
                     <Route path="auction/valuables" element={<Valuables/>}/>
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="/auction/update/:postId" element={<PostEditPage/>}/>
-                    <Route path="/mypage" element={<MyPageLayout />} >
+                    <Route path="/mypage/*" element={<MyPageLayout />} >
                         <Route path="mynotice" element={<MyNotice/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>

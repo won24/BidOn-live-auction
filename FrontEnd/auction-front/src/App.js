@@ -38,7 +38,6 @@ import AdminInquire from "./pages/admin/AdminInquire";
 import AdminBoard from "./pages/admin/AdminBoard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
-import Bid from "./pages/bid/Bid";
 import Admin from "./pages/admin/Admin";
 import "./App.css"
 

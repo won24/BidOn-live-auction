@@ -25,7 +25,7 @@
 
 .layout-container_line{
     width: 100%; /* 수평 라인 화면 크기에 맞춤 */
-    max-width: 1920px;
+    max-width: 1820px;
     border: 1px solid #ccc;
 }
 

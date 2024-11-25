@@ -37,7 +37,7 @@
 }
 
 
-.detail-page hr {
+.top_line {
     border: none;
     border-top: 1px solid #343434;
     margin: 0; /* 위아래 간격 조정 */
@@ -55,12 +55,12 @@
     display: flex;
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 자식 요소를 가운데 정렬 */
-    gap: 20px; /* 각 자식 요소 간 간격 */
 }
 
 .detail-page_info_img {
     flex: 1;
     width: 100%; /* 부모 요소 너비에 맞춤 */
+    padding-bottom: 10px;
 }
 
 .imageSlider {
@@ -108,24 +108,28 @@
     opacity: 0.8;
 }
 
+
 .detail-page_middle_info {
     flex: 1;
-    width: 100%; /* 부모 요소 너비에 맞춤 */
     display: flex;
-    justify-content: flex-start; /* 위쪽 정렬 */
+    justify-content: center; /* 위쪽 정렬 */
+    margin-top: 10px;
     gap: 10px; /* 요소 간 간격 */
+    border: 1px solid #ddd; /* 가벼운 테두리 */
+    border-radius: 4px;
+    width: 80%;
 }
 
 .detail-page_text {
     font-size: 15px; /* 텍스트 크기 (필요시 조정) */
-    padding: 10px;
-    line-height: 30px;
+    line-height: 35px;
+    margin-right: 10px;
 }
 
 .detail-page_middle_info_value {
     font-weight: bold; /* 강조 */
     font-size: 20px;
-    line-height: 30px;
+    line-height: 28px;
 }
 
 /* 오른쪽 섹션 */
@@ -137,21 +141,24 @@
     align-items: flex-start; /* 왼쪽 정렬 */
 }
 
-/* 상세 정보 텍스트와 내용 수직 정렬 */
 .detail-page_infoText {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 10px; /* 아래 여백 */
+    margin-bottom: 0; /* 아래 여백 */
+}
+
+.middle_line{
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 0; /* 위아래 간격 조정 */
 }
 
 .detail-page_boardContent {
     font-size: 16px;
     line-height: 1.5; /* 가독성을 위한 줄 간격 */
-    max-height: 400px; /* 최대 높이 */
+    max-height: 800px; /* 최대 높이 */
     overflow-y: auto; /* 스크롤 가능 */
-    padding: 10px;
-    border: 1px solid #ddd; /* 가벼운 테두리 */
-    border-radius: 4px;
+    margin: 0;
 }
 
 .detail-page_bottom {
@@ -214,7 +221,6 @@
     gap: 10px;
     margin-left: auto; /* 오른쪽으로 고정 */
 }
-
 
 
 .detail-page_admin-editBtn{

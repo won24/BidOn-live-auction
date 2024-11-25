@@ -68,7 +68,7 @@ const Live = () =>{
 
     return (
         <div className="auction-page">
-            <h1 className="auctionTitle">실시간 경매 Live</h1>
+            <h1 className="auctionTitle">실시간 경매 Live Auction</h1>
             <p>인기 경매</p>
             <div>여기에다 인기 경매방 보여주기</div>
             <hr/>

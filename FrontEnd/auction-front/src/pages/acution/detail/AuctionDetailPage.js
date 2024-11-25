@@ -192,14 +192,13 @@ const AuctionDetailPage = () =>{
                     </div>
                         <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>
-                <hr/>
+                <hr className="top_line"/>
 
                 <div className="detail-page_middle">
                     <div className="detail-page_middle_left">
                         <div className="detail-page_info_img">
                             {renderImageSlider()}
                         </div>
-
                         <div className="detail-page_middle_info">
                             <div className="detail-page_text">
                                 {postStatus === "done" && (
@@ -219,6 +218,7 @@ const AuctionDetailPage = () =>{
                     </div>
                     <div className="detail-page_middle_right">
                         <p className="detail-page_infoText">상세 정보</p>
+                        <hr className="middle_line"/>
                         <p className="detail-page_boardContent">{board.content}</p>
                     </div>
                 </div>

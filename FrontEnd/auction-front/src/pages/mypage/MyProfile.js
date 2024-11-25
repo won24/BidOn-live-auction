@@ -1,83 +1,152 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLogin } from "../login/LoginContext"; // axios 불러오기
+import { useLogin } from "../login/LoginContext";
 
 const MyProfile = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { user } = useLogin(); // 로그인 정보 가져오기
+    const [newPassword, setNewPassword] = useState("");                      // 새 비밀번호 상태
+    const [confirmPassword, setConfirmPassword] = useState("");              // 비밀번호 확인 상태
+    const [passwordChangeMessage, setPasswordChangeMessage] = useState("");  // 비밀번호 변경 메시지
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false); // 기존 비밀번호 보기 상태
+    const [showNewPassword, setShowNewPassword] = useState(false);         // 새 비밀번호 보기 상태
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // 비밀번호 확인 보기 상태
+    const { user } = useLogin();
 
-    // fetchUserInfo를 axios로 처리
     const fetchUserInfo = async () => {
         if (!user?.userCode) {
-            // userCode가 없으면 요청하지 않음
             return;
         }
 
-        setLoading(true); // 요청 시작 시 로딩 상태 설정
-        setError(null); // 이전 오류 초기화
+        setLoading(true);
+        setError(null);
 
         try {
-            // axios를 사용한 API 요청
             const response = await axios.post("http://localhost:8080/mypage/myprofile", {
-                userCode: user.userCode, // userCode 전달
+                userCode: user.userCode,
             });
 
-            setUserInfo(response.data); // 사용자 정보를 상태로 설정
+            setUserInfo(response.data);
         } catch (err) {
-            setError(err.response?.data?.error || err.message); // 오류 메시지 설정
+            setError(err.response?.data?.error || err.message);
         } finally {
-            setLoading(false); // 요청 후 로딩 상태 변경
+            setLoading(false);
+        }
+    };
+
+    const handleChangePassword = async () => {
+        if (newPassword !== confirmPassword) {
+            setPasswordChangeMessage("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:8080/mypage/changePassword", {
+                userCode: user.userCode,
+                newPassword,
+            });
+
+            setPasswordChangeMessage("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (err) {
+            setPasswordChangeMessage(err.response?.data?.error || "비밀번호 변경 중 오류가 발생했습니다.");
         }
     };
 
     useEffect(() => {
         if (user?.userCode) {
-            fetchUserInfo(); // userCode가 있을 때만 데이터 가져오기
+            fetchUserInfo();
         }
-    }, [user?.userCode]); // userCode가 변경될 때마다 다시 호출
+    }, [user?.userCode]);
 
-    // 로딩 상태 처리
     if (loading) {
-        return <div>로그인이 필요합니다.</div>; // 로딩 중에는 로딩 메시지 출력
+        return <div>로그인이 필요합니다.</div>;
     }
 
-    // 오류 처리
     if (error) {
-        return <div>Error: {error}</div>; // 오류가 있을 경우 오류 메시지 출력
+        return <div>Error: {error}</div>;
     }
 
-    // 사용자 정보 화면
     return (
         <div className="profile-container">
             <h1>내 정보</h1>
             <div className="profile-table">
-                {/* 사용자 정보 표시 */}
+                {/* 아이디 */}
                 <div className="profile-row">
                     <div className="profile-label">아이디</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.id} readOnly/>
+                        <input type="text" value={userInfo.id} readOnly />
                     </div>
                 </div>
-                <div className="profile-row">
-                    <div className="profile-label">비밀번호</div>
-                    <div className="profile-value">
-                        <input type="password" value={userInfo.password} readOnly/>
-                    </div>
-                </div>
-                <div className="profile-row">
-                    <div className="profile-label">휴대전화</div>
-                    <div className="profile-value">
-                        <input type="text" value={userInfo.phone} readOnly/>
-                    </div>
-                </div>
+
+                {/* 주소 */}
                 <div className="profile-row">
                     <div className="profile-label">주소</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.address} readOnly/>
+                        <input type="text" value={userInfo.address} readOnly />
                     </div>
                 </div>
+
+                {/* 휴대전화 */}
+                <div className="profile-row">
+                    <div className="profile-label">휴대전화</div>
+                    <div className="profile-value">
+                        <input type="text" value={userInfo.phone} readOnly />
+                    </div>
+                </div>
+
+                {/* 기존 비밀번호 */}
+                <div className="profile-row">
+                    <div className="profile-label">기존 비밀번호</div>
+                    <div className="profile-value">
+                        <input
+                            type={showCurrentPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            value={userInfo.password}
+                            readOnly
+                        />
+                        <button type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)}>{showCurrentPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 새 비밀번호 입력 */}
+                <div className="profile-row">
+                    <div className="profile-label">새 비밀번호</div>
+                    <div className="profile-value">
+                        <input
+                            type={showNewPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            placeholder="새 비밀번호 입력"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}/>
+                        <button type="button" onClick={() => setShowNewPassword(!showNewPassword)}>{showNewPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 새 비밀번호 확인 */}
+                <div className="profile-row">
+                    <div className="profile-label">새 비밀번호 확인</div>
+                    <div className="profile-value">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            placeholder="비밀번호 확인"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}/>
+                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 비밀번호 변경 버튼 */}
+                <div className="profile-row">
+                    <div className="profile-value">
+                        <button onClick={handleChangePassword}>비밀번호 변경</button>
+                    </div>
+                </div>
+
+                {/* 비밀번호 변경 메시지 */}
+                {passwordChangeMessage && (
+                    <div className="profile-row">
+                        <div className="profile-message">{passwordChangeMessage}</div>
+                    </div>
+                )}
             </div>
         </div>
     );

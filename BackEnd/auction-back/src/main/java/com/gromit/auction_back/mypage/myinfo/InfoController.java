@@ -26,16 +26,15 @@ public class InfoController {
     }
 
     @PostMapping("/myprofile")
-    public ResponseEntity<?> getUserProfile(@RequestBody InfoDTO payload) {
+    public ResponseEntity<?> getUserProfile(@RequestBody InfoDTO infoDTO) {
         try {
             // PayloadDTO에서 userCode 추출
-            int userCode = payload.getUserCode();
+            int userCode = infoDTO.getUserCode();
             System.out.println("Received userCode: " + userCode);
 
             // userService를 통해 사용자 정보 가져오기
             InfoDTO user = infoService.getInfoByUserCode(userCode);
             System.out.println(user);
-
             if (user != null) {
                 // 사용자 정보 반환
                 return ResponseEntity.ok(user);
@@ -46,6 +45,18 @@ public class InfoController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("서버 오류: " + e.getMessage());
+        }
+    }
+
+    // 비밀번호 변경 처리
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody InfoDTO infoDTO) {
+        try {
+            // InfoDTO에서 userCode와 newPassword를 받아서 비밀번호 변경
+            infoService.changePassword(infoDTO.getUserCode(), infoDTO.getNewPassword());
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

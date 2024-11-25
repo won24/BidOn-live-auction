@@ -18,6 +18,6 @@ public class AdminService {
     }
 
     public void answerInquiry(int id, String answer) {
-      adminDAO.updateAnswer(id,answer);
+        adminDAO.updateAnswer(id,answer);
     }
 }

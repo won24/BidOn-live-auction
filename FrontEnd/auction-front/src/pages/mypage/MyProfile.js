@@ -27,7 +27,7 @@ const MyProfile = () => {
                 userCode: user.userCode,
             });
 
-            setUserInfo(response.data);
+            setUserInfo(response);
         } catch (err) {
             setError(err.response?.data?.error || err.message);
         } finally {
@@ -47,7 +47,7 @@ const MyProfile = () => {
                 newPassword,
             });
 
-            setPasswordChangeMessage("비밀번호가 성공적으로 변경되었습니다.");
+            setPasswordChangeMessage(response + "비밀번호가 성공적으로 변경되었습니다.");
         } catch (err) {
             setPasswordChangeMessage(err.response?.data?.error || "비밀번호 변경 중 오류가 발생했습니다.");
         }
@@ -78,7 +78,6 @@ const MyProfile = () => {
                         <input type="text" value={userInfo.id} readOnly />
                     </div>
                 </div>
-
                 {/* 주소 */}
                 <div className="profile-row">
                     <div className="profile-label">주소</div>

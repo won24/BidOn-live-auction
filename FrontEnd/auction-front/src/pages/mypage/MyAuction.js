@@ -38,7 +38,7 @@ const MyAuctions = () => {
         if (!user?.userCode) return;
 
         try {
-            const response = await axios.get(`http://localhost:8080/mypage/successfulbid`, {
+            const response = await axios.get(`http://localhost:8080/mypage/successbid`, {
                 params: { userCode: user.userCode },
             });
             setWonAuctions(response.data);

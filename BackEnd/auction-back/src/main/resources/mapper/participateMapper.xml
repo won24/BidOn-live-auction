@@ -23,7 +23,7 @@
         AND status = '참여'
     </select>
 
-    <select id="getAuctions" parameterType="getAuctionResult">
+    <select id="getAuctions" resultMap="participationAuctionResult">
         SELECT
             categoryCode,
             title,

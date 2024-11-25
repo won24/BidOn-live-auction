@@ -9,11 +9,11 @@
         <result property="title" column="Title" />
         <result property="content" column="Content" />
         <result property="price" column="Price" />
-        <result property="imageUrl" column="ImageUrl" />
+        <result property="imageUrls" column="ImageUrl" />
     </resultMap>
 
     <!--  auctionItem : 경매품   -->
-    <select id="auctionItem" resultType="getAuctionResult">
+    <select id="auctionItem" resultMap="getAuctionResult">
         SELECT
             categoryCode,
             title,

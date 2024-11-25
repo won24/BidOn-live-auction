@@ -3,11 +3,7 @@ package com.gromit.auction_back.mypage.favorite;
 import com.gromit.auction_back.auction.AuctionDTO;
 import com.gromit.auction_back.requestItem.RequestItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-=======
->>>>>>> ba9a1363906e08327081328917646d5fbc785a5a
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;

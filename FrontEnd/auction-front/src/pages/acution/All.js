@@ -20,13 +20,13 @@ const AllList = () => {
     const [checkBoxStates, setCheckBoxStates] = useState({
         main: [
             { id: 1, title: "경매중", status: "on", isChecked: true },
-            { id: 2, title: "경매 예정", status: "off", isChecked: true },
-            { id: 3, title: "경매 종료", status: "done", isChecked: true },
+            { id: 2, title: "경매예정", status: "off", isChecked: true },
+            { id: 3, title: "경매종료", status: "done", isChecked: true },
         ],
         search: [
             { id: 1, title: "경매중", status: "on", isChecked: true },
-            { id: 2, title: "경매 예정", status: "off", isChecked: true },
-            { id: 3, title: "경매 종료", status: "done", isChecked: true },
+            { id: 2, title: "경매예정", status: "off", isChecked: true },
+            { id: 3, title: "경매종료", status: "done", isChecked: true },
         ],
     });
 
@@ -143,7 +143,7 @@ const AllList = () => {
 
     return (
         <div className="auction-page">
-            <h2 className="auctionTitle">경매 물품 전체보기</h2>
+            <h1 className="auctionTitle">경매 물품 전체보기</h1>
 
             <div className="auctionCategory">
                 <a href="/auction/antique">골동품</a>
@@ -164,35 +164,36 @@ const AllList = () => {
                         <FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#2d2d2d",}} />
                     </button>
                 </form>
-
-                {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main" />}
-                {searchItemRef.current && searchItemList.length > 0 && (
-                    <CheckboxGroup items={checkBoxStates.search} type="search" />
-                )}
+                <div className="check-box">
+                    {!searchItemRef.current && <CheckboxGroup items={checkBoxStates.main} type="main" />}
+                    {searchItemRef.current && searchItemList.length > 0 && (
+                        <CheckboxGroup items={checkBoxStates.search} type="search" />
+                    )}
+                </div>
             </div>
             <hr/>
 
-            <div className="auctionListContainer">
+            <div>
                 {isLoading ? (
                     <p className="loadingMessage">경매품 리스트를 가져오는 중입니다.</p>
                 ) : (
-                    <>
+                    <div>
                         {searchItemRef.current ? (
                             searchItemList.length > 0 ? (
-                                <>
+                                <div className="auctionListContainer">
                                     {renderAuctionItems(searchPagination.currentItems)}
                                     <Pagination {...searchPagination} />
-                                </>
+                                </div>
                             ) : (
                                 <p className="loadingMessage">검색 결과가 없습니다.</p>
                             )
                         ) : (
-                            <>
+                            <div className="auctionListContainer">
                                 {renderAuctionItems(mainPagination.currentItems)}
                                 <Pagination {...mainPagination} />
-                            </>
+                            </div>
                         )}
-                    </>
+                    </div>
                 )}
                 {searchItemList.length === 0 && allList.length === 0 && (
                     <p className="auctionListMessage">현재 경매품이 없습니다.</p>

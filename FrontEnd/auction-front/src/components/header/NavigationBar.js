@@ -49,12 +49,16 @@ const Nav = () =>
 
     return(
             <div className="navContainer">
-                <a href="/" className="logo">로고자리</a>
+                <a href="/" className="logo"></a>
                 <div className="menuContainer">
                     <NavLink to="/live" className="nav-link">라이브</NavLink>
                     <NavLink to="/auction" className="nav-link">경매품</NavLink>
                     <NavLink to="/requestitem" className="nav-link">경매품신청</NavLink>
                     <NavLink to="/customer/faq" className="nav-link">고객센터</NavLink>
+                    {!isAdmin?
+                    <NavLink to="/mypage/myprofile" className="nav-link">마이페이지</NavLink>
+                        : <NavLink to="/admin" className="nav-link">관리자페이지</NavLink>
+                    }
                 </div>
                     {isLoggedIn ? (
                         <div>
@@ -62,20 +66,22 @@ const Nav = () =>
                                 <span className="user-welcome">
                                     {/* {userCode} */}
                                     {isAdmin ? "[관리자] " : ""}{userNickname}님, 환영합니다.
-                                    <button className="login-button2"
-                                            onClick={() => navigate("/admin")}>관리자페이지</button>
                                 </span>
-                                <button className="login-button2" onClick={() => navigate("/mypage/myprofile")}>마이페이지</button>
                                 <button className="login-button2" onClick={handleLogout}>로그아웃</button>
                             </div>
 
                             <div>
-                                <span className="user-welcome">
-                                    충전된 캐시: {user?.userCash} 캐시
-                                </span>
-                                {/* 코드 고치면서 충전 즉시 반영되게 변경 */}
-                                {/* <button className="login-button2" onClick={refresh}>새로고침</button> */}
-                                <button className="login-button2" onClick={openCheckoutPopup}>충전하기</button>
+                                {!isAdmin?
+                                    <>
+                                        <span className="user-welcome">
+                                            충전된 캐시: {user?.userCash} 캐시
+                                        </span>
+                                        {/* 코드 고치면서 충전 즉시 반영되게 변경 */}
+                                        {/* <button className="login-button2" onClick={refresh}>새로고침</button> */}
+                                        <button className="login-button2" onClick={openCheckoutPopup}>충전하기</button>
+                                    </>
+                                    :<></>
+                                }
                             </div>
                         </div>
                 ) : (

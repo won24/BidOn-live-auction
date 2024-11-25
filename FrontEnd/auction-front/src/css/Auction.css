@@ -3,6 +3,8 @@
     flex-direction: column;  /* 수직으로 정렬 */
     align-items: center; /* 수평 중앙 정렬 */
     justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .auctionTitle{}
 
@@ -17,15 +19,15 @@
     align-items: center; /* 세로 정렬 */
     justify-content: space-between; /* 태그 간 공간 균등 분배 */
     flex-wrap: wrap; /* 작은 화면에서도 요소가 줄바꿈 가능 */
-    gap: 10px; /* 태그 간 간격 */
-    margin: 10px;
+    gap: 430px; /* 태그 간 간격 */
+    margin-top: 20px;
 }
 .auctionSearch{
     display: flex;
     justify-content: space-between;  /* 슬라이드 리스트와 슬라이더를 양옆으로 배치 */
     align-items: center;  /* 수직 중앙 정렬 */
-    width: 250px;
-    height: 30px;
+    width: 300px;
+    height: 35px;
     border-radius: 5px;
     border: 1px solid #A4A4A4;
 }
@@ -35,11 +37,23 @@
     padding: 5px;
 }
 
+.auctionSearchInput:focus {
+    outline: none; /* 기본 아웃라인 제거 */
+    box-shadow: none; /* 박스 그림자 제거 (브라우저 기본 효과 방지) */
+}
+
 .auctionSearchBtn{
     background-color: transparent;
     border: none;
     cursor: pointer;
     padding-right: 10px;
+}
+
+.check-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
 .checkBoxContainer{
@@ -72,7 +86,7 @@
 }
 
 .checkboxInput:checked::after {
-    content: "v"; /* 체크 표시 */
+    content: "✓"; /* 체크 표시 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,7 +120,8 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: transform 0.3s, box-shadow 0.3s;
-
+    overflow: hidden; /* 부모 크기를 넘어가는 이미지 숨김 */
+    position: relative;
 }
 
 .auctionItem:hover {
@@ -121,10 +136,11 @@
 .itemImg{
     width: 150px;
     height: 150px;
-    object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
-    object-position: center center;
+    object-fit: cover; /* 이미지가 잘리더라도 컨테이너를 가득 채움 */
+    object-position: center; /* 이미지를 중앙 정렬 */
+    display: block; /* 불필요한 간격 제거 */
 }
 
 .itemTitle{
@@ -134,9 +150,43 @@
 
 }
 
-.loadingMessage{}
+.loadingMessage{
+    margin-top: 50px;
+    font-size: 50px;
+    font-weight: 600;
+}
 
-.auctionListMessage{}
+.auctionListMessage{
+    margin-top: 50px;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    font-weight: bold;
+    color: white;
+    background-color: #454545;
+}
+
+.pagination button:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
 
 
 

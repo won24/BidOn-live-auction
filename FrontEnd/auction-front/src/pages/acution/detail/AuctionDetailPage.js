@@ -131,11 +131,13 @@ const AuctionDetailPage = () =>{
 
     // 관리자 모드
     const renderAdminActions = () => (
-        <div>
-            <button onClick={() => navigate(-1)}>이전으로</button>
-            <Link to={`/auction/update/${postId}`} className="btn">수정</Link>
-            {postStatus === "none" && <button className="btn" onClick={changeStatus}>승인</button>}
-            <button className="btn" onClick={onDelete}>삭제</button>
+        <div className="admin-button">
+            <button onClick={() => navigate(-1)} className="detail-page_admin-button-back">이전</button>
+            <div className="editBtn">
+                <Link to={`/auction/update/${postId}`} className="detail-page_admin-editBtn">수정</Link>
+                {postStatus === "none" && <button className="detail-page_admin-editBtn" onClick={changeStatus}>승인</button>}
+                <button className="detail-page_admin-editBtn" onClick={onDelete}>삭제</button>
+            </div>
         </div>
     );
 
@@ -182,39 +184,63 @@ const AuctionDetailPage = () =>{
         }
 
         return (
-            <>
-                <h2 className="boardTitle">{board.title}</h2>
-                {renderFavoriteButton()}
-                <p className="boardStatus">{postStatus === "off" && "none" ? "경매 예정" : "낙찰 완료"}</p>
+            <div className="detail-page">
+                <div className="detail-page_top">
+                    <div className="detail-page_top_leftSide">
+                    <h2 className="detail-page_title">{board.title}</h2>
+                        {renderFavoriteButton()}
+                    </div>
+                        <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
+                </div>
                 <hr/>
-                <img className="itemImg" src={img[0]} alt={`${board.title}의 이미지`} loading="lazy"/>
-                {postStatus === "done" && (
-                    <>
-                        <p className="finalCashText">최종 낙찰가</p>
-                        <p className="finalCash">{board.finalCash}</p>
-                    </>
-                )}
-                <p className="cashText">입찰 시작가</p>
-                <p className="Cash">{board.startCash}</p>
-                <p className="dateText">경매 날짜</p>
-                <p className="date">{formatToKoreanDate(board.startDay)}</p>
+
+                <div className="detail-page_middle">
+                    <img className="detail-page_itemImg" src={img[0]} alt={`${board.title}의 이미지`} loading="lazy"/>
+                    <div className="detail-page_middle_info">
+                        <div className="detail-page_text">
+                            {postStatus === "done" && (
+                                <p className="detail-page_middle_info_text">최종 낙찰가</p>
+                            )}
+                            <p className="detail-page_middle_info_text">입찰 시작가</p>
+                            <p className="detail-page_middle_info_text">경매 날짜</p>
+                        </div>
+                        <div className="detail-page_middle_info_value">
+                            <p className="detail-page_cash">{board.startCash}원</p>
+                            {postStatus === "done" && (
+                                <p className="detail-page_finalCash">{board.finalCash}원</p>
+                            )}
+                            <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
+                        </div>
+                    </div>
+                </div>
                 <hr/>
-                <p className="infoText">상세 정보</p>
-                <p className="boardContent">{board.content}</p>
-                {renderImageSlider()}
-                {isAdmin ? renderAdminActions()
-                    : <button onClick={movePrevPage}>이전으로</button>
-                }
-            </>
+
+                <div className="detail-page_bottom">
+                    <p className="detail-page_infoText">상세 정보</p>
+                    <div className="detail-page_info">
+                        <div className="detail-page_info_img">
+                            {renderImageSlider()}
+                        </div>
+                        <p className="detail-page_boardContent">{board.content}</p>
+                    </div>
+                    <div className="detail-page_button">
+                        {isAdmin ? renderAdminActions()
+                            :<button onClick={movePrevPage} className="detail-page_backButton">이전</button>
+                        }
+                    </div>
+                </div>
+            </div>
         )
     }
 
 
     return (
         <>
-            <div>
-                {isLoading ? <p className="boardText">해당 경매품의 상세 페이지를 가져오는 중입니다.</p> : renderContent()}
-            </div>
+            {isLoading ?
+                <div>
+                    <p className="boardText">해당 경매품의 상세 페이지를 가져오는 중입니다.</p>
+                </div>
+                : renderContent()}
         </>
     )
 }

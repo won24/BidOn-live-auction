@@ -237,6 +237,7 @@ const PostEditPage = () => {
                     timeIntervals={30}
                     timeFormat="HH:mm"
                     filterTime={filterTime}
+                    placeholderText="날짜 변경 시 선택"
                 />
             </div>
 
@@ -247,7 +248,7 @@ const PostEditPage = () => {
 
             <div className="form-group">
                 <label>내용</label>
-                <textarea id="content" name="content" cols="40" rows="5"
+                <textarea id="content" name="content" cols="100" rows="20"
                           value={formData.content} onChange={handleChange}
                           placeholder="경매품의 정보를 상세히 입력해 주시기 바랍니다."
                 />
@@ -303,6 +304,7 @@ const PostEditPage = () => {
             </div>
 
             {/* 업로드 할 이미지 미리보기 */}
+            <div className="form-group">
             {imageURLs.length > 0 && (
                 <div className="image-preview">
                     {newImageURLs.map((url, index) => (
@@ -321,15 +323,14 @@ const PostEditPage = () => {
                     ))}
                 </div>
             )}
+            </div>
 
             <div className="btn-box">
-                <div className="item">
-                    <Link to="/auction" className='btn'>목록</Link>
-                </div>
-                <div className="item">
-                    <button className='btn' onClick={onDelete}>삭제</button>
-                    <button className='btn' onClick={onSubmit}>수정</button>
-                    <button className='btn' onClick={movePrevPage}>취소</button>
+                <Link to="/auction" className='edit-btn_list'>목록</Link>
+                <div className="edit-btn">
+                    <button className='edit-btn_item' onClick={onDelete}>삭제</button>
+                    <button className='edit-btn_item' onClick={onSubmit}>수정</button>
+                    <button className='edit-btn_item' onClick={movePrevPage}>취소</button>
                 </div>
             </div>
         </div>

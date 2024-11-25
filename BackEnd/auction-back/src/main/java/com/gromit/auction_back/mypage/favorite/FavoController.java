@@ -4,6 +4,7 @@ import com.gromit.auction_back.auction.AuctionDTO;
 import com.gromit.auction_back.requestItem.RequestItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
@@ -86,6 +87,4 @@ public class FavoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
 }

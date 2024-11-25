@@ -1,70 +1,83 @@
-// import { useEffect, useState } from "react";
-import "./MyProfile.css";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useLogin } from "../login/LoginContext";
 
-const MyProfile = () => 
-{
+const MyProfile = () => {
+    const [userInfo, setUserInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [newPassword, setNewPassword] = useState("");                      // 새 비밀번호 상태
+    const [confirmPassword, setConfirmPassword] = useState("");              // 비밀번호 확인 상태
+    const [passwordChangeMessage, setPasswordChangeMessage] = useState("");  // 비밀번호 변경 메시지
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false); // 기존 비밀번호 보기 상태
+    const [showNewPassword, setShowNewPassword] = useState(false);         // 새 비밀번호 보기 상태
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // 비밀번호 확인 보기 상태
     const { user } = useLogin();
-    // 2024/11/22부터 로그인 시 users 테이블에서 비밀번호를 제외한 모든 정보를 통으로 긁어오기 때문에 
-    // 아래 코드는 아쉽지만 더 이상 필요하지 않음
-    // 이미지는 불러와라
 
+    const fetchUserInfo = async () => {
+        if (!user?.userCode) {
+            return;
+        }
 
-    // userInfo 는 로그인된 사용자의 정보를 담는 객체 (초기값은 빈 값으로 설정)
-    // const [userInfo, setUserInfo] = useState({
-    //     id: "user1",
-    //     password: "password1",
-    //     phone: "010-1111-1111",
-    //     address: "서울시 강남구",
-    //     credit: "100,000,000,000", // 추가: 사용자의 보유 크레딧 정보
-    // });
+        setLoading(true);
+        setError(null);
 
-    // useEffect(() => {
-    //     const fetchUserInfo = async () => {
-    //         // 서버에서 사용자 정보를 불러오는 함수 정의
-    //         try {
-    //             const response = await fetch("http://localhost:8080/mypage/myprofile", {
-    //                 // 서버로 GET 요청 보내기
-    //                 method: "GET",
-    //             });
-    //             const data = await response.json();
-    //             // 서버로부터 받은 응답 데이터를 JSON 형식으로 변환
+        try {
+            const response = await axios.post("http://localhost:8080/mypage/myprofile", {
+                userCode: user.userCode,
+            });
 
-    //             if (response.ok) {
-    //                 // 응답이 정상적으로 처리되었으면(userInfo 업데이트)
-    //                 setUserInfo(data); // 서버에서 받은 데이터를 userInfo 에 저장
-    //             } else {
-    //                 console.error("사용자 정보를 가져오지 못했습니다.", data);
-    //                 // 응답이 실패했을 경우 에러 메시지 출력
-    //             }
-    //         } catch (error) {
-    //             console.error("사용자 정보 가져오기 오류", error);
-    //             // 요청 중 네트워크 문제 등 오류 발생 시 출력되는 에러 메시지
-    //         }
-    //     };
-    //     fetchUserInfo();
-    //     // 위에서 정의한 함수를 호출해서 사용자 정보를 가져옴
-    // }, []); // 코드가 처음 로드할 때 한 번만 실행되게 함
+            setUserInfo(response.data);
+        } catch (err) {
+            setError(err.response?.data?.error || err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleChangePassword = async () => {
+        if (newPassword !== confirmPassword) {
+            setPasswordChangeMessage("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:8080/mypage/changePassword", {
+                userCode: user.userCode,
+                newPassword,
+            });
+
+            setPasswordChangeMessage("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (err) {
+            setPasswordChangeMessage(err.response?.data?.error || "비밀번호 변경 중 오류가 발생했습니다.");
+        }
+    };
+
+    useEffect(() => {
+        if (user?.userCode) {
+            fetchUserInfo();
+        }
+    }, [user?.userCode]);
+
+    if (loading) {
+        return <div>로그인이 필요합니다.</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div className="profile-container">
             <h1>내 정보</h1>
             <div className="profile-table">
-                {/* 계정 이미지 */}
-                <div className="profile-row">
-                    <div className="profile-label">프로필 사진</div>
-                    <div className="profile-image">
-                        <img src="your-profile-image.png" alt="프로필 이미지" />
-                    </div>
-                </div><br/>
-
-                {/* 사용자 아이디 */}
+                {/* 아이디 */}
                 <div className="profile-row">
                     <div className="profile-label">아이디</div>
                     <div className="profile-value">
                         <input type="text" value={user?.id} readOnly />
                     </div>
-                </div><br/>
+                </div>
 
                 {/* 사용자 비밀번호 */}
                 {/* <div className="profile-row">
@@ -115,6 +128,7 @@ const MyProfile = () =>
                 </div><br/>
 
                 {/* 사용자 주소 */}
+                {/* 주소 */}
                 <div className="profile-row">
                     <div className="profile-label">주소</div>
                     <div className="profile-value">
@@ -129,6 +143,66 @@ const MyProfile = () =>
                         <input type="text" value={user?.cash} readOnly /> (원)
                     </div>
                 </div> */}
+                {/* 휴대전화 */}
+                <div className="profile-row">
+                    <div className="profile-label">휴대전화</div>
+                    <div className="profile-value">
+                        <input type="text" value={userInfo.phone} readOnly />
+                    </div>
+                </div>
+
+                {/* 기존 비밀번호 */}
+                <div className="profile-row">
+                    <div className="profile-label">기존 비밀번호</div>
+                    <div className="profile-value">
+                        <input
+                            type={showCurrentPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            value={userInfo.password}
+                            readOnly
+                        />
+                        <button type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)}>{showCurrentPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 새 비밀번호 입력 */}
+                <div className="profile-row">
+                    <div className="profile-label">새 비밀번호</div>
+                    <div className="profile-value">
+                        <input
+                            type={showNewPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            placeholder="새 비밀번호 입력"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}/>
+                        <button type="button" onClick={() => setShowNewPassword(!showNewPassword)}>{showNewPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 새 비밀번호 확인 */}
+                <div className="profile-row">
+                    <div className="profile-label">새 비밀번호 확인</div>
+                    <div className="profile-value">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"} // 보기 상태에 따라 input type 변경
+                            placeholder="비밀번호 확인"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}/>
+                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword ? "숨기기" : "보기"}</button>
+                    </div>
+                </div>
+
+                {/* 비밀번호 변경 버튼 */}
+                <div className="profile-row">
+                    <div className="profile-value">
+                        <button onClick={handleChangePassword}>비밀번호 변경</button>
+                    </div>
+                </div>
+
+                {/* 비밀번호 변경 메시지 */}
+                {passwordChangeMessage && (
+                    <div className="profile-row">
+                        <div className="profile-message">{passwordChangeMessage}</div>
+                    </div>
+                )}
             </div>
         </div>
     );

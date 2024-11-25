@@ -1,0 +1,102 @@
+/* 참여 경매 목록 CSS */
+
+
+/* 전체 컨테이너 스타일 */
+.my-auction-container {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 30px;
+    font-size: 20px;
+    text-align: left;
+}
+
+/* 테이블 스타일 */
+.auction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.auction-table th,
+.auction-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.auction-table th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+.auction-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.auction-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 보기 버튼 스타일 */
+.view-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+/* 열람한 상품 스타일 */
+.viewed-items ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.viewed-items li {
+    margin: 5px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-weight: bold;
+}

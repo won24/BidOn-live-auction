@@ -33,6 +33,7 @@ public class FavoService {
         return result;
     }
 
+
     public List<FavoDTO> getMyFav (int postId, int userCode) {
         return favoDAO.getMyFav(postId, userCode);
 

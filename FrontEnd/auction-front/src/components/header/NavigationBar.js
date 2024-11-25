@@ -12,7 +12,7 @@ const Nav = () =>
     const location = useLocation();
     const current = location.pathname;
 
-    const { user, fetchUserData } = useLogin();
+    const { user, setUser, fetchUserData } = useLogin();
 
     useEffect(() => 
     {
@@ -36,12 +36,21 @@ const Nav = () =>
     //         fetchUserData(id);
     //     }
     // };
-    
 
     const handleLogout = () => 
     {
+        setUser(null);
         sessionStorage.clear();
         navigate(current, { replace: true });
+    };
+
+    const truncateNickname = (nickname, maxLength) => 
+    {
+        if (nickname && nickname.length > maxLength) 
+        {
+            return nickname.substring(0, maxLength) + "...";
+        }
+        return nickname;
     };
 
     return(
@@ -52,17 +61,16 @@ const Nav = () =>
                     <NavLink to="/auction" className="nav-link">경매품</NavLink>
                     <NavLink to="/requestitem" className="nav-link">경매품신청</NavLink>
                     <NavLink to="/customer/faq" className="nav-link">고객센터</NavLink>
-                    {!user?.isAdmin ?
-                    <NavLink to="/mypage/myprofile" className="nav-link">마이페이지</NavLink>
-                        : <NavLink to="/admin" className="nav-link">관리자페이지</NavLink>
+                    {isLoggedIn && user?.isAdmin ?
+                        <NavLink to="/admin" className="nav-link">관리자페이지</NavLink>
+                        : <NavLink to="/mypage/myprofile" className="nav-link">마이페이지</NavLink>
                     }
                 </div>
                     {isLoggedIn ? (
                         <div>
                             <div style={{ marginBottom: "3px" }}>
                                 <span className="user-welcome">
-                                    {/* {userCode} */}
-                                    {user?.isAdmin ? "[관리자] " : ""}{user?.nickname}님, 환영합니다.
+                                    {user?.isAdmin ? "[관리자] " : ""}{truncateNickname(user?.nickname, 50)}님, 환영합니다.
                                 </span>
                                 <button className="login-button2" onClick={handleLogout}>로그아웃</button>
                             </div>

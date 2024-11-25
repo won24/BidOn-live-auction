@@ -41,6 +41,9 @@ import AdminInquire from "./pages/admin/AdminInquire";
 import AdminBoard from "./pages/admin/AdminBoard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
+import Bid from "./pages/bid/Bid";
+import Admin from "./pages/admin/Admin";
+import "./App.css"
 
 
 function App() {
@@ -74,7 +77,7 @@ function App() {
                         <Route path="notice" element={<Notice />} />
                     </Route>
                     <Route path="/admin" element={<AdminLayout />}>
-                        <Route index element={<AdminInquire />} />
+                        <Route index element={<Admin />} />
                         <Route path="inquiries" element={<AdminInquire />} />
                         <Route path="posts" element={<AdminBoard />} />
                         <Route path="users" element={<AdminUsers />} />

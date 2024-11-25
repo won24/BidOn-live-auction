@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useLogin } from '../../pages/login/LoginContext';
-import { connectWebSocket, sendBid, disconnectWebSocket } from '../../utils/websocket';
+import {connectWebSocket, disconnectWebSocket, sendBid} from "./Websocket";
+
 
 const Bid = () => {
     const { postId } = useParams();
@@ -38,9 +39,9 @@ const Bid = () => {
     };
 
     const fetchUserInfo = async () => {
-        if (user.userCode > 0) {
+        if (user?.userCode > 0) {
             try {
-                const response = await axios.get(`/admin/bid/${user.userCode}`);
+                const response = await axios.get(`/admin/bid/${user?.userCode}`);
                 setUserInfo(response.data);
             } catch (error) {
                 console.error('사용자 정보를 가져오는 데 실패했습니다:', error);

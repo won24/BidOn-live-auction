@@ -1,4 +1,7 @@
 
+/**
+ * 한국식 날짜 표기법으로 변경
+ * */
 export function formatToKoreanDate(dateString) {
 
     if (!dateString) {

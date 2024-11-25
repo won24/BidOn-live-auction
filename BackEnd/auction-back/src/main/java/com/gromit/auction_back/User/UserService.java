@@ -63,9 +63,19 @@ public class UserService
         // Map User entity to UserDTO
         UserDTO userDTO = new UserDTO();
         userDTO.setUserCode(user.getUserCode());
-        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPhone(user.getPhone());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setBirth(user.getBirth());
         userDTO.setNickname(user.getNickname());
+        userDTO.setSendEmail(user.isSendEmail());
+        userDTO.setSendMessage(user.isSendMessage());
         userDTO.setCash(user.getCash());
+        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setIsAdult(user.getIsAdult());
+        userDTO.setIsSuspended(user.getIsSuspended());
         return userDTO;
     }
 

@@ -27,7 +27,7 @@ const MyProfile = () => {
                 userCode: user.userCode,
             });
 
-            setUserInfo(response);
+            setUserInfo(response.data);
         } catch (err) {
             setError(err.response?.data?.error || err.message);
         } finally {
@@ -47,7 +47,7 @@ const MyProfile = () => {
                 newPassword,
             });
 
-            setPasswordChangeMessage(response + "비밀번호가 성공적으로 변경되었습니다.");
+            setPasswordChangeMessage("비밀번호가 성공적으로 변경되었습니다.");
         } catch (err) {
             setPasswordChangeMessage(err.response?.data?.error || "비밀번호 변경 중 오류가 발생했습니다.");
         }
@@ -75,17 +75,74 @@ const MyProfile = () => {
                 <div className="profile-row">
                     <div className="profile-label">아이디</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.id} readOnly />
+                        <input type="text" value={user?.id} readOnly />
                     </div>
                 </div>
+
+                {/* 사용자 비밀번호 */}
+                {/* <div className="profile-row">
+                    <div className="profile-label">비밀번호</div>
+                    <div className="profile-value">
+                        <input type="password" value={user?.password} readOnly />
+                    </div>
+                </div><br/> */}
+
+                {/* 사용자 이름 */}
+                <div className="profile-row">
+                    <div className="profile-label">이름</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.name} readOnly />
+                    </div>
+                </div><br/>
+
+                {/* 사용자 닉네임 */}
+                <div className="profile-row">
+                    <div className="profile-label">닉네임</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.nickname} readOnly />
+                    </div>
+                </div><br/>
+
+                {/* 사용자 생년월일 */}
+                <div className="profile-row">
+                    <div className="profile-label">생년월일</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.birth} readOnly />
+                    </div>
+                </div><br/>
+
+                {/* 사용자 생년월일 */}
+                <div className="profile-row">
+                    <div className="profile-label">이메일</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.email} readOnly />
+                    </div>
+                </div><br/>
+
+                {/* 사용자 휴대전화 */}
+                <div className="profile-row">
+                    <div className="profile-label">휴대전화</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.phone} readOnly />
+                    </div>
+                </div><br/>
+
+                {/* 사용자 주소 */}
                 {/* 주소 */}
                 <div className="profile-row">
                     <div className="profile-label">주소</div>
                     <div className="profile-value">
-                        <input type="text" value={userInfo.address} readOnly />
+                        <input type="text" value={user?.address} readOnly />
                     </div>
                 </div>
 
+                {/* 캐시는 우측 상단에서 보는 걸로 합시다 */}
+                {/* <div className="profile-row">
+                    <div className="profile-label">Credit</div>
+                    <div className="profile-value">
+                        <input type="text" value={user?.cash} readOnly /> (원)
+                    </div>
+                </div> */}
                 {/* 휴대전화 */}
                 <div className="profile-row">
                     <div className="profile-label">휴대전화</div>

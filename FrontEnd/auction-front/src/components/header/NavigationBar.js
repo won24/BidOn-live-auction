@@ -3,29 +3,24 @@ import '../../css/NavigationBar.css'
 import {useEffect} from "react";
 import { useLogin } from "../../pages/login/LoginContext";
 
-
-
 const Nav = () =>
 {
-    // const username = sessionStorage.getItem("userId");
-    // const userCode = sessionStorage.getItem("userCode");
-    const isAdmin = sessionStorage.getItem("isAdmin") === "true";
+    const id = sessionStorage.getItem("id");
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    const userNickname = sessionStorage.getItem("userNickname");
-    const userCash = sessionStorage.getItem("userCash");
+
     const navigate = useNavigate();
     const location = useLocation();
     const current = location.pathname;
 
-    const { user, fetchUserData } = useLogin();
+    const { user, setUser, fetchUserData } = useLogin();
 
     useEffect(() => 
     {
-        if (user?.userId) 
+        if (isLoggedIn && id) 
         {
-            fetchUserData(user.userId); // Refresh user data on page load
+            fetchUserData(id);
         }
-    }, [user?.userId]);
+    }, [isLoggedIn, id, fetchUserData]);
 
     const openCheckoutPopup = () => {
         const url = `${window.location.origin}/checkout`;
@@ -34,47 +29,64 @@ const Nav = () =>
     };
     
     // 충전된 캐시 새로고침(전체 새로고침 아님)
-    const refresh = () => 
-    {
-        if (user?.userId) 
-        {
-            fetchUserData(user.userId);
-        }
-    };
-    
+    // const refresh = () => 
+    // {
+    //     if (id) 
+    //     {
+    //         fetchUserData(id);
+    //     }
+    // };
 
     const handleLogout = () => 
     {
-        sessionStorage.clear(); // Clear all session storage
+        setUser(null);
+        sessionStorage.clear();
         navigate(current, { replace: true });
+    };
+
+    const truncateNickname = (nickname, maxLength) => 
+    {
+        if (nickname && nickname.length > maxLength) 
+        {
+            return nickname.substring(0, maxLength) + "...";
+        }
+        return nickname;
     };
 
     return(
             <div className="navContainer">
-                <a href="/" className="logo">로고자리</a>
+                <a href="/" className="logo"></a>
                 <div className="menuContainer">
-                    <NavLink to="/live">라이브</NavLink>
-                    <NavLink to="/auction">경매품</NavLink>
-                    <NavLink to="/requestitem">경매품신청</NavLink>
-                    <NavLink to="/customer/faq">고객센터</NavLink>
+                    <NavLink to="/live" className="nav-link">라이브</NavLink>
+                    <NavLink to="/auction" className="nav-link">경매품</NavLink>
+                    <NavLink to="/requestitem" className="nav-link">경매품신청</NavLink>
+                    <NavLink to="/customer/faq" className="nav-link">고객센터</NavLink>
+                    {isLoggedIn && user?.isAdmin ?
+                        <NavLink to="/admin" className="nav-link">관리자페이지</NavLink>
+                        : <NavLink to="/mypage/myprofile" className="nav-link">마이페이지</NavLink>
+                    }
                 </div>
                     {isLoggedIn ? (
                         <div>
                             <div style={{ marginBottom: "3px" }}>
                                 <span className="user-welcome">
-                                    {/* {userCode} */}
-                                    {isAdmin ? "[관리자] " : ""}{userNickname}님, 환영합니다.
+                                    {user?.isAdmin ? "[관리자] " : ""}{truncateNickname(user?.nickname, 50)}님, 환영합니다.
                                 </span>
-                                <button className="login-button2" onClick={() => navigate("/mypage/myprofile")}>마이페이지</button>
                                 <button className="login-button2" onClick={handleLogout}>로그아웃</button>
                             </div>
 
                             <div>
-                                <span className="user-welcome">
-                                    충전된 캐시: {user?.userCash} 캐시
-                                </span>
-                                <button className="login-button2" onClick={refresh}>새로고침</button>
-                                <button className="login-button2" onClick={openCheckoutPopup}>충전하기</button>
+                                {!user?.isAdmin ?
+                                    <>
+                                        <span className="user-welcome">
+                                            충전된 캐시: {user?.userCash} 캐시
+                                        </span>
+                                        {/* 코드 고치면서 충전 즉시 반영되게 변경 */}
+                                        {/* <button className="login-button2" onClick={refresh}>새로고침</button> */}
+                                        <button className="login-button2" onClick={openCheckoutPopup}>충전하기</button>
+                                    </>
+                                    :<></>
+                                }
                             </div>
                         </div>
                 ) : (
@@ -83,4 +95,5 @@ const Nav = () =>
             </div>
     )
 }
+
 export default Nav;

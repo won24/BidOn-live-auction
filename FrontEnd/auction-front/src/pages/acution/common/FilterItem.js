@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 
 
+/**
+ * 검색 결과 경매품
+ * 정렬 기준 - 경매중, 경매 예정, 경매 종료
+ */
 const useFilterItem = (itemList, searchItemList, checkBoxStates) => {
 
     // 정렬하기

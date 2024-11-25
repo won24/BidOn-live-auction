@@ -23,8 +23,8 @@ export const LoginProvider = ({ children }) =>
                 setUser((prevUser) => (
                 {
                     ...prevUser,
-                    userCash: data.cash, // Update cash
-                    ...data, // Merge other user properties
+                    userCash: data.cash, 
+                    ...data,
                 }));
             } 
             else 
@@ -35,28 +35,37 @@ export const LoginProvider = ({ children }) =>
             console.error("Error fetching user data:", error);
         }
     };
-    
+
     useEffect(() => 
     {
-        // 대충 이런 식으로 선언해서 사용하면 됨
+        // const 변수명 = sessionStorage.getItem("컬럼명")의 방식으로 선언해서 사용하고
+        // type이 boolean인 컬럼은 아래와 같이 === "true/false"로 필요에 따라 사용할 것
         const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) 
         {
-            const userData = 
+            // users 테이블에 있는 모든 column을 사용할 수 있도록 변경
+            const userData = {};
+            Object.keys(sessionStorage).forEach((key) => 
             {
-                // 조회할 수 있는 column 목록
-                userId: sessionStorage.getItem("userId"),
-                userCode: sessionStorage.getItem("userCode"), // Optional if not used
-                userNickname: sessionStorage.getItem("userNickname"),
-                isAdmin: sessionStorage.getItem("isAdmin") === "true",
-                userCash: sessionStorage.getItem("userCash"),
+                userData[key] = sessionStorage.getItem(key);
+            });
+
+            const parsedUserData = 
+            {
+                ...userData,
+                isAdmin: userData.isAdmin === "true",
+                isAdult: userData.isAdult === "true",
+                sendEmail: userData.sendEmail === "true",
+                sendMessage: userData.sendMessage === "true",
+                userCash: parseInt(userData.userCash, 10) || 0,
+                userCode: parseInt(userData.userCode, 10) || 0,
             };
-            setUser(userData);
-    
-            // Fetch the latest data from the database using userId
-            if (userData.userId) 
+
+            setUser(parsedUserData);
+
+            if (parsedUserData.userId) 
             {
-                fetchUserData(userData.userId);
+                fetchUserData(parsedUserData.userId);
             }
         }
     }, []);

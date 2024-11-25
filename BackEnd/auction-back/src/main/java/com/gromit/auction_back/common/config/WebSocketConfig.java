@@ -1,4 +1,4 @@
-package com.gromit.auction_back.config;
+package com.gromit.auction_back.common.config;
 
 import com.gromit.auction_back.websocket.ChatWebSocketHandler;
 import org.springframework.context.annotation.Bean;

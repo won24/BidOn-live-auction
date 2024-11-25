@@ -19,11 +19,11 @@ const Personal = () => {
             }
 
             try {
-                const userCode = user.userCode; // 세션에서 가져온 userCode 사용
+                const userCode = user?.userCode; // 세션에서 가져온 userCode 사용
                 console.log("Fetching posts for user:", userCode);
                 const response = await axios.post('/customer/personal', { userCode });
-                console.log("Full response:", response);
-                console.log("Response data:", response.data);
+                // console.log("Full response:", response);
+                // console.log("Response data:", response.data);
 
                 if (Array.isArray(response.data)) {
                     setUserPosts(response.data);

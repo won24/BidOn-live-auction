@@ -8,22 +8,22 @@ const AdminLayout = () => {
             <aside className="admin-aside">
                 <ul>
                     <li>
-                        <NavLink to="/admin" end activeClassName="active-link" className="admin-center-link">
+                        <NavLink to="/admin" end activeclassname="active-link" className="admin-center-link">
                             관리자 대시보드
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin/inquiries" activeClassName="active-link">
+                        <NavLink to="/admin/inquiries" activeclassname="active-link">
                             1:1 문의 관리
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin/posts" activeClassName="active-link">
+                        <NavLink to="/admin/posts" activeclassname="active-link">
                             게시물 관리
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin/users" activeClassName="active-link">
+                        <NavLink to="/admin/users" activeclassname="active-link">
                             유저 정보 관리
                         </NavLink>
                     </li>

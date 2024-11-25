@@ -1,27 +1,107 @@
-.boardTitle{}
+.detail-page {
+    width: 1200px; /* 전체 폭 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    display: flex;
+    flex-direction: column; /* 수직 방향 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    color: #222; /* 값 색상 */
+}
 
-.favBtn{}
+.detail-page_top {
+    display: flex;
+    justify-content: space-between; /* 좌우 끝 배치 */
+    align-items: center; /* 수직 정렬 */
+    margin-top: 20px;
+}
 
-.boardStatus{}
+.detail-page_title {
+    font-size: 30px;
+    font-weight: bold;
+}
 
-.cashText{}
+.detail-page_top_leftSide{
+    display: flex;
+    justify-content: space-between; /* 수평 정렬 */
+    align-items: center; /* 수직 정렬: 가운데 */
+    gap: 10px;
+}
 
-.Cash{}
+.detail-page_boardStatus{
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 550;
+}
 
-.dateText{}
 
-.date{}
+.detail-page hr {
+    border: none;
+    border-top: 1px solid #343434;
+    margin: 0; /* 위아래 간격 조정 */
+}
 
-.infoText{}
+.detail-page_middle {
+    display: flex;
+    justify-content: space-between; /* 수평 정렬 */
+    align-items: center; /* 수직 정렬: 가운데 */
+    margin: 20px;
+    padding: 0 80px;
+}
 
-.boardContent{}
+.detail-page_itemImg {
+    width: 40%; /* 반반 비율로 배치 */
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지 */
+}
 
-.finalCashText{}
+.detail-page_middle_info {
+    display: flex; /* 플렉스 컨테이너로 설정 */
+    flex-direction: row; /* 수평 정렬 */
+    justify-content: flex-start; /* 왼쪽부터 시작 */
+    align-items: center; /* 세로축 중앙 정렬 */
+    gap: 20px; /* 텍스트와 값 사이 간격 */
+}
 
-.finalCash{}
+.detail-page_text {
+    font-size: 25px; /* 텍스트 크기 (필요시 조정) */
+    padding: 10px;
+    line-height: 52px;
+}
 
-.boardText{}
+.detail-page_middle_info_value {
+    font-weight: bold; /* 강조 */
+    font-size: 30px;
+    line-height: 50px;
+}
 
+.detail-page_cash{}
+
+
+
+.detail-page_bottom {
+    margin-top: 20px;
+}
+
+.detail-page_infoText {
+    text-align: left; /* 왼쪽 정렬 */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.detail-page_info{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row; /* 수평 정렬 */
+    gap: 40px;
+}
+
+.detail-page_boardContent {
+    overflow-y: auto; /* 스크롤 가능 */
+    max-height: 400px; /* 최대 높이 설정 */
+}
 
 .imageSlider {
     display: flex;
@@ -65,34 +145,92 @@
 }
 
 .thumbnail.activeThumbnail {
-    border: 2px solid #FFD43B;
+    border: 2px solid #454545;
 }
 
 .thumbnail:hover {
     opacity: 0.8;
 }
 
-.pagination {
+.detail-page_button {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center; /* 수직 정렬 */
     margin-top: 20px;
+    padding-right: 20px; /* 오른쪽 여백 추가 */
 }
 
-.pagination button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    cursor: pointer;
-}
-
-.pagination button.active {
-    font-weight: bold;
-    color: white;
+.detail-page_backButton {
+    padding: 10px 20px;
     background-color: #454545;
+    color: #ffffff;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
 }
 
-.pagination button:disabled {
-    background-color: #e9ecef;
-    cursor: not-allowed;
+.detail-page_backButton:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
 }
+
+.admin-button{
+    display: flex;
+    justify-content: space-between; /* 양 끝 정렬 */
+    align-items: center; /* 세로축 중앙 정렬 */
+    width: 100%; /* 부모 요소의 전체 너비 사용 */
+    margin-top: 20px; /* 상단 여백 */
+}
+
+
+.detail-page_admin-button-back{
+    padding: 10px 20px;
+    background-color: #454545;
+    color: #ffffff;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
+    margin-right: auto; /* 왼쪽으로 고정 */
+}
+
+.detail-page_admin-button-back:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+.editBtn {
+    display: flex;
+    gap: 10px;
+    margin-left: auto; /* 오른쪽으로 고정 */
+}
+
+
+
+.detail-page_admin-editBtn{
+    padding: 10px 20px;
+    background-color: #454545;
+    color: #ffffff;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
+    text-decoration: none;
+}
+
+.detail-page_admin-editBtn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+
+.boardText{
+    margin-top: 50px;
+    font-size: 50px;
+    font-weight: 600;
+}
+

@@ -42,7 +42,7 @@ const MyFar = () => {
     const handleDelete = async (id) => {
 
         try {
-            const response = await axios.delete(`/favo/favoList/${id}`);
+            const response = await axios.delete(`/favo/deletefav/${id}`);
             if (response.status === 200) {
                 setFavorites((prevFavorites) => prevFavorites.filter(fav => fav.id !== id));
             }

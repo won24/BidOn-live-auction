@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 참여 경매 쿼리 -->
+
+<mapper namespace="com.gromit.auction_back.mypage.participate.ParticipateDAO">
+    <resultMap id="UserResultMap" type="com.gromit.auction_back.mypage.participate.ParticipateDTO">
+        <id property="categoryCode" column="CategoryCode" />
+        <result property="userCode" column="UserCode" />
+        <result property="title" column="Title" />
+        <result property="finalCash" column="FinalCash" />
+    </resultMap>
+    
+    <select id="participationAuction" parameterType="participationAuctionResult">
+        SELECT
+            categoryCode,
+            title,
+            finalCash
+        FROM
+            board
+        WHERE
+            userCode = #{userCode}
+        AND status = '참여'
+    </select>
+
+    <select id="getAuctions" parameterType="getAuctionResult">
+        SELECT
+            categoryCode,
+            title,
+            finalCash
+        FROM
+            board
+        WHERE
+            userCode = #{userCode}
+        AND status = '낙찰'
+    </select>
+</mapper>

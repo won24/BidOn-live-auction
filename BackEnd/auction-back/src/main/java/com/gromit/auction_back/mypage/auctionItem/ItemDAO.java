@@ -1,3 +1,5 @@
+// 경매품 DAO
+
 package com.gromit.auction_back.mypage.auctionItem;
 
 

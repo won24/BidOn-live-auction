@@ -16,7 +16,7 @@ const MyAuctionItem = () => {
     useEffect(() => {
         const fetchAuctionItems = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/mypage/myauction");
+                const response = await axios.get("http://localhost:8080/mypage/myauctionitem");
                 setAuctionItems(response.data);
             } catch (error) {
                 console.log("아이템을 불러오는 데 실패했습니다.");

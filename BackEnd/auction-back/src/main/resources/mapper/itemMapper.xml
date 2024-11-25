@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 경매품 쿼리 -->
+
+<mapper namespace="com.gromit.auction_back.mypage.auctionItem.ItemDAO">
+    <resultMap id="UserResultMap" type="com.gromit.auction_back.mypage.auctionItem.ItemDTO">
+        <id property="categoryCode" column="CategoryCode" />
+        <result property="tilte" column="Title" />
+        <result property="content" column="Content" />
+        <result property="price" column="Price" />
+        <result property="imageUrl" column="ImageUrl" />
+    </resultMap>
+
+    <!--  auctionItem : 경매품   -->
+    <select id="auctionItem" parameterType="auctionItemResulMap">
+        SELECT
+            categoryCode,
+            title,
+            content,
+            price,
+            imageUrl
+        FROM
+            board
+        WHERE
+            userCode = #{userCode}
+            AND status = '신청'
+    </select>
+</mapper>

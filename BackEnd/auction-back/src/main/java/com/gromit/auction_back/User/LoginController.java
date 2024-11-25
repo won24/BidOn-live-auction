@@ -25,7 +25,6 @@ public class LoginController
         if (user != null)
         {
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Login success");
             response.put("userCode", user.getUserCode());
             response.put("id", user.getId());
             response.put("name", user.getName());

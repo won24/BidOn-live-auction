@@ -5,7 +5,7 @@ import { useLogin } from "../../pages/login/LoginContext";
 
 const Nav = () =>
 {
-    const userId = sessionStorage.getItem("userId");
+    const id = sessionStorage.getItem("id");
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 
     const navigate = useNavigate();
@@ -16,11 +16,11 @@ const Nav = () =>
 
     useEffect(() => 
     {
-        if (isLoggedIn && userId) 
+        if (isLoggedIn && id) 
         {
-            fetchUserData(userId);
+            fetchUserData(id);
         }
-    }, [isLoggedIn, userId, fetchUserData]);
+    }, [isLoggedIn, id, fetchUserData]);
 
     const openCheckoutPopup = () => {
         const url = `${window.location.origin}/checkout`;
@@ -31,9 +31,9 @@ const Nav = () =>
     // 충전된 캐시 새로고침(전체 새로고침 아님)
     // const refresh = () => 
     // {
-    //     if (userId) 
+    //     if (id) 
     //     {
-    //         fetchUserData(userId);
+    //         fetchUserData(id);
     //     }
     // };
     

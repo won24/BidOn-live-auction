@@ -47,7 +47,11 @@
 
 /* 푸터 */
 .layout-footer-container {
+    /* position : absolute; */
+    /* bottom : 0; */
+    position: relative;
+    /* transform: translateY(-100%); */
     width: 100vw;
-    padding: 20px 20px 0px 20px;
+    padding-top: 10px;
 }
 

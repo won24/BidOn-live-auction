@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/finder/pw")
 public class PasswordController
 {
-
     private final UserService userService;
 
     public PasswordController(UserService userService)

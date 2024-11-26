@@ -43,6 +43,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
 import Admin from "./pages/admin/Admin";
 import "./App.css"
+import ChangePassword from "./pages/mypage/ChangePassword";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
                         <Route path="myauctionitem" element={<MyAuctionItem/>} />
+                        {/* <Route path="changepassword" element={<ChangePassword />} /> */}
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="/customer" element={<CustomerLayout />}>

@@ -20,6 +20,7 @@ const MyPageLayout = () => {
                 <nav>
                     <NavLink to="/mypage/myfar" onClick={() => handleLinkClick(true)}>| 즐겨찾기 |</NavLink>
                     <NavLink to="/mypage/myprofile" onClick={() => handleLinkClick(true)}> 내 정보 |</NavLink>
+                    {/* <NavLink to="/mypage/changepassword" onClick={() => handleLinkClick(true)}> 비밀번호 변경 |</NavLink> */}
                     <NavLink to="/mypage/myauctionitem" onClick={() => handleLinkClick(true)}> 경매품 |</NavLink>
                     <NavLink to="/mypage/myauction" onClick={() => handleLinkClick(true)}> 참여 경매 목록 |</NavLink>
                 </nav>

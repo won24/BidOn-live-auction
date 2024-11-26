@@ -39,9 +39,16 @@ const Nav = () =>
 
     const handleLogout = () => 
     {
-        setUser(null);
-        sessionStorage.clear();
-        navigate(current, { replace: true });
+        if(window.confirm("로그아웃 하시겠습니까?"))
+        {
+            setUser(null);
+            sessionStorage.clear();
+            navigate(current, { replace: true });
+        }
+        else
+        {
+            return;
+        }
     };
 
     const truncateNickname = (nickname, maxLength) => 
@@ -75,7 +82,7 @@ const Nav = () =>
                                 <button className="login-button2" onClick={handleLogout}>로그아웃</button>
                             </div>
 
-                            <div>
+                            <div className="user-info-container">
                                 {!user?.isAdmin ?
                                     <>
                                         <span className="user-welcome">

@@ -36,16 +36,14 @@ const AuctionDetailPage = () =>{
     const now = Date.now();
 
     useEffect(() => {
-
-        if(now >= startLiveTime){
-            const updatePost = async () =>{
+        const updatePost = async () =>{
+            if(now >= startLiveTime){
                 await api.updateLive(postId);
                 alert("실시간 경매가 시작됩니다.")
                 navigate('/auction/live');
-            }
+             }
         }
         updatePost();
-
     }, []);
 
     // 게시글 가져오기

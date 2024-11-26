@@ -71,17 +71,19 @@ const AuctionDetailPage = () =>{
 
     // 즐겨 찾기
     const fetchFavoriteStatus = async () => {
-        try {
-            const response = await api.getMyFav(postId, userCode);
-            const data = response.data;
-            if (data && data.length > 0) {
-                setFav({
-                    userCode: userCode,
-                    status: data[0].status,
-                });
+        if (userCode !== null){
+            try {
+                const response = await api.getMyFav(postId, userCode);
+                const data = response.data;
+                if (data && data.length > 0) {
+                    setFav({
+                        userCode: userCode,
+                        status: data[0].status,
+                    });
+                }
+            } catch (error) {
+                console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
             }
-        } catch (error) {
-            console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
         }
     };
 

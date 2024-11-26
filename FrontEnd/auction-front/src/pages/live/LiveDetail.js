@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import {redirect, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
@@ -106,7 +106,6 @@ const LiveDetail = () =>{
     const movePrevPage = ()=>{
         navigate(-1)
     }
-
 
     return (
         <>

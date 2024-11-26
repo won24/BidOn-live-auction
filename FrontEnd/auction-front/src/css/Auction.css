@@ -7,7 +7,6 @@
     margin-bottom: 20px;
     width: 100%; /* 부모 컨테이너 크기 */
 }
-.auctionTitle{}
 
 .auctionCategory > a{
     padding: 20px;
@@ -63,9 +62,6 @@
     align-items: center;
 }
 
-.checkBoxLabel{
-
-}
 
 .checkboxInput {
     appearance: none; /* 기본 체크박스 스타일 제거 */
@@ -102,6 +98,9 @@
     line-height: 1; /* 텍스트 라인 높이 조정 */
 }
 
+.auction-page hr{
+    width: 1000px;
+}
 
 .auctionListContainer{
     display: grid;

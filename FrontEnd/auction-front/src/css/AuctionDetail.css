@@ -68,6 +68,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 20px;
+    cursor: pointer;
 }
 
 .sliderImage {
@@ -84,6 +85,46 @@
     cursor: pointer;
     margin: 0 10px;
 }
+
+/* 모달 스타일 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: black;
+    border: 1px solid #ffffff;
+    font-size: 30px;
+    cursor: pointer;
+}
+
 
 .thumbnailContainer {
     display: flex;
@@ -153,12 +194,14 @@
     margin: 0; /* 위아래 간격 조정 */
 }
 
-.detail-page_boardContent {
+.content-display {
     font-size: 16px;
     line-height: 1.5; /* 가독성을 위한 줄 간격 */
     max-height: 800px; /* 최대 높이 */
     overflow-y: auto; /* 스크롤 가능 */
     margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .detail-page_bottom {

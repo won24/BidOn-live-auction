@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import * as api from "../acution/common/AuctionAPIs";
 
-const AuctionTimer = ({ startTime }) => {
+
+
+const AuctionTimer = ({ startTime, postId }) => {
     const [remainingTime, setRemainingTime] = useState(0);
     const [hasStarted, setHasStarted] = useState(false); // 경매 시작 여부
 
@@ -21,6 +24,20 @@ const AuctionTimer = ({ startTime }) => {
                 const endTime = startTimestamp + auctionDuration;
                 const timeLeft = endTime - now;
                 setRemainingTime(timeLeft > 0 ? timeLeft : 0);
+
+                const offTime = endTime + auctionDuration;
+                console.log("offTime" , offTime)
+                console.log("endTime 5분 후 ", endTime+ auctionDuration);
+                if(offTime > endTime + auctionDuration){
+                    const setStatus = async () =>{
+                        try {
+                            const response = await api.setPostStatus(postId);
+                            console.log(response.data)
+                        }catch (error){
+                            console.error("라이브 방송 후 상태 변경 실패")
+                        }
+                    }
+                }
             }
         };
 

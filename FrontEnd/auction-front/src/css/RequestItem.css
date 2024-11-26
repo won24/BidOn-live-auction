@@ -1,4 +1,4 @@
-.edit-container{
+.requestItem-container{
     display: flex;
     flex-direction: column;  /* 수직으로 정렬 */
     align-items: center; /* 수평 중앙 정렬 */
@@ -9,10 +9,39 @@
     color: #222; /* 값 색상 */
 }
 
-.edit-container hr {
-    border: none;
-    border-top: 1px solid #343434;
-    margin-bottom: 15px; /* 위아래 간격 조정 */
+.request-notice{
+    padding-bottom: 10px;
+}
+
+.form-group{
+    padding-top: 5px;
+}
+
+.request-image{
+    display: flex;
+    align-items: center; /* 수평 중앙 정렬 */
+    gap: 10px;
+}
+
+.request-img-allDelete-button{
+    padding: 10px;
+    color: #454545;
+    background-color: #ffffff;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
+    text-decoration: none;
+}
+
+.request-img-allDelete-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+.request-image-preview{
+    margin-bottom: 50px;
 }
 
 .img-delete-button{
@@ -28,16 +57,10 @@
     cursor: pointer;
 }
 
-.btn-box{
-    display: flex;
-    justify-content: space-between; /* 양 끝 정렬 */
-    align-items: center; /* 세로축 중앙 정렬 */
-    width: 100%; /* 부모 요소의 전체 너비 사용 */
-    margin-top: 20px; /* 상단 여백 */
-}
 
-.edit-btn_list{
-    text-decoration: none;
+.request-submit{
+    display: flex;
+    margin: 0 auto; /* 가운데 정렬 */
     padding: 10px 20px;
     background-color: #454545;
     color: #ffffff;
@@ -46,35 +69,13 @@
     font-size: 16px;
     cursor: pointer;
     transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
-    margin-right: auto; /* 왼쪽으로 고정 */
 }
 
-.edit-btn_list:hover{
+
+.request-submit:hover{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
     transform: translateY(-2px); /* 살짝 위로 이동 */
 }
 
-.edit-btn{
-    display: flex;
-    gap: 10px;
-    margin-left: auto; /* 오른쪽으로 고정 */
-}
-
-.edit-btn_item{
-    padding: 10px 20px;
-    background-color: #454545;
-    color: #ffffff;
-    border: none;
-    border-radius: 2px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
-    text-decoration: none;
-}
-
-.edit-btn_item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
-    transform: translateY(-2px); /* 살짝 위로 이동 */
-}
 
 

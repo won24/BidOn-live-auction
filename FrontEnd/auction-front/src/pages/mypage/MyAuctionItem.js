@@ -8,23 +8,33 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./MyAuctionItem.css"; // 위 CSS를 작성한 파일을 import
+import { useLogin } from "../login/LoginContext"; // 로그인 상태 가져오기
+import "./MyAuctionItem.css";
 
 const MyAuctionItem = () => {
     const [auctionItems, setAuctionItems] = useState([]);
+    const { user } = useLogin(); // 로그인 정보에서 user 가져오기
 
     useEffect(() => {
         const fetchAuctionItems = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/mypage/myauctionitem");
+                if (!user || !user.userCode) {
+                    console.error("로그인 정보가 없습니다.");
+                    return;
+                }
+
+                const response = await axios.get("http://localhost:8080/mypage/myauctionitem", {
+                    params: { userCode: user.userCode }, // userCode를 서버에 전달
+                });
+
                 setAuctionItems(response.data);
             } catch (error) {
-                console.log("아이템을 불러오는 데 실패했습니다.");
+                console.error("아이템을 불러오는 데 실패했습니다:", error);
             }
         };
 
         fetchAuctionItems();
-    }, []);
+    }, [user]); // user 정보가 변경될 때만 호출
 
     if (auctionItems.length === 0) {
         return <div>신청한 경매품이 없습니다.</div>;

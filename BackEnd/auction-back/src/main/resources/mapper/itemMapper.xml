@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 경매품 쿼리 -->
+<!-- 경매품 -->
 
 <mapper namespace="com.gromit.auction_back.mypage.auctionItem.ItemDAO">
     <resultMap id="getAuctionResult" type="com.gromit.auction_back.mypage.auctionItem.ItemDTO">
@@ -15,10 +15,11 @@
     <!--  auctionItem : 경매품   -->
     <select id="auctionItem" resultMap="getAuctionResult">
         SELECT
+            PostId,
             categoryCode,
-            title,
+            Title,
             content,
-            price,
+            finalCash,
             imageUrl
         FROM
             board

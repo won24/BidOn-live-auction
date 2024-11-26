@@ -20,28 +20,29 @@ const MyFar = () => {
                 }
 
                 const axiosreponse = await axios.get("http://localhost:8080/favo/favolist", {
-                    params: { userCode: user.userCode }
+                    params: { userCode: user.userCode },
                 });
 
+                // 응답 데이터 확인 및 상태 업데이트
                 if (Array.isArray(axiosreponse.data)) {
-                    setFavorites(axiosreponse.data); // 응답이 배열이면 설정
+                    setFavorites(axiosreponse.data);
                 } else {
-                    console.error("서버 응답이 배열이 아닙니다:", axiosreponse.data);
-                    setFavorites([]); // 응답이 배열이 아니면 빈 배열로 설정
+                    console.warn("서버 응답이 배열이 아닙니다:", axiosreponse.data);
+                    setFavorites(false); // 빈 배열로 설정
                 }
             } catch (error) {
                 console.error("데이터를 가져오는 중 오류 발생:", error);
-                setFavorites([]); // 오류 시 빈 배열로 설정
-            }
-
-            finally {
-                if (isLoading) {
-                    setIsLoading(false);
-                }
+                setFavorites([]);
+            } finally {
+                setIsLoading(false);
             }
         };
-        fetchFavorites();
-    },[user]);
+
+        if (user && user.userCode) {
+            fetchFavorites();
+        }
+    }, [user]);
+
 
 
     const handleDelete = async (postId) => {

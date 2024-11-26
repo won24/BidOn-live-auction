@@ -74,4 +74,9 @@ public class AuctionService {
     public List<AuctionDTO> getLiveList() {
         return auctionDAO.getLiveList();
     }
+
+    public int setPostStatus(int postId) {
+        int result = auctionDAO.setPostStatus(postId);
+        return result;
+    }
 }

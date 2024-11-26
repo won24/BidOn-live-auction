@@ -4,8 +4,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import * as api from "../common/AuctionAPIs";
 import axios from "axios";
 import '../../../css/PostEditPage.css'
-import {notUseThisPost} from "../common/AuctionAPIs";
-import {format, parseISO} from "date-fns";
+
 
 
 const PostEditPage = () => {
@@ -25,6 +24,8 @@ const PostEditPage = () => {
     const [imageFiles, setImageFiles] = useState([]);
     const [imageURLs, setImageURLs] = useState([]);
     const fileInputRef = useRef(null);
+    const [newImageFiles, setNewImageFiles] = useState([]);
+    const [newImageURLs, setNewImageURLs] = useState([])
 
 
     // 게시글 정보 가져오기
@@ -105,9 +106,9 @@ const PostEditPage = () => {
 
     const handleImageChange = (e) => {
         const files = e.target.files;
-        setImageFiles(files);
+        setNewImageFiles(Array.from(files));
         const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
-        setImageURLs(fileURLs);
+        setNewImageURLs(fileURLs);
     };
 
 
@@ -138,7 +139,7 @@ const PostEditPage = () => {
 
     const handleImageUpload = async (postId) => {
         const formData = new FormData();
-        for (const element of imageFiles) {
+        for (const element of newImageFiles) {
             formData.append('images', element);
         }
 
@@ -159,7 +160,7 @@ const PostEditPage = () => {
     };
 
 
-    // 이미지 개별 삭제
+    // 저장 이미지 개별 삭제
     const handleImageDelete = async (index, url) => {
         try {
 
@@ -180,6 +181,15 @@ const PostEditPage = () => {
         }
     };
 
+    // 첨부 이미지 개별 삭제
+    const handleRemoveImages = (index) => {
+        setNewImageFiles((prevImages) => prevImages.filter((_, i) => i !== index));
+        setNewImageURLs((prevURLs) => prevURLs.filter((_, i) => i !== index));
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // input[type="file"] 값 초기화
+        }
+    };
+
 
     // 게시글 삭제
     const onDelete = async () => {
@@ -189,6 +199,12 @@ const PostEditPage = () => {
         alert('삭제 완료')
 
         navigate('/auction')
+    }
+
+
+    // 취소버튼
+    const movePrevPage = ()=>{
+        navigate(-1)
     }
 
 
@@ -221,6 +237,7 @@ const PostEditPage = () => {
                     timeIntervals={30}
                     timeFormat="HH:mm"
                     filterTime={filterTime}
+                    placeholderText="날짜 변경 시 선택"
                 />
             </div>
 
@@ -231,14 +248,14 @@ const PostEditPage = () => {
 
             <div className="form-group">
                 <label>내용</label>
-                <textarea id="content" name="content" cols="40" rows="5"
+                <textarea id="content" name="content" cols="100" rows="20"
                           value={formData.content} onChange={handleChange}
                           placeholder="경매품의 정보를 상세히 입력해 주시기 바랍니다."
                 />
             </div>
 
             <div className="form-group">
-                <label htmlFor="currentCash">현재 가격</label>
+                <label htmlFor="startCash">희망 경매 시작 가격</label>
                 <input
                     type="number"
                     id="startCash"
@@ -249,6 +266,7 @@ const PostEditPage = () => {
                 />
             </div>
 
+            {/* 기존 이미지 보여주기 */}
             <div className="form-group">
                 <label>이미지</label>
                 {imageURLs.length > 0 && (
@@ -263,7 +281,7 @@ const PostEditPage = () => {
                                 <button className="img-delete-button"
                                         onClick={() => handleImageDelete(index, url)}
                                 >
-                                    &times;
+                                    X
                                 </button>
                             </div>
                         ))}
@@ -271,7 +289,7 @@ const PostEditPage = () => {
                 )}
             </div>
 
-            {/* 이미지 파일 업로드 필드 추가 */}
+            {/* 이미지 파일 업로드 */}
             <div className="form-group">
                 <label htmlFor="image">새로운 이미지 첨부</label>
                 <input
@@ -285,28 +303,34 @@ const PostEditPage = () => {
                 />
             </div>
 
-            {/* 미리보기 영역 */}
+            {/* 업로드 할 이미지 미리보기 */}
+            <div className="form-group">
             {imageURLs.length > 0 && (
                 <div className="image-preview">
-                    {imageURLs.map((url, index) => (
+                    {newImageURLs.map((url, index) => (
                         <div key={index} style={{display: 'inline-block', position: 'relative', marginRight: '10px'}}>
                             <img
                                 src={url}
                                 alt={`미리보기 ${index + 1}`}
                                 style={{maxWidth: '200px', maxHeight: '200px'}}
                             />
+                            <button className="img-delete-button"
+                                    onClick={() => handleRemoveImages(index)}
+                            >
+                                X
+                            </button>
                         </div>
                     ))}
                 </div>
             )}
+            </div>
 
             <div className="btn-box">
-                <div className="item">
-                    <Link to="/auction" className='btn'>목록</Link>
-                </div>
-                <div className="item">
-                    <button className='btn' onClick={onDelete}>삭제</button>
-                    <button className='btn' onClick={onSubmit}>수정</button>
+                <Link to="/auction" className='edit-btn_list'>목록</Link>
+                <div className="edit-btn">
+                    <button className='edit-btn_item' onClick={onSubmit}>수정</button>
+                    <button className='edit-btn_item' onClick={onDelete}>삭제</button>
+                    <button className='edit-btn_item' onClick={movePrevPage}>취소</button>
                 </div>
             </div>
         </div>

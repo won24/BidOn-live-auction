@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
 import { useLogin } from '../../pages/login/LoginContext';
+import "../../css/RequestItem.css"
 
 const RequestItem = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const RequestItem = () => {
         title: '',
         content: '',
         userCode: '',
-        currentCash: 0
+        startCash: 0
     });
 
     const [imageFiles, setImageFiles] = useState([]);
@@ -55,7 +56,7 @@ const RequestItem = () => {
 
     const handleImageChange = (e) => {
         const files = e.target.files;
-        setImageFiles(files);
+        setImageFiles(Array.from(files));
         const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
         setImageURLs(fileURLs);
     };
@@ -64,6 +65,15 @@ const RequestItem = () => {
     const handleRemoveAllImages = () => {
         setImageFiles([]); // 이미지 파일 배열 초기화
         setImageURLs([]); // 미리보기 URL 배열 초기화
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // input[type="file"] 값 초기화
+        }
+    };
+
+    // 첨부 이미지 개별 삭제
+    const handleRemoveImages = (index) => {
+        setImageFiles((prevImages) => prevImages.filter((_, i) => i !== index));
+        setImageURLs((prevURLs) => prevURLs.filter((_, i) => i !== index));
         if (fileInputRef.current) {
             fileInputRef.current.value = ''; // input[type="file"] 값 초기화
         }
@@ -124,7 +134,7 @@ const RequestItem = () => {
     return (
         <div className="requestitem-container">
             <h1>경매품 신청하기</h1>
-            <div className="notice">
+            <div className="request-notice">
                 ※ 본문 입력란에 정확히 기재해 주세요. 상세 정보 및 고객의 상품을 정확히 확인합니다.
             </div>
 
@@ -132,7 +142,8 @@ const RequestItem = () => {
                 {/* 기존 폼 필드들 */}
                 <div className="form-group">
                     <label htmlFor="categoryCode">분류</label>
-                    <select id="categoryCode" name="categoryCode" value={formData.categoryCode} onChange={handleChange} required>
+                    <select id="categoryCode" name="categoryCode" value={formData.categoryCode} onChange={handleChange}
+                            required>
                         <option value="" disabled hidden>카테고리 선택</option>
                         <option value="a">골동품</option>
                         <option value="l">한정판</option>
@@ -144,7 +155,7 @@ const RequestItem = () => {
                 <div className="form-group">
                     <label>날짜</label>
                     <DatePicker
-                        selected={formData.date}
+                        selected={formData.startDay}
                         onChange={handleDateChange}
                         dateFormat="yyyy-MM-dd HH:mm"
                         minDate={minSelectableDate}
@@ -162,16 +173,17 @@ const RequestItem = () => {
 
                 <div className="form-group">
                     <label>내용</label>
-                    <textarea id="content" name="content" value={formData.content} onChange={handleChange}
+                    <textarea id="content" name="content" cols="100" rows="20"
+                              value={formData.content} onChange={handleChange}
                               placeholder="경매품의 정보를 상세히 입력해 주시기 바랍니다."/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="currentCash">현재 가격</label>
+                    <label htmlFor="startCash">희망 경매 시작 가격</label>
                     <input
                         type="number"
-                        id="currentCash"
-                        name="currentCash"
-                        value={formData.currentCash}
+                        id="startCash"
+                        name="startCash"
+                        value={formData.startCash}
                         onChange={handleChange}
                         placeholder="숫자만 입력하세요"
                     />
@@ -180,35 +192,47 @@ const RequestItem = () => {
                 {/* 이미지 파일 업로드 필드 */}
                 <div className="form-group">
                     <label htmlFor="image">이미지 첨부</label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        onChange={handleImageChange}
-                        accept="image/*"
-                        multiple
-                        ref={fileInputRef}
-                    />
+                    <div className="request-image">
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            onChange={handleImageChange}
+                            accept="image/*"
+                            multiple
+                            ref={fileInputRef}
+                        />
+                        <div className="request-button">
+                            <button className="request-img-allDelete-button" onClick={handleRemoveAllImages}>
+                                전체 취소
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 {/* 미리보기 영역 */}
-                {imageURLs.length > 0 && (
-                    <div className="image-preview">
-                        {imageURLs.map((url, index) => (
-                            <div key={index} style={{ display: 'inline-block', position: 'relative', marginRight: '10px' }}>
-                                <img
-                                    src={url}
-                                    alt={`미리보기 ${index + 1}`}
-                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
-                                />
-                            </div>
-                        ))}
-                        <button type="button" onClick={handleRemoveAllImages}>
-                            전체 취소
-                        </button>
-                    </div>
-                )}
-                <button type="submit">제출하기</button>
+                <div className="form-group">
+                    {imageURLs.length > 0 && (
+                        <div className="request-image-preview">
+                            {imageURLs.map((url, index) => (
+                                <div key={index}
+                                     style={{display: 'inline-block', position: 'relative', marginRight: '10px'}}>
+                                    <img
+                                        src={url}
+                                        alt={`미리보기 ${index + 1}`}
+                                        style={{maxWidth: '200px', maxHeight: '200px'}}
+                                    />
+                                    <button className="img-delete-button"
+                                            onClick={() => handleRemoveImages(index)}
+                                    >
+                                        X
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <button type="submit" className="request-submit">제출하기</button>
             </form>
         </div>
     );

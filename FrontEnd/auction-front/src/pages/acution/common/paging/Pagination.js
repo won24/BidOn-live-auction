@@ -7,7 +7,7 @@ const Pagination = ({ currentPage, totalPages, goToPage, nextPage, prevPage }) =
 
     return (
         <div className="pagination">
-            <button onClick={prevPage} disabled={currentPage === 1}>
+            <button onClick={prevPage} disabled={currentPage === 1} className="pagenation_btn">
                 이전
             </button>
             {pages.map((page) => (
@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, goToPage, nextPage, prevPage }) =
                     {page}
                 </button>
             ))}
-            <button onClick={nextPage} disabled={currentPage === totalPages}>
+            <button onClick={nextPage} disabled={currentPage === totalPages} className="pagenation_btn">
                 다음
             </button>
         </div>

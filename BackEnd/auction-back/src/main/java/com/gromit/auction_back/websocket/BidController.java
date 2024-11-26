@@ -14,14 +14,13 @@ public class BidController {
     public BidController(BidService bidService) {
         this.bidService = bidService;
     }
-
-    @PostMapping
-    public ResponseEntity<String> placeBid(@RequestBody BidDTO bidDTO) {
-        boolean result = bidService.processBid(bidDTO);
-        if (result) {
-            return ResponseEntity.ok("Bid placed successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Bid failed");
-        }
+//    @PostMapping("/save")
+//    public ResponseEntity<String> createBid(@RequestBody BidDTO bidDTO) {
+//        try {
+//            System.out.println("bid테이블 세이브"+bidDTO);
+//            bidService.saveBid(bidDTO);
+//            return ResponseEntity.ok("bid테이블 저장 완료");
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("저장 중 오류가 발생했습니다: " + e.getMessage());
+//        }
     }
-}

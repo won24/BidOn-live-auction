@@ -6,7 +6,6 @@
     justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
     min-height: 62vh;  /* 메인 페이지에서 스크롤 생기지 않도록 수시로 조정중 */
     margin: 0 auto; /* 가운데 정렬 */
-    max-width: 1200px;  /* 최대 너비 설정 */
 }
 
 /* 중앙 컨테이너 스타일 */
@@ -15,7 +14,7 @@
     justify-content: space-between;  /* 슬라이드 리스트와 슬라이더를 양옆으로 배치 */
     align-items: center;  /* 수직 중앙 정렬 */
     width: 100%;
-    max-width: 1200px;  /* 최대 너비 설정 */
+    max-width: 1500px;
     padding: 20px 0px;
     gap: 30px;
 }
@@ -25,43 +24,93 @@
     display: flex;
     flex-direction: column;  /* 세로로 나열 */
     align-items: flex-start; /* 왼쪽 정렬 */
-    margin-right: 20px;
-    border: 1px #4E4E4E;
+    margin-right: 7px;
+    border: 1px solid #ddd; /* 각 리스트의 테두리 */
 }
 
 /* 각 슬라이드 아이템 스타일 */
-.list1, .list2, .list3 {
+.list {
+    width: auto; /* 원하는 너비 지정 */
+    height: 80px; /* 원하는 높이 지정 */
+    overflow: hidden; /* 이미지가 넘치지 않도록 숨김 */
     display: flex;
-    flex-direction: column; /* 세로 배치 */
-    align-items: center;  /* 이미지와 텍스트를 중앙 정렬 */
-    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center; /* 리스트 내부의 콘텐츠를 중앙 정렬 */
 }
 
-/* 메인 슬라이드 컨테이너 스타일 */
+/* 이미지 스타일 */
+.list img {
+    width: 100%; /* 리스트의 크기에 맞춰 이미지 확장 */
+    height: 100%; /* 리스트의 높이에 맞춰 이미지 확장 */
+    object-fit: cover; /* 이미지가 리스트 크기에 맞게 잘림 */
+}
+
+/* 슬라이더 전체 컨테이너 */
+.slider-container {
+    width: 100%;
+    overflow: hidden; /* 슬라이더 외부 요소 숨김 */
+    position: relative;
+}
+
+/* 슬라이더 리스트 */
 .sliders {
     display: flex;
-    justify-content: space-between; /* 슬라이드들을 가로로 나열 */
-    flex: 1;  /* 슬라이드가 가능한 공간을 모두 차지하게 */
+    transition: transform 0.5s ease-in-out; /* 부드러운 이동 */
+    will-change: transform; /* 애니메이션 최적화 */
 }
 
-/* 각 슬라이드 스타일 */
-.slider img {
-    width: 100%; /* 슬라이드 이미지가 컨테이너 크기에 맞게 확장 */
-    max-width: 600px;  /* 최대 너비 설정 */
-    height: auto;  /* 비율에 맞게 높이를 자동으로 조정 */
+/* 각 슬라이드 */
+.slider {
+    flex-shrink: 0;
+    width: 101%; /* 화면 전체 크기로 슬라이드 설정 */
 }
+
+.slider img {
+    width: 100%;
+    height: auto; /* 이미지 비율 유지 */
+}
+
+
+/* 슬라이더 버튼 */
+.slide-btn {
+    position: absolute;
+    bottom: 120px;
+    left: 21%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0);
+    color: #343434;
+    border: 2px solid #343434;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.slide-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
 
 /* 하단 카테고리 영역 */
 .mainCategoryContainer {
     width: 100%;
+    max-width: 1200px; /* 컨테이너 최대 너비 설정 */
     padding: 40px 0px;
     display: flex;
-    align-items: center;  /* 카테고리 텍스트와 링크들을 중앙 정렬 */
-    gap: 20px;
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    gap: 20px; /* 각 카테고리 간 간격 */
+    margin: 0 auto; /* 컨테이너를 수평 가운데 정렬 */
+    flex-wrap: wrap; /* 요소들이 화면 크기에 따라 줄바꿈되도록 설정 */
 }
 
 .textContainer {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .textContainer p {
@@ -77,7 +126,7 @@ hr {
 
 /* 각 카테고리 스타일 */
 .antiqueContainer, .limitedContainer, .discontinuationContainer,
-.artproductContainer, .valauablesContainer {
+.artproductContainer, .valuablesContainer {
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
@@ -85,13 +134,13 @@ hr {
 }
 
 .antiqueText, .limitedText, .discontinuationText,
-.artproductText, .valaublesText {
+.artproductText, .valublesText {
     font-size: 18px;
 }
 
 .antiqueContainer a, .limitedContainer a,
 .discontinuationContainer a, .artproductContainer a,
-.valauablesContainer a {
+.valuablesContainer a {
     display: block; /* 블록 요소로 만들어서 크기를 지정할 수 있게 */
     width: 120px;
     height: 120px;
@@ -111,7 +160,7 @@ hr {
 .artproductContainer a {
     background-image: url("../assets/artproduct.png");
 }
-.valauablesContainer a {
+.valuablesContainer a {
     background-image: url("../assets/valuables.png");
 }
 

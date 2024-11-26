@@ -18,6 +18,6 @@
     <update id="updateByPassword" parameterType="com.gromit.auction_back.mypage.myinfo.InfoDTO">
         UPDATE users
         SET password = #{newPassword}
-        WHERE user_code = #{userCode}
+        WHERE User_code = #{userCode}
     </update>
 </mapper>

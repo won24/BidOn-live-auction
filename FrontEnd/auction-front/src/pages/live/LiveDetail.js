@@ -126,24 +126,6 @@ const LiveDetail = () =>{
                     <Bid/>
                     <hr/>
 
-                    <img
-                        className="itemImg"
-                        src={img[0]}
-                        alt={`${board.title}의 이미지`}
-                        loading="lazy"
-                    />
-                    <p className="live-text">현재가</p>
-                    <p className="live-currentCash">여기에 실시간 경매가격 올라가는 거 보여줘야함</p>
-                    <p className="live-text">입찰 시작가</p>
-                    <div className="live-cash">{board.startCash}</div>
-                    <div className="live-timer">{<AuctionTimer startTime={board.startDay} />}</div>
-                    <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
-
-                    <div>채팅방 자리</div>
-                    <hr/>
-
-                    <p className="infoText">상세 정보</p>
-                    <p className="boardContent">{board.content}</p>
                     <div className="imageSlider">
                         <button onClick={handlePrev} className="sliderButton" style={{background: "none", border: "none", cursor: "pointer"}}>
                             <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545" , fontSize:"40px"}}/>
@@ -170,6 +152,19 @@ const LiveDetail = () =>{
                             />
                         ))}
                     </div>
+
+                    <p className="live-text">현재가</p>
+                    <p className="live-currentCash">여기에 실시간 경매가격 올라가는 거 보여줘야함</p>
+                    <p className="live-text">입찰 시작가</p>
+                    <div className="live-cash">{board.startCash}</div>
+                    <div className="live-timer">{<AuctionTimer startTime={board.startDay} postId={postId} />}</div>
+                    <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
+
+                    <div>채팅방 자리</div>
+                    <hr/>
+
+                    <p className="infoText">상세 정보</p>
+                    <p className="boardContent">{board.content}</p>
                         <button onClick={movePrevPage}>이전으로</button>
                 </>)}
             </>

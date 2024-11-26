@@ -18,6 +18,7 @@ public class UserDetailService {
     }
 
     public UserDetailDTO getUserByCode(int userCode) {
+        System.out.println("서비스 유저코드"+userCode);
         return userDetailDAO.fineByUserCode(userCode);
     }
 

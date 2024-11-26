@@ -14,7 +14,7 @@
     </resultMap>
 
     <select id="getAllInquire" resultMap="adminResultMap">
-        SELECT p.id, p.userCode, p.content, p.title, p.answer, p.createdAt, u.nickName
+        SELECT p.userCode, p.content, p.title, p.answer, p.createdAt, u.nickName
         FROM personal p
         LEFT JOIN users u ON p.userCode = u.UserCode
         WHERE p.answer IS NULL

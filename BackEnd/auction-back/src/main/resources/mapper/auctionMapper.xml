@@ -129,7 +129,7 @@
         WHERE postStatus = 'on' and usePost = 1;
     </select>
 
-<!--    라이브 후 상태 변경 -->
+<!--   on -> done -->
     <update id="setPostStatus">
         UPDATE board
         SET
@@ -137,6 +137,7 @@
         WHERE postId = #{postId}
     </update>
 
+<!--    off -> on -->
     <update id="updateLivePost">
         UPDATE board
         SET

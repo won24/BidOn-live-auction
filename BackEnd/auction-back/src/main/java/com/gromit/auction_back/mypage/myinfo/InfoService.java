@@ -1,4 +1,5 @@
 package com.gromit.auction_back.mypage.myinfo;
+
 import org.springframework.stereotype.Service;
 
 @Service

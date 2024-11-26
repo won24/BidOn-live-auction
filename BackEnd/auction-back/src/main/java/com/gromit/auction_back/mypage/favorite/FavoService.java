@@ -15,13 +15,6 @@ public class FavoService {
         this.favoDAO = favoDAO;
     }
 
-    public List<FavoDTO> allselect(FavoDTO favoDTO) {
-        int userCode = favoDTO.getUserCode();
-        System.out.println(userCode);
-        return favoDAO.getAllFavoList(userCode);
-    }
-
-
     public int addFavorite(FavoDTO favoDTO) {
         int result = favoDAO.addFav(favoDTO);
         return result;
@@ -37,5 +30,16 @@ public class FavoService {
     public List<FavoDTO> getMyFav (int postId, int userCode) {
         return favoDAO.getMyFav(postId, userCode);
 
+    }
+
+    // 즐겨찾기 목록 조회
+    public List<FavoDTO> getAllFavoList(int userCode) {
+        List<FavoDTO> getAllFavoList = favoDAO.getAllFavoList(userCode);
+        return getAllFavoList;
+    }
+
+    public int FavoDelete(int userCode) {
+        int result = favoDAO.favodelete(userCode);
+        return result;
     }
 }

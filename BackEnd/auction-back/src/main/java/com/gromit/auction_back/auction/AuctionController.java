@@ -190,7 +190,7 @@ public class AuctionController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
             }
         } catch (Exception e) {
-            logger.error("상태 변경 중 에러 발생: {}", e.getMessage());
+            logger.error("on-> done 상태 변경 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -206,7 +206,7 @@ public class AuctionController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
             }
         } catch (Exception e) {
-            logger.error("상태 변경 중 에러 발생: {}", e.getMessage());
+            logger.error("off-> on 상태 변경 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

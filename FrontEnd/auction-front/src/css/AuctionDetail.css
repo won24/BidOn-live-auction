@@ -72,7 +72,8 @@
 }
 
 .sliderImage {
-    max-width: 100%;
+    max-width: 400px;
+    height: auto;
     max-height: 400px;
     object-fit: cover;
 }

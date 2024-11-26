@@ -10,10 +10,9 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const auctionDuration = 5 * 60 * 1000; // 경매 시간: 5분
-        const postStatusDelay = 5 * 60 * 1000; // 상태 변경 지연: 5분
+        const fiveMinute = 5 * 60 * 1000;
         const startTimestamp = new Date(startTime).getTime();
-        const endTimestamp = startTimestamp + auctionDuration;
+        const endTimestamp = startTimestamp + fiveMinute;
 
         const updateRemainingTime = async () => {
             const now = Date.now();
@@ -26,11 +25,11 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 // 경매 진행 중
                 setHasStarted(true);
                 setRemainingTime(endTimestamp - now);
-            } else if (now >= endTimestamp && now < endTimestamp + postStatusDelay) {
+            } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) {
                 // 경매 종료 후 5분 대기 중
                 setHasStarted(true);
                 setHasEnded(true);
-                setRemainingTime(endTimestamp + postStatusDelay - now);
+                setRemainingTime(endTimestamp + fiveMinute - now);
             } else if (!postStatusChanged) {
                 // 경매 종료 후 5분 뒤 상태 변경 요청
                 setRemainingTime(0);
@@ -40,11 +39,6 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                     await api.setPostStatus(postId);
                     alert("실시간 경매가 종료되었습니다.");
                     navigate(`/auction`);
-
-                    // 데이터 갱신 로직 실행
-                    if (typeof onUpdate === "function") {
-                        onUpdate(); // 부모 컴포넌트에 갱신 요청
-                    }
                 } catch (error) {
                     console.error("경매 상태 변경 실패:", error);
                 }
@@ -63,7 +57,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const formatTime = (time) => {
         const minutes = Math.floor(time / 1000 / 60);
         const seconds = Math.floor((time / 1000) % 60);
-        return `${minutes}분 : ${seconds.toString().padStart(2, "0")}초`;
+        return `${minutes} : ${seconds.toString().padStart(2, "0")}`;
     };
 
     return (

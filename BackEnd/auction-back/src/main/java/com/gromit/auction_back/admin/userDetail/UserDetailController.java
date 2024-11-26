@@ -54,7 +54,7 @@ public class UserDetailController {
         try {
             System.out.println("유저 코드 " + userCode + "의 상세정보");
             UserDetailDTO user = userDetailService.getUserByCode(userCode);
-            System.out.println(user);
+            System.out.println("유저정보확인"+user);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {

@@ -16,10 +16,11 @@ public interface UserDetailDAO {
     @Select("SELECT * FROM users WHERE isAdmin = false")
     List<UserDetailDTO> getAllUsers();
 
-    @Select("SELECT u.*, b.postId,b.Title " +
-            "FROM users u " +
-            "LEFT JOIN Board b ON u.UserCode = b.userCode " +
-            "WHERE u.isAdmin = false AND u.UserCode = #{userCode}")
+//    ("SELECT u.*, b.postId,b.Title " +
+//            "FROM users u " +
+//            "LEFT JOIN Board b ON u.UserCode = b.userCode " +
+//            "WHERE u.isAdmin = false AND u.UserCode = #{userCode}")
+    @Select("SELECT * FROM users WHERE UserCode = #{userCode}")
     UserDetailDTO fineByUserCode(int userCode);
 
     @Select("SELECT * FROM Board WHERE userCode = #{userCode}")

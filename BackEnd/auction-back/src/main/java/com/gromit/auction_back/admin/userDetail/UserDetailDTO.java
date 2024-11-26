@@ -28,8 +28,8 @@ public class UserDetailDTO {
     private boolean sendMessage;
     private LocalDateTime createUser;
     //유저 테이블
-    private int postId;
-    private String title;
+//    private int postId;
+//    private String title;
 
 
 

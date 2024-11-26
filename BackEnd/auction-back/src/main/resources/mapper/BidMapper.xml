@@ -20,4 +20,8 @@
     <select id="getLatestBidInfo" resultType="com.gromit.auction_back.websocket.BidDTO">
         SELECT * FROM bid WHERE postId = #{postId} ORDER BY bidAmount DESC LIMIT 1
     </select>
+<!--    <insert id="insertBid" parameterType="com.gromit.auction_back.websocket.BidRequest">-->
+<!--        INSERT INTO bid (userCode, postId, currentCash)-->
+<!--        VALUES (#{userCode}, #{postId}, #{bidAmount})-->
+<!--    </insert>-->
 </mapper>

@@ -25,7 +25,8 @@ const PostEditPage = () => {
     const [imageURLs, setImageURLs] = useState([]);
     const fileInputRef = useRef(null);
     const [newImageFiles, setNewImageFiles] = useState([]);
-    const [newImageURLs, setNewImageURLs] = useState([])
+    const [newImageURLs, setNewImageURLs] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     // 게시글 정보 가져오기
@@ -51,7 +52,7 @@ const PostEditPage = () => {
             setFormData({
                 postId: board.postId,
                 categoryCode: board.categoryCode,
-                startDay: board.startDay,
+                startDay: board.startDay? new Date(board.startDay) : new Date(),
                 title: board.title,
                 content: board.content,
                 startCash: board.startCash,
@@ -60,13 +61,13 @@ const PostEditPage = () => {
         }
     }, [board])
 
+
     // 이미지 가져오기
     const getImg = async () => {
 
         try {
             const response = await api.getBoardImg(postId);
             const data = response.data;
-            console.log(data);
 
             const imageUrls = data.map(item => item.imageUrl);
             setImageURLs(imageUrls);
@@ -104,38 +105,66 @@ const PostEditPage = () => {
         }));
     };
 
+    // const handleImageChange = (e) => {
+    //     const files = e.target.files;
+    //     setNewImageFiles(Array.from(files));
+    //     const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
+    //     setNewImageURLs(fileURLs);
+    // };
+
     const handleImageChange = (e) => {
-        const files = e.target.files;
-        setNewImageFiles(Array.from(files));
-        const fileURLs = Array.from(files).map(file => URL.createObjectURL(file));
+        const files = Array.from(e.target.files);
+
+        // 파일 크기 및 형식 검증
+        const validFiles = files.filter(file => file.size <= 5 * 1024 * 1024 && file.type.startsWith('image/')); // 5MB 제한
+        if (validFiles.length !== files.length) {
+            alert("일부 파일은 허용되지 않는 형식이거나 크기 제한을 초과했습니다.");
+        }
+
+        setNewImageFiles(validFiles);
+        const fileURLs = validFiles.map(file => URL.createObjectURL(file));
         setNewImageURLs(fileURLs);
     };
 
 
-    // 수정된 값으로 요청 날리기
+    // 수정한 값으로 요청 날리기
     const onSubmit = async () => {
-        const formattedData = {
-            ...formData,
-            startDay: formData.startDay instanceof Date ? formData.startDay.toISOString() : formData.startDay
-        };
-
-        console.log("전송 데이터:", JSON.stringify(formattedData));
+        setIsLoading(true);
 
         try {
-            const response = await api.updatePost(formattedData);
-            console.log(response.data);
+            const formattedData = {
+                ...formData,
+                startDay: formData.startDay instanceof Date ? formData.startDay.toISOString() : formData.startDay
+            };
 
-            if (response.status === 200 || response.status === 201) {
-                await handleImageUpload(postId);
+            console.log("전송 데이터:", JSON.stringify(formattedData));
+
+            const response = await api.updatePost(formattedData);
+
+            console.log("응답 상태 코드:", response.status);
+            console.log("응답 데이터:", response.data);
+
+            if (response.status >= 200 && response.status < 300) {
+                console.log("게시글 업데이트 성공:", response.data);
+
+                // 이미지 업로드 실행
+                if (newImageFiles.length > 0) {
+                    await handleImageUpload(postId);
+                }
+
                 alert('수정 완료');
                 navigate(`/auction/${postId}`);
             } else {
-                throw new Error('서버 응답이 올바르지 않습니다.');
+                throw new Error(`서버 응답이 올바르지 않습니다. 상태 코드: ${response.status}`);
             }
-        } catch (e) {
-            console.log("업데이트 오류:", e);
+        } catch (error) {
+            console.error("업데이트 오류:", error);
+            alert('수정 중 오류가 발생했습니다.');
+        }finally {
+            setIsLoading(false);
         }
     };
+
 
     const handleImageUpload = async (postId) => {
         const formData = new FormData();
@@ -163,7 +192,6 @@ const PostEditPage = () => {
     // 저장 이미지 개별 삭제
     const handleImageDelete = async (index, url) => {
         try {
-
             const response = await axios.delete('http://localhost:8080/images/delete', {
                 params: {imageUrl: url, postId}
             });
@@ -328,7 +356,9 @@ const PostEditPage = () => {
             <div className="btn-box">
                 <Link to="/auction" className='edit-btn_list'>목록</Link>
                 <div className="edit-btn">
-                    <button className='edit-btn_item' onClick={onSubmit}>수정</button>
+                    <button className='edit-btn_item' onClick={onSubmit} disabled={isLoading}>
+                        {isLoading ? '수정 중' : '수정'}
+                    </button>
                     <button className='edit-btn_item' onClick={onDelete}>삭제</button>
                     <button className='edit-btn_item' onClick={movePrevPage}>취소</button>
                 </div>

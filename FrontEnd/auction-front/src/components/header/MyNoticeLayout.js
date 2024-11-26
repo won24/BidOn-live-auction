@@ -20,10 +20,10 @@ const MyNoticeLayout = () => {
                 <div className="sidebar-title">내 글 레이아웃</div>
                 <ul>
                     <li>
-                        <NavLink to="/mypage/auction" activeClassName="active-link">경매품</NavLink>
+                        <NavLink to="/mypage/auction" activeclassname="active-link">경매품</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/mypage/inquiry" activeClassName="active-link">1 : 1 문의</NavLink>
+                        <NavLink to="/mypage/inquiry" activeclassname="active-link">1 : 1 문의</NavLink>
                     </li>
                 </ul>
             </aside>

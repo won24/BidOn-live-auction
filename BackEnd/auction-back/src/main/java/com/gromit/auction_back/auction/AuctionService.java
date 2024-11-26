@@ -79,4 +79,9 @@ public class AuctionService {
         int result = auctionDAO.setPostStatus(postId);
         return result;
     }
+
+    public int updateLivePost(int postId) {
+        int result = auctionDAO.updateLivePost(postId);
+        return result;
+    }
 }

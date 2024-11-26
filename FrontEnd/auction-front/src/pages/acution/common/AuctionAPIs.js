@@ -78,5 +78,9 @@ export const approval = (postId) =>{
 
 
 export const setPostStatus = postId =>{
-    return axios.post(`${BASE_URL}/endLive/${postId}`)
+    return axios.post(`${BASE_URL}/endlive/${postId}`)
+}
+
+export const updateLive = postId =>{
+    return axios.post(`${BASE_URL}/startlive/${postId}`)
 }

@@ -84,8 +84,7 @@ public class ImageController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteImg( @RequestParam(required = false) String imageUrl,
                                         @RequestParam(required = false) int postId) {
-        System.out.println("imageUrl = " + imageUrl);
-        System.out.println("postId = " + postId);
+
         try {
             int result = imageService.deleteImg(imageUrl,postId);
             if (result > 0) {

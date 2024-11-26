@@ -137,5 +137,12 @@
         WHERE postId = #{postId}
     </update>
 
+    <update id="updateLivePost">
+        UPDATE board
+        SET
+        postStatus = "on"
+        WHERE postId = #{postId}
+    </update>
+
 
 </mapper>

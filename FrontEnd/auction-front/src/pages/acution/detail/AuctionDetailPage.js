@@ -9,6 +9,7 @@ import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import {formatToKoreanDate} from "./FormatDate";
 import {getPostImages} from "../common/Images";
 import ImageModal from "./ImageModal";
+import {updatePost} from "../common/AuctionAPIs";
 
 
 const AuctionDetailPage = () =>{
@@ -28,6 +29,24 @@ const AuctionDetailPage = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
+    const [startTime, setStartTime] = useState("");
+    const startTimestamp = new Date(startTime).getTime();
+    const postStatusDelay = 10 * 6 * 1000;
+    const startLiveTime = startTimestamp - postStatusDelay;
+    const now = Date.now();
+
+    useEffect(() => {
+
+        if(now >= startLiveTime){
+            const updatePost = async () =>{
+                await api.updateLive(postId);
+                alert("실시간 경매가 시작됩니다.")
+                navigate('/auction/live');
+            }
+        }
+        updatePost();
+
+    }, []);
 
     // 게시글 가져오기
     useEffect( () => {
@@ -40,6 +59,8 @@ const AuctionDetailPage = () =>{
                 setPostStatus(data.postStatus);
                 const imageUrls = await getPostImages(postId);
                 setImg(imageUrls);
+
+                setStartTime(data.startDay);
             } catch (error) {
                 console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
             }finally {
@@ -50,6 +71,11 @@ const AuctionDetailPage = () =>{
         setIsLoading(true);
         getBoard()
     },[]);
+
+
+    // 라이브 10분 전 상태 변경
+
+
 
 
 

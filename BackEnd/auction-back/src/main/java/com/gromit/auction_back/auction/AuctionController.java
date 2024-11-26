@@ -78,7 +78,6 @@ public class AuctionController {
     public ResponseEntity<?> getAuctionDetail(@PathVariable int postId){
 
         AuctionDTO auctionDTO = auctionService.detail(postId);
-        logger.info("해당 게시글 상세 조회 " + auctionDTO);
 
         if( auctionDTO == null ) {
             auctionDTO = new AuctionDTO();
@@ -181,7 +180,7 @@ public class AuctionController {
     }
 
     // 라이브 경매 상태 변경
-    @PostMapping("/endLive/{postId}")
+    @PostMapping("/endlive/{postId}")
     public ResponseEntity<?> setPostStatus(@PathVariable int postId) {
         try {
             int result = auctionService.setPostStatus(postId);
@@ -196,6 +195,21 @@ public class AuctionController {
         }
     }
 
+    // 라이브 경매 업데이트
+    @PostMapping("/startlive/{postId}")
+    public ResponseEntity<?> updateLivePost(@PathVariable int postId) {
+        try {
+            int result = auctionService.updateLivePost(postId);
+            if (result > 0) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
+            }
+        } catch (Exception e) {
+            logger.error("상태 변경 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 
 }

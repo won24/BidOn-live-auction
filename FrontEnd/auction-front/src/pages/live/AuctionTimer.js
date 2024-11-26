@@ -39,7 +39,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 try {
                     await api.setPostStatus(postId);
                     alert("실시간 경매가 종료되었습니다.");
-                    navigate(`auction/${postId}`);
+                    navigate(`/auction`);
 
                     // 데이터 갱신 로직 실행
                     if (typeof onUpdate === "function") {

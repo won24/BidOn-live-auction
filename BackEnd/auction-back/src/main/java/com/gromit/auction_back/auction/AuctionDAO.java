@@ -35,4 +35,6 @@ public interface AuctionDAO {
     List<AuctionDTO> getLiveList();
 
     int setPostStatus(int postId);
+
+    int updateLivePost(int postId);
 }

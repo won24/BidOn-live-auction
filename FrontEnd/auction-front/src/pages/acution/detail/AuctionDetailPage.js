@@ -8,6 +8,7 @@ import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import {formatToKoreanDate} from "./FormatDate";
 import {getPostImages} from "../common/Images";
+import ImageModal from "./ImageModal";
 
 
 const AuctionDetailPage = () =>{
@@ -24,6 +25,7 @@ const AuctionDetailPage = () =>{
     })
     const [img, setImg] = useState([]);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
 
@@ -62,6 +64,9 @@ const AuctionDetailPage = () =>{
     const handleThumbnailClick = (index) => {
         setCurrentImgIndex(index);
     };
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
 
     // 즐겨 찾기
@@ -148,6 +153,7 @@ const AuctionDetailPage = () =>{
         </button>
     );
 
+
     // 이미지 슬라이드
     const renderImageSlider = () => (
         <div>
@@ -155,11 +161,16 @@ const AuctionDetailPage = () =>{
                 <button onClick={handlePrev} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
                     <FontAwesomeIcon icon={faChevronLeft} style={{ color: "#454545", fontSize: "40px" }} />
                 </button>
-                <img className="sliderImage" src={img[currentImgIndex]} alt={`슬라이드 이미지 ${currentImgIndex + 1}`} loading="lazy" />
+                <img className="sliderImage"
+                     src={img[currentImgIndex]}
+                     alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                     onClick={openModal}
+                     loading="lazy" />
                 <button onClick={handleNext} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
                     <FontAwesomeIcon icon={faChevronRight} style={{ color: "#454545", fontSize: "40px" }} />
                 </button>
             </div>
+
             <div className="thumbnailContainer">
                 {img.map((image, index) => (
                     <img
@@ -172,6 +183,13 @@ const AuctionDetailPage = () =>{
                     />
                 ))}
             </div>
+            {isModalOpen && (
+                <ImageModal
+                    img={img}
+                    currentImgIndex={currentImgIndex}
+                    onClose={closeModal}
+                />
+            )}
         </div>
     );
 
@@ -187,10 +205,10 @@ const AuctionDetailPage = () =>{
             <div className="detail-page">
                 <div className="detail-page_top">
                     <div className="detail-page_top_leftSide">
-                    <h2 className="detail-page_title">{board.title}</h2>
+                        <h2 className="detail-page_title">{board.title}</h2>
                         {renderFavoriteButton()}
                     </div>
-                        <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
+                    <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>
                 <hr className="top_line"/>
 
@@ -219,7 +237,9 @@ const AuctionDetailPage = () =>{
                     <div className="detail-page_middle_right">
                         <p className="detail-page_infoText">상세 정보</p>
                         <hr className="middle_line"/>
-                        <p className="detail-page_boardContent">{board.content}</p>
+                        <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
+                            {board.content}
+                        </div>
                     </div>
                 </div>
 

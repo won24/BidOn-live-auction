@@ -14,5 +14,5 @@ public interface FavoDAO {
 
     List<FavoDTO> getMyFav(int postId, int userCode);
 
-    List<FavoDTO> getAllFavoList(int userCode);
+    List<FavoDTO> getAllFavoList(FavoDTO favoDTO);
 }

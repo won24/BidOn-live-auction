@@ -180,6 +180,22 @@ public class AuctionController {
         return getAuctionList(auctionService::getLiveList, "방송중");
     }
 
+    // 라이브 경매 상태 변경
+    @PostMapping("/endLive/{postId}")
+    public ResponseEntity<?> setPostStatus(@PathVariable int postId) {
+        try {
+            int result = auctionService.setPostStatus(postId);
+            if (result > 0) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
+            }
+        } catch (Exception e) {
+            logger.error("상태 변경 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 
 }

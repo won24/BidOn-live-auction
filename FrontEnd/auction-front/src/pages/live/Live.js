@@ -11,7 +11,6 @@ const Live = () =>{
 
     const [liveList, setLiveList] = useState([]);
     const [imgMap, setImgMap] = useState({});
-    const [postIds, setPostIds] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -69,19 +68,22 @@ const Live = () =>{
     return (
         <div className="auction-page">
             <h1 className="auctionTitle">실시간 경매 Live Auction</h1>
+
             <p>인기 경매</p>
             <div>여기에다 인기 경매방 보여주기</div>
             <hr/>
-            <div className="auctionListContainer">
+
+            <div>
                 {isLoading ? (
                     <p className="loadingMessage">라이브 경매 리스트를 가져오는 중입니다.</p>
                 ) : (
                     <>
-                        {renderAuctionItems(mainPagination.currentItems)}
-                        <Pagination {...mainPagination} />
+                        <div className="auctionListContainer">
+                            {renderAuctionItems(mainPagination.currentItems)}
+                        </div>
+                        <Pagination {...mainPagination} className="paginationContainer"/>
                     </>
-                )
-                }
+                )}
                 {liveList.length === 0 && (
                     <p className="auctionListMessage">현재 경매 중인 경매품이 없습니다.</p>
                 )}

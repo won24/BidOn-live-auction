@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BidDTO {
+public class BidResponse {
+    private boolean success;
+    private String message;
     private int postId;
-    private int userCode;
-   // private int bidAmount;
-    private int currentCash;
+    private int bidAmount;
 }

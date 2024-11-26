@@ -1,3 +1,5 @@
+// 즐겨찾기 Service
+
 package com.gromit.auction_back.mypage.favorite;
 
 import org.springframework.beans.factory.annotation.Autowired;

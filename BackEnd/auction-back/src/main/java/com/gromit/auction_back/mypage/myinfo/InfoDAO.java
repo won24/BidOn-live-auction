@@ -1,3 +1,5 @@
+// 내 정보 DAO
+
 package com.gromit.auction_back.mypage.myinfo;
 
 import org.apache.ibatis.annotations.Mapper;

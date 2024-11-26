@@ -1,3 +1,5 @@
+// 즐겨찾기 DAO
+
 package com.gromit.auction_back.mypage.favorite;
 
 import org.apache.ibatis.annotations.Mapper;

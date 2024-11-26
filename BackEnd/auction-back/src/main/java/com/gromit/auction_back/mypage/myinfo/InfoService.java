@@ -1,3 +1,5 @@
+// 내 정보 Service
+
 package com.gromit.auction_back.mypage.myinfo;
 
 import org.springframework.stereotype.Service;

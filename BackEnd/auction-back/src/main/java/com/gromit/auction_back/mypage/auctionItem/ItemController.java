@@ -1,4 +1,4 @@
-// 경매품 컨트롤러
+// 경매품 Controller
 
 package com.gromit.auction_back.mypage.auctionItem;
 
@@ -15,7 +15,7 @@ public class ItemController {
     @Autowired
     private ItemService itemService;  // Spring에서 자동으로 주입받기
 
-    @GetMapping("/mypage/myauctionitem")
+    @GetMapping("/myauctionitem")
     public List<ItemDTO> getUserAuctionItems(@RequestParam int userCode) {
         return ItemService.getItemsByUserCode(userCode);
     }

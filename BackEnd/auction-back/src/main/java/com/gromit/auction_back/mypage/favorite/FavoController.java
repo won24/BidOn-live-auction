@@ -68,19 +68,15 @@ public class FavoController {
     @GetMapping("/getfav")
     public ResponseEntity<List<FavoDTO>> getMyFav(@RequestParam(required = false) int postId,
                                                   @RequestParam(required = false) int userCode) {
-
-        System.out.println("postId = " + postId);
-        System.out.println("userCode = " + userCode);
-
         try {
             List<FavoDTO> myFav = favoService.getMyFav(postId, userCode);
-            System.out.println("myFav = " + myFav);
             return ResponseEntity.ok(myFav);
         } catch (Exception e) {
             System.out.println("에러 발생: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
 
 }

@@ -67,7 +67,6 @@ const Bid = () => {
 
     return (
         <div>
-            <h2>{auctionItem.title}</h2>
             <p>현재 최고 입찰가: {currentBid.toLocaleString()}원</p>
             {userInfo && <p>내 보유 금액: {userInfo.cash.toLocaleString()}원</p>}
             <button onClick={() => handleBidIncrease(10000)}>+10,000원</button>

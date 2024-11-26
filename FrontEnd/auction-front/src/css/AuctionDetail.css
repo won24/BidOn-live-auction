@@ -37,7 +37,7 @@
 }
 
 
-.detail-page hr {
+.top_line {
     border: none;
     border-top: 1px solid #343434;
     margin: 0; /* 위아래 간격 조정 */
@@ -45,62 +45,22 @@
 
 .detail-page_middle {
     display: flex;
-    justify-content: space-between; /* 수평 정렬 */
-    align-items: center; /* 수직 정렬: 가운데 */
-    margin: 20px;
-    padding: 0 80px;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: flex-start; /* 수직 정렬: 상단 기준 */
+    gap: 40px; /* 좌우 간격 */
 }
 
-.detail-page_itemImg {
-    width: 40%; /* 반반 비율로 배치 */
-    height: auto;
-    object-fit: cover; /* 이미지 비율 유지 */
-}
-
-.detail-page_middle_info {
-    display: flex; /* 플렉스 컨테이너로 설정 */
-    flex-direction: row; /* 수평 정렬 */
-    justify-content: flex-start; /* 왼쪽부터 시작 */
-    align-items: center; /* 세로축 중앙 정렬 */
-    gap: 20px; /* 텍스트와 값 사이 간격 */
-}
-
-.detail-page_text {
-    font-size: 25px; /* 텍스트 크기 (필요시 조정) */
-    padding: 10px;
-    line-height: 52px;
-}
-
-.detail-page_middle_info_value {
-    font-weight: bold; /* 강조 */
-    font-size: 30px;
-    line-height: 50px;
-}
-
-.detail-page_cash{}
-
-
-
-.detail-page_bottom {
-    margin-top: 20px;
-}
-
-.detail-page_infoText {
-    text-align: left; /* 왼쪽 정렬 */
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.detail-page_info{
-    margin-top: 20px;
+/* 왼쪽 섹션 정렬 */
+.detail-page_middle_left {
     display: flex;
-    flex-direction: row; /* 수평 정렬 */
-    gap: 40px;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 자식 요소를 가운데 정렬 */
 }
 
-.detail-page_boardContent {
-    overflow-y: auto; /* 스크롤 가능 */
-    max-height: 400px; /* 최대 높이 설정 */
+.detail-page_info_img {
+    flex: 1;
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    padding-bottom: 10px;
 }
 
 .imageSlider {
@@ -125,10 +85,6 @@
     margin: 0 10px;
 }
 
-.sliderButton:hover {
-    background-color: #454545;
-}
-
 .thumbnailContainer {
     display: flex;
     justify-content: center;
@@ -151,6 +107,64 @@
 .thumbnail:hover {
     opacity: 0.8;
 }
+
+
+.detail-page_middle_info {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* 위쪽 정렬 */
+    margin-top: 10px;
+    gap: 10px; /* 요소 간 간격 */
+    border: 1px solid #ddd; /* 가벼운 테두리 */
+    border-radius: 4px;
+    width: 80%;
+}
+
+.detail-page_text {
+    font-size: 15px; /* 텍스트 크기 (필요시 조정) */
+    line-height: 35px;
+    margin-right: 10px;
+}
+
+.detail-page_middle_info_value {
+    font-weight: bold; /* 강조 */
+    font-size: 20px;
+    line-height: 28px;
+}
+
+/* 오른쪽 섹션 */
+.detail-page_middle_right {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    gap: 20px; /* 내부 요소 간격 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+.detail-page_infoText {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0; /* 아래 여백 */
+}
+
+.middle_line{
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 0; /* 위아래 간격 조정 */
+}
+
+.detail-page_boardContent {
+    font-size: 16px;
+    line-height: 1.5; /* 가독성을 위한 줄 간격 */
+    max-height: 800px; /* 최대 높이 */
+    overflow-y: auto; /* 스크롤 가능 */
+    margin: 0;
+}
+
+.detail-page_bottom {
+    margin-top: 10px;
+}
+
 
 .detail-page_button {
     display: flex;
@@ -207,7 +221,6 @@
     gap: 10px;
     margin-left: auto; /* 오른쪽으로 고정 */
 }
-
 
 
 .detail-page_admin-editBtn{

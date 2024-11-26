@@ -181,18 +181,22 @@ const Limited = () => {
                     <div>
                         {searchItemRef.current ? (
                             searchItemList.length > 0 ? (
-                                <div className="auctionListContainer">
-                                    {renderAuctionItems(searchPagination.currentItems)}
-                                    <Pagination {...searchPagination} />
-                                </div>
+                                <>
+                                    <div className="auctionListContainer">
+                                        {renderAuctionItems(searchPagination.currentItems)}
+                                    </div>
+                                    <Pagination {...searchPagination} className="paginationContainer"/>
+                                </>
                             ) : (
                                 <p className="loadingMessage">검색 결과가 없습니다.</p>
                             )
                         ) : (
-                            <div className="auctionListContainer">
-                                {renderAuctionItems(mainPagination.currentItems)}
-                                <Pagination {...mainPagination} />
-                            </div>
+                            <>
+                                <div className="auctionListContainer">
+                                    {renderAuctionItems(mainPagination.currentItems)}
+                                </div>
+                                <Pagination {...mainPagination} className="paginationContainer"/>
+                            </>
                         )}
                     </div>
                 )}

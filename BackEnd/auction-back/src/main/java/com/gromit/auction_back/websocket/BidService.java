@@ -55,4 +55,8 @@ public class BidService {
     public boolean isValidBid(int postId, int userCode, int bidAmount) {
         return true;
     }
+
+    public Integer getHighestBid(int postId) {
+        return bidDAO.getHighestBid(postId);
+    }
 }

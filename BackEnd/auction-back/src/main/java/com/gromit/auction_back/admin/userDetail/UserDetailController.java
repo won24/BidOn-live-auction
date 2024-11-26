@@ -2,12 +2,10 @@ package com.gromit.auction_back.admin.userDetail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -32,6 +30,24 @@ public class UserDetailController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    @PutMapping("/updatecash/{userCode}")
+    public ResponseEntity<String> updateCash(@PathVariable int userCode, @RequestBody Map<String, Integer> requestBody) {
+        Integer newCash = requestBody.get("cash");  // 전달된 캐시 값
+
+        if (newCash == null) {
+            return ResponseEntity.badRequest().body("Invalid cash value.");
+        }
+
+        // 서비스 계층을 통해 사용자 캐시 업데이트 처리
+        boolean isUpdated = userDetailService.updateUserCash(userCode, newCash);
+
+        if (isUpdated) {
+            return ResponseEntity.ok("Cash updated successfully.");
+        } else {
+            return ResponseEntity.status(500).body("Failed to update cash.");
+        }
+    }
+
 
     @GetMapping("/users/{userCode}")
     public ResponseEntity<List<UserDetailDTO>> getBoardsByUserCode(@PathVariable int userCode) {

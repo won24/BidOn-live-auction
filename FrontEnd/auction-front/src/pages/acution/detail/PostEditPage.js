@@ -255,7 +255,7 @@ const PostEditPage = () => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="currentCash">현재 가격</label>
+                <label htmlFor="startCash">희망 경매 시작 가격</label>
                 <input
                     type="number"
                     id="startCash"
@@ -328,8 +328,8 @@ const PostEditPage = () => {
             <div className="btn-box">
                 <Link to="/auction" className='edit-btn_list'>목록</Link>
                 <div className="edit-btn">
-                    <button className='edit-btn_item' onClick={onDelete}>삭제</button>
                     <button className='edit-btn_item' onClick={onSubmit}>수정</button>
+                    <button className='edit-btn_item' onClick={onDelete}>삭제</button>
                     <button className='edit-btn_item' onClick={movePrevPage}>취소</button>
                 </div>
             </div>

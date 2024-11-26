@@ -157,7 +157,7 @@ const LiveDetail = () =>{
                     <p className="live-currentCash">여기에 실시간 경매가격 올라가는 거 보여줘야함</p>
                     <p className="live-text">입찰 시작가</p>
                     <div className="live-cash">{board.startCash}</div>
-                    <div className="live-timer">{<AuctionTimer startTime={board.startDay} />}</div>
+                    <div className="live-timer">{<AuctionTimer startTime={board.startDay} postId={postId} />}</div>
                     <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
 
                     <div>채팅방 자리</div>

@@ -75,3 +75,8 @@ export const notUseThisPost = (postId)=>{
 export const approval = (postId) =>{
     return axios.post(`${BASE_URL}/approval/${postId}`)
 }
+
+
+export const setPostStatus = postId =>{
+    return axios.post(`${BASE_URL}/endLive/${postId}`)
+}

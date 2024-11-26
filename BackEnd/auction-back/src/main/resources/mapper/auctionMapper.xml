@@ -129,5 +129,13 @@
         WHERE postStatus = 'on' and usePost = 1;
     </select>
 
+<!--    라이브 후 상태 변경 -->
+    <update id="setPostStatus">
+        UPDATE board
+        SET
+        postStatus = "done"
+        WHERE postId = #{postId}
+    </update>
+
 
 </mapper>

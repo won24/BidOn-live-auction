@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/favo")
 public class FavoController {
@@ -20,15 +21,29 @@ public class FavoController {
         this.favoDAO = favoDAO;
     }
 
-    @PostMapping("/favoList")
-    public List<FavoDTO> favolist(@RequestBody FavoDTO favoDTO) {
-        System.out.println("요청 받은 데이터: " + favoDTO); // 요청 데이터 확인용 출력
-        int usercode = favoDTO.getUserCode();
-        System.out.println(usercode + "코드");
-        List<FavoDTO> allList = favoService.allselect(favoDTO); // 서비스에서 데이터 가져오기
-        System.out.println(allList);
-        return allList; // 가져온 데이터를 클라이언트로 반환
+//     즐겨찾기 목록
+@GetMapping("/favolist")
+public ResponseEntity<List<FavoDTO>> getFavoriteList(@RequestParam int userCode) {
+
+    if (userCode <= 0) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        // userCode가 유효하지 않은 경우
     }
+    try {
+        List<FavoDTO> favorites = favoService.getAllFavoList(new FavoDTO());
+
+        // 결과가 없을 경우
+        if (favorites == null || favorites.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(favorites);  // 204 No Content
+        }
+
+        return ResponseEntity.ok(favorites);
+
+    } catch (Exception e) {
+        System.out.println("에러 발생 : " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
 
 
     // 즐겨찾기 추가
@@ -65,16 +80,11 @@ public class FavoController {
     }
 
 
-    @GetMapping("/getfav")
+    @GetMapping("/getMyFav")
     public ResponseEntity<List<FavoDTO>> getMyFav(@RequestParam(required = false) int postId,
                                                   @RequestParam(required = false) int userCode) {
-
-        System.out.println("postId = " + postId);
-        System.out.println("userCode = " + userCode);
-
         try {
             List<FavoDTO> myFav = favoService.getMyFav(postId, userCode);
-            System.out.println("myFav = " + myFav);
             return ResponseEntity.ok(myFav);
         } catch (Exception e) {
             System.out.println("에러 발생: " + e.getMessage());
@@ -82,3 +92,5 @@ public class FavoController {
         }
     }
 }
+
+

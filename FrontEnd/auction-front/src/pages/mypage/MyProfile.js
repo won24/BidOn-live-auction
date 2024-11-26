@@ -23,11 +23,11 @@ const MyProfile = () => {
         setError(null);
 
         try {
-            const response = await axios.post("http://localhost:8080/mypage/myprofile", {
+            const { data } = await axios.post("http://localhost:8080/mypage/myprofile", {
                 userCode: user.userCode,
             });
 
-            setUserInfo(response.data);
+            setUserInfo(data);
         } catch (err) {
             setError(err.response?.data?.error || err.message);
         } finally {
@@ -55,12 +55,12 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (user?.userCode) {
-            fetchUserInfo();
         }
+
     }, [user?.userCode]);
 
     if (loading) {
-        return <div>로그인이 필요합니다.</div>;
+        return <div>로딩 중 ...</div>;
     }
 
     if (error) {

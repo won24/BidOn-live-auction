@@ -15,13 +15,6 @@ public class FavoService {
         this.favoDAO = favoDAO;
     }
 
-    public List<FavoDTO> allselect(FavoDTO favoDTO) {
-        int userCode = favoDTO.getUserCode();
-        System.out.println(userCode);
-        return favoDAO.getAllFavoList(userCode);
-    }
-
-
     public int addFavorite(FavoDTO favoDTO) {
         int result = favoDAO.addFav(favoDTO);
         return result;
@@ -37,5 +30,9 @@ public class FavoService {
     public List<FavoDTO> getMyFav (int postId, int userCode) {
         return favoDAO.getMyFav(postId, userCode);
 
+    }
+
+    public List<FavoDTO> getAllFavoList(FavoDTO favoDTO) {
+        return favoDAO.getAllFavoList(favoDTO);
     }
 }

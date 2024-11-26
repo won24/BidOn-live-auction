@@ -12,32 +12,33 @@ const MyFar = () => {
         const fetchFavorites = async () => {
             setIsLoading(true);
 
-            // console.log(user)
-
             try {
                 if (!user || !user.userCode) {
                     console.error("user 또는 userCode가 유효하지 않습니다.");
                     return;
                 }
 
-                const response = await axios.post("http://localhost:8080/favo/favoList", {
-                    userCode: user.userCode
+                const axiosResponse = await axios.get("http://localhost:8080/favo/favolist", {
+                    params: { userCode: user.userCode }
                 });
 
-                if (!response.data) {
-                    throw new Error("즐겨찾기 데이터가 비어 있습니다.");
-                }
+                // if (!response.data) {
+                //     throw new Error("즐겨찾기 데이터가 비어 있습니다.");
+                // }
 
-                setFavorites(response.data);
+                setFavorites(axiosResponse.data);
             } catch (error) {
-                console.log("즐겨찾기 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
-            } finally {
-                setIsLoading(false);
+                console.error("즐겨찾기 데이터를 불러오는 데 실패했습니다.", error);
+                console.error("UserCode:", user?.userCode);
+            }
+            finally {
+                if (isLoading) {
+                    setIsLoading(false);
+                }
             }
         };
-
         fetchFavorites();
-    }, [user]);
+    },[user]);
 
     const handleDelete = async (id) => {
 

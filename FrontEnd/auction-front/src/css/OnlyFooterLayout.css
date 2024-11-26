@@ -1,6 +1,21 @@
-/* OnlyFooterLayout.css */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the container spans at least the full viewport height */
+}
 
-.outlet-container {
-    margin: 0 30px; /* 30px margin on left and right */
-    /* Optional: Add padding or other styling as needed */
+.content-container 
+{
+    flex: 1; /* Makes this section grow and occupy available space */
+    display: flex;
+    justify-content: center; /* Center contents horizontally */
+    align-items: flex-start; /* Align contents to the top */
+}
+
+.footer {
+    width: 100%; /* Ensures footer spans full width */
+    background-color: #f1f1f1; /* Example background color */
+    display: flex;
+    align-items: center; /* Aligns content vertically in the footer */
+    justify-content: center; /* Centers content in the footer horizontally */
 }

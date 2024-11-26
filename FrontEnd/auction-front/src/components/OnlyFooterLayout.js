@@ -11,12 +11,15 @@ import "../css/OnlyFooterLayout.css";
 const OnlyFooterLayout = () => 
 {
     return (
-        <>
-            <div className="outlet-container">
-                <Outlet />
+        <div className="layout-container">
+            <div className="navBar-container">
+                <hr className="layout-container_line"/>
+                <Outlet/>
             </div>
-            <Footer />
-        </>
+            <div className="layout-footer-container">
+                <Footer/>
+            </div>
+        </div>
     );
 }
 

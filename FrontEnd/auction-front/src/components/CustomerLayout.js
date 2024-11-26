@@ -10,22 +10,22 @@ import "../css/CustomerLayout.css";
             <aside className="customer-aside">
                 <ul>
                     <li>
-                        <NavLink to="/customer" activeClassName="active-link" className="customer-center-link">
+                        <NavLink to="/customer" activeclassname="active-link" className="customer-center-link">
                            고객센터
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/customer/faq" activeClassName="active-link">
+                        <NavLink to="/customer/faq" activeclassname="active-link">
                             자주하는 질문
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/customer/personal" activeClassName="active-link">
+                        <NavLink to="/customer/personal" activeclassname="active-link">
                             1:1 상담
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/customer/notice" activeClassName="active-link">
+                        <NavLink to="/customer/notice" activeclassname="active-link">
                             공지사항
                         </NavLink>
                     </li>

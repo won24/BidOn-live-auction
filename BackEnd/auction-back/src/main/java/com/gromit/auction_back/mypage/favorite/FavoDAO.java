@@ -1,12 +1,12 @@
 package com.gromit.auction_back.mypage.favorite;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 @Mapper
 public interface FavoDAO {
-
-//    List<FavoDTO> favoResultMap(int userCode);
 
     int addFav(FavoDTO favoDTO);
 
@@ -14,5 +14,9 @@ public interface FavoDAO {
 
     List<FavoDTO> getMyFav(int postId, int userCode);
 
-    List<FavoDTO> getAllFavoList(FavoDTO favoDTO);
+    // 즐겨찾기 목록 조회
+    List<FavoDTO> getAllFavoList(@Param("userCode") int userCode);
+
+    // 즐겨찾기 목록 삭제
+    int favodelete(int userCode);
 }

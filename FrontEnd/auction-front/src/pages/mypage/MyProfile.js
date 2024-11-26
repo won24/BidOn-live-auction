@@ -5,7 +5,7 @@ import { useLogin } from "../login/LoginContext";
 const MyProfile = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
     const [newPassword, setNewPassword] = useState("");                      // 새 비밀번호 상태
     const [confirmPassword, setConfirmPassword] = useState("");              // 비밀번호 확인 상태
     const [passwordChangeMessage, setPasswordChangeMessage] = useState("");  // 비밀번호 변경 메시지
@@ -15,25 +15,26 @@ const MyProfile = () => {
     const { user } = useLogin();
 
     const fetchUserInfo = async () => {
-        if (!user?.userCode) {
-            return;
-        }
+        // if (!user?.userCode) {
+        //     return;
+        // }
 
         setLoading(true);
-        setError(null);
+        // setError(null);
 
         try {
-            const { data } = await axios.post("http://localhost:8080/mypage/myprofile", {
-                userCode: user.userCode,
-            });
-
+            const response = await fetch("http://localhost:8080/mypage/myprofile");
+            const data = await response.json();
             setUserInfo(data);
-        } catch (err) {
-            setError(err.response?.data?.error || err.message);
+        } catch (error) {
+            console.error("사용자 정보를 가져오는 중 오류 발생:", error);
         } finally {
             setLoading(false);
         }
+        fetchUserInfo();
     };
+
+
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
@@ -60,11 +61,7 @@ const MyProfile = () => {
     }, [user?.userCode]);
 
     if (loading) {
-        return <div>로딩 중 ...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
+        return <div>사용자 정보를 불러오는 중입니다...</div>;
     }
 
     return (

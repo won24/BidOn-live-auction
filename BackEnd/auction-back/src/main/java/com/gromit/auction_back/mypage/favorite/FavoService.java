@@ -32,7 +32,14 @@ public class FavoService {
 
     }
 
-    public List<FavoDTO> getAllFavoList(FavoDTO favoDTO) {
-        return favoDAO.getAllFavoList(favoDTO);
+    // 즐겨찾기 목록 조회
+    public List<FavoDTO> getAllFavoList(int userCode) {
+        List<FavoDTO> getAllFavoList = favoDAO.getAllFavoList(userCode);
+        return getAllFavoList;
+    }
+
+    public int FavoDelete(int userCode) {
+        int result = favoDAO.favodelete(userCode);
+        return result;
     }
 }

@@ -10,21 +10,29 @@
         <result column="imageUrl" property="imageUrl" />
     </resultMap>
 
-    <select id="getAllFavoList" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+    <!-- 즐겨찾기 목록 조회 -->
+    <select id="getAllFavoList" resultType="com.gromit.auction_back.mypage.favorite.FavoDTO">
         SELECT
-            f.user_code,
-            f.post_id,
+            f.user_code AS userCode,
+            f.post_id AS postId,
             b.Title AS title,
-            i.imageUrl
+            i.imageUrl AS imageUrl
         FROM
             favorites f
         JOIN
-            board b ON f.post_id = b.postId
+            board b ON f.post_id = b.PostId
         LEFT JOIN
             ImageUrl i ON f.post_id = i.postId
         WHERE
-            f.user_code = #{userCode};
+            f.user_code = #{userCode}
     </select>
+
+    <!-- 즐겨찾기 목록 삭제 -->
+    <delete id="favodelete" parameterType="com.gromit.auction_back.mypage.favorite.FavoDTO">
+        DELETE
+        FROM favorites
+        WHERE user_code = #{userCode}
+    </delete>
 
 
     <!--즐겨찾기 추가-->

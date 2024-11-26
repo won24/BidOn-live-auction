@@ -2,6 +2,7 @@ package com.gromit.auction_back.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BidService {
@@ -13,32 +14,45 @@ public class BidService {
         this.bidDAO = bidDAO;
     }
 
-    public boolean processBid(BidDTO bidDTO) {
-        // 1. 현재 경매 상태 확인
-        int currentHighestBid = bidDAO.getCurrentHighestBid(bidDTO.getPostId());
-
-        // 2. 입찰 금액이 현재 최고 입찰액보다 높은지 확인
-        if (bidDTO.getBidAmount() <= currentHighestBid) {
-            return false;
-        }
-
-        // 3. 사용자의 현재 잔액 확인
-        int userCash = bidDAO.getUserCash(bidDTO.getUserCode());
-        if (userCash < bidDTO.getBidAmount()) {
-            return false;
-        }
-
-        // 4. 입찰 처리
-        bidDAO.updateBid(bidDTO);
-
-        // 5. 사용자 잔액 업데이트
-        bidDAO.updateUserCash(bidDTO.getUserCode(), userCash - bidDTO.getBidAmount());
-
-        return true;
-    }
+//    @Transactional
+//    public BidDTO processBid(BidDTO bidDTO) {
+//        int currentHighestBid = bidDAO.getCurrentHighestBid(bidDTO.getPostId());
+//        int userCash = bidDAO.getUserCash(bidDTO.getUserCode());
+////
+////        if (bidDTO.getBidAmount() <= currentHighestBid || userCash < bidDTO.getBidAmount()) {
+////            return null; // 입찰 실패
+////        }
+//
+//        // 새로운 입찰 정보 삽입
+//        bidDAO.insertBid(bidDTO);
+//
+//        // 사용자 잔액 업데이트
+//        bidDAO.updateUserCash(bidDTO.getUserCode(), userCash - bidDTO.getBidAmount());
+//
+//        // 경매 상태 업데이트
+//        bidDAO.updateAuctionStatus(bidDTO.getPostId(), bidDTO.getBidAmount());
+//
+//        return getUpdatedBidInfo(bidDTO.getPostId());
+//    }
 
     public BidDTO getUpdatedBidInfo(int postId) {
-        // 해당 postId의 최신 입찰 정보를 조회하여 반환
         return bidDAO.getLatestBidInfo(postId);
+    }
+
+    @Transactional
+    public boolean saveBid(BidRequest bidRequest) {
+        try {
+            System.out.println("서비스에서"+bidRequest);
+            bidDAO.insertBid(bidRequest);
+            return true;  // Assuming insertBid returns the number of rows affected
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isValidBid(int postId, int userCode, int bidAmount) {
+        return true;
     }
 }

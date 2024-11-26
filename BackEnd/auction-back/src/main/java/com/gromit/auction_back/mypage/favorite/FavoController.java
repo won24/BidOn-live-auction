@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -21,29 +22,40 @@ public class FavoController {
         this.favoDAO = favoDAO;
     }
 
-//     즐겨찾기 목록
-@GetMapping("/favolist")
-public ResponseEntity<List<FavoDTO>> getFavoriteList(@RequestParam int userCode) {
 
-    if (userCode <= 0) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        // userCode가 유효하지 않은 경우
-    }
-    try {
-        List<FavoDTO> favorites = favoService.getAllFavoList(new FavoDTO());
+    // 즐겨찾기 목록 조회
+    @GetMapping("/favolist")
+    public ResponseEntity<List<FavoDTO>> getFavoriteList(@RequestParam int userCode) {
+        try {
+            List<FavoDTO> favorites = favoService.getAllFavoList(userCode);
 
-        // 결과가 없을 경우
-        if (favorites == null || favorites.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(favorites);  // 204 No Content
+            // Null 또는 비어있는 리스트 반환 확인
+            if (favorites == null || favorites.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+
+            return ResponseEntity.ok(favorites);
+        } catch (Exception e) {
+            System.out.println("에러 발생 : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        return ResponseEntity.ok(favorites);
-
-    } catch (Exception e) {
-        System.out.println("에러 발생 : " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-}
+
+    // 즐겨찾기 목록 삭제
+    @DeleteMapping("/favodelete")
+    public ResponseEntity<?> FavoriteDelete(@RequestParam int userCode) {
+        try {
+            int result = favoService.FavoDelete(userCode);
+            if (result > 0) {
+                return new ResponseEntity<>("즐겨찾기 해제 성공",  HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("즐겨찾기 해제 실패", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     // 즐겨찾기 추가

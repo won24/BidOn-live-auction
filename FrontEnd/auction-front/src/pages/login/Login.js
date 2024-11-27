@@ -25,8 +25,8 @@ const Login = () =>
     const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
-    const location = useLocation();
-    const current = location.pathname;
+    // const location = useLocation();
+    // const current = location.pathname;
 
     const toggleModal = () => 
     {

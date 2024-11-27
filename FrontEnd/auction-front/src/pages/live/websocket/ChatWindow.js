@@ -12,11 +12,11 @@ const ChatWindow = () =>
 
     useEffect(() => {
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-        const wsUrl = `${wsProtocol}localhost:8080/chat`;
+        const wsUrl = `${wsProtocol}192.168.0.53:8080/chat`;
         const ws = new WebSocket(wsUrl);
     
         ws.onopen = () => {
-            setMessage(prev => [...prev, { type: "info", message: "Connected to WebSocket server" }]);
+            setMessage(prev => [...prev, { type: "info", message: "바른말 고운말을 사용합시다." }]);
             ws.send(JSON.stringify({ type: "join", userId }));
         };
     
@@ -26,7 +26,7 @@ const ChatWindow = () =>
         };
     
         ws.onclose = () => {
-            setMessage(prev => [...prev, { type: "info", message: "WebSocket connection closed" }]);
+            setMessage(prev => [...prev, { type: "info", message: "현재 채팅을 할 수 없는 상태입니다." }]);
         };
     
         ws.onerror = (error) => {

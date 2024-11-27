@@ -1,3 +1,4 @@
+/* 라이브 디테일 전체 기본 스타일*/
 .live-detail-page{
     width: 1200px; /* 전체 폭 설정 */
     margin: 0 auto; /* 가운데 정렬 */
@@ -7,6 +8,7 @@
     color: #222; /* 값 색상 */
 }
 
+/* 상위 컴포넌트 */
 .live-detail-page_top{
     display: flex;
     justify-content: space-between; /* 좌우 끝 배치 */
@@ -14,6 +16,7 @@
     margin-top: 20px;
 }
 
+/* 경매품 이름, 즐겨찾기 */
 .live-detail-page_top_left{
     display: flex;
     justify-content: space-between; /* 수평 정렬 */
@@ -26,7 +29,29 @@
     font-weight: bold;
 }
 
+/* 입찰버튼, 타이머 */
+.live-detail-page_timer{
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    flex-direction: column; /* 수직 방향 정렬 */
+}
 
+.live-detail-page_timer_text{}
+
+.live-detail-page_timer_time{
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    flex-direction: column; /* 수직 방향 정렬 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.liveOn_container{
+
+}
+
+
+
+/* 중간 컴포넌트 */
 .live-detail-page_middle{
     display: flex;
     justify-content: space-between; /* 좌우 정렬 */
@@ -34,6 +59,7 @@
     gap: 40px; /* 좌우 간격 */
 }
 
+/* 사진, 기본 정보 */
 .live-detail-page_leftSide{
     display: flex;
     flex-direction: column; /* 수직 정렬 */
@@ -46,9 +72,6 @@
     padding-bottom: 10px;
 }
 
-.live-timer{
-
-}
 
 .live-detail-page_info{
     flex: 1;
@@ -75,6 +98,7 @@
 }
 
 
+/* 채팅방 */
 .live-detail-page_rightSide{
     flex: 1;
     display: flex;
@@ -82,12 +106,12 @@
     margin-top: 30px;
 }
 
+/* 하위 상세내용 컴포넌트 */
 .live-detail-page_infoText{
     font-size: 20px;
     font-weight: bold;
     margin: 30px 0;
 }
-
 
 .content-display{
     font-size: 16px;
@@ -106,3 +130,4 @@
     margin-top: 20px;
     padding-right: 20px; /* 오른쪽 여백 추가 */
 }
+

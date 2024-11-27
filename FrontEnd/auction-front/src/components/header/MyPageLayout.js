@@ -1,10 +1,18 @@
 import {NavLink, Outlet, Route, Routes} from "react-router-dom";
 import {useState} from "react";
-import "../../css/MyPageLayout.css";
+import MyFar from "../../pages/mypage/MyFar";
+import MyProfile from "../../pages/mypage/MyProfile";
+import MyAuctionItem from "../../pages/mypage/MyAuctionItem";
+import MyAuction from "../../pages/mypage/MyAuction";
 
 
 const MyPageLayout = () => {
 
+    const [showNavLinks, setShowNavLinks] = useState(true);
+
+    const handleLinkClick = (shouldShow) => {
+        setShowNavLinks(shouldShow);
+    };
 
     return (
         <div className="mypage-layout">
@@ -22,7 +30,7 @@ const MyPageLayout = () => {
                 <Outlet/>
             </div>
         </div>
-    )
+    );
 };
 
 export default MyPageLayout;

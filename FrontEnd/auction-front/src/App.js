@@ -19,7 +19,7 @@ import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup from "./pages/signup/Signup";
 import MyFar from "./pages/mypage/MyFar";
-import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import LogoAndFooter from "./components/LogoAndFooter";
 import MyProfile from "./pages/mypage/MyProfile";
 import MyPageLayout from "./components/header/MyPageLayout";
 import MyAuction from "./pages/mypage/MyAuction";
@@ -43,6 +43,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
 import Admin from "./pages/admin/Admin";
 import "./App.css"
+import ChangePassword from "./pages/mypage/ChangePassword";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
                         <Route path="myauctionitem" element={<MyAuctionItem/>} />
+                        <Route path="changepassword" element={<ChangePassword />} />
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="/customer" element={<CustomerLayout />}>
@@ -83,7 +85,7 @@ function App() {
                         <Route path="users/:userCode" element={<AdminUserDetail />} />
                     </Route>
                 </Route>
-                <Route path ="/member" element={<OnlyFooterLayout/>}>
+                <Route path ="/member" element={<LogoAndFooter/>}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup/>} />
                 </Route>

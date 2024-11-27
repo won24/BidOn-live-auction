@@ -20,18 +20,18 @@ const MyAuctions = () => {
     const [error, setError] = useState(null);
 
     // 경매 참여 목록 가져오기
-    const fetchParticipatedAuctions = async () => {
-        if (!user?.userCode) return;
-
-        try {
-            const response = await axios.get(`http://localhost:8080/mypage/myauction`, {
-                params: { userCode: user.userCode },
-            });
-            setParticipatedAuctions(response.data);
-        } catch (err) {
-            setError("경매 참여 목록을 가져오는 데 실패했습니다.");
-        }
-    };
+    // const fetchParticipatedAuctions = async () => {
+    //     if (!user?.userCode) return;
+    //
+    //     try {
+    //         const response = await axios.get(`http://localhost:8080/mypage/myauction`, {
+    //             params: { userCode: user.userCode },
+    //         });
+    //         setParticipatedAuctions(response.data);
+    //     } catch (err) {
+    //         setError("경매 참여 목록을 가져오는 데 실패했습니다.");
+    //     }
+    // };
 
     // 낙찰받은 경매 목록 가져오기
     const fetchWonAuctions = async () => {
@@ -64,23 +64,6 @@ const MyAuctions = () => {
 
     return (
         <div className="my-auctions">
-            <h1>내 경매</h1>
-
-            <h2>참여한 경매</h2>
-            <div className="auction-list">
-                {participatedAuctions.length > 0 ? (
-                    participatedAuctions.map((auction) => (
-                        <div key={auction.id} className="auction-item">
-                            <h3>{auction.title}</h3>
-                            <p>참여 날짜: {auction.participationDate}</p>
-                            <p>현재 가격: {auction.currentPrice}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>참여한 경매가 없습니다.</p>
-                )}
-            </div>
-
             <h2>낙찰받은 경매</h2>
             <div className="auction-list">
                 {wonAuctions.length > 0 ? (

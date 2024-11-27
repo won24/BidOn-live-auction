@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useLogin } from '../../pages/login/LoginContext';
 import { connectWebSocket, sendBid, subscribeToAuction } from './Websocket';
 
@@ -18,6 +18,26 @@ const Bid = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); // 웹소켓 연결 상태
     const { user } = useLogin();
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const userCode = sessionStorage.getItem("userCode");
+
+
+    // 사용자 정보 가져오기
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            if (isLoggedIn) {
+                try {
+                    const response = await axios.get(`/admin/bid/${userCode}`);
+                    setUserInfo(response.data);
+                    console.log(response.data);
+                } catch (error) {
+                    console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
+                }
+            }
+        };
+        fetchUserInfo();
+    }, []);
+
 
     // 입찰가 업데이트 핸들러 (WebSocket으로 수신한 메시지 처리)
     const handleBidUpdate = useCallback((bidMessage) => {
@@ -29,6 +49,7 @@ const Bid = () => {
             });
         }
     }, [postId]);
+
 
     // 경매 아이템 데이터 가져오기
     useEffect(() => {
@@ -45,21 +66,6 @@ const Bid = () => {
         fetchAuctionItem();
     }, [postId]);
 
-    // 사용자 정보 가져오기
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            if (user?.userCode > 0) {
-                try {
-                    const response = await axios.get(`/admin/bid/${user.userCode}`);
-                    setUserInfo(response.data);
-                } catch (error) {
-                    console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
-                }
-            }
-        };
-
-        fetchUserInfo();
-    }, [user?.cash]);
 
     // WebSocket 연결 및 입찰 업데이트 처리
     useEffect(() => {
@@ -80,6 +86,9 @@ const Bid = () => {
 
     // 입찰 금액 증가 처리
     const handleBidIncrease = async (amount) => {
+
+
+
         const newBid = currentBid + amount;
 
         if (userInfo && newBid <= userInfo.cash) {

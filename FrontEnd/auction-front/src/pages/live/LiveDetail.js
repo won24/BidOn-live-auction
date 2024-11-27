@@ -1,16 +1,15 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
-import {redirect, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
 import {formatToKoreanDate} from "../acution/detail/FormatDate";
-import Bid from "../bid/Bid";
 import {getPostImages} from "../acution/common/Images";
-import TestPage from "./websocket/TestPage";
 import ChatWindow from "./websocket/ChatWindow";
 import ImageModal from "../acution/detail/ImageModal";
+import '../../css/LiveDetail.css'
 
 
 const LiveDetail = () =>{
@@ -157,42 +156,61 @@ const LiveDetail = () =>{
     return (
         <>
             {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
-                : (<div className="live-detail-page">
-                    <div className="live-detail-page_leftSide">
-                        <h2 className="live-detail-page_title">{board.title}</h2>
-                        <button className="favBtn" style={{background: "none", border: "none", cursor: "pointer"}}
-                                onClick={favorite}>
-                            <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular}
-                                             style={{color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px"}}/>
-                        </button>
-                        <Bid/>
+                : (
+                    <div className="live-detail-page">
+                        <div className="live-detail-page_top">
+                            <div className="live-detail-page_top_left">
+                                <h2 className="live-detail-page_title">{board.title}</h2>
+                                <button className="favBtn" style={{background: "none", border: "none", cursor: "pointer"}} onClick={favorite}>
+                                    <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular}
+                                                     style={{color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px"}}/>
+                                </button>
+                            </div>
+                            <p className="detail-page_boardStatus">| 경매중 |</p>
+                        </div>
+                        <hr className="top_line"/>
+
+                        <div className="live-detail-page_timer">
+                            {<AuctionTimer startTime={board.startDay} postId={postId}/>}
+                        </div>
+
+                        <div className="live-detail-page_middle">
+
+                            <div className="live-detail-page_leftSide">
+                                <div className="live-detail-page_img">
+                                    {renderImageSlider()}
+                                </div>
+                                <div className="live-detail-page_info">
+                                    <div className="live-detail-page_info_text">
+                                        <p className="live-detail-page_text">입찰 시작가</p>
+                                        <p className="live-detail-page_text">경매 날짜</p>
+                                    </div>
+                                    <div className="live-detail-page_info_value">
+                                        <div className="live-detail-page_cash">{board.startCash}</div>
+                                        <div className="live-detail-page_date">
+                                            {formatToKoreanDate(board.startDay)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="live-detail-page_rightSide">
+                                <ChatWindow/>
+                            </div>
+                        </div>
                         <hr/>
 
-                        <div className="live-detail-page_info_img">
-                            {renderImageSlider()}
+                        <p className="live-detail-page_infoText">상세 정보</p>
+                        <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
+                            {board.content}
                         </div>
-                        <div className="detail-page_middle_info">
-                            <p className="live-text">입찰 시작가</p>
-                            <div className="live-cash">{board.startCash}</div>
-                        </div>
-                            <div className="live-startdate">
-                                {formatToKoreanDate(board.startDay)}
-                            </div>
 
-                            <div className="live-timer">
-                                {<AuctionTimer startTime={board.startDay} postId={postId}/>}
-                            </div>
+                        <div className="live-detail-page_bottom">
+                            <button onClick={moveList} className="detail-page_backButton">목록</button>
+                        </div>
                     </div>
-                        <div>
-                            <ChatWindow/>
-                        </div>
-                        <hr/>
-
-                        <p className="infoText">상세 정보</p>
-                    <p className="boardContent">{board.content}</p>
-                    <button onClick={moveList}>목록</button>
-                </div>)}
-            </>
+                )}
+        </>
     )
 }
 export default LiveDetail;

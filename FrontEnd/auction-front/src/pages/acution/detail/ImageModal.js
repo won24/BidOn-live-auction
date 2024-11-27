@@ -12,10 +12,10 @@ const ImageModal = ({ img, currentImgIndex, onClose }) => {
         setModalScale((prev) => Math.max(prev - 0.2, 1))
     };
 
+
     return (
         <div className="modal" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <span className="close" onClick={onClose}>&times;</span>
                 <img
                     className="modal-image"
                     src={img[currentImgIndex]}
@@ -27,6 +27,7 @@ const ImageModal = ({ img, currentImgIndex, onClose }) => {
                     onClick={handleZoomIn} // 클릭으로 확대
                     onContextMenu={handleZoomOut} // 우클릭으로 축소
                 />
+                <span className="close" onClick={onClose}>&times;</span>
             </div>
         </div>
     );

@@ -1,0 +1,108 @@
+.live-detail-page{
+    width: 1200px; /* 전체 폭 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    display: flex;
+    flex-direction: column; /* 수직 방향 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    color: #222; /* 값 색상 */
+}
+
+.live-detail-page_top{
+    display: flex;
+    justify-content: space-between; /* 좌우 끝 배치 */
+    align-items: center; /* 수직 정렬 */
+    margin-top: 20px;
+}
+
+.live-detail-page_top_left{
+    display: flex;
+    justify-content: space-between; /* 수평 정렬 */
+    align-items: center; /* 수직 정렬: 가운데 */
+    gap: 10px;
+}
+
+.live-detail-page_title{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.live-detail-page_middle{
+    display: flex;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: flex-start; /* 수직 정렬: 상단 기준 */
+    gap: 40px; /* 좌우 간격 */
+}
+
+.live-detail-page_leftSide{
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 자식 요소를 가운데 정렬 */
+}
+
+.live-detail-page_img{
+    flex: 1;
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    padding-bottom: 10px;
+}
+
+.live-timer{
+
+}
+
+.live-detail-page_info{
+    flex: 1;
+    display: flex;
+    justify-content: center; /* 위쪽 정렬 */
+    margin-top: 10px;
+    gap: 10px; /* 요소 간 간격 */
+    border: 1px solid #ddd; /* 가벼운 테두리 */
+    border-radius: 4px;
+    width: 80%;
+}
+
+.live-detail-page_info_text{
+    font-size: 15px;
+    line-height: 35px;
+    margin-right: 10px;
+}
+
+
+.live-detail-page_info_value{
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+
+.live-detail-page_rightSide{
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    margin-top: 30px;
+}
+
+.live-detail-page_infoText{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 30px 0;
+}
+
+
+.content-display{
+    font-size: 16px;
+    line-height: 1.5; /* 가독성을 위한 줄 간격 */
+    max-height: 800px; /* 최대 높이 */
+    overflow-y: auto; /* 스크롤 가능 */
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.live-detail-page_bottom{
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center; /* 수직 정렬 */
+    margin-top: 20px;
+    padding-right: 20px; /* 오른쪽 여백 추가 */
+}

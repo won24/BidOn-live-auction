@@ -246,10 +246,10 @@ const AuctionDetailPage = () =>{
             <div className="detail-page">
                 <div className="detail-page_top">
                     <div className="detail-page_top_leftSide">
-                    <h2 className="detail-page_title">{board.title}</h2>
-                        {renderFavoriteButton()}
+                        <h2 className="detail-page_title">{board.title}</h2>
+                            {renderFavoriteButton()}
                     </div>
-                        <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
+                    <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>
                 <hr className="top_line"/>
 

@@ -57,6 +57,8 @@
     align-items: center; /* 자식 요소를 가운데 정렬 */
 }
 
+
+/* 이미지 */
 .detail-page_info_img {
     flex: 1;
     width: 100%; /* 부모 요소 너비에 맞춤 */
@@ -120,12 +122,10 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    color: black;
-    border: 1px solid #ffffff;
-    font-size: 30px;
+    color: #fff;
+    font-size: 40px;
     cursor: pointer;
 }
-
 
 .thumbnailContainer {
     display: flex;
@@ -163,13 +163,13 @@
 }
 
 .detail-page_text {
-    font-size: 15px; /* 텍스트 크기 (필요시 조정) */
+    font-size: 15px;
     line-height: 35px;
     margin-right: 10px;
 }
 
 .detail-page_middle_info_value {
-    font-weight: bold; /* 강조 */
+    font-weight: bold;
     font-size: 20px;
     line-height: 28px;
 }

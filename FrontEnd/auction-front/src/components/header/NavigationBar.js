@@ -1,6 +1,7 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
+import { useEffect, useState } from "react";
 
 const Nav = () => 
 {
@@ -13,6 +14,8 @@ const Nav = () =>
     const cash = sessionStorage.getItem("cash");
     const nickname = sessionStorage.getItem("nickname");
     const id = sessionStorage.getItem("id");
+
+    const [hideCash, setHideCash] = useState(false);
 
     const { user, setUser } = useLogin();
 
@@ -66,6 +69,11 @@ const Nav = () =>
         return nickname;
     };
 
+    useEffect(() => 
+    {
+        setHideCash(current.includes("auction"));
+    }, [current]);
+
     return (
         <div className="navContainer">
             <a href="/" className="logo"></a>
@@ -103,7 +111,7 @@ const Nav = () =>
                             로그아웃
                         </button>
                     </div>
-                    {!isAdmin && (
+                    {!isAdmin && !hideCash && (
                         <div className="user-info-container">
                             <span className="user-welcome">
                                 충전된 캐시: {user?.cash || cash} 캐시

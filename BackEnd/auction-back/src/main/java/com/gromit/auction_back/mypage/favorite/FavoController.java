@@ -92,7 +92,7 @@ public class FavoController {
     }
 
 
-    @GetMapping("/getMyFav")
+    @GetMapping("/getfav")
     public ResponseEntity<List<FavoDTO>> getMyFav(@RequestParam(required = false) int postId,
                                                   @RequestParam(required = false) int userCode) {
         try {

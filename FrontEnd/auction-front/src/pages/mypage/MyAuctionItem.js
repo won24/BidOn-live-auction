@@ -33,13 +33,13 @@ const MyAuctionItem = () => {
     }, [user]); // user 정보가 변경될 때만 호출
 
     if (auctionItems.length === 0) {
-        return <div>신청한 경매품이 없습니다.</div>;
+        return <div className="no-auctionitem">신청한 경매품이 없습니다.</div>;
     }
 
     return (
-        <div>
-            <h1>경매 품</h1>
-            <table>
+        <div className="auctionitem-container">
+            <table className="auctionitem-title">
+                <h1 className="auctionitem-title">신청한 경매품</h1>
                 <thead>
                 <tr>
                     <th>목 차</th>

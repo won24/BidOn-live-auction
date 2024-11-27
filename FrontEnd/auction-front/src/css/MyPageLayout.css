@@ -1,0 +1,49 @@
+.mypage-layout {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: flex-start;
+    min-height: 100vh; /* 화면 전체 높이 사용 */
+}
+
+.mypage-aside {
+    margin-right: 5px; /* 사이드바와 콘텐츠 사이의 간격 */
+    margin-top: 50px;
+}
+.outlet-fixsize {
+    margin-top: 10px;
+    width: 1000px;
+    height: 800px;
+    overflow: hidden; /* 페이지네이션을 사용할 경우 스크롤바 대신 숨김 */
+    position: relative;
+}
+.mypage-aside ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mypage-aside a {
+    display: block;
+    padding: 20px; /* Increase padding for larger box */
+    width: 200px;
+    height: 30px;
+    background-color: #f0f0f0;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+    font-size: 16px; /* Increase font size if needed */
+}
+
+.mypage-aside a:hover {
+    background-color: #e0e0e0;
+}
+
+.active-link {
+    background-color: #0056b3; /* Darker color for active link */
+    color: #fff;
+}
+
+.mypage-center-link {
+    background-color: black !important;
+    color: white !important;
+    pointer-events: none; /* 클릭 비활성화 */
+}

@@ -11,5 +11,5 @@ import java.util.List;
 @Mapper
 public interface ItemDAO {
 
-    List<ItemDTO> getItemsByUserCode(String userCode);
+    List<ItemDTO> auctionItem(int userCode);
 }

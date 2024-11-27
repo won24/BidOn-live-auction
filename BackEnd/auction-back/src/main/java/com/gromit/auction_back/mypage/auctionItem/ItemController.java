@@ -17,8 +17,7 @@ public class ItemController {
 
     @GetMapping("/myauctionitem")
     public List<ItemDTO> getUserAuctionItems(@RequestParam int userCode) {
-        return ItemService.getItemsByUserCode(userCode);
+        return itemService.auctionItem(userCode);
     }
-
 }
 

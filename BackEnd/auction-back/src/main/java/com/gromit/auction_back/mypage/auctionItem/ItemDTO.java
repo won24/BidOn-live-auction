@@ -17,5 +17,6 @@ public class ItemDTO {
     private String content;     // 경매품 설명
     private int price;       // 경매품 가격
     private String imageUrls;   // 경매품 이미지 Url
+    private int userCode;
 
 }

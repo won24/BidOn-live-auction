@@ -69,7 +69,7 @@ const MyFar = () => {
                         <th>삭제</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="favorites-list-table">
                     {favorites.map((favorite, index) => (
                         <tr key={favorite.postId}>
                             <td>{index + 1}</td>

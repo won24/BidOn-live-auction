@@ -1,5 +1,5 @@
 .favorites-container {
-    padding: 30px;  /* 전체 컨테이너의 안쪽 여백을 30px로 설정 */
+    padding: 25px;  /* 전체 컨테이너의 안쪽 여백을 30px로 설정 */
     padding-right: 30px;
     padding-left: 30px;
     text-align: center;  /* 텍스트를 가운데 정렬 */
@@ -7,17 +7,18 @@
 
 .favorites-title {
     font-size: 30px;  /* 제목 글씨 크기를 24px로 설정 */
-    margin-bottom: 20px;  /* 제목 아래에 20px의 여백을 추가 */
+    margin-bottom: 25px;  /* 제목 아래에 20px의 여백을 추가 */
+}
+
+.favorites-list-table {
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .favorites-table {
     width: 100%;  /* 테이블 너비를 100%로 설정하여 부모 요소를 꽉 채우도록 함 */
     border-collapse: collapse;  /* 테이블 셀 경계를 겹치지 않게 설정 */
     margin: 10px;  /* 테이블을 화면 가운데로 배치 */
-    margin-left: 200px;
-    margin-right: 200px;
-    padding-right: -50px;
-    padding-left: -50px;
 }
 
 .favorites-table th, .favorites-table td {

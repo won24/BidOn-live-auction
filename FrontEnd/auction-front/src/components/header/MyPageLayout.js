@@ -1,9 +1,6 @@
 import {NavLink, Outlet, Route, Routes} from "react-router-dom";
 import {useState} from "react";
-import MyFar from "../../pages/mypage/MyFar";
-import MyProfile from "../../pages/mypage/MyProfile";
-import MyAuctionItem from "../../pages/mypage/MyAuctionItem";
-import MyAuction from "../../pages/mypage/MyAuction";
+import "../../css/MyPageLayout.css"
 
 
 const MyPageLayout = () => {

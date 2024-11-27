@@ -35,7 +35,7 @@ const AdminUsers = () => {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="admin-users">
+        <div className="users-container">
             <h2>사용자 관리</h2>
             <table>
                 <thead>

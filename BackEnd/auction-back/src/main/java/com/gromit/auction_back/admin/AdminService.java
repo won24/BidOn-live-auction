@@ -17,7 +17,8 @@ public class AdminService {
         return adminDAO.getAllInquire();
     }
 
-    public void answerInquiry(int id, String answer) {
-        adminDAO.updateAnswer(id,answer);
+    public void answerInquiry(int userCode, String answer) {
+        System.out.println("서비스에서"+userCode+answer);
+        adminDAO.updateAnswer(userCode,answer);
     }
 }

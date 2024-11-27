@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../css/MyFar.css";
 import { useLogin } from "../login/LoginContext";
 import { deleteFavorite } from '../acution/common/AuctionAPIs';
+import {Link, NavLink} from "react-router-dom";
 
 const MyFar = () => {
     const [favorites, setFavorites] = useState([]);
@@ -59,41 +60,35 @@ const MyFar = () => {
     return (
         <div className="favorites-container">
             <h1 className="favorites-title">즐겨찾기</h1>
+            <hr/>
             {favorites.length > 0 ? (
-                <table className="favorites-table">
-                    <thead>
-                    <tr>
-                        <th>목 차</th>
-                        <th>즐겨찾기 제목</th>
-                        <th>이미지</th>
-                        <th>삭제</th>
-                    </tr>
-                    </thead>
-                    <tbody className="favorites-list-table">
-                    {favorites.map((favorite, index) => (
-                        <tr key={favorite.postId}>
-                            <td>{index + 1}</td>
-                            <td>{favorite.title}</td>
-                            <td>
-                                {favorite.imageUrl ? (
-                                    <img
-                                        src={favorite.imageUrl}
-                                        alt={favorite.title}
-                                        className="favorites-image"
-                                    />
-                                ) : (
-                                    "이미지 없음"
-                                )}
-                            </td>
-                            <td>
+                <div className="favorites-table">
+                    <table className="favorites-title-list-table">
+                        <thead className="favorites-list-table"></thead>
+                            {favorites.map((favorite, index) => (
+                                <tr key={favorite.postId}>
+                                <td>{index + 1}</td>
+                                    <td><Link to={`/auction/${favorite.postId}`}>{favorite.title}</Link></td>
+                                <td>
+                                    {favorite.imageUrl ? (
+                                        <img
+                                            src={favorite.imageUrl}
+                                            alt={favorite.title}
+                                            className="favorites-image"
+                                        />
+                                            ) : (
+                                            "이미지 없음"
+                                        )}
+                                </td>
+                                <td>
                                 <button
                                     className="delete-button"
                                     onClick={() => handleDelete(favorite.postId)}>삭제</button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
+                                </td>
+                                </tr>
+                            ))}
+                   </table>
+                </div>
             ) : (
                 <p className="no-favorites">즐겨찾기 항목이 없습니다.</p>
             )}

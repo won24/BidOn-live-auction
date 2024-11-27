@@ -4,10 +4,17 @@
     align-items: flex-start;
     min-height: 100vh; /* 화면 전체 높이 사용 */
 }
-
-.mypage-aside {
-    margin-right: 5px; /* 사이드바와 콘텐츠 사이의 간격 */
+/* ㅇㅇㅇㅇ님, 환영합니다. (그거 css) */
+.nickname-welcome {
+    text-align: center;
     margin-top: 50px;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.mypage {
+    margin-right: 100px; /* 사이드바와 콘텐츠 사이의 간격 */
+    margin-top: -10px;
 }
 .outlet-fixsize {
     margin-top: 10px;
@@ -18,32 +25,32 @@
 }
 .mypage-aside ul {
     list-style-type: none;
+    text-decoration: none;
+    text-blink: center;
     padding: 0;
 }
 
-.mypage-aside a {
-    display: block;
-    padding: 20px; /* Increase padding for larger box */
-    width: 200px;
-    height: 30px;
-    background-color: #f0f0f0;
+/*.mypage-aside a {*/
+/*    display: block;*/
+/*    padding: 20px; !* Increase padding for larger box *!*/
+/*    width: 200px;*/
+/*    height: 30px;*/
+/*    background-color: #f0f0f0;*/
+/*    text-decoration: none;*/
+/*    color: #333;*/
+/*    transition: background-color 0.3s;*/
+/*    font-size: 16px; !* Increase font size if needed *!*/
+/*}*/
+
+.mypage-aside button {
     text-decoration: none;
-    color: #333;
-    transition: background-color 0.3s;
-    font-size: 16px; /* Increase font size if needed */
+    padding: 8px 12px; /* 버튼 크기 조정 */
+    margin-right: 10px;
+    border: 1px solid #ccc; /* 버튼 테두리 */
+    background-color: white; /* 기본 배경색 */
+    color: #333; /* 텍스트 색상 */
+    border-radius: 4px; /* 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    transition: all 0.3s ease; /* 호버 시 애니메이션 효과 */
 }
 
-.mypage-aside a:hover {
-    background-color: #e0e0e0;
-}
-
-.active-link {
-    background-color: #0056b3; /* Darker color for active link */
-    color: #fff;
-}
-
-.mypage-center-link {
-    background-color: black !important;
-    color: white !important;
-    pointer-events: none; /* 클릭 비활성화 */
-}

@@ -13,9 +13,10 @@ import axios from "axios";
 import { useLogin } from "../login/LoginContext"; // 로그인 상태 가져오기
 import "../../css/MyAuctionItem.css";
 
-const MyAuctionItem = () => {
+const MyAuctionItem = ({ currentPage, totalPages, goToPage, nextPage, prevPage }) => {
     const [auctionItems, setAuctionItems] = useState([]);
     const { user } = useLogin(); // 로그인 정보에서 user 가져오기
+    const pages = Array.from({length: totalPages}, (_, idx) => idx + 1);
 
     useEffect(() => {
         const fetchAuctionItems = async () => {
@@ -36,10 +37,12 @@ const MyAuctionItem = () => {
         return <div className="no-auctionitem">신청한 경매품이 없습니다.</div>;
     }
 
+    if (totalPages <= 1) return null;
+
     return (
         <div className="auctionitem-container">
-            <table className="auctionitem-title">
-                <h1 className="auctionitem-title">신청한 경매품</h1>
+            <h1 className="auctionitem-title">신청한 경매품</h1>
+            <table className="auctionitem-subheading">
                 <thead>
                 <tr>
                     <th>목 차</th>
@@ -58,16 +61,24 @@ const MyAuctionItem = () => {
                     </tr>
                 ))}
                 </tbody>
-            </table>
             <div className="pagination">
-                <button>&lt;</button>
-                <button className="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>&gt;</button>
+                <button onClick={prevPage} disabled={currentPage === 1} className="pagenation_btn">
+                    이전
+                </button>
+                {pages.map((page) => (
+                    <button
+                        key={page}
+                        onClick={() => goToPage(page)}
+                        className={currentPage === page ? "active" : ""}
+                    >
+                        {page}
+                    </button>
+                ))}
+                <button onClick={nextPage} disabled={currentPage === totalPages} className="pagenation_btn">
+                    다음
+                </button>
             </div>
+            </table>
         </div>
     );
 };

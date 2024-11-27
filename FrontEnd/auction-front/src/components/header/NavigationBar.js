@@ -87,7 +87,7 @@ const Nav = () =>
                         관리자페이지
                     </NavLink>
                 ) : (
-                    <NavLink to="/mypage/myprofile" className="nav-link">
+                    <NavLink to="/mypage" className="nav-link">
                         마이페이지
                     </NavLink>
                 )}

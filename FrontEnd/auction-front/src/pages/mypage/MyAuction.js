@@ -1,12 +1,6 @@
-// 참여 경매 (/mypage/myauction)
-// 각 로그인한 회원이 참여했던 경매 목록 보여주기
+// 낙찰 받은 경매품 (/mypage/myauction)
+// 각 로그인한 회원이 낙찰 받음 경매품 목록 보여주기
 
-/*
-* - fetchParticipatedAuctions : 사용자가 참여한 경매 목록을 서버에서 가져옴
-* - fetchWonAuctions : 사용자가 낙찰받은 경매 목록을 서버에서 가져옴
-*
-* - participatedAuctions 와 wonAuctions 는 각각 참여한 경매와 낙찰받은 경매 정보를 저장
-* */
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -14,24 +8,10 @@ import { useLogin } from '../login/LoginContext';
 
 const MyAuctions = () => {
     const { user } = useLogin();
-    const [participatedAuctions, setParticipatedAuctions] = useState([]);
     const [wonAuctions, setWonAuctions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    // 경매 참여 목록 가져오기
-    // const fetchParticipatedAuctions = async () => {
-    //     if (!user?.userCode) return;
-    //
-    //     try {
-    //         const response = await axios.get(`http://localhost:8080/mypage/myauction`, {
-    //             params: { userCode: user.userCode },
-    //         });
-    //         setParticipatedAuctions(response.data);
-    //     } catch (err) {
-    //         setError("경매 참여 목록을 가져오는 데 실패했습니다.");
-    //     }
-    // };
+    
 
     // 낙찰받은 경매 목록 가져오기
     const fetchWonAuctions = async () => {
@@ -54,7 +34,7 @@ const MyAuctions = () => {
     }, [user?.userCode]);
 
     if (loading) {
-        return <div>로딩 중...</div>;
+        return <div className="no-auction-list">낙찰 받은 경매 목록이 존재하지 않습니다.</div>;
     }
 
     if (error) {

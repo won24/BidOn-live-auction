@@ -1,6 +1,8 @@
 .no-auctionitem {
     color: #888;  /* '신청한 경매품 없습니다.' 텍스트 색을 연한 회색으로 설정 */
     font-size: 20px;  /* 텍스트의 글씨 크기를 18px로 설정 */
+    text-align: center;
+    padding-top: 70px;
 }
 
 .auctionitem-container {
@@ -13,5 +15,11 @@
 .auctionitem-title {
     font-size: 30px;  /* 제목 글씨 크기를 24px로 설정 */
     margin-bottom: 25px;  /* 제목 아래에 20px의 여백을 추가 */
+}
+
+.auctionitem-subheading {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center
 }
 

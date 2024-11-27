@@ -1,30 +1,37 @@
-import {NavLink, Outlet, Route, Routes} from "react-router-dom";
-import {useState} from "react";
-import "../../css/MyPageLayout.css"
-
+import { NavLink, Outlet } from "react-router-dom";
+import { useLogin } from "../../pages/login/LoginContext";
+import "../../css/MyPageLayout.css";
 
 const MyPageLayout = () => {
 
-    const [showNavLinks, setShowNavLinks] = useState(true);
+    const nickname = sessionStorage.getItem("nickname");
 
-    const handleLinkClick = (shouldShow) => {
-        setShowNavLinks(shouldShow);
-    };
+    const { user } = useLogin();
+
+        const welcomeMypage = (nickname, maxLength) => {
+            if (nickname && nickname.length > maxLength) {
+                return nickname.substring(0, maxLength) + "...";
+            }
+            return nickname;
+        };
 
     return (
-        <div className="mypage-layout">
-            <aside className="mypage-aside">
-                <ul>
-                    <li><NavLink to="/mypage" activeclassname="active-link"
-                                 className="mypage-center-link">마이페이지</NavLink></li>
-                    <li><NavLink to="/mypage/myfar" activeclassname="active-link">즐겨찾기</NavLink></li>
-                    <li><NavLink to="/mypage/myprofile" activeclassname="active-link">내 정보</NavLink></li>
-                    <li><NavLink to="/mypage/myauctionitem" activeclassname="active-link">경매품</NavLink></li>
-                    <li><NavLink to="/mypage/myauction" activeclassname="active-link">참여 경매 목록</NavLink></li>
-                </ul>
-            </aside>
-            <div className="outlet-fixsize">
-                <Outlet/>
+        <div>
+            <p className="nickname-welcome">{welcomeMypage(nickname, 50)}님, 환영합니다.</p>
+            <div className="mypage-layout">
+                <div className="mypage">
+                    <ul>
+                        <button><NavLink to="/mypage" activeclassname="active-link"
+                                     className="mypage-center-link">마이페이지</NavLink></button>
+                        <button><NavLink to="/mypage/myfar" activeclassname="active-link">즐겨찾기</NavLink></button>
+                        <button><NavLink to="/mypage/myprofile" activeclassname="active-link">내 정보</NavLink></button>
+                        <button><NavLink to="/mypage/myauctionitem" activeclassname="active-link">경매품</NavLink></button>
+                        <button><NavLink to="/mypage/myauction" activeclassname="active-link">낙찰 경매품 목록</NavLink></button>
+                    </ul>
+                </div>
+                <div className="outlet-fixsize">
+                    <Outlet/>
+                </div>
             </div>
         </div>
     );

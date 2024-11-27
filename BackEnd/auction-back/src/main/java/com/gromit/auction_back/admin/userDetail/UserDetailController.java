@@ -50,14 +50,14 @@ public class UserDetailController {
 
 
     @GetMapping("/users/{userCode}")
-    public ResponseEntity<List<UserDetailDTO>> getBoardsByUserCode(@PathVariable int userCode) {
+    public ResponseEntity<UserDetailDTO> getBoardsByUserCode(@PathVariable int userCode) {
         try {
             System.out.println("유저 코드 " + userCode + "의 게시글 조회");
             List<UserDetailDTO> boards = userDetailService.getBoardsByUserCode(userCode);
             UserDetailDTO user = userDetailService.getUserByCode(userCode);
             System.out.println(user);
             if (!boards.isEmpty()) {
-                return ResponseEntity.ok(boards);
+                return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.notFound().build();
             }

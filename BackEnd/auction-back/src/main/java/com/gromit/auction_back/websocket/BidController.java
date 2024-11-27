@@ -28,4 +28,8 @@ public class BidController {
         bidService.getAllrefund(postId);
         return true;
     }
+    @GetMapping("/top/{postId}")
+    public BidDTO toprateUser(@PathVariable int postId){
+        return bidService.toprateUser(postId);
+    }
 }

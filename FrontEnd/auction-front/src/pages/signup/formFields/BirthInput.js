@@ -8,6 +8,7 @@ const BirthInput = ({ value, onChange }) => (
             value={value}
             onChange={onChange}
             style={{ width: "120px"}}
+            className="signup-date"
             required
         />
         {/* <span className="input-description">법정 생년월일을 입력해주세요.</span> */}

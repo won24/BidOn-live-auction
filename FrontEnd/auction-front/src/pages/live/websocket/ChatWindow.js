@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../../css/ChatWindow.css";
 import { useEffect, useState } from "react";
 
 const ChatWindow = () => 
 {
-    const { userId } = useParams();
+    const userId = sessionStorage.getItem("nickname");
     const [message, setMessage] = useState([]);
     const [messageInput, setMessageInput] = useState("");
     const [webSocket, setWebSocket] = useState(null);
@@ -18,7 +18,6 @@ const ChatWindow = () =>
 
         ws.onopen = () => 
         {
-            console.log("Connected to WebSocket server");
             const initialMessage = "Connected to WebSocket server";
             setMessage(prev => [...prev, {type: "info", message: initialMessage}]);
             ws.send(JSON.stringify({type: "join", userId}));
@@ -26,22 +25,20 @@ const ChatWindow = () =>
 
         ws.onmessage = (event) => 
         {
-            console.log(event.data);
             const message = event.data;
             setMessage((prev) => [...prev, { type: "received", message}]);
         };
 
         ws.onclose = () => 
         {
-            console.log("WebSocket connection closed");
             const closingMessage = "WebSocket connection closed";
             setMessage(prev => [...prev, {type: "info", message: closingMessage}]);
         };
 
-        ws.onerror = (error) =>
-        {
-            console.error(error);
-        }
+        // ws.onerror = (error) =>
+        // {
+        //     console.error(error);
+        // }
 
         setWebSocket(ws);
 
@@ -68,10 +65,6 @@ const ChatWindow = () =>
                 setMessageInput("");
             }
         } 
-        else 
-        {
-            console.log("Disconnected.");
-        }
     };
 
     const handleKeyPass = (event) => 
@@ -84,22 +77,21 @@ const ChatWindow = () =>
 
     const handleBackToMain = () => 
     {
-        navigate("/");
+        navigate("/chattingwindow");
     };
 
     return (
         <div className="chat-container">
-            <h2>WebSocket Chatting</h2>
             <div
                 id="chatwindow"
                 className="chat-window"
                 style={{
                     border: '1px solid #ccc',
-                    width: '380px',
+                    // width: '380px',
                     height: '400px',
-                    overflowY: 'scroll',
-                    padding: '10px',
+                    // padding: '10px',
                     backgroundColor: '#fff',
+                    overflowY: 'scroll'
                 }}>
                 {message.map((msg, index) => (
                     <div
@@ -125,7 +117,7 @@ const ChatWindow = () =>
                     onKeyDown={handleKeyPass}
                 />
                 <button id="sendBtn" onClick={sendMessage}>전송</button>
-                <button onClick={handleBackToMain}>메인으로 돌아가기</button>
+                <button onClick={handleBackToMain}>닫기</button>
             </div>
         </div>
     );

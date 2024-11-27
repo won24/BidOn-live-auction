@@ -1,9 +1,12 @@
 package com.gromit.auction_back.admin.userDetail;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface UserDetailDAO {
@@ -25,4 +28,8 @@ public interface UserDetailDAO {
 
     @Select("SELECT * FROM Board WHERE userCode = #{userCode}")
     List<UserDetailDTO> getBoardsByUserCode(int userCode);
+
+
+    @Update("UPDATE users SET cash = #{cash} WHERE UserCode = #{userCode}")
+    void updateUserCash(@Param("userCode") int userCode, @Param("cash") int cash);
 }

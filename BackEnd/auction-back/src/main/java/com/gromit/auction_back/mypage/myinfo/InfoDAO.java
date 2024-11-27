@@ -1,10 +1,15 @@
+// 내 정보 DAO
+
 package com.gromit.auction_back.mypage.myinfo;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 
 @Mapper
-public interface InfoDAO {
-    List<InfoDTO> getAllSelect();
+public interface InfoDAO  {
+    InfoDTO findByUserCode(int userCode);
+
+    int updateByPassword(InfoDTO infoDTO);
 }

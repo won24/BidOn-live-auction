@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PasswordInput = ({ value, onChange }) => 
+const PasswordInput = ({ value, onChange, state }) => 
 {
     const [description, setDescription] = useState("영문, 숫자, 특수문자 중 2종류 이상을 조합하여 최소 8자리 이상 입력해주세요.");
     const [descriptionColor, setDescriptionColor] = useState("#666"); // Initial color
@@ -43,7 +43,7 @@ const PasswordInput = ({ value, onChange }) =>
                 style={{ width: "120px" }}
             />
             <span className="input-description" style={{ color: descriptionColor }}>
-                {description}
+                {state ? "기존 비밀번호를 입력해주세요." : `${description}`}
             </span>
         </div>
     );

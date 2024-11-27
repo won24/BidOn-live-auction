@@ -3,6 +3,7 @@
     max-width: 1200px;
     margin: -40px -20px;
     padding: 20px;
+    padding-bottom: 24px;
 }
 
 .signup-form h3 
@@ -181,14 +182,14 @@
     /* 버튼에 마우스를 올렸을 때의 배경 색상 변경 */
 }
 
-input[type='date'] 
+.signup-date 
 {
     position: relative; 
     width: 100%;
     text-align: center;
     font-size: 100%;
 }
-input[type='date']::-webkit-calendar-picker-indicator 
+.signup-date::-webkit-calendar-picker-indicator 
 {
     position: absolute;
     left: 0;

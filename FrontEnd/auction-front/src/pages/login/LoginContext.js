@@ -2,78 +2,72 @@
  * LoginContext.js
  * 
  * 현재 로그인한 계정의 정보 제공
+ * 1) sessionStorage.getItem("컬럼명");
+ * 2) useLogin();
+ * 두 가지 방식 모두 유효함
  */
 
 import { createContext, useContext, useState, useEffect } from "react";
 
 const LoginContext = createContext();
 
+const parseSessionUserData = () => 
+{
+    const userData = {};
+    Object.keys(sessionStorage).forEach((key) => 
+    {
+        userData[key] = sessionStorage.getItem(key);
+    });
+
+    return {
+        ...userData,
+        isLoggedIn: userData.isLoggedIn === "true",
+        isAdmin: userData.isAdmin === "true",
+        isAdult: userData.isAdult === "true",
+        sendEmail: userData.sendEmail === "true",
+        sendMessage: userData.sendMessage === "true",
+        cash: parseInt(userData.userCash, 10) || 0,
+        userCode: parseInt(userData.userCode, 10) || 0,
+    };
+};
+
 export const LoginProvider = ({ children }) => 
 {
     const [user, setUser] = useState(null);
 
-    const fetchUserData = async (userId) => 
-    {
-        try {
-            const response = await fetch(`http://localhost:8080/api/id/${userId}`);
-            if (response.ok) 
-            {
-                const data = await response.json();
-                setUser((prevUser) => (
-                {
-                    ...prevUser,
-                    userCash: data.cash, // Update cash
-                    ...data, // Merge other user properties
-                }));
-            } 
-            else 
-            {
-                console.error("Failed to fetch user data");
-            }
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
-    };
-    
     useEffect(() => 
     {
-        // 대충 이런 식으로 선언해서 사용하면 됨
         const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) 
         {
-            const userData = 
-            {
-                // 조회할 수 있는 column 목록(패스워드 제외 전체)
-                userId: sessionStorage.getItem("userId"),
-                userCode: sessionStorage.getItem("userCode"),
-                userName: sessionStorage.getItem("userName"),
-                userNickname: sessionStorage.getItem("userNickname"),
-                userEmail: sessionStorage.getItem("userEmail"),
-                userPhone: sessionStorage.getItem("userPhone"),
-                userBirth: sessionStorage.getItem("userBirth"),
-                userAddress: sessionStorage.getItem("userAddress"),
-                userCash: sessionStorage.getItem("userCash"),
-                isAdult: sessionStorage.getItem("isAdult"),
-                isAdmin: sessionStorage.getItem("isAdmin") === "true",
-                isSuspended: sessionStorage.getItem("isSuspended"),
-                sendEmail: sessionStorage.getItem("sendEmail"),
-                sendMessage: sessionStorage.getItem("sendMessage"),
-            };
-            setUser(userData);
-    
-            // Fetch the latest data from the database using userId
-            if (userData.userId) 
-            {
-                fetchUserData(userData.userId);
-            }
+            const parsedUserData = parseSessionUserData();
+            setUser(parsedUserData);
         }
     }, []);
 
+    const updateUser = (updatedData) => 
+    {
+        const updatedUser = { ...user, ...updatedData };
+        Object.entries(updatedData).forEach(([key, value]) => 
+        {
+            sessionStorage.setItem(key, value);
+        });
+        setUser(updatedUser);
+    };
+
     return (
-        <LoginContext.Provider value={{ user, setUser, fetchUserData }}>
+        <LoginContext.Provider value={{ user, setUser, updateUser }}>
             {children}
         </LoginContext.Provider>
     );
 };
 
-export const useLogin = () => useContext(LoginContext);
+export const useLogin = () => 
+{
+    const context = useContext(LoginContext);
+    if (!context) 
+    {
+        throw new Error("useLogin must be used within a LoginProvider");
+    }
+    return context;
+};

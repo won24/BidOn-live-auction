@@ -4,7 +4,7 @@
     flex-direction: column;  /* 수직으로 정렬 */
     align-items: center; /* 수평 중앙 정렬 */
     justify-content: flex-start; /* 위에서부터 쌓이도록 설정 */
-    min-height: 67vh;  /* 메인 페이지에서 스크롤 생기지 않도록 수시로 조정중 */
+    min-height: 62vh;  /* 메인 페이지에서 스크롤 생기지 않도록 수시로 조정중 */
     margin: 0 auto; /* 가운데 정렬 */
 }
 

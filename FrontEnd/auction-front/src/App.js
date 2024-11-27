@@ -18,11 +18,14 @@ import Discontiuation from "./pages/acution/discontinuation";
 import ArtProduct from "./pages/acution/artProduct";
 import Valuables from "./pages/acution/valuables";
 import Signup from "./pages/signup/Signup";
-import MyPageLayout from "./components/header/MyPageLayout";
-import MyNotice from "./pages/mypage/MyNotice";
-import MyProfile from "./pages/mypage/MyProfile";
 import MyFar from "./pages/mypage/MyFar";
-import OnlyFooterLayout from "./components/OnlyFooterLayout";
+import LogoAndFooter from "./components/LogoAndFooter";
+import MyProfile from "./pages/mypage/MyProfile";
+import MyPageLayout from "./components/header/MyPageLayout";
+import MyAuction from "./pages/mypage/MyAuction";
+import MyAuctionItem from "./pages/mypage/MyAuctionItem";
+
+
 import Terms from "./components/footer/Terms";
 import Privacy from "./components/footer/Privacy";
 import FindMyId from "./pages/find/FindMyId";
@@ -40,6 +43,8 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDatail";
 import Admin from "./pages/admin/Admin";
 import "./App.css"
+import ChangePassword from "./pages/mypage/ChangePassword";
+
 
 function App() {
     return (
@@ -54,12 +59,15 @@ function App() {
                     <Route path="auction/discontinuation" element={<Discontiuation/>}/>
                     <Route path="auction/artproduct" element={<ArtProduct/>}/>
                     <Route path="auction/valuables" element={<Valuables/>}/>
+                        <Route path="myauctionitem" element={<MyAuctionItem/>}/>
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="/auction/update/:postId" element={<PostEditPage/>}/>
-                    <Route path="/mypage" element={<MyPageLayout />} >
-                        <Route path="mynotice" element={<MyNotice/>}/>
+                    <Route path="/mypage/*" element={<MyPageLayout />} >
+                        <Route path="myauction" element={<MyAuction/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
+                        <Route path="myauctionitem" element={<MyAuctionItem/>} />
+                        <Route path="changepassword" element={<ChangePassword />} />
                     </Route>
                     <Route path="requestitem" element={<RequestItem />} />
                     <Route path="/customer" element={<CustomerLayout />}>
@@ -77,7 +85,7 @@ function App() {
                         <Route path="users/:userCode" element={<AdminUserDetail />} />
                     </Route>
                 </Route>
-                <Route path ="/member" element={<OnlyFooterLayout/>}>
+                <Route path ="/member" element={<LogoAndFooter/>}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup/>} />
                 </Route>
@@ -89,6 +97,7 @@ function App() {
                     <Route path="phone" element={<FindMyPw />} />
                     <Route path="email" element={<FindMyPw />} />
                 </Route>
+
                 <Route path="/chattingwindow" element={<TestPage/>}/>
                 <Route path="/chattingwindow/:userId" element={<ChatWindow/>}/>
 

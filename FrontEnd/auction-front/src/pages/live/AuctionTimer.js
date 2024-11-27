@@ -1,42 +1,46 @@
 import { useEffect, useState } from "react";
 import * as api from "../acution/common/AuctionAPIs";
+import {useNavigate} from "react-router-dom";
 
-
-
-const AuctionTimer = ({ startTime, postId }) => {
+const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [remainingTime, setRemainingTime] = useState(0);
     const [hasStarted, setHasStarted] = useState(false); // 경매 시작 여부
+    const [hasEnded, setHasEnded] = useState(false); // 경매 종료 여부
+    const [postStatusChanged, setPostStatusChanged] = useState(false); // 상태 변경 여부
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const auctionDuration = 5 * 60 * 1000; // 5분
+        const fiveMinute = 5 * 60 * 1000;
         const startTimestamp = new Date(startTime).getTime();
+        const endTimestamp = startTimestamp + fiveMinute;
 
-        const updateRemainingTime = () => {
-            const now = new Date().getTime();
+        const updateRemainingTime = async () => {
+            const now = Date.now();
 
             if (now < startTimestamp) {
                 // 경매 시작 전
                 setHasStarted(false);
                 setRemainingTime(startTimestamp - now);
-            } else {
+            } else if (now < endTimestamp) {
                 // 경매 진행 중
                 setHasStarted(true);
-                const endTime = startTimestamp + auctionDuration;
-                const timeLeft = endTime - now;
-                setRemainingTime(timeLeft > 0 ? timeLeft : 0);
+                setRemainingTime(endTimestamp - now);
+            } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) {
+                // 경매 종료 후 5분 대기 중
+                setHasStarted(true);
+                setHasEnded(true);
+                setRemainingTime(endTimestamp + fiveMinute - now);
+            } else if (!postStatusChanged) {
+                // 경매 종료 후 5분 뒤 상태 변경 요청
+                setRemainingTime(0);
+                setPostStatusChanged(true); // 중복 요청 방지
 
-                const offTime = endTime + auctionDuration;
-                console.log("offTime" , offTime)
-                console.log("endTime 5분 후 ", endTime+ auctionDuration);
-                if(offTime > endTime + auctionDuration){
-                    const setStatus = async () =>{
-                        try {
-                            const response = await api.setPostStatus(postId);
-                            console.log(response.data)
-                        }catch (error){
-                            console.error("라이브 방송 후 상태 변경 실패")
-                        }
-                    }
+                try {
+                    await api.setPostStatus(postId);
+                    alert("실시간 경매가 종료되었습니다.");
+                    navigate(`/auction`);
+                } catch (error) {
+                    console.error("경매 상태 변경 실패:", error);
                 }
             }
         };
@@ -48,30 +52,36 @@ const AuctionTimer = ({ startTime, postId }) => {
 
         // 타이머 정리
         return () => clearInterval(timerInterval);
-    }, [startTime]);
+    }, [startTime, postId, hasEnded, postStatusChanged, onUpdate]);
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 1000 / 60);
         const seconds = Math.floor((time / 1000) % 60);
-        return `${minutes}분 : ${seconds.toString().padStart(2, "0")}초`;
+        return `${minutes} : ${seconds.toString().padStart(2, "0")}`;
     };
-
 
     return (
         <div>
             {hasStarted ? (
-                remainingTime > 0 ? (
+                hasEnded ? (
+                    postStatusChanged ? (
+                        <>경매가 종료되었습니다.</>
+                    ) : (
+                        <div>
+                            <p>{formatTime(remainingTime)}</p>
+                            <p>후 채팅이 종료됩니다.</p>
+                        </div>
+                    )
+                ) : (
                     <div>
                         <p>{formatTime(remainingTime)}</p>
                         <p>후 경매가 종료됩니다.</p>
                     </div>
-                ) : (
-                    <p>경매 종료</p>
                 )
             ) : (
                 <div>
                     <p>곧 라이브 경매가 시작됩니다.</p>
-                    <p> {formatTime(remainingTime)}</p>
+                    <p>{formatTime(remainingTime)}</p>
                 </div>
             )}
         </div>

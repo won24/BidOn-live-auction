@@ -25,4 +25,15 @@ public class UserDetailService {
     public List<UserDetailDTO> getBoardsByUserCode(int userCode) {
         return userDetailDAO.getBoardsByUserCode(userCode);
     }
+
+    public boolean updateUserCash(int userCode, int newCash) {
+        try {
+            // MyBatis를 통해 캐시 업데이트
+            userDetailDAO.updateUserCash(userCode, newCash);
+            return true; // 업데이트 성공
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // 오류 발생 시 false 반환
+        }
+    }
 }

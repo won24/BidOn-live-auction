@@ -1,13 +1,15 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import {redirect, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
 import {formatToKoreanDate} from "../acution/detail/FormatDate";
 import Bid from "../bid/Bid";
 import {getPostImages} from "../acution/common/Images";
+import TestPage from "./websocket/TestPage";
+import ChatWindow from "./websocket/ChatWindow";
 
 
 const LiveDetail = () =>{
@@ -107,7 +109,6 @@ const LiveDetail = () =>{
         navigate(-1)
     }
 
-
     return (
         <>
             {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
@@ -160,7 +161,9 @@ const LiveDetail = () =>{
                     <div className="live-timer">{<AuctionTimer startTime={board.startDay} postId={postId} />}</div>
                     <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
 
-                    <div>채팅방 자리</div>
+                    <div>
+                        <ChatWindow/>
+                    </div>
                     <hr/>
 
                     <p className="infoText">상세 정보</p>

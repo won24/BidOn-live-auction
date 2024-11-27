@@ -26,7 +26,8 @@ const Nav = () =>
     {
         sessionStorage.clear();
         setUser(null);
-        navigate(current, { replace: true });
+        // navigate(current, { replace: true });
+        navigate(0);
     };
 
     const updateCash = async () => 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import Bid from "../bid/Bid";
 
 const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [remainingTime, setRemainingTime] = useState(0);
@@ -8,6 +10,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [hasEnded, setHasEnded] = useState(false); // 경매 종료 여부
     const [postStatusChanged, setPostStatusChanged] = useState(false); // 상태 변경 여부
     const navigate = useNavigate();
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 
     useEffect(() => {
         const fiveMinute = 5 * 60 * 1000;
@@ -27,6 +30,15 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 setRemainingTime(endTimestamp - now);
             } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) {
                 // 경매 종료 후 5분 대기 중
+
+                // 낙찰자 외 환불
+                try {
+                    console.log("입찰액 환불 중")
+                    await axios.get(`http://localhost:8080/bid/end/${postId}`)
+                }catch (error){
+                    console.error("입찰액 환불 실패", error)
+                }
+
                 setHasStarted(true);
                 setHasEnded(true);
                 setRemainingTime(endTimestamp + fiveMinute - now);
@@ -61,11 +73,11 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     };
 
     return (
-        <div>
+        <div className="live-detail-page_timer">
             {hasStarted ? (
                 hasEnded ? (
                     postStatusChanged ? (
-                        <>경매가 종료되었습니다.</>
+                        <p>경매가 종료되었습니다.</p>
                     ) : (
                         <div>
                             <p>{formatTime(remainingTime)}</p>
@@ -74,8 +86,11 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                     )
                 ) : (
                     <div>
+                        <p>경매 종료</p>
                         <p>{formatTime(remainingTime)}</p>
-                        <p>후 경매가 종료됩니다.</p>
+                        {isLoggedIn?
+                            <Bid/>: <></>
+                        }
                     </div>
                 )
             ) : (

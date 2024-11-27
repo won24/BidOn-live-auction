@@ -25,8 +25,8 @@ const Login = () =>
     const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
-    const location = useLocation();
-    const current = location.pathname;
+    // const location = useLocation();
+    // const current = location.pathname;
 
     const toggleModal = () => 
     {
@@ -94,7 +94,8 @@ const Login = () =>
 
                 // 데이터 전달 33한지 확인하기
                 // console.log("User Data Saved in Session:", data);
-                navigate(current, { replace: true });
+                // navigate(current, { replace: true });
+                navigate(0);
             } 
             else 
             {

@@ -92,7 +92,7 @@ const Bid = () => {
                 });
 
                 // 사용자 캐시 차감
-                const updatedCash = userInfo.cash - amount;
+                const updatedCash = userInfo.cash - newBid;
                 await axios.put(`/admin/updatecash/${user.userCode}`, { cash: updatedCash });
 
                 // 사용자 정보 업데이트
@@ -136,7 +136,6 @@ const Bid = () => {
 
     return (
         <div>
-            <h2>{auctionItem.title}</h2>
             <CurrentBid bid={currentBid} />
             {userInfo && <p>내 보유 금액: {userInfo.cash.toLocaleString()}원</p>}
             <button onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected}>+10,000원</button>

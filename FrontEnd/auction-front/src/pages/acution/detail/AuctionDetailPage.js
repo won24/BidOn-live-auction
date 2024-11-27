@@ -48,6 +48,7 @@ const AuctionDetailPage = () =>{
                 } else {
                     console.error("startDay 데이터가 없습니다.");
                 }
+
             } catch (error) {
                 console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
             }finally {

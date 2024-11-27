@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [remainingTime, setRemainingTime] = useState(0);
@@ -27,6 +28,15 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 setRemainingTime(endTimestamp - now);
             } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) {
                 // 경매 종료 후 5분 대기 중
+
+                // 낙찰자 외 환불
+                try {
+                    console.log("입찰액 환불 중")
+                    await axios.get(`http://localhost:8080/bid/end/${postId}`)
+                }catch (error){
+                    console.error("입찰액 환불 실패", error)
+                }
+
                 setHasStarted(true);
                 setHasEnded(true);
                 setRemainingTime(endTimestamp + fiveMinute - now);

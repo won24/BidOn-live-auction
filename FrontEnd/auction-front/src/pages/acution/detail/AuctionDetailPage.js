@@ -60,24 +60,26 @@ const AuctionDetailPage = () =>{
     },[]);
 
 
-    // startDay 10분 상태 변경
+    // 라이브 10분 전 상태 변경
     useEffect(() => {
-        if (!startTime) return;
+        if (postStatus === "off") {
+            if (!startTime) return;
 
-        const now = Date.now();
-        const startLiveTime = startTime.getTime() - 10 * 60 * 1000;
-        const delay = startLiveTime - now;
+            const now = Date.now();
+            const startLiveTime = startTime.getTime() - 10 * 60 * 1000;
+            const delay = startLiveTime - now;
 
-        if (delay <= 0) {
-            updateLiveStatus();
-            return;
+            if (delay <= 0) {
+                updateLiveStatus();
+                return;
+            }
+
+            const timer = setTimeout(() => {
+                updateLiveStatus();
+            }, delay);
+
+            return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
         }
-
-        const timer = setTimeout(() => {
-            updateLiveStatus();
-        }, delay);
-
-        return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
     }, [startTime, postId, navigate]);
 
     const updateLiveStatus = async () => {

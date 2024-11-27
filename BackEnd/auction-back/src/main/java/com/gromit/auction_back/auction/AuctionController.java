@@ -185,6 +185,7 @@ public class AuctionController {
         try {
             int result = auctionService.setPostStatus(postId);
             if (result > 0) {
+
                 return ResponseEntity.noContent().build();
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");

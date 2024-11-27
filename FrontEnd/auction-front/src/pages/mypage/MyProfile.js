@@ -3,22 +3,22 @@ import { useLogin } from "../login/LoginContext";
 import { useNavigate } from 'react-router-dom';
 import "./MyProfile.css";
 
-const MyProfile = () => 
+const MyProfile = () =>
 {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const { user } = useLogin();
     const navigate = useNavigate();
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        if (!isLoggedIn) 
+        if (!isLoggedIn)
         {
             alert("로그인이 필요합니다.");
             navigate("/member/login");
         }
     }, [isLoggedIn, navigate]);
 
-    const formatDate = (dateString) => 
+    const formatDate = (dateString) =>
     {
         if (!dateString) return "";
         const date = new Date(dateString);
@@ -28,7 +28,7 @@ const MyProfile = () =>
         return `${year}-${month}-${day}`;
     };
 
-    if (!user) 
+    if (!user)
     {
         return <div>사용자 정보를 불러오는 중입니다...</div>;
     }

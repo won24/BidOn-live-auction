@@ -1,3 +1,5 @@
+// 내 정보 DTO
+
 package com.gromit.auction_back.mypage.myinfo;
 
 

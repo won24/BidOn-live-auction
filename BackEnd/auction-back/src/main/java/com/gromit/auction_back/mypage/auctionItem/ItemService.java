@@ -1,8 +1,11 @@
-package com.gromit.auction_back.mypage.auctionItem;
+// 경매품 Service
 
+package com.gromit.auction_back.mypage.auctionItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -10,11 +13,23 @@ public class ItemService {
     @Autowired
     private ItemDAO itemDAO;
 
-    public ItemDTO getUserAuctionItem(ItemDTO itemDTO) {
-       ItemDTO item = itemDAO.findByAuctionItem(itemDTO);
-       if (item != null) {
-           return new ItemDTO();
-       }
-        return null;
+//    public List<ItemDTO> getItemsByUserCode(int userCode) {
+//
+//        return itemDAO.getItemsByUserCode(userCode);
+//    }
+
+    // 경매품 조회
+    public List<ItemDTO> auctionItem(int userCode) {
+        // 경매품 아이템을 조회
+        List<ItemDTO> itemList = itemDAO.auctionItem(userCode);// tlqkf userCode getaway...
+
+        // 조회된 아이템이 없으면 빈 리스트 반환
+        if (itemList == null || itemList.isEmpty()) {
+            return List.of(); // 빈 리스트 반환
+        }
+
+        return itemList;
     }
+
 }
+

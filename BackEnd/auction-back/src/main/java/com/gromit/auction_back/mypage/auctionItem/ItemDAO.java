@@ -1,10 +1,15 @@
+// 경매품 DAO
+
 package com.gromit.auction_back.mypage.auctionItem;
+
 
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ItemDAO {
 
-    ItemDTO findByAuctionItem(ItemDTO itemDTO);
+    List<ItemDTO> auctionItem(int userCode);
 }

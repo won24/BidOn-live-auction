@@ -1,8 +1,7 @@
+// 내 정보 Service
+
 package com.gromit.auction_back.mypage.myinfo;
 
-import com.gromit.auction_back.User.UserRepository;;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

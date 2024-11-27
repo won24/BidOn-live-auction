@@ -1,6 +1,6 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, redirect, useNavigate, useParams} from "react-router-dom";
 import * as api from "../common/AuctionAPIs";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import LiveDetail from "../../live/LiveDetail";
 import '../../../css/AuctionDetail.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,7 @@ const AuctionDetailPage = () =>{
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const [startTime, setStartTime] = useState(null);
 
 
     // 게시글 가져오기
@@ -38,8 +39,15 @@ const AuctionDetailPage = () =>{
                 const data = response.data;
                 setBoard(data);
                 setPostStatus(data.postStatus);
+
                 const imageUrls = await getPostImages(postId);
                 setImg(imageUrls);
+
+                if (data.startDay) {
+                    setStartTime(new Date(data.startDay));
+                } else {
+                    console.error("startDay 데이터가 없습니다.");
+                }
             } catch (error) {
                 console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
             }finally {
@@ -50,6 +58,37 @@ const AuctionDetailPage = () =>{
         setIsLoading(true);
         getBoard()
     },[]);
+
+
+    // 라이브 10분 전 상태 변경
+    useEffect(() => {
+        if (postStatus === "off") {
+            if (!startTime) return;
+
+            const now = Date.now();
+            const startLiveTime = startTime.getTime() - 10 * 60 * 1000;
+            const delay = startLiveTime - now;
+
+            if (delay <= 0) {
+                updateLiveStatus();
+                return;
+            }
+
+            const timer = setTimeout(() => {
+                updateLiveStatus();
+            }, delay);
+
+            return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+        }
+    }, [startTime, postId, navigate]);
+
+    const updateLiveStatus = async () => {
+        try {
+            await api.updateLive(postId);
+        } catch (error) {
+            console.error("updateLive API 호출 중 오류:", error);
+        }
+    };
 
 
 
@@ -71,17 +110,19 @@ const AuctionDetailPage = () =>{
 
     // 즐겨 찾기
     const fetchFavoriteStatus = async () => {
-        try {
-            const response = await api.getMyFav(postId, userCode);
-            const data = response.data;
-            if (data && data.length > 0) {
-                setFav({
-                    userCode: userCode,
-                    status: data[0].status,
-                });
+        if (userCode !== null){
+            try {
+                const response = await api.getMyFav(postId, userCode);
+                const data = response.data;
+                if (data && data.length > 0) {
+                    setFav({
+                        userCode: userCode,
+                        status: data[0].status,
+                    });
+                }
+            } catch (error) {
+                console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
             }
-        } catch (error) {
-            console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
         }
     };
 
@@ -137,7 +178,7 @@ const AuctionDetailPage = () =>{
     // 관리자 모드
     const renderAdminActions = () => (
         <div className="admin-button">
-            <button onClick={() => navigate(-1)} className="detail-page_admin-button-back">이전</button>
+            <button onClick={() => navigate('/auction')} className="detail-page_admin-button-back">목록</button>
             <div className="editBtn">
                 <Link to={`/auction/update/${postId}`} className="detail-page_admin-editBtn">수정</Link>
                 {postStatus === "none" && <button className="detail-page_admin-editBtn" onClick={changeStatus}>승인</button>}
@@ -152,7 +193,6 @@ const AuctionDetailPage = () =>{
             <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular} style={{ color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px" }} />
         </button>
     );
-
 
     // 이미지 슬라이드
     const renderImageSlider = () => (
@@ -235,7 +275,7 @@ const AuctionDetailPage = () =>{
                         </div>
                     </div>
                     <div className="detail-page_middle_right">
-                        <p className="detail-page_infoText">상세 정보</p>
+                    <p className="detail-page_infoText">상세 정보</p>
                         <hr className="middle_line"/>
                         <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
                             {board.content}

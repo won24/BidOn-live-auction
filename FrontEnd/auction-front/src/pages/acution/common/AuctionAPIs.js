@@ -50,7 +50,7 @@ export const deleteFavorite = (postId, userCode) => {
 }
 
 export const getBoardImg = (postId) =>{
-   return axios.get(`http://localhost:8080/images/${postId}`);
+    return axios.get(`http://localhost:8080/images/${postId}`);
 }
 
 export const updatePost = async (formData) => {
@@ -77,6 +77,10 @@ export const approval = (postId) =>{
 }
 
 
-export const setPostStatus = postId =>{
-    return axios.post(`${BASE_URL}/endLive/${postId}`)
+export const setPostStatus = (postId) =>{
+    return axios.post(`${BASE_URL}/endlive/${postId}`)
+}
+
+export const updateLive = (postId) =>{
+    return axios.post(`${BASE_URL}/startlive/${postId}`)
 }

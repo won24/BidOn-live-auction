@@ -9,6 +9,8 @@ import "../../css/RequestItem.css"
 const RequestItem = () => {
     const navigate = useNavigate();
     const { user } = useLogin();
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+
     const [formData, setFormData] = useState({
         categoryCode: '',
         date: new Date(),
@@ -23,13 +25,24 @@ const RequestItem = () => {
     const fileInputRef = useRef(null);
 
     useEffect(() => {
-        if (user) {
+        if (isLoggedIn) {
             setFormData(prevState => ({
                 ...prevState,
-                userCode: user.userCode
+                userCode: user?.userCode
             }));
         }
     }, [user]);
+    const isFormValid = () => {
+        return (
+            formData.categoryCode &&
+            formData.date &&
+            formData.title &&
+            formData.content &&
+            formData.startCash &&
+            imageFiles.length > 0
+        );
+    };
+
 
     const minSelectableDate = new Date();
     minSelectableDate.setDate(minSelectableDate.getDate() + 7);
@@ -81,6 +94,7 @@ const RequestItem = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(user?.userCode)
         console.log(formData);
 
         try {
@@ -89,9 +103,11 @@ const RequestItem = () => {
                     'Content-Type': 'application/json',
                 }
             });
+            console.log(formData);
 
             if (response.status === 200 || response.status === 201) {
                 const postId = response.data.postId;
+
                 console.log('폼 데이터가 저장되었습니다. postId:', postId);
                 await handleImageUpload(postId);
             } else {
@@ -127,7 +143,7 @@ const RequestItem = () => {
         }
     };
 
-    if (!user) {
+    if (!isLoggedIn) {
         return <div>로그인이 필요합니다.</div>;
     }
 
@@ -155,8 +171,8 @@ const RequestItem = () => {
                 <div className="form-group">
                     <label>날짜</label>
                     <DatePicker
-                        selected={formData.startDay}
-                        onChange={handleDateChange}
+                        selected={formData.date}  // formData.date로 날짜 값 연결
+                        onChange={handleDateChange}  // 날짜 변경시 formData.date 업데이트
                         dateFormat="yyyy-MM-dd HH:mm"
                         minDate={minSelectableDate}
                         showTimeSelect
@@ -232,7 +248,13 @@ const RequestItem = () => {
                         </div>
                     )}
                 </div>
-                <button type="submit" className="request-submit">제출하기</button>
+                <button
+                    type="submit"
+                    className="request-submit"
+                    disabled={!isFormValid()}
+                >
+                    제출하기
+                </button>
             </form>
         </div>
     );

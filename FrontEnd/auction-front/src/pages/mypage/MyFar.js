@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./MyFar.css";
+import "../../css/MyFar.css";
 import { useLogin } from "../login/LoginContext";
 import { deleteFavorite } from '../acution/common/AuctionAPIs';
 

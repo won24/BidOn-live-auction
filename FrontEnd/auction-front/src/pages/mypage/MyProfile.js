@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLogin } from "../login/LoginContext";
 import { useNavigate } from 'react-router-dom';
-import "./MyProfile.css";
+import "../../css/MyProfile.css";
 
 const MyProfile = () =>
 {

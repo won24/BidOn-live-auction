@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLogin } from "../login/LoginContext"; // 로그인 상태 가져오기
-import "./MyAuctionItem.css";
+import "../../css/MyAuctionItem.css";
 
 const MyAuctionItem = () => {
     const [auctionItems, setAuctionItems] = useState([]);

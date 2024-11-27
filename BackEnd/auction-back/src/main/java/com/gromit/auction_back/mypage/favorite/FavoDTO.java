@@ -1,3 +1,5 @@
+// 즐겨찾기 DTO
+
 package com.gromit.auction_back.mypage.favorite;
 
 import lombok.AllArgsConstructor;

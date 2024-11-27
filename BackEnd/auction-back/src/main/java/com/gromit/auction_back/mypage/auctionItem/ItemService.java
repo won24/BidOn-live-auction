@@ -1,3 +1,5 @@
+// 경매품 Service
+
 package com.gromit.auction_back.mypage.auctionItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,13 @@ public class ItemService {
     @Autowired
     private ItemDAO itemDAO;
 
+//    public List<ItemDTO> getItemsByUserCode(int userCode) {
+//
+//        return itemDAO.getItemsByUserCode(userCode);
+//    }
+
     // 경매품 조회
-    public List<ItemDTO> auctionItem(String userCode) {
+    public List<ItemDTO> auctionItem(int userCode) {
         // 경매품 아이템을 조회
         List<ItemDTO> itemList = itemDAO.auctionItem(userCode);// tlqkf userCode getaway...
 
@@ -23,5 +30,6 @@ public class ItemService {
 
         return itemList;
     }
+
 }
 

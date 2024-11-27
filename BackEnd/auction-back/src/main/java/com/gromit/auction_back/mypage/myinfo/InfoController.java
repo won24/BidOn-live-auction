@@ -1,3 +1,5 @@
+// 내 정보 Controller
+
 package com.gromit.auction_back.mypage.myinfo;
 
 import org.apache.catalina.User;

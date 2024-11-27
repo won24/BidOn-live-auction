@@ -7,6 +7,7 @@ import { useLogin } from '../../pages/login/LoginContext';
 import "../../css/RequestItem.css"
 
 const RequestItem = () => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const navigate = useNavigate();
     const { user } = useLogin();
     const [formData, setFormData] = useState({
@@ -127,7 +128,7 @@ const RequestItem = () => {
         }
     };
 
-    if (!user) {
+    if (!isLoggedIn) {
         return <div>로그인이 필요합니다.</div>;
     }
 

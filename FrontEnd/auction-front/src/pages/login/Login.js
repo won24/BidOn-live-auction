@@ -94,7 +94,8 @@ const Login = () =>
 
                 // 데이터 전달 33한지 확인하기
                 // console.log("User Data Saved in Session:", data);
-                navigate(current, { replace: true });
+                // navigate(current, { replace: true });
+                navigate(0);
             } 
             else 
             {

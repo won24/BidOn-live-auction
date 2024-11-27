@@ -10,48 +10,39 @@ const ChatWindow = () =>
     const [webSocket, setWebSocket] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => 
-    {
+    useEffect(() => {
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-        const wsUrl = `${wsProtocol}localhost:8080/chattingServer`;
+        const wsUrl = `${wsProtocol}localhost:8080/chat`;
         const ws = new WebSocket(wsUrl);
-
-        ws.onopen = () => 
-        {
-            const initialMessage = "Connected to WebSocket server";
-            setMessage(prev => [...prev, {type: "info", message: initialMessage}]);
-            ws.send(JSON.stringify({type: "join", userId}));
+    
+        ws.onopen = () => {
+            setMessage(prev => [...prev, { type: "info", message: "Connected to WebSocket server" }]);
+            ws.send(JSON.stringify({ type: "join", userId }));
         };
-
-        ws.onmessage = (event) => 
-        {
+    
+        ws.onmessage = (event) => {
             const message = event.data;
-            setMessage((prev) => [...prev, { type: "received", message}]);
+            setMessage((prev) => [...prev, { type: "received", message }]);
         };
-
-        ws.onclose = () => 
-        {
-            const closingMessage = "WebSocket connection closed";
-            setMessage(prev => [...prev, {type: "info", message: closingMessage}]);
+    
+        ws.onclose = () => {
+            setMessage(prev => [...prev, { type: "info", message: "WebSocket connection closed" }]);
         };
-
-        // ws.onerror = (error) =>
-        // {
-        //     console.error(error);
-        // }
-
+    
+        ws.onerror = (error) => {
+            console.error("WebSocket Error:", error);
+        };
+    
         setWebSocket(ws);
-
-        // Cleanup WebSocket on unmount
-        return () => 
-        {
-            if(ws)
-            {
-                ws.send(JSON.stringify({type: "leave", userId}));
+    
+        return () => {
+            if (ws) {
+                ws.send(JSON.stringify({ type: "leave", userId }));
                 ws.close();
             }
         };
     }, []);
+    
 
     const sendMessage = () => 
     {

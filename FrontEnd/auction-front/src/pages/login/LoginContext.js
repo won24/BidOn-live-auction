@@ -2,7 +2,9 @@
  * LoginContext.js
  * 
  * 현재 로그인한 계정의 정보 제공
- * 필요한 만큼 갖다 쓰세요.
+ * 1) sessionStorage.getItem("컬럼명");
+ * 2) useLogin();
+ * 두 가지 방식 모두 유효함
  */
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -43,7 +45,6 @@ export const LoginProvider = ({ children }) =>
         }
     }, []);
 
-    // Function to update the user in both session storage and state
     const updateUser = (updatedData) => 
     {
         const updatedUser = { ...user, ...updatedData };
@@ -61,7 +62,6 @@ export const LoginProvider = ({ children }) =>
     );
 };
 
-// Custom hook for consuming the context
 export const useLogin = () => 
 {
     const context = useContext(LoginContext);

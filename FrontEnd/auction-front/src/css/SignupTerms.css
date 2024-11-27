@@ -122,7 +122,7 @@ details[open] .agreement
 }
 
 details.checked {
-    border: 2px solid #343434;
+    box-shadow: 0 0 0 2px #343434 inset;
 }
 
 /* Marketing checkbox container */
@@ -173,7 +173,7 @@ details.checked {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    margin-bottom: 110px;
+    margin-bottom: 57px;
 }
 
 /* Styling for "다음으로" button */

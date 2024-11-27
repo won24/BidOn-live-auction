@@ -1,18 +1,19 @@
 /**
- * OnlyFooterLayout.js
+ * LogoAndFooter.js
  * 
- * Footer만 필요할 때 사용할 레이아웃
- * Logo 추가 여부 고려 중
+ * Logo와 Footer만 필요할 때 사용할 레이아웃
  */
 import { Outlet } from "react-router-dom";
 import Footer from "./footer/Footer";
-import "../css/OnlyFooterLayout.css";
+import "../css/Layout.css";
+import { Logo } from "./header/Logo";
 
-const OnlyFooterLayout = () => 
+const LogoAndFooter = () => 
 {
     return (
         <div className="layout-container">
             <div className="navBar-container">
+                <Logo />
                 <hr className="layout-container_line"/>
                 <Outlet/>
             </div>
@@ -23,4 +24,4 @@ const OnlyFooterLayout = () =>
     );
 }
 
-export default OnlyFooterLayout;
+export default LogoAndFooter;

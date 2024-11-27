@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/bid")
 public class BidController {
@@ -21,4 +23,9 @@ public class BidController {
         System.out.println("최고가 갱신!"+highestBid);
         return ResponseEntity.ok(highestBid != null ? highestBid : 0); // 입찰 기록이 없으면 0 반환
     }
+    @GetMapping("/end/{postId}")
+    public boolean getAllBidsForPost(@PathVariable int postId){
+        bidService.getAllrefund(postId);
+        return true;
     }
+}

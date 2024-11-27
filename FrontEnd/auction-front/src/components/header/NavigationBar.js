@@ -27,6 +27,7 @@ const Nav = () =>
         if(window.confirm("로그아웃 하시겠습니까?"))
         {
             sessionStorage.clear();
+            localStorage.clear();
             setUser(null);
             // navigate(current, { replace: true });
             navigate(0);

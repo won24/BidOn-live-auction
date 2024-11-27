@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
@@ -10,54 +10,50 @@ import {getPostImages} from "../acution/common/Images";
 import ChatWindow from "./websocket/ChatWindow";
 import ImageModal from "../acution/detail/ImageModal";
 import '../../css/LiveDetail.css'
+import Bid from "../bid/Bid";
 
-
-const LiveDetail = () =>{
-    const {postId} = useParams();
+const LiveDetail = () => {
+    const { postId } = useParams();
     const [board, setBoard] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const userCode = sessionStorage.getItem("userCode");
     const [fav, setFav] = useState({
         userCode,
-        status: false
-    })
+        status: false,
+    });
     const [img, setImg] = useState([]);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isChatVisible, setIsChatVisible] = useState(false); // State to toggle ChatWindow
     const navigate = useNavigate();
 
-
-    // 경매품 정보 가져오기
-    useEffect( () => {
+    useEffect(() => {
         const getBoard = async () => {
-
             try {
                 const response = await api.postDetail(postId);
                 const data = response.data;
                 setBoard(data);
-
                 const imageUrls = await getPostImages(postId);
                 setImg(imageUrls);
             } catch (error) {
                 console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
-            }finally {
-                setIsLoading(false)
+            } finally {
+                setIsLoading(false);
             }
         };
 
         setIsLoading(true);
-        getBoard()
-    },[]);
+        getBoard();
+    }, []);
 
-
-    // 이미지 슬라이드
     const handlePrev = () => {
         setCurrentImgIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : img.length - 1));
     };
+
     const handleNext = () => {
         setCurrentImgIndex((prevIndex) => (prevIndex < img.length - 1 ? prevIndex + 1 : 0));
     };
-    // 썸네일 클릭 시 슬라이드 이미지 변경
+
     const handleThumbnailClick = (index) => {
         setCurrentImgIndex(index);
     };
@@ -148,67 +144,77 @@ const LiveDetail = () =>{
         </div>
     );
 
+
     // 목록으로
     const moveList = ()=>{
         navigate('/live')
     }
 
+    const toggleChat = () => {
+        setIsChatVisible((prev) => !prev);
+    };
+
+
     return (
         <>
-            {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p> :
-                (
-                    <div className="live-detail-page">
-                        <div className="live-detail-page_top">
-                            <div className="live-detail-page_top_left">
-                                <h2 className="live-detail-page_title">{board.title}</h2>
-                                <button className="favBtn" style={{background: "none", border: "none", cursor: "pointer"}} onClick={favorite}>
-                                    <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular}
-                                                     style={{color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px"}}/>
-                                </button>
+            {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
+             : (
+                <div className="live-detail-page">
+                    <div className="live-detail-page_top">
+                        <div className="live-detail-page_top_left">
+                            <h2 className="live-detail-page_title">{board.title}</h2>
+                            <button className="favBtn" style={{background: "none", border: "none", cursor: "pointer"}} onClick={favorite}>
+                                <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular} style={{color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px"}}/>
+                            </button>
+                        </div>
+                        <p className="detail-page_boardStatus">| 경매중 |</p>
+                    </div>
+                    <hr className="top_line"/>
+
+                    {<AuctionTimer startTime={board.startDay} postId={postId}/>}
+                    <Bid/>
+
+                    <div className="live-detail-page_middle">
+
+                        <div className="live-detail-page_leftSide">
+                            <div className="live-detail-page_img">
+                                {renderImageSlider()}
                             </div>
-                            <p className="detail-page_boardStatus">| 경매중 |</p>
-                        </div>
-                        <hr className="top_line"/>
-
-                        <div className="live-detail-page_timer">
-                            {<AuctionTimer startTime={board.startDay} postId={postId}/>}
-                        </div>
-
-                        <div className="live-detail-page_middle">
-
-                            <div className="live-detail-page_leftSide">
-                                <div className="live-detail-page_img">
-                                    {renderImageSlider()}
+                            <div className="live-detail-page_info">
+                                <div className="live-detail-page_info_text">
+                                    <p className="live-detail-page_text">입찰 시작가</p>
+                                    <p className="live-detail-page_text">경매 날짜</p>
                                 </div>
-                                <div className="live-detail-page_info">
-                                    <div className="live-detail-page_info_text">
-                                        <p className="live-detail-page_text">입찰 시작가</p>
-                                        <p className="live-detail-page_text">경매 날짜</p>
-                                    </div>
-                                    <div className="live-detail-page_info_value">
-                                        <div className="live-detail-page_cash">{board.startCash}</div>
-                                        <div className="live-detail-page_date">
-                                            {formatToKoreanDate(board.startDay)}
-                                        </div>
-                                    </div>
-                                 </div>
+                                <div className="live-detail-page_info_value">
+                                    <p className="live-detail-page_cash">{board.startCash}</p>
+                                    <p className="live-detail-page_date">{formatToKoreanDate(board.startDay)}</p>
+                                </div>
                             </div>
-
-                            <div className="live-detail-page_rightSide">
-                                <ChatWindow/>
-                            </div>
-                        </div>git
-                        <hr/>
-
-                        <p className="live-detail-page_infoText">상세 정보</p>
-                        <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
-                            {board.content}
                         </div>
 
-                        <div className="live-detail-page_bottom">
-                            <button onClick={moveList} className="detail-page_backButton">목록</button>
+                        <div className="live-detail-page_rightSide">
+                            <button onClick={toggleChat} style={{margin: "10px", padding: "5px 10px"}}>
+                                {isChatVisible ? "채팅창 닫기" : "채팅창 열기"}
+                            </button>
+
+                            {isChatVisible && (
+                                <div>
+                                    <ChatWindow/>
+                                </div>
+                            )}
                         </div>
                     </div>
+                    <hr/>
+
+                    <p className="live-detail-page_infoText">상세 정보</p>
+                    <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
+                        {board.content}
+                    </div>
+
+                    <div className="live-detail-page_bottom">
+                        <button onClick={moveList} className="detail-page_backButton">목록</button>
+                    </div>
+                </div>
                 )}
         </>
     )

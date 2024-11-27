@@ -73,7 +73,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     };
 
     return (
-        <div>
+        <div className="live-detail-page_timer">
             {hasStarted ? (
                 hasEnded ? (
                     postStatusChanged ? (

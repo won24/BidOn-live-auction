@@ -1,48 +1,65 @@
-import { useNavigate } from "react-router-dom";
-import "../../../css/ChatWindow.css";
 import { useEffect, useState } from "react";
 
 const ChatWindow = () => 
 {
     const userId = sessionStorage.getItem("nickname");
-    const [message, setMessage] = useState([]);
+    const [message, setMessage] = useState(() => 
+    {
+        const savedMessages = localStorage.getItem("chatMessages");
+        return savedMessages ? JSON.parse(savedMessages) : [];
+    });
     const [messageInput, setMessageInput] = useState("");
     const [webSocket, setWebSocket] = useState(null);
-    const navigate = useNavigate();
 
-    useEffect(() => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+
+    useEffect(() => 
+    {
+        if (!isLoggedIn) return; 
+
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-        const wsUrl = `${wsProtocol}localhost:8080/chat`;
+        const wsUrl = `${wsProtocol}192.168.0.53:8080/chat`;
         const ws = new WebSocket(wsUrl);
-    
-        ws.onopen = () => {
-            setMessage(prev => [...prev, { type: "info", message: "Connected to WebSocket server" }]);
+
+        ws.onopen = () => 
+        {
+            setMessage((prev) => [...prev, { type: "info", message: "채팅 서버에 연결되었습니다. 바른말 고운말을 사용해주세요." }]);
             ws.send(JSON.stringify({ type: "join", userId }));
         };
-    
-        ws.onmessage = (event) => {
-            const message = event.data;
-            setMessage((prev) => [...prev, { type: "received", message }]);
+
+        ws.onmessage = (event) => 
+        {
+            const receivedMessage = event.data;
+            const newMessage = { type: "received", message: receivedMessage };
+            setMessage((prev) => 
+            {
+                const updatedMessages = [...prev, newMessage];
+                localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                return updatedMessages;
+            });
         };
-    
-        ws.onclose = () => {
-            setMessage(prev => [...prev, { type: "info", message: "WebSocket connection closed" }]);
+
+        ws.onclose = () => 
+        {
+            setMessage((prev) => [...prev, { type: "info", message: "현재 채팅이 불가능한 상태입니다." }]);
         };
-    
-        ws.onerror = (error) => {
+
+        ws.onerror = (error) => 
+        {
             console.error("WebSocket Error:", error);
         };
-    
+
         setWebSocket(ws);
-    
-        return () => {
-            if (ws) {
+
+        return () => 
+        {
+            if (ws) 
+            {
                 ws.send(JSON.stringify({ type: "leave", userId }));
                 ws.close();
             }
         };
-    }, []);
-    
+    }, [isLoggedIn]);
 
     const sendMessage = () => 
     {
@@ -51,24 +68,25 @@ const ChatWindow = () =>
             const trimmedMessage = messageInput.trim();
             if (trimmedMessage !== "") 
             {
+                const sentMessage = { type: "sent", message: trimmedMessage };
                 webSocket.send(JSON.stringify({ type: "message", userId, message: trimmedMessage }));
-                setMessage((prev) => [...prev, { type: "sent", message: trimmedMessage }]);
+                setMessage((prev) => 
+                {
+                    const updatedMessages = [...prev, sentMessage];
+                    localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                    return updatedMessages;
+                });
                 setMessageInput("");
             }
-        } 
+        }
     };
 
     const handleKeyPass = (event) => 
     {
-        if (event.key === "Enter") 
+        if (event.key === "Enter" && isLoggedIn) 
         {
             sendMessage();
         }
-    };
-
-    const handleBackToMain = () => 
-    {
-        navigate("/chattingwindow");
     };
 
     return (
@@ -78,12 +96,11 @@ const ChatWindow = () =>
                 className="chat-window"
                 style={{
                     border: '1px solid #ccc',
-                    // width: '380px',
                     height: '400px',
-                    // padding: '10px',
                     backgroundColor: '#fff',
-                    overflowY: 'scroll'
-                }}>
+                    overflowY: 'scroll',
+                }}
+            >
                 {message.map((msg, index) => (
                     <div
                         key={index}
@@ -102,13 +119,13 @@ const ChatWindow = () =>
                 <input
                     type="text"
                     id="chatMessage"
-                    placeholder="메시지 입력"
+                    placeholder={isLoggedIn ? "메시지 입력" : "로그인 후 메시지를 입력하세요"}
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
                     onKeyDown={handleKeyPass}
+                    disabled={!isLoggedIn}
                 />
-                <button id="sendBtn" onClick={sendMessage}>전송</button>
-                <button onClick={handleBackToMain}>닫기</button>
+                <button id="sendBtn" onClick={sendMessage} disabled={!isLoggedIn}>전송</button>
             </div>
         </div>
     );

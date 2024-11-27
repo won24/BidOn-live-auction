@@ -49,7 +49,6 @@ const MyAuctions = () => {
 
     useEffect(() => {
         if (user?.userCode) {
-            fetchParticipatedAuctions();
             fetchWonAuctions();
         }
     }, [user?.userCode]);

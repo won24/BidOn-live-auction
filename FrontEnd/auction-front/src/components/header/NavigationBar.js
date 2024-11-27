@@ -24,10 +24,14 @@ const Nav = () =>
 
     const handleLogout = () => 
     {
-        sessionStorage.clear();
-        setUser(null);
-        // navigate(current, { replace: true });
-        navigate(0);
+        if(window.confirm("로그아웃 하시겠습니까?"))
+        {
+            sessionStorage.clear();
+            setUser(null);
+            // navigate(current, { replace: true });
+            navigate(0);
+        }
+        else return;
     };
 
     const updateCash = async () => 

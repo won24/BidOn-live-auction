@@ -155,8 +155,8 @@ const LiveDetail = () =>{
 
     return (
         <>
-            {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
-                : (
+            {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p> :
+                (
                     <div className="live-detail-page">
                         <div className="live-detail-page_top">
                             <div className="live-detail-page_top_left">
@@ -191,13 +191,13 @@ const LiveDetail = () =>{
                                             {formatToKoreanDate(board.startDay)}
                                         </div>
                                     </div>
-                                </div>
+                                 </div>
                             </div>
 
                             <div className="live-detail-page_rightSide">
                                 <ChatWindow/>
                             </div>
-                        </div>
+                        </div>git
                         <hr/>
 
                         <p className="live-detail-page_infoText">상세 정보</p>

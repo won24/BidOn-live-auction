@@ -6,9 +6,34 @@ const ChatWindow = () =>
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 
-    const now = new Date();
+    const parseSuspensionTime = (timeString) => 
+    {
+        if (!timeString) return null;
+    
+        const parts = timeString.split(",").map((part) => parseInt(part, 10));
+        // Check for valid array length and values
+        if (parts.length === 6) 
+        {
+            const [year, month, day, hour, minute, second] = parts;
+            // `month` in JavaScript's `Date` constructor is zero-based, so subtract 1
+            return new Date(year, month - 1, day, hour, minute, second);
+        }
+    
+        console.error("Invalid suspension time format:", timeString);
+        return null;
+    };
+
     const suspensionTime = sessionStorage.getItem("isSuspended");
-    const isSuspended = suspensionTime ? new Date(suspensionTime) > now : false;
+    const isSuspendedDate = parseSuspensionTime(suspensionTime);
+    const now = new Date();
+    const isSuspended = isSuspendedDate ? isSuspendedDate > now : false;
+
+    const formatSuspensionTime = (date) => 
+    {
+        if (!date || !(date instanceof Date)) return "";
+        return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일
+                ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
+    };
 
     const [message, setMessage] = useState(() => 
     {
@@ -36,18 +61,29 @@ const ChatWindow = () =>
                 },
             ]);
             ws.send(JSON.stringify({ type: "join", userId }));
-
+        
             if (isSuspended) 
             {
+                const formattedSuspensionTime = formatSuspensionTime(isSuspendedDate);
                 setMessage((prev) => [
                     ...prev,
                     {
                         type: "info",
-                        message: `현재 고객님의 계정은 ${suspensionTime}까지 채팅이 정지된 상태입니다.`,
+                        message: `현재 고객님의 계정은 채팅이 정지된 상태입니다.`,
+                        color: "red"
+                    },
+                ]);
+                setMessage((prev) => [
+                    ...prev,
+                    {
+                        type: "info",
+                        message: `${formattedSuspensionTime} 이후 재접속 시 다시 채팅이 가능합니다.`,
+                        color: "red"
                     },
                 ]);
             }
         };
+        
 
         ws.onmessage = (event) => 
         {
@@ -64,7 +100,7 @@ const ChatWindow = () =>
         {
             setMessage((prev) => [
                 ...prev,
-                { type: "info", message: "현재 채팅이 불가능한 상태입니다." },
+                { type: "info", message: "현재 채팅이 불가능한 상태입니다.", color: "red" },
             ]);
         };
 
@@ -192,18 +228,19 @@ const ChatWindow = () =>
                                         ? "right"
                                         : "left",
                                 marginTop: "5px",
-                                color:
-                                    msg.type === "sent"
+                                color: msg.color ||
+                                    (msg.type === "sent"
                                         ? "blue"
                                         : msg.type === "info"
                                         ? "gray"
                                         : msg.type === "admin-feedback"
                                         ? "purple"
-                                        : "#f32f00",
+                                        : "#f32f00"),
                             }}
                         >
                             {msg.message}
                         </div>
+                        
                     );
                 })}
             </div>
@@ -213,7 +250,7 @@ const ChatWindow = () =>
                     id="chatMessage"
                     placeholder={
                         isSuspended
-                            ? "채팅이 정지된 계정은 채팅 확인만 가능합니다."
+                            ? "운영정책에 위배된 행동으로 인해 메시지를 보낼 수 없습니다."
                             : isLoggedIn
                             ? "메시지 입력"
                             : "로그인 후 메시지를 입력하세요"
@@ -222,6 +259,7 @@ const ChatWindow = () =>
                     onChange={(e) => setMessageInput(e.target.value)}
                     onKeyDown={handleKeyPass}
                     disabled={!isLoggedIn || isSuspended}
+                    style={{width: "629px"}}
                 />
                 <button id="sendBtn" onClick={sendMessage} disabled={!isLoggedIn || isSuspended}>
                     전송

@@ -239,7 +239,7 @@
 
 .live-detail-page_bottom{
     display: flex;
-    justify-content: flex-start; /* 오른쪽 정렬 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
     align-items: center; /* 수직 정렬 */
     margin-top: 20px;
     padding-right: 20px; /* 오른쪽 여백 추가 */

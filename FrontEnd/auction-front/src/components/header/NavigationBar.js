@@ -3,7 +3,7 @@ import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
 import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect} from "react";
+import { useEffect, useState } from "react";
 
 const Nav = () => 
 {
@@ -16,6 +16,8 @@ const Nav = () =>
     const cash = sessionStorage.getItem("cash");
     const nickname = sessionStorage.getItem("nickname");
     const id = sessionStorage.getItem("id");
+
+    const [hideCash, setHideCash] = useState(false);
 
     const { user, setUser } = useLogin();
 
@@ -72,6 +74,11 @@ const Nav = () =>
         return nickname;
     };
 
+    useEffect(() =>
+    {
+        setHideCash(current.includes("auction"));
+    }, [current]);
+
     return (
         <div className="navContainer">
             <a href="/" className="logo"></a>
@@ -109,7 +116,7 @@ const Nav = () =>
                             로그아웃
                         </button>
                     </div>
-                    {!isAdmin && (
+                    {!isAdmin && !hideCash && (
                         <div className="user-info-container">
                             <span className="main-page_cash" onClick={openCheckoutPopup}>
                                 충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시

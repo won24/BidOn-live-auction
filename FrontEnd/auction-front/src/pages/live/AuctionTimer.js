@@ -12,6 +12,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [postStatusChanged, setPostStatusChanged] = useState(false); // 상태 변경 여부
     const navigate = useNavigate();
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const [finalResult, setFinalResult] = useState({});
 
     useEffect(() => {
         const fiveMinute = 5 * 60 * 1000;
@@ -20,6 +21,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
 
         const updateRemainingTime = async () => {
             const now = Date.now();
+            const finishDate = new Date(now);
 
             if (now < startTimestamp) {
                 // 경매 시작 전
@@ -32,17 +34,39 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
             } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) {
                 // 경매 종료 후 5분 대기 중
 
-                // 낙찰자 외 환불
-                try {
-                    console.log("입찰액 환불 중")
-                    await axios.get(`http://localhost:8080/bid/end/${postId}`)
-                }catch (error){
-                    console.error("입찰액 환불 실패", error)
-                }
-
                 setStarted(true);
                 setEnded(true);
                 setRemainingTime(endTimestamp + fiveMinute - now);
+
+                // 낙찰자 정보 가져오기
+                try {
+                    const response =  await axios.get(`http://localhost:8080/bid/top/${postId}`)
+                    const data = response.data
+                    setFinalResult(data);
+
+                    // 경매 정보 board 업데이트
+                    const formData = {
+                        postId: postId,
+                        finalCash: data.currentCash,
+                        endDay: finishDate.toISOString()
+                    }
+
+                    try {
+                        await axios.post('http://localhost:8080/auction/final', formData, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+
+                    }catch (e) {
+                        console.error("경매 정보 업데이트 실패",e)
+                    }
+
+                }catch (e) {
+                    console.error("낙찰자 정보 가져오기 실패", e)
+                }
+
+
             } else if (!postStatusChanged) {
                 // 경매 종료 후 5분 뒤 상태 변경 요청
                 setRemainingTime(0);
@@ -55,8 +79,16 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 } catch (error) {
                     console.error("경매 상태 변경 실패:", error);
                 }
+
+                // 낙찰자 외 환불
+                try {
+                    await axios.get(`http://localhost:8080/bid/end/${postId}`)
+                }catch (error){
+                    console.error("입찰액 환불 실패", error)
+                }
             }
         };
+
 
         const timerInterval = setInterval(updateRemainingTime, 1000);
 
@@ -64,7 +96,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
 
         return () => clearInterval(timerInterval);
 
-    }, [startTime, postId, ended, postStatusChanged, onUpdate]);
+    }, [startTime, postId, ended, postStatusChanged, onUpdate ]);
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 1000 / 60);

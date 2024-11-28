@@ -116,7 +116,7 @@
     <update id="approval">
         UPDATE board
         SET
-        postStatus = "off"
+            postStatus = "off"
         WHERE postId = #{postId}
     </update>
 
@@ -133,7 +133,7 @@
     <update id="setPostStatus">
         UPDATE board
         SET
-        postStatus = 'done'
+            postStatus = 'done'
         WHERE postId = #{postId}
     </update>
 
@@ -141,9 +141,17 @@
     <update id="updateLivePost">
         UPDATE board
         SET
-        postStatus = 'on'
+            postStatus = 'on'
         WHERE postId = #{postId}
     </update>
 
+    <update id="updatePostAfterLive">
+        UPDATE board
+        SET
+            postStatus = 'done',
+            finalCash = #{finalCash},
+            endDay = #{endDay}
+        WHERE postId = #{postId}
+    </update>
 
 </mapper>

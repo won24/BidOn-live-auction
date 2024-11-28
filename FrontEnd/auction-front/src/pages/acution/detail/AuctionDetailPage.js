@@ -268,9 +268,9 @@ const AuctionDetailPage = () =>{
                             </div>
                             <div className="detail-page_middle_info_value">
                                 {postStatus === "done" && (
-                                    <p className="detail-page_finalCash">{board.finalCash}원</p>
+                                    <p className="detail-page_finalCash">{board.finalCash.toLocaleString()}원</p>
                                 )}
-                                <p className="detail-page_cash">{board.startCash}원</p>
+                                <p className="detail-page_cash">{board.startCash.toLocaleString()}원</p>
                                 <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
                             </div>
                         </div>

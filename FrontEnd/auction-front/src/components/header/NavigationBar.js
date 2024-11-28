@@ -1,6 +1,8 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
+import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Nav = () => 
 {
@@ -94,32 +96,29 @@ const Nav = () =>
             </div>
             {isLoggedIn ? (
                 <div>
-                    <div style={{ marginBottom: "3px" }}>
+                    <div>
                         <span className="user-welcome">
                             {isAdmin ? "[관리자] " : ""}
                             {truncateNickname(nickname, 50)}님, 환영합니다.
                         </span>
-                        <button className="login-button2" onClick={handleLogout}>
+                        <button className="main-page_button" onClick={handleLogout}>
                             로그아웃
                         </button>
                     </div>
                     {!isAdmin && (
                         <div className="user-info-container">
-                            <span className="user-welcome">
-                                충전된 캐시: {user?.cash || cash} 캐시
-                            </span>
-                            <button className="login-button2" onClick={updateCash}>
-                                새로고침
+                            <button className="main-page_cash_button" onClick={openCheckoutPopup}>
+                                충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시
                             </button>
-                            <button className="login-button2" onClick={openCheckoutPopup}>
-                                충전하기
+                            <button className="login-button_return" onClick={updateCash}>
+                                <FontAwesomeIcon icon={faArrowRotateLeft} style={{color: "#2d2d2d",}} />
                             </button>
                         </div>
                     )}
                 </div>
             ) : (
                 <button
-                    className="login-button2"
+                    className="main-page_button"
                     onClick={() => navigate("/member/login")}
                 >
                     로그인

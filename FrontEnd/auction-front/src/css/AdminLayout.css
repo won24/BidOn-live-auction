@@ -1,13 +1,21 @@
 .admin-layout {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* 수평 중앙 정렬 */
     align-items: flex-start;
-    min-height: 100vh;
+    min-height: 100vh; /* 화면 전체 높이 사용 */
 }
 
 .admin-aside {
-    margin-right: 20px;
+    margin-right: 5px; /* 사이드바와 콘텐츠 사이의 간격 */
     margin-top: 50px;
+}
+
+.outlet-fixsize {
+    margin-top: 10px;
+    width: 1000px;
+    height: 800px;
+    overflow: hidden; /* 페이지네이션을 사용할 경우 스크롤바 대신 숨김 */
+    position: relative;
 }
 
 .admin-aside ul {
@@ -15,35 +23,29 @@
     padding: 0;
 }
 
-.admin-aside li {
-    margin-bottom: 10px;
-}
-
 .admin-aside a {
+    display: block;
+    padding: 20px; /* Increase padding for larger box */
+    width: 200px;
+    height: 30px;
+    background-color: #f0f0f0;
     text-decoration: none;
     color: #333;
-    font-weight: bold;
-    display: block;
-    padding: 5px 10px;
     transition: background-color 0.3s;
+    font-size: 16px; /* Increase font size if needed */
 }
 
-.admin-aside a:hover,
-.admin-aside a.active {
-    background-color: #f0f0f0;
-    color: #007bff;
+.admin-aside a:hover {
+    background-color: #e0e0e0;
+}
+
+.active-link {
+    background-color: #0056b3; /* Darker color for active link */
+    color: #fff;
 }
 
 .admin-center-link {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-.admin-content {
-    flex-grow: 1;
-    max-width: 800px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-top: 50px;
+    background-color: black !important;
+    color: white !important;
+    pointer-events: none; /* 클릭 비활성화 */
 }

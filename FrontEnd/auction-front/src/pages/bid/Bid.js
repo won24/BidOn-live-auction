@@ -147,8 +147,8 @@ const Bid = () => {
         <div>
             <CurrentBid bid={currentBid} />
             {userInfo && <p>내 보유 금액: {userInfo.cash.toLocaleString()}원</p>}
-            <button onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected}>+10,000원</button>
-            <button onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected}>+50,000원</button>
+            <button onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected&&isLoggedIn}>+10,000원</button>
+            <button onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected&&isLoggedIn}>+50,000원</button>
         </div>
     );
 };

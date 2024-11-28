@@ -1,0 +1,86 @@
+.inquire-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.inquire-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.inquiry-content {
+    display: flex;
+    gap: 20px;
+}
+
+.inquiry-list {
+    flex: 1;
+}
+
+.inquiry-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inquiry-list th, .inquiry-list td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.inquiry-list th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.inquiry-list tr:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.inquiry-list tr.selected {
+    background-color: #e6f7ff;
+}
+
+.inquiry-detail {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.inquiry-detail h3, .inquiry-detail h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.inquiry-detail p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.inquiry-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.inquiry-submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.inquiry-submit:hover {
+    background-color: #45a049;
+}

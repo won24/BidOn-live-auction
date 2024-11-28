@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "../../css/AdminInquire.css";
+
 
 const AdminInquire = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -36,7 +38,7 @@ const AdminInquire = () => {
         try {
             await axios.get(`/admin/answer`, {
                 params: {
-                    id: selectedInquiry.id,
+                    userCode: selectedInquiry.userCode,
                     answer: answer
                 }
             });
@@ -49,31 +51,33 @@ const AdminInquire = () => {
     };
 
     return (
-        <div className="admin-inquire">
+        <div className="inquire-container">
             <h2>1:1 문의 관리</h2>
-            <div className="inquiry-container">
-                <table>
-                    <thead>
+            <div className="inquiry-content">
+                <div className="inquiry-list">
+                    <table>
+                        <thead>
                         <tr>
                             <th>제목</th>
                             <th>사용자</th>
                             <th>작성일</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {inquiries.map((inquiry) => (
-                            <tr 
-                                key={inquiry.id} 
+                            <tr
+                                key={inquiry.id}
                                 onClick={() => handleInquiryClick(inquiry)}
-                                className={selectedInquiry && selectedInquiry.id === inquiry.id ? 'selected' : ''}
+                                className={selectedInquiry && selectedInquiry.userCode === inquiry.userCode ? 'selected' : ''}
                             >
                                 <td>{inquiry.title}</td>
                                 <td>{inquiry.nickName}</td>
                                 <td>{new Date(inquiry.createdAt).toLocaleString()}</td>
                             </tr>
                         ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 <div className="inquiry-detail">
                     {selectedInquiry ? (
                         <>
@@ -85,8 +89,9 @@ const AdminInquire = () => {
                                 onChange={handleAnswerChange}
                                 placeholder="답변을 입력하세요"
                                 rows="4"
+                                className="inquiry-textarea"
                             />
-                            <button onClick={handleSubmitAnswer}>답변 제출</button>
+                            <button onClick={handleSubmitAnswer} className="inquiry-submit">답변 제출</button>
                         </>
                     ) : (
                         <p>문의를 선택해주세요.</p>

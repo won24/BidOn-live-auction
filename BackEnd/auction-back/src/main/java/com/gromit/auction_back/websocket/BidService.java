@@ -92,4 +92,7 @@ public class BidService {
         }
     }
 
+    public BidDTO toprateUser(int postId) {
+        return bidDAO.toprateUser(postId);
+    }
 }

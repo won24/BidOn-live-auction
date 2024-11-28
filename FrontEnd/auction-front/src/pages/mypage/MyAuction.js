@@ -47,20 +47,20 @@ const MyAuctions = () => {
     }
 
     return (
-        <div className="my-auctions">
+        <div className="auction-wrapper">
             <h1>낙찰받은 경매</h1>
-            <div className="auctions-list">
+            <div className="auction">
                 {wonAuctions.length > 0 ? (
                     wonAuctions.map((auction) => (
-                        <div key={auction.postId} className="auctions-item">
-                            <h3>{auction.title}</h3>
-                            <div className="auctions-id">
-                                <p>게시글 ID: {auction.postId}</p>
+                        <div key={auction.postId} className="auctionpostid">
+                            <h3 className="auctiontitle">{auction.title}</h3>
+                            <div className="auctiondescription">
+                                <p>경매품 : {auction.postId}</p>
                             </div>
-                            <div className="auctions-content">
+                            <div className="auctioninfo">
                                 <p>내용: {auction.content}</p>
                             </div>
-                            <div className="auctions-userCode">
+                            <div className="auctionlistuser">
                                 <p>작성자 ID: {auction.userCode}</p>
                             </div>
                         </div>

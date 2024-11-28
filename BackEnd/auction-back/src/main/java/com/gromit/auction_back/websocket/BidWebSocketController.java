@@ -19,8 +19,8 @@ public class BidWebSocketController {
     @SendTo("/topic/bids")
     public BidResponse processBid(BidRequest bidRequest) {
         // 1. 입찰 데이터 검증
-        System.out.println("Received bid request: " + bidRequest);  // 로그 추가
-        System.out.println("여긴?"+bidRequest.getUserCode()+ bidRequest.getBidAmount()+ bidRequest.getPostId());
+        System.out.println("웹소켓 입찰정보저장: " + bidRequest);  // 로그 추가
+      //  System.out.println("여긴?"+bidRequest.getUserCode()+ bidRequest.getBidAmount()+ bidRequest.getPostId());
 
         if (bidRequest == null) {
             System.out.println("Bid request is null");  // null 체크
@@ -29,7 +29,6 @@ public class BidWebSocketController {
 
         // 2. 데이터베이스에 입찰 정보 저장
         try {
-            System.out.println("웹소켓 매핑");
             boolean success = bidService.saveBid(bidRequest);
             if (success) {
                 // 3. 성공적으로 처리된 경우, 업데이트된 정보를 모든 클라이언트에게 브로드캐스트

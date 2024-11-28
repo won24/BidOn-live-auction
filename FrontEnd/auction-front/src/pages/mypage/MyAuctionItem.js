@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLogin } from "../login/LoginContext"; // 로그인 상태 가져오기
-import "./MyAuctionItem.css";
+import "../../css/MyAuctionItem.css";
 
 const MyAuctionItem = () => {
     const [auctionItems, setAuctionItems] = useState([]);
@@ -36,38 +36,30 @@ const MyAuctionItem = () => {
         return <div className="no-auctionitem">신청한 경매품이 없습니다.</div>;
     }
 
+
     return (
         <div className="auctionitem-container">
-            <table className="auctionitem-title">
-                <h1 className="auctionitem-title">신청한 경매품</h1>
+            <h1 className="auctionitem-title">신청한 경매품</h1><hr/>
+            <table className="auctionitem-subheading">
                 <thead>
                 <tr>
                     <th>목 차</th>
                     <th>경매 제목</th>
                     <th>카테고리</th>
-                    <th>최종 가격</th>
+                    <th>최종가격</th>
                 </tr>
                 </thead>
                 <tbody>
                 {auctionItems.map((item, index) => (
                     <tr key={item.postId}>
-                        <td>{index + 1}</td>
-                        <td>{item.title}</td>
-                        <td>{item.categoryCode}</td>
-                        <td>{item.finalCash || "미정"}</td>
+                        <td className="auction-index">{index + 1}</td>
+                        <td className="auction-title">{item.title}</td>
+                        <td className="auction-categoryCode">{item.categoryCode}</td>
+                        <td className="acution-finalCash">{item.finalCash || "미정"}</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button>&lt;</button>
-                <button className="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>&gt;</button>
-            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 참여 경매 쿼리 -->
+<!-- 낙찰 받은 경매품 -->
 
 <mapper namespace="com.gromit.auction_back.mypage.participate.ParticipateDAO">
     <resultMap id="participationAuctionResult" type="com.gromit.auction_back.mypage.participate.ParticipateDTO">
@@ -10,28 +10,20 @@
         <result property="title" column="Title" />
         <result property="finalCash" column="FinalCash" />
     </resultMap>
-    
-    <select id="participationAuction" resultMap="participationAuctionResult">
-        SELECT
-            categoryCode,
-            title,
-            finalCash
-        FROM
-            board
-        WHERE
-            userCode = #{userCode}
-        AND status = '참여'
-    </select>
 
-    <select id="getAuctions" resultMap="participationAuctionResult">
+
+    <select id="getWonAuctions" resultMap="participationAuctionResult">
         SELECT
-            categoryCode,
-            title,
-            finalCash
+            b.postId,
+            b.title,
+            b.content,
+            b.userCode
         FROM
-            board
+            board b
+        JOIN
+            userpost u ON u.postId = b.PostId
         WHERE
-            userCode = #{userCode}
-        AND status = '낙찰'
+            u.userCode = #{userCode};
     </select>
+    
 </mapper>

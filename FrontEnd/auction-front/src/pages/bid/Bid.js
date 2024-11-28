@@ -64,6 +64,8 @@ const Bid = () => {
     }, [postId]);
 
 
+
+
     // WebSocket 연결 및 입찰 업데이트 처리
     useEffect(() => {
         const setupWebSocket = async () => {
@@ -174,6 +176,7 @@ const Bid = () => {
     useEffect(() => {
         fetchHighestBid();
     }, [fetchHighestBid]);
+
 
 
     if (!auctionItem) return <div>로딩 중...</div>;

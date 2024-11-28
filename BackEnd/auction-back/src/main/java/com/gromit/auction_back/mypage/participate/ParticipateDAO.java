@@ -2,15 +2,12 @@
 
 package com.gromit.auction_back.mypage.participate;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
+@Mapper
 public interface ParticipateDAO {
-    static List<ParticipateDTO> getParticipatedAuctions(int userCode) {
-        return null;
-    }
-
-
-    static List<ParticipateDTO> getWonAuctions(int userCode) {
-        return null;
-    }
+   List<ParticipateDTO> getWonAuctions(@Param("userCode") int userCode);
 }

@@ -16,9 +16,10 @@
 
 /* 테이블 스타일 */
 .profile-table {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    width: 100%;
+    width: 100%; /* 테이블 너비 100%로 설정 */
+    max-width: 1000px; /* 테이블의 최대 너비 설정 */
+    margin: 0 auto; /* 테이블을 중앙에 정렬 */
+    border-collapse: collapse; /* 테이블 셀 경계선 하나로 합침 */
 }
 
 /* 각 행 스타일 */
@@ -26,7 +27,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #9c9c9c; /* 연한 회색 선 추가 */
 }
 
 /* 마지막 행 아래쪽에 테두리 제거 */
@@ -36,19 +37,19 @@
 
 /* 라벨 스타일 (왼쪽) */
 .profile-label {
-    width: 30%;
+    width: 30%; /* 라벨 너비 */
     font-weight: bold;
     text-align: left;
-    padding: 5px 10px;
+    padding: 10px;
     background-color: #f9f9f9;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #9c9c9c; /* 오른쪽에 연한 회색 선 */
 }
 
 /* 값 스타일 (오른쪽) */
 .profile-value {
-    width: 70%;
+    width: 70%; /* 값 열 너비 */
     text-align: left;
-    padding: 5px 10px;
+    padding: 10px;
 }
 
 /* 프로필 이미지 스타일 */

@@ -74,11 +74,11 @@ const MyFar = () => {
                         <thead className="favorites-list-table"></thead>
                         {favorites.map((favorite, index) => (
                             <tr key={favorite.postId}>
-                                <td>{index + 1}</td>
-                                <td>
+                                <td className="favo-list-index">{index + 1}</td>
+                                <td className="favo-list-link">
                                     <Link to={`/auction/${favorite.postId}`}>{favorite.title}</Link>
                                 </td>
-                                <td>
+                                <td className="favo-list-image">
                                     {favorite.imageUrl ? (
                                         <img
                                             src={favorite.imageUrl}
@@ -89,7 +89,7 @@ const MyFar = () => {
                                         "이미지 없음"
                                     )}
                                 </td>
-                                <td>
+                                <td className="favo-list-deletebutton">
                                     <button
                                         className="delete-button"
                                         onClick={() => handleDelete(favorite.postId)}

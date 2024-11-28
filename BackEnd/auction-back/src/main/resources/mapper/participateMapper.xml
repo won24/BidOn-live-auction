@@ -10,41 +10,18 @@
         <result property="title" column="Title" />
         <result property="finalCash" column="FinalCash" />
     </resultMap>
-    
-<!--    <select id="participationAuction" resultMap="participationAuctionResult">-->
-<!--        SELECT-->
-<!--            categoryCode,-->
-<!--            title,-->
-<!--            finalCash-->
-<!--        FROM-->
-<!--            board-->
-<!--        WHERE-->
-<!--            userCode = #{userCode}-->
-<!--        AND status = '참여'-->
-<!--    </select>-->
 
-    <select id="getAuctions" resultMap="participationAuctionResult">
-        SELECT
-            categoryCode,
-            title,
-            postId,
-            finalCash
-        FROM
-            userpost
-        WHERE
-            userCode = #{userCode}
-    </select>
-    
-    <select id="getAuctions" resultMap="participationAuctionResult">
+
+    <select id="getWonAuctions" resultMap="participationAuctionResult">
         SELECT
             b.postId,
             b.title,
             b.content,
             b.userCode
         FROM
-            userpost u
+            board b
         JOIN
-            board b ON u.postId = b.postId
+            userpost u ON u.postId = b.PostId
         WHERE
             u.userCode = #{userCode};
     </select>

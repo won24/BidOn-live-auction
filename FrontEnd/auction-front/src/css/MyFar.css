@@ -1,53 +1,68 @@
-.favorites-container {
-    padding: 25px;  /* 전체 컨테이너의 안쪽 여백을 30px로 설정 */
-    padding-right: 30px;
-    padding-left: 30px;
-    text-align: center;  /* 텍스트를 가운데 정렬 */
-}
-
-.favorites-title {
-    font-size: 30px;  /* 제목 글씨 크기를 24px로 설정 */
-    margin-bottom: 25px;  /* 제목 아래에 20px의 여백을 추가 */
-}
-
-.favorites-list-table {
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-
+/* 테이블 스타일 */
 .favorites-table {
-    width: 100%;  /* 테이블 너비를 100%로 설정하여 부모 요소를 꽉 채우도록 함 */
-    border-collapse: collapse;  /* 테이블 셀 경계를 겹치지 않게 설정 */
-    margin: 10px;  /* 테이블을 화면 가운데로 배치 */
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+    max-width: 1000px; /* 테이블의 최대 너비 설정 */
+    margin: 0 auto; /* 테이블을 중앙에 정렬 */
+    border-collapse: collapse; /* 테이블 셀 경계선을 하나로 합침 */
 }
 
-.favorites-table th, .favorites-table td {
-    border: 1px solid #ddd;  /* 셀의 테두리를 연한 회색(#ddd)으로 설정 */
-    padding: 8px;  /* 셀 안쪽에 8px의 여백을 추가 */
-    text-align: center;  /* 셀 안의 텍스트를 가운데 정렬 */
+/* 테이블 항목 스타일 */
+.favo-list-index,
+.favo-list-image,
+.favo-list-deletebutton {
+    text-align: center; /* 셀 내용 가로 중앙 정렬 */
+    vertical-align: middle; /* 셀 내용 세로 중앙 정렬 */
+    padding: 10px;
 }
 
-.favorites-image {
-    width: 50px;  /* 이미지의 너비를 50px로 설정 */
-    height: 50px;  /* 이미지의 높이를 50px로 설정 */
-    object-fit: cover;  /* 이미지의 비율을 유지하면서 이미지가 영역을 가득 채우도록 설정 */
+/* '즐겨찾기' 제목 */
+.favorites-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
+/* favo-list-link (링크가 포함된 열) 스타일 */
+.favo-list-link {
+    text-align: center; /* 텍스트 왼쪽 정렬 */
+    padding: 10px;
+    white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 처리 */
+    text-overflow: ellipsis; /* 텍스트가 넘치면 '...'으로 표시 */
+    width: 100%; /* favo-list-link 열을 70%로 설정하여 길게 만듦 */
+}
+
+/* Link 기본 스타일 제거 */
+.favo-list-link a {
+    color: inherit; /* 기본 보라색 제거 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 즐겨찾기 항목에 연한 회색 선 추가 */
+.favorites-title-list-table tr {
+    border-bottom: 1px solid #bdbcbc; /* 연한 회색 선 추가 */
+}
+
+/* 삭제 버튼 스타일 */
 .delete-button {
-    background-color: #eddb80;  /* 삭제 버튼 배경색을 노란색으로 설정 */
-    color: #252525;  /* 버튼의 글자 색을 검정색으로 설정 */
-    border: 1px;  /* 버튼의 테두리 1px */
-    border-color: #252525;
-    padding: 4px 10px;  /* 버튼 안쪽 여백을 5px(위아래), 10px(좌우)로 설정 */
-    cursor: pointer;  /* 마우스 커서를 클릭할 수 있는 모양으로 변경 */
-    border-radius: 3px;  /* 버튼의 모서리를 3px 둥글게 설정 */
+    background-color: #454545; /* 배경색 */
+    color: #ffffff; /* 글자색 */
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
+/* 이미지 스타일 */
+.favorites-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* 호버 상태 스타일 */
 .delete-button:hover {
-    background-color: #676720;  /* 버튼에 마우스를 올리면 배경색을 더 진한 노란색으로 변경 */
-}
-
-.no-favorites {
-    color: #888;  /* '즐겨찾기 없음' 텍스트 색을 연한 회색으로 설정 */
-    font-size: 20px;  /* 텍스트의 글씨 크기를 18px로 설정 */
+    background-color: #333333; /* 배경색 변경 */
 }

@@ -3,6 +3,7 @@ import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
 import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useEffect} from "react";
 
 const Nav = () => 
 {
@@ -37,20 +38,20 @@ const Nav = () =>
         else return;
     };
 
-    const updateCash = async () => 
+    const updateCash = async () =>
     {
         if (!id) return;
-    
+
         try {
             const response = await fetch(`http://localhost:8080/api/id/${id}`);
-            if (response.ok) 
+            if (response.ok)
             {
                 const userData = await response.json(); // Assuming the API returns the full user object
                 const updatedCash = userData.cash; // Extract the `cash` field
                 sessionStorage.setItem("cash", updatedCash); // Update sessionStorage
                 setUser((prev) => ({ ...prev, cash: updatedCash })); // Update context with only the cash value
-            } 
-            else 
+            }
+            else
             {
                 console.error("Failed to fetch updated cash.");
             }
@@ -58,6 +59,9 @@ const Nav = () =>
             console.error("Error fetching updated cash:", error);
         }
     };
+    useEffect(() => {
+        updateCash()
+    }, [id]);
 
     const truncateNickname = (nickname, maxLength) => 
     {
@@ -107,9 +111,9 @@ const Nav = () =>
                     </div>
                     {!isAdmin && (
                         <div className="user-info-container">
-                            <button className="main-page_cash_button" onClick={openCheckoutPopup}>
+                            <span className="main-page_cash" onClick={openCheckoutPopup}>
                                 충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시
-                            </button>
+                            </span>
                             <button className="login-button_return" onClick={updateCash}>
                                 <FontAwesomeIcon icon={faArrowRotateLeft} style={{color: "#2d2d2d",}} />
                             </button>

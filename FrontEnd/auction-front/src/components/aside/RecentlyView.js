@@ -8,6 +8,7 @@ const RecentlyView = () => {
     const getRecentPosts = () => JSON.parse(localStorage.getItem("recentPosts")) || [];
     const [recentViews, setRecentViews] = useState(getRecentPosts());
 
+
     // 브라우저 뒤로가기, 페이지 이동 감지
     useEffect(() => {
         const handlePopState = () =>{
@@ -25,7 +26,7 @@ const RecentlyView = () => {
 
     const onItemClick = async (post) => {
         const updatedPosts = await updateRecentPosts(post);
-        setRecentViews(updatedPosts); // 반환값으로 상태 동기화
+        setRecentViews(updatedPosts);
     };
 
 

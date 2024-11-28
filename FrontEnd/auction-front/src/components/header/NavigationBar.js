@@ -3,13 +3,11 @@ import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
 import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 const Nav = () => 
 {
     const navigate = useNavigate();
-    const location = useLocation();
-    const current = location.pathname;
 
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";

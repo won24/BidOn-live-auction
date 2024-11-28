@@ -28,6 +28,12 @@ const parseSessionUserData = () =>
         sendMessage: userData.sendMessage === "true",
         cash: parseInt(userData.userCash, 10) || 0,
         userCode: parseInt(userData.userCode, 10) || 0,
+        birth: userData.birth
+        ? new Date(userData.birth.replace(" ", "T")) 
+        : null,
+        isSuspended: userData.isSuspended 
+            ? new Date(Date(userData.isSuspended[0], userData.isSuspended[1], userData.isSuspended[2], userData.isSuspended[3], userData.isSuspended[4], userData.isSuspended[5])) 
+            : null
     };
 };
 
@@ -42,6 +48,7 @@ export const LoginProvider = ({ children }) =>
         {
             const parsedUserData = parseSessionUserData();
             setUser(parsedUserData);
+            console.log(parsedUserData);
         }
     }, []);
 

@@ -44,7 +44,7 @@ public class BidService {
     @Transactional
     public boolean saveBid(BidRequest bidRequest) {
         try {
-            System.out.println("서비스에서" + bidRequest);
+            System.out.println("입찰한 정보: " + bidRequest);
             bidDAO.insertBid(bidRequest);
             return true;  // Assuming insertBid returns the number of rows affected
         } catch (Exception e) {
@@ -94,5 +94,15 @@ public class BidService {
 
     public BidDTO toprateUser(int postId) {
         return bidDAO.toprateUser(postId);
+    }
+
+    public Integer checkUserBid(int postId, int userCode) {
+        System.out.println("유저코드: "+userCode+"내가 이미 입금한 금액: "+bidDAO.checkUserBid(postId,userCode));
+        return bidDAO.checkUserBid(postId,userCode);
+    }
+
+    public Integer checkPostBid(int postId) {
+        System.out.println("지금 포스트에서 가장 높은 입찰가격"+bidDAO.checkPostBid(postId));
+        return bidDAO.checkPostBid(postId);
     }
 }

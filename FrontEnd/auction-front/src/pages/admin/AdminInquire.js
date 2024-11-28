@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../../css/AdminInquire.css";
 
-
 const AdminInquire = () => {
     const [inquiries, setInquiries] = useState([]);
     const [selectedInquiry, setSelectedInquiry] = useState(null);
     const [answer, setAnswer] = useState('');
 
+    // 문의 내역을 가져오는 함수
     useEffect(() => {
         fetchInquiries();
     }, []);
@@ -22,16 +22,18 @@ const AdminInquire = () => {
         }
     };
 
+    // 문의 클릭 시 해당 문의를 선택
     const handleInquiryClick = (inquiry) => {
-        console.log('Clicked inquiry:', inquiry);
         setSelectedInquiry(inquiry);
-        setAnswer('');
+        setAnswer('');  // 새 문의를 선택할 때 이전 답변 내용 초기화
     };
 
+    // 답변 내용 변경 처리
     const handleAnswerChange = (e) => {
         setAnswer(e.target.value);
     };
 
+    // 답변 제출 처리
     const handleSubmitAnswer = async () => {
         if (!selectedInquiry || !answer.trim()) return;
 
@@ -42,9 +44,9 @@ const AdminInquire = () => {
                     answer: answer
                 }
             });
-            fetchInquiries();
-            setSelectedInquiry(null);
-            setAnswer('');
+            fetchInquiries();  // 문의 목록 새로 고침
+            setSelectedInquiry(null);  // 답변 후 선택된 문의 초기화
+            setAnswer('');  // 답변 내용 초기화
         } catch (error) {
             console.error('Error submitting answer:', error);
         }
@@ -55,6 +57,7 @@ const AdminInquire = () => {
             <h2>1:1 문의 관리</h2>
             <div className="inquiry-content">
                 <div className="inquiry-list">
+                    <h3>문의 내역</h3>
                     <table>
                         <thead>
                         <tr>
@@ -68,7 +71,7 @@ const AdminInquire = () => {
                             <tr
                                 key={inquiry.id}
                                 onClick={() => handleInquiryClick(inquiry)}
-                                className={selectedInquiry && selectedInquiry.userCode === inquiry.userCode ? 'selected' : ''}
+                                className={selectedInquiry && selectedInquiry.id === inquiry.id ? 'selected' : ''}
                             >
                                 <td>{inquiry.title}</td>
                                 <td>{inquiry.nickName}</td>

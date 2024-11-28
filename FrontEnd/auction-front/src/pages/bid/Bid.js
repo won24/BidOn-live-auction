@@ -4,12 +4,9 @@ import {useNavigate, useParams} from 'react-router-dom';
 import { useLogin } from '../../pages/login/LoginContext';
 import { connectWebSocket, sendBid, subscribeToAuction } from './Websocket';
 
-const CurrentBid = React.memo(({ bid }) => (
-    <p>현재 최고 입찰가: {bid.toLocaleString()}원</p>
-));
 
 const Bid = () => {
-    const { postId } = useParams();
+    const {postId} = useParams();
     const [auctionItem, setAuctionItem] = useState(null);
     const [currentBid, setCurrentBid] = useState(() => {
         const savedBid = localStorage.getItem(`currentBid-${postId}`);
@@ -143,12 +140,37 @@ const Bid = () => {
 
     if (!auctionItem) return <div>로딩 중...</div>;
 
+    const CurrentBid = React.memo(({ bid }) => (
+        <div className="bid-currentBid">
+            <div className="bid-text">현재 최고 입찰가:</div>
+            <div className="bid-value">{bid.toLocaleString()}원</div>
+        </div>
+    ));
+
+
     return (
-        <div>
-            <CurrentBid bid={currentBid} />
-            {userInfo && <p>내 보유 금액: {userInfo.cash.toLocaleString()}원</p>}
-            <button onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected&&isLoggedIn}>+10,000원</button>
-            <button onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected&&isLoggedIn}>+50,000원</button>
+        <div className="bid-container">
+            <div className="bid-live">
+                <div className="bid-currentBid">
+                    <CurrentBid bid={currentBid} />
+                </div>
+                <div className="bid-button-container">
+                    {userInfo &&
+                        <>
+                            <button className="bid-button" onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected&&isLoggedIn}>+10,000원</button>
+                            <button className="bid-button" onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected&&isLoggedIn}>+50,000원</button>
+                        </>
+                    }
+                </div>
+            </div>
+            <div className="bid-info">
+                {userInfo &&
+                    <>
+                        <p className="bid-info-text">내 보유 금액</p>
+                        <p className="bid-info-value">{userInfo.cash.toLocaleString()}원</p>
+                    </>
+                }
+            </div>
         </div>
     );
 };

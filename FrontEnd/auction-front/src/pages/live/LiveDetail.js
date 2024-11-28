@@ -10,7 +10,6 @@ import {getPostImages} from "../acution/common/Images";
 import ChatWindow from "./websocket/ChatWindow";
 import ImageModal from "../acution/detail/ImageModal";
 import '../../css/LiveDetail.css'
-import Bid from "../bid/Bid";
 
 const LiveDetail = () => {
     const { postId } = useParams();
@@ -172,7 +171,6 @@ const LiveDetail = () => {
                     <hr className="top_line"/>
 
                     {<AuctionTimer startTime={board.startDay} postId={postId}/>}
-                    <Bid/>
 
                     <div className="live-detail-page_middle">
 
@@ -186,7 +184,7 @@ const LiveDetail = () => {
                                     <p className="live-detail-page_text">경매 날짜</p>
                                 </div>
                                 <div className="live-detail-page_info_value">
-                                    <p className="live-detail-page_cash">{board.startCash}</p>
+                                    <p className="live-detail-page_cash">{board.startCash.toLocaleString()}원</p>
                                     <p className="live-detail-page_date">{formatToKoreanDate(board.startDay)}</p>
                                 </div>
                             </div>

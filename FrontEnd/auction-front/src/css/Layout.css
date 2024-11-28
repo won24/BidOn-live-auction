@@ -15,7 +15,7 @@
 }
 
 .layout-container{
-    width: 100%; /* 화면 너비 꽉 채우기 */
+    width: 100vw; /* 화면 너비 꽉 채우기 */
     max-width: 1920px; /* 최대 너비 설정 */
     display: flex;
     flex-direction: column;  /* 수직으로 정렬 */

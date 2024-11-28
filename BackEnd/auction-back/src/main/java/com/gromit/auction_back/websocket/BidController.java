@@ -37,7 +37,7 @@ public class BidController {
         return bidService.checkUserBid(postId, userCode);
     }
     @GetMapping("/check/{postId}")
-    public int checkPostBid(@PathVariable int postId){
+    public Integer checkPostBid(@PathVariable int postId){
         return  bidService.checkPostBid(postId);
     }
 

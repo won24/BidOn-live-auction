@@ -17,8 +17,6 @@ const Nav = () =>
     const nickname = sessionStorage.getItem("nickname");
     const id = sessionStorage.getItem("id");
 
-    const [hideCash, setHideCash] = useState(false);
-
     const { user, setUser } = useLogin();
 
     const openCheckoutPopup = () => {
@@ -74,11 +72,6 @@ const Nav = () =>
         return nickname;
     };
 
-    useEffect(() => 
-    {
-        setHideCash(current.includes("auction"));
-    }, [current]);
-
     return (
         <div className="navContainer">
             <a href="/" className="logo"></a>
@@ -116,7 +109,7 @@ const Nav = () =>
                             로그아웃
                         </button>
                     </div>
-                    {!isAdmin && !hideCash && (
+                    {!isAdmin && (
                         <div className="user-info-container">
                             <span className="main-page_cash" onClick={openCheckoutPopup}>
                                 충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시

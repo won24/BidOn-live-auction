@@ -5,6 +5,7 @@ import { useLogin } from '../../pages/login/LoginContext'; // LoginContext impor
 const PersonalInquire = () => {
     const { user } = useLogin(); // LoginContext에서 user 정보 가져오기
     const userCode = sessionStorage.getItem("userCode")
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -21,7 +22,7 @@ const PersonalInquire = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!user) {
+        if (!isLoggedIn) {
             console.error('로그인 정보가 없습니다.');
             return;
         }

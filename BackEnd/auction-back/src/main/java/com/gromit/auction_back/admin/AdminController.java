@@ -23,10 +23,10 @@ public class AdminController {
         return adminService.getAllInquire();
     }
     @GetMapping("/answer")
-    public ResponseEntity<String> answerInquiry(@RequestParam int id, String answer) {
+    public ResponseEntity<String> answerInquiry(@RequestParam int userCode, String answer) {
         try {
-            System.out.println(id+"<-아이디 답변->"+answer);
-            adminService.answerInquiry(id, answer);
+            System.out.println(userCode+"<-아이디 답변->"+answer);
+            adminService.answerInquiry(userCode, answer);
             return ResponseEntity.ok("Answer submitted successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to submit answer: " + e.getMessage());

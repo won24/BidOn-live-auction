@@ -29,7 +29,7 @@ const AdminLayout = () => {
                     </li>
                 </ul>
             </aside>
-            <div className="admin-content">
+            <div className="outlet-fixsize">
                 <Outlet />
             </div>
         </div>

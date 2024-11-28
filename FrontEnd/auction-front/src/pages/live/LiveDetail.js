@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faStar } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronLeft, faChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
+import { useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 import * as api from "../acution/common/AuctionAPIs";
 import AuctionTimer from "./AuctionTimer";
-import { formatToKoreanDate } from "../acution/detail/FormatDate";
-import Bid from "../bid/Bid";
-import { getPostImages } from "../acution/common/Images";
+import {formatToKoreanDate} from "../acution/detail/FormatDate";
+import {getPostImages} from "../acution/common/Images";
 import ChatWindow from "./websocket/ChatWindow";
+import ImageModal from "../acution/detail/ImageModal";
+import '../../css/LiveDetail.css'
 
 const LiveDetail = () => {
     const { postId } = useParams();
@@ -21,6 +22,7 @@ const LiveDetail = () => {
     });
     const [img, setImg] = useState([]);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isChatVisible, setIsChatVisible] = useState(false); // State to toggle ChatWindow
     const navigate = useNavigate();
 
@@ -55,8 +57,13 @@ const LiveDetail = () => {
         setCurrentImgIndex(index);
     };
 
-    useEffect(() => {
-        const fetchFavoriteStatus = async () => {
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
+
+    // 즐겨 찾기
+    const fetchFavoriteStatus = async () => {
+        if (userCode !== null){
             try {
                 const response = await api.getMyFav(postId, userCode);
                 const data = response.data;
@@ -69,12 +76,15 @@ const LiveDetail = () => {
             } catch (error) {
                 console.error("즐겨찾기 상태를 가져오는 중 오류:", error);
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         fetchFavoriteStatus();
     }, [postId, userCode]);
 
     const favorite = async () => {
+
         try {
             if (!userCode) {
                 alert("로그인이 필요합니다.");
@@ -84,100 +94,127 @@ const LiveDetail = () => {
             if (!fav.status) {
                 await api.addFavorite(postId, userCode);
                 alert("나의 즐겨찾기에 추가되었습니다.");
-                setFav({ userCode, status: true });
             } else {
                 await api.deleteFavorite(postId, userCode);
                 alert("나의 즐겨찾기에서 삭제되었습니다.");
-                setFav({ userCode, status: false });
             }
+            setFav({ ...fav, status: !fav.status });
         } catch (error) {
             console.error("즐겨찾기 상태 변경 중 오류:", error);
         }
     };
 
-    const movePrevPage = () => {
-        navigate(-1);
-    };
+    // 이미지 슬라이드
+    const renderImageSlider = () => (
+        <div>
+            <div className="imageSlider">
+                <button onClick={handlePrev} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
+                    <FontAwesomeIcon icon={faChevronLeft} style={{ color: "#454545", fontSize: "40px" }} />
+                </button>
+                <img className="sliderImage"
+                     src={img[currentImgIndex]}
+                     alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
+                     onClick={openModal}
+                     loading="lazy" />
+                <button onClick={handleNext} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
+                    <FontAwesomeIcon icon={faChevronRight} style={{ color: "#454545", fontSize: "40px" }} />
+                </button>
+            </div>
+
+            <div className="thumbnailContainer">
+                {img.map((image, index) => (
+                    <img
+                        key={index}
+                        className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
+                        src={image}
+                        alt={`썸네일 ${index + 1}`}
+                        onClick={() => handleThumbnailClick(index)}
+                        loading="lazy"
+                    />
+                ))}
+            </div>
+            {isModalOpen && (
+                <ImageModal
+                    img={img}
+                    currentImgIndex={currentImgIndex}
+                    onClose={closeModal}
+                />
+            )}
+        </div>
+    );
+
+
+    // 목록으로
+    const moveList = ()=>{
+        navigate('/live')
+    }
 
     const toggleChat = () => {
         setIsChatVisible((prev) => !prev);
     };
 
+
     return (
         <>
-            {isLoading ? (
-                <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
-            ) : (
-                <>
-                    <h2 className="boardTitle">{board.title}</h2>
-                    <button
-                        className="favBtn"
-                        style={{ background: "none", border: "none", cursor: "pointer" }}
-                        onClick={favorite}
-                    >
-                        {fav.status ? (
-                            <FontAwesomeIcon icon={faStar} style={{ color: "#FFD43B", fontSize: "24px" }} />
-                        ) : (
-                            <FontAwesomeIcon icon={faStarRegular} style={{ color: "#454545", fontSize: "24px" }} />
-                        )}
-                    </button>
-                    <Bid />
-                    <hr />
-
-                    <div className="imageSlider">
-                        <button onClick={handlePrev} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                            <FontAwesomeIcon icon={faChevronLeft} style={{ color: "#454545", fontSize: "40px" }} />
-                        </button>
-                        <img
-                            className="sliderImage"
-                            src={img[currentImgIndex]}
-                            alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
-                            loading="lazy"
-                        />
-                        <button onClick={handleNext} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                            <FontAwesomeIcon icon={faChevronRight} style={{ color: "#454545", fontSize: "40px" }} />
-                        </button>
-                    </div>
-                    <div className="thumbnailContainer">
-                        {img.map((image, index) => (
-                            <img
-                                key={index}
-                                className={`thumbnail ${index === currentImgIndex ? "activeThumbnail" : ""}`}
-                                src={image}
-                                alt={`썸네일 ${index + 1}`}
-                                onClick={() => handleThumbnailClick(index)}
-                                loading="lazy"
-                            />
-                        ))}
-                    </div>
-
-                    <p className="live-text">현재가</p>
-                    <p className="live-currentCash">여기에 실시간 경매가격 올라가는 거 보여줘야함</p>
-                    <p className="live-text">입찰 시작가</p>
-                    <div className="live-cash">{board.startCash}</div>
-                    <div className="live-timer">
-                        <AuctionTimer startTime={board.startDay} postId={postId} />
-                    </div>
-                    <div className="live-startdate">{formatToKoreanDate(board.startDay)}</div>
-
-                    <button onClick={toggleChat} style={{ margin: "10px", padding: "5px 10px" }}>
-                        {isChatVisible ? "채팅창 닫기" : "채팅창 열기"}
-                    </button>
-
-                    {isChatVisible && (
-                        <div>
-                            <ChatWindow />
+            {isLoading ? <p className="boardText">실시간 경매품을 가져오는 중입니다.</p>
+             : (
+                <div className="live-detail-page">
+                    <div className="live-detail-page_top">
+                        <div className="live-detail-page_top_left">
+                            <h2 className="live-detail-page_title">{board.title}</h2>
+                            <button className="favBtn" style={{background: "none", border: "none", cursor: "pointer"}} onClick={favorite}>
+                                <FontAwesomeIcon icon={fav.status ? faStar : faStarRegular} style={{color: fav.status ? "#FFD43B" : "#454545", fontSize: "24px"}}/>
+                            </button>
                         </div>
-                    )}
-                    <hr />
+                        <p className="detail-page_boardStatus">| 경매중 |</p>
+                    </div>
+                    <hr className="top_line"/>
 
-                    <p className="infoText">상세 정보</p>
-                    <p className="boardContent">{board.content}</p>
-                    <button onClick={movePrevPage}>이전으로</button>
-                </>
-            )}
+                    {<AuctionTimer startTime={board.startDay} postId={postId}/>}
+
+                    <div className="live-detail-page_middle">
+
+                        <div className="live-detail-page_leftSide">
+                            <div className="live-detail-page_img">
+                                {renderImageSlider()}
+                            </div>
+                            <div className="live-detail-page_info">
+                                <div className="live-detail-page_info_text">
+                                    <p className="live-detail-page_text">입찰 시작가</p>
+                                    <p className="live-detail-page_text">경매 날짜</p>
+                                </div>
+                                <div className="live-detail-page_info_value">
+                                    <p className="live-detail-page_cash">{board.startCash.toLocaleString()}원</p>
+                                    <p className="live-detail-page_date">{formatToKoreanDate(board.startDay)}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="live-detail-page_rightSide">
+                            <button onClick={toggleChat} style={{margin: "10px", padding: "5px 10px"}}>
+                                {isChatVisible ? "채팅창 닫기" : "채팅창 열기"}
+                            </button>
+
+                            {isChatVisible && (
+                                <div>
+                                    <ChatWindow/>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <p className="live-detail-page_infoText">상세 정보</p>
+                    <div className="content-display" style={{whiteSpace: "pre-wrap"}}>
+                        {board.content}
+                    </div>
+
+                    <div className="live-detail-page_bottom">
+                        <button onClick={moveList} className="detail-page_backButton">목록</button>
+                    </div>
+                </div>
+                )}
         </>
-    );
-};
-
+    )
+}
 export default LiveDetail;

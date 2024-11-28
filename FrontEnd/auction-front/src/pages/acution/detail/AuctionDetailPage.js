@@ -48,6 +48,7 @@ const AuctionDetailPage = () =>{
                 } else {
                     console.error("startDay 데이터가 없습니다.");
                 }
+
             } catch (error) {
                 console.error("게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
             }finally {
@@ -245,10 +246,10 @@ const AuctionDetailPage = () =>{
             <div className="detail-page">
                 <div className="detail-page_top">
                     <div className="detail-page_top_leftSide">
-                    <h2 className="detail-page_title">{board.title}</h2>
-                        {renderFavoriteButton()}
+                        <h2 className="detail-page_title">{board.title}</h2>
+                            {renderFavoriteButton()}
                     </div>
-                        <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
+                    <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>
                 <hr className="top_line"/>
 
@@ -267,9 +268,9 @@ const AuctionDetailPage = () =>{
                             </div>
                             <div className="detail-page_middle_info_value">
                                 {postStatus === "done" && (
-                                    <p className="detail-page_finalCash">{board.finalCash}원</p>
+                                    <p className="detail-page_finalCash">{board.finalCash.toLocaleString()}원</p>
                                 )}
-                                <p className="detail-page_cash">{board.startCash}원</p>
+                                <p className="detail-page_cash">{board.startCash.toLocaleString()}원</p>
                                 <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
                             </div>
                         </div>

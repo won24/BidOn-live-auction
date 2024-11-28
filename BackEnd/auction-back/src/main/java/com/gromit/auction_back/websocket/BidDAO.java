@@ -49,4 +49,10 @@ public interface BidDAO {
 
         @Update("UPDATE users SET cash = #{newCash} WHERE UserCode = #{userCode}")
         void updateUserCash(int userCode, int newCash);
+
+        @Select("SELECT * FROM bid " +
+                "WHERE postId = #{postId} " +
+                "ORDER BY currentCash DESC " +
+                "LIMIT 1")
+        BidDTO toprateUser(int postId);
 }

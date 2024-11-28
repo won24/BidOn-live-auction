@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useLogin } from '../../pages/login/LoginContext';
 import { connectWebSocket, sendBid, subscribeToAuction } from './Websocket';
 
-const CurrentBid = React.memo(({ bid }) => (
-    <p>현재 최고 입찰가: {bid.toLocaleString()}원</p>
-));
 
 const Bid = () => {
-    const { postId } = useParams();
+    const {postId} = useParams();
     const [auctionItem, setAuctionItem] = useState(null);
     const [currentBid, setCurrentBid] = useState(() => {
         const savedBid = localStorage.getItem(`currentBid-${postId}`);
@@ -18,6 +15,26 @@ const Bid = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); // 웹소켓 연결 상태
     const { user } = useLogin();
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const userCode = sessionStorage.getItem("userCode");
+
+
+    // 사용자 정보 가져오기
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            if (isLoggedIn) {
+                try {
+                    const response = await axios.get(`/admin/bid/${userCode}`);
+                    setUserInfo(response.data);
+                    console.log(response.data);
+                } catch (error) {
+                    console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
+                }
+            }
+        };
+        fetchUserInfo();
+    }, []);
+
 
     // 입찰가 업데이트 핸들러 (WebSocket으로 수신한 메시지 처리)
     const handleBidUpdate = useCallback((bidMessage) => {
@@ -29,6 +46,7 @@ const Bid = () => {
             });
         }
     }, [postId]);
+
 
     // 경매 아이템 데이터 가져오기
     useEffect(() => {
@@ -45,21 +63,6 @@ const Bid = () => {
         fetchAuctionItem();
     }, [postId]);
 
-    // 사용자 정보 가져오기
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            if (user?.userCode > 0) {
-                try {
-                    const response = await axios.get(`/admin/bid/${user.userCode}`);
-                    setUserInfo(response.data);
-                } catch (error) {
-                    console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
-                }
-            }
-        };
-
-        fetchUserInfo();
-    }, [user?.cash]);
 
     // WebSocket 연결 및 입찰 업데이트 처리
     useEffect(() => {
@@ -80,6 +83,9 @@ const Bid = () => {
 
     // 입찰 금액 증가 처리
     const handleBidIncrease = async (amount) => {
+
+
+
         const newBid = currentBid + amount;
 
         if (userInfo && newBid <= userInfo.cash) {
@@ -92,7 +98,7 @@ const Bid = () => {
                 });
 
                 // 사용자 캐시 차감
-                const updatedCash = userInfo.cash - amount;
+                const updatedCash = userInfo.cash - newBid;
                 await axios.put(`/admin/updatecash/${user.userCode}`, { cash: updatedCash });
 
                 // 사용자 정보 업데이트
@@ -134,13 +140,37 @@ const Bid = () => {
 
     if (!auctionItem) return <div>로딩 중...</div>;
 
+    const CurrentBid = React.memo(({ bid }) => (
+        <div className="bid-currentBid">
+            <div className="bid-text">현재 최고 입찰가:</div>
+            <div className="bid-value">{bid.toLocaleString()}원</div>
+        </div>
+    ));
+
+
     return (
-        <div>
-            <h2>{auctionItem.title}</h2>
-            <CurrentBid bid={currentBid} />
-            {userInfo && <p>내 보유 금액: {userInfo.cash.toLocaleString()}원</p>}
-            <button onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected}>+10,000원</button>
-            <button onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected}>+50,000원</button>
+        <div className="bid-container">
+            <div className="bid-live">
+                <div className="bid-currentBid">
+                    <CurrentBid bid={currentBid} />
+                </div>
+                <div className="bid-button-container">
+                    {userInfo &&
+                        <>
+                            <button className="bid-button" onClick={() => handleBidIncrease(10000)} disabled={!isWebSocketConnected&&isLoggedIn}>+10,000원</button>
+                            <button className="bid-button" onClick={() => handleBidIncrease(50000)} disabled={!isWebSocketConnected&&isLoggedIn}>+50,000원</button>
+                        </>
+                    }
+                </div>
+            </div>
+            <div className="bid-info">
+                {userInfo &&
+                    <>
+                        <p className="bid-info-text">내 보유 금액</p>
+                        <p className="bid-info-value">{userInfo.cash.toLocaleString()}원</p>
+                    </>
+                }
+            </div>
         </div>
     );
 };

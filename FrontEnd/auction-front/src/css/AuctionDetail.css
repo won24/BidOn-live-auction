@@ -6,7 +6,7 @@
     justify-content: center; /* 수직 가운데 정렬 */
     color: #222; /* 값 색상 */
 }
-
+/* 디테일 페이지 위 */
 .detail-page_top {
     display: flex;
     justify-content: space-between; /* 좌우 끝 배치 */
@@ -14,16 +14,16 @@
     margin-top: 20px;
 }
 
-.detail-page_title {
-    font-size: 30px;
-    font-weight: bold;
-}
-
 .detail-page_top_leftSide{
     display: flex;
     justify-content: space-between; /* 수평 정렬 */
     align-items: center; /* 수직 정렬: 가운데 */
     gap: 10px;
+}
+
+.detail-page_title {
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .detail-page_boardStatus{
@@ -36,13 +36,14 @@
     font-weight: 550;
 }
 
-
 .top_line {
     border: none;
     border-top: 1px solid #343434;
     margin: 0; /* 위아래 간격 조정 */
 }
 
+
+/* 디테일 페이지 중간 */
 .detail-page_middle {
     display: flex;
     justify-content: space-between; /* 좌우 정렬 */
@@ -50,13 +51,16 @@
     gap: 40px; /* 좌우 간격 */
 }
 
-/* 왼쪽 섹션 정렬 */
+
+/* 중간 왼쪽 섹션 */
 .detail-page_middle_left {
     display: flex;
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 자식 요소를 가운데 정렬 */
+    width: 40%;
 }
 
+ /*이미지*/
 .detail-page_info_img {
     flex: 1;
     width: 100%; /* 부모 요소 너비에 맞춤 */
@@ -72,11 +76,12 @@
 }
 
 .sliderImage {
-    max-width: 400px;
-    height: auto;
-    max-height: 400px;
-    object-fit: cover;
+    max-width: 350px;
+    height: 350px;
+    object-fit: contain;
 }
+
+
 
 .sliderButton {
     background-color: #333;
@@ -120,9 +125,9 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    color: black;
-    border: 1px solid #ffffff;
-    font-size: 30px;
+    color: #fff;
+    background-color: rgba(34,34,34,0.8%);
+    font-size: 40px;
     cursor: pointer;
 }
 
@@ -151,6 +156,7 @@
 }
 
 
+/* 경매 기본 정보 */
 .detail-page_middle_info {
     flex: 1;
     display: flex;
@@ -163,18 +169,19 @@
 }
 
 .detail-page_text {
-    font-size: 15px; /* 텍스트 크기 (필요시 조정) */
+    font-size: 15px;
     line-height: 35px;
     margin-right: 10px;
 }
 
 .detail-page_middle_info_value {
-    font-weight: bold; /* 강조 */
+    font-weight: bold;
     font-size: 20px;
     line-height: 28px;
 }
 
-/* 오른쪽 섹션 */
+
+/* 디테일 페이지 중간 오른쪽 섹션 */
 .detail-page_middle_right {
     flex: 1;
     display: flex;
@@ -197,18 +204,36 @@
 
 .content-display {
     font-size: 16px;
-    line-height: 1.5; /* 가독성을 위한 줄 간격 */
-    max-height: 800px; /* 최대 높이 */
-    overflow-y: auto; /* 스크롤 가능 */
+    line-height: 1.5;
+    max-height: 800px;
+    overflow-y: auto; /* 세로 스크롤 */
     margin: 0;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 
+/* Webkit 기반 브라우저에서 스크롤바 스타일링 */
+.content-display::-webkit-scrollbar {
+    width: 12px;
+    background-color: white;
+}
+
+.content-display::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, #454545);
+    border-radius: 20px;
+}
+
+.content-display::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+
+/* 디테일 페이지 하단 */
 .detail-page_bottom {
     margin-top: 10px;
 }
-
 
 .detail-page_button {
     display: flex;
@@ -234,6 +259,7 @@
     transform: translateY(-2px); /* 살짝 위로 이동 */
 }
 
+/* 관리자용 버튼 */
 .admin-button{
     display: flex;
     justify-content: space-between; /* 양 끝 정렬 */
@@ -241,7 +267,6 @@
     width: 100%; /* 부모 요소의 전체 너비 사용 */
     margin-top: 20px; /* 상단 여백 */
 }
-
 
 .detail-page_admin-button-back{
     padding: 10px 20px;
@@ -286,8 +311,8 @@
 
 
 .boardText{
-    margin-top: 50px;
-    font-size: 50px;
+    margin-top: 800px;
+    font-size: 30px;
     font-weight: 600;
 }
 

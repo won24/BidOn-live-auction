@@ -6,15 +6,14 @@
 }
 
 .admin-aside {
-    margin-right: 5px; /* 사이드바와 콘텐츠 사이의 간격 */
-    margin-top: 50px;
+    margin-right: 15px; /* 사이드바와 콘텐츠 사이의 간격 */
+    margin-top: 15px;
 }
 
 .outlet-fixsize {
     margin-top: 10px;
     width: 1000px;
     height: 800px;
-    overflow: hidden; /* 페이지네이션을 사용할 경우 스크롤바 대신 숨김 */
     position: relative;
 }
 
@@ -25,23 +24,24 @@
 
 .admin-aside a {
     display: block;
-    padding: 20px; /* Increase padding for larger box */
+    padding: 20px;
     width: 200px;
     height: 30px;
     background-color: #f0f0f0;
     text-decoration: none;
     color: #333;
-    transition: background-color 0.3s;
-    font-size: 16px; /* Increase font size if needed */
+    transition: background-color 0.3s, font-weight 0.3s;
+    font-size: 16px;
 }
 
 .admin-aside a:hover {
     background-color: #e0e0e0;
 }
-
 .active-link {
-    background-color: #0056b3; /* Darker color for active link */
-    color: #fff;
+    background-color: #003d80; /* 더 진한 색상으로 변경 */
+    color: #ffffff; /* 텍스트 색상을 유지 */
+    font-weight: bold; /* 활성화된 링크를 강조 */
+    border-left: 4px solid #ffffff; /* 시각적 강조를 위해 추가 (선택 사항) */
 }
 
 .admin-center-link {

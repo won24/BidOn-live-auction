@@ -13,7 +13,6 @@
     margin-top: 10px;
      width: 1000px;
      height: 800px;
-     overflow: hidden; /* 페이지네이션을 사용할 경우 스크롤바 대신 숨김 */
      position: relative;
  }
 .customer-aside ul {

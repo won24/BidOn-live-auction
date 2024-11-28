@@ -1,0 +1,90 @@
+.userdetail-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+}
+
+/* 사용자 상세 정보 테이블 */
+.user-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.user-detail-table th, .user-detail-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-detail-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.user-detail-table td {
+    font-size: 14px;
+}
+
+.user-detail-table td:nth-child(1) {
+    font-weight: bold;
+    width: 30%;
+}
+
+.user-detail-table td:nth-child(2) {
+    color: #555;
+}
+
+.user-detail-table tr:last-child td {
+    border-bottom: none; /* 마지막 행은 아래 경계선 제거 */
+}
+
+/* 사용자 게시물 테이블 */
+.user-posts-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-posts-table th, .user-posts-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-posts-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.user-posts-table td {
+    font-size: 14px;
+}
+
+.user-posts-table td:nth-child(1) {
+    font-weight: bold;
+    width: 30%;
+}
+
+.user-posts-table td:nth-child(2) {
+    color: #555;
+}
+
+.user-posts-table tr:last-child td {
+    border-bottom: none;
+}

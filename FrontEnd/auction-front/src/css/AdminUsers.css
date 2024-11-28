@@ -1,0 +1,37 @@
+.users-table {
+    width: 100%;
+    border-collapse: collapse; /* 경계선 겹침 제거 */
+    font-size: 16px;
+}
+
+.users-table thead {
+    background-color: #f4f4f4; /* 헤더 배경색 */
+    color: #333; /* 헤더 텍스트 색상 */
+    font-weight: bold;
+    border-bottom: 2px solid #ddd; /* 헤더 아래쪽 가로줄 */
+}
+
+.users-table th,
+.users-table td {
+    padding: 12px 15px; /* 셀 내부 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.users-table tbody tr {
+    transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 */
+    cursor: pointer; /* 클릭 가능한 요소임을 표시 */
+    border-bottom: 1px solid #ddd; /* 행 간 경계선 추가 */
+}
+
+.users-table tbody tr:hover {
+    background-color: #f0f8ff; /* 행 전체에 마우스를 올릴 때 배경색 */
+}
+
+.users-table td {
+    color: #555; /* 본문 텍스트 색상 */
+}
+
+.users-table td:hover {
+    font-weight: bold; /* 셀에 마우스를 올릴 때 텍스트 강조 */
+    background-color: transparent; /* 셀 배경색 변화를 방지 */
+}

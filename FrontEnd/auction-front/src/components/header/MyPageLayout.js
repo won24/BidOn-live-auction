@@ -1,12 +1,23 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useLogin } from "../../pages/login/LoginContext";
 import "../../css/MyPageLayout.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyPageLayout = () => {
 
     const nickname = sessionStorage.getItem("nickname");
-
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const navigate = useNavigate();
     const { user } = useLogin();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            alert("로그인이 필요합니다.");
+            navigate("/member/login");
+            return;
+        }
+    }, [isLoggedIn, navigate, user]);
 
         const welcomeMypage = (nickname, maxLength) => {
             if (nickname && nickname.length > maxLength) {

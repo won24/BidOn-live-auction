@@ -34,4 +34,19 @@
         WHERE
             userCode = #{userCode}
     </select>
+    
+    <select id="getAuctions" resultMap="participationAuctionResult">
+        SELECT
+            b.postId,
+            b.title,
+            b.content,
+            b.userCode
+        FROM
+            userpost u
+        JOIN
+            board b ON u.postId = b.postId
+        WHERE
+            u.userCode = #{userCode};
+    </select>
+    
 </mapper>

@@ -24,8 +24,12 @@ const MyAuctions = () => {
             setWonAuctions(response.data);
         } catch (err) {
             setError("낙찰받은 경매 목록을 가져오는 데 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
+
+
 
     useEffect(() => {
         if (user?.userCode) {

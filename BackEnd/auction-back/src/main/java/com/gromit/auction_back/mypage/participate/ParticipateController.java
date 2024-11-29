@@ -19,13 +19,6 @@ public class ParticipateController {
     @Autowired
     private ParticipateService participateService;
 
-//    // 경매 참여 목록 API
-//    @GetMapping("/myauction")
-//    public ResponseEntity<List<ParticipateDTO>> getParticipatedAuctions(@RequestParam String userCode) {
-//        List<ParticipateDTO> participatedAuctions = participateService.participationAuction(userCode);
-//        return ResponseEntity.ok(participatedAuctions);
-//    }
-
     // 낙찰받은 경매 목록 API
     @GetMapping("/successbid")
     public ResponseEntity<List<ParticipateDTO>> getWonAuctions(@RequestParam int userCode) {

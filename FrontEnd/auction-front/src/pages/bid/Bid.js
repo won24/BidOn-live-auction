@@ -64,6 +64,11 @@ const Bid = () => {
     }, [postId]);
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
     // WebSocket 연결 및 입찰 업데이트 처리
     useEffect(() => {
         const setupWebSocket = async () => {
@@ -143,7 +148,11 @@ const Bid = () => {
                         const updatedBid = Math.max(prevBid, topRate);
                         localStorage.setItem(`currentBid-${postId}`, updatedBid); // 로컬 스토리지에 저장
                         return updatedBid;
+<<<<<<< HEAD
                     });
+=======
+                });
+>>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
                 }
                 alert('입찰이 성공적으로 처리되었습니다.');
             } catch (error) {
@@ -176,6 +185,10 @@ const Bid = () => {
     }, [fetchHighestBid]);
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
     if (!auctionItem) return <div>로딩 중...</div>;
 
     const CurrentBid = React.memo(({ bid }) => (

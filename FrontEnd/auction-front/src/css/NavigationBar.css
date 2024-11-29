@@ -68,11 +68,12 @@
     margin-top: 5px;
 }
 
-.main-page_cash_button{
+.main-page_cash{
     border: none;
     background: white;
     cursor: pointer;
-    font-weight: 600;
+    font-size: 15px;
+    margin-left: 6px;
 }
 
 .login-button_return{

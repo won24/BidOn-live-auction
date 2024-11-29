@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useLogin } from "../login/LoginContext";
 import { useNavigate } from 'react-router-dom';
-import "./MyProfile.css";
+import "../../css/MyProfile.css";
 
 const MyProfile = () =>
 {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const { user } = useLogin();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() =>
     {
@@ -15,8 +16,10 @@ const MyProfile = () =>
         {
             alert("로그인이 필요합니다.");
             navigate("/member/login");
+        } else {
+            setIsLoading(false);
         }
-    }, [isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate, user]);
 
     const formatDate = (dateString) =>
     {

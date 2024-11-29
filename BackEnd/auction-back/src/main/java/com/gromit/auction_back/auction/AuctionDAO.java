@@ -37,4 +37,6 @@ public interface AuctionDAO {
     int setPostStatus(int postId);
 
     int updateLivePost(int postId);
+
+    int updatePostAfterLive(AuctionDTO auctionDTO);
 }

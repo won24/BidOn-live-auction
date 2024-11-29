@@ -239,9 +239,56 @@
 
 .live-detail-page_bottom{
     display: flex;
-    justify-content: flex-start; /* 오른쪽 정렬 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
     align-items: center; /* 수직 정렬 */
     margin-top: 20px;
     padding-right: 20px; /* 오른쪽 여백 추가 */
 }
 
+/* 낙찰 모달 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 높은 z-index 설정 */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%; /* 너비를 50%로 설정 */
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    align-items: center; /* 모든 요소를 수평으로 중앙 정렬 */
+}
+
+
+.modal-content p {
+    text-align: center; /* p 태그 중앙 정렬 */
+    margin: 10px 0; /* 각 p 태그 간 여백 설정 */
+}
+
+
+.modal-close-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #454545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    background: #343434;
+}

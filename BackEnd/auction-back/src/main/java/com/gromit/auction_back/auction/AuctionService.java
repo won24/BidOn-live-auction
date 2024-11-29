@@ -84,4 +84,9 @@ public class AuctionService {
         int result = auctionDAO.updateLivePost(postId);
         return result;
     }
+
+    public int updatePostAfterLive(AuctionDTO auctionDTO) {
+        int result = auctionDAO.updatePostAfterLive(auctionDTO);
+        return result;
+    }
 }

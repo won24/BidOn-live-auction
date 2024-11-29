@@ -238,7 +238,7 @@ const LiveDetail = () => {
                         </div>
 
                         <div className="live-detail-page_rightSide">
-                            <button onClick={toggleChat} style={{margin: "10px", padding: "5px 10px"}}>
+                            <button onClick={toggleChat} className="toggleChat">
                                 {isChatVisible ? "채팅창 닫기" : "채팅창 열기"}
                             </button>
 

@@ -38,21 +38,21 @@ const ChatWindow = () =>
                 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
     };
 
-    const formatDate = (date) => 
+    const formatDate = (date) =>
     {
         if (!date || !(date instanceof Date)) return "";
-    
+
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Adds leading 0 if needed
         const day = String(date.getDate()).padStart(2, '0'); // Adds leading 0 if needed
         const hours = String(date.getHours()).padStart(2, '0'); // Adds leading 0 if needed
         const minutes = String(date.getMinutes()).padStart(2, '0'); // Adds leading 0 if needed
         const seconds = String(date.getSeconds()).padStart(2, '0'); // Adds leading 0 if needed
-    
+
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
     };
 
-    const [message, setMessage] = useState(() => 
+    const [message, setMessage] = useState(() =>
     {
         const savedMessages = localStorage.getItem("chatMessages");
         return savedMessages ? JSON.parse(savedMessages) : [];
@@ -66,10 +66,14 @@ const ChatWindow = () =>
 
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
 <<<<<<< HEAD
+<<<<<<< HEAD
         const wsUrl = `${wsProtocol}112.221.66.174:8081/chat`;
 =======
         const wsUrl = `${wsProtocol}112.221.66.174:8080/chat`;
 >>>>>>> 814a9c68f195ae2646d8a46aa62ac41e01908759
+=======
+        const wsUrl = `${wsProtocol}112.221.66.174:8080/chat`;
+>>>>>>> 3b6d00067ae95e5dd9d0ae3bc8a76109c2491e6c
         const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => 
@@ -211,7 +215,7 @@ const ChatWindow = () =>
         }
         else if (cmd === "/unban") {
             const targetUser = args[0];
-            if (targetUser) 
+            if (targetUser)
             {
                 // Send ban message to the backend
                 webSocket.send(
@@ -223,7 +227,7 @@ const ChatWindow = () =>
                         nickname,
                     })
                 );
-    
+
                 // Display feedback to the admin in the chat window
                 setMessage((prev) => [
                     ...prev,
@@ -253,8 +257,8 @@ const ChatWindow = () =>
             ]);
         }
     };
-    
-        
+
+
 
     const handleKeyPass = (event) => 
     {
@@ -269,12 +273,6 @@ const ChatWindow = () =>
             <div
                 id="chatwindow"
                 className="chat-window"
-                style={{
-                    border: "1px solid #ccc",
-                    height: "400px",
-                    backgroundColor: "#fff",
-                    overflowY: "scroll",
-                }}
             >
                 {message.map((msg, index) => 
                 {

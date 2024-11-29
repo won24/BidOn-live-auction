@@ -86,18 +86,20 @@ const AdminInquire = () => {
                         <>
                             <h3>문의 내용</h3>
                             <p>{selectedInquiry.content || '내용이 없습니다.'}</p>
-                            <h4>답변</h4>
-                            <textarea
-                                value={answer}
-                                onChange={handleAnswerChange}
-                                placeholder="답변을 입력하세요"
-                                rows="4"
-                                className="inquiry-textarea"
-                            />
-                            <button onClick={handleSubmitAnswer} className="inquiry-submit">답변 제출</button>
+                            <div className="answer-section">
+                                <h5>새 답변</h5>
+                                <textarea
+                                    value={answer}
+                                    onChange={handleAnswerChange}
+                                    placeholder="답변을 입력하세요"
+                                    rows="4"
+                                    className="inquiry-textarea"
+                                />
+                                <button onClick={handleSubmitAnswer} className="main-page_button">답변 제출</button>
+                            </div>
                         </>
                     ) : (
-                        <p>문의를 선택해주세요.</p>
+                        <h3>문의를 선택해주세요.</h3>
                     )}
                 </div>
             </div>

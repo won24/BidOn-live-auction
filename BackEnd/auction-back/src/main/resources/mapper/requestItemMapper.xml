@@ -4,9 +4,9 @@
     <insert id="insertRequestItem" parameterType="com.gromit.auction_back.requestItem.RequestItemDTO"
             useGeneratedKeys="true" keyProperty="postId">
         INSERT INTO board (
-            title,
-            content,
-            startDAY,
+            Title,
+            Content,
+            StartDAY,
             categoryCode,
             userCode,
             startCash

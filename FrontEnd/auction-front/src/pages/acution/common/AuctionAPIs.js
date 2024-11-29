@@ -1,4 +1,5 @@
 import axios from "axios";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 const BASE_URL = "http://localhost:8080/auction";
 
 export const totalAuctionList = () => axios.get(`${BASE_URL}`);

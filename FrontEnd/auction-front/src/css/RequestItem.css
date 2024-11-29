@@ -82,5 +82,42 @@ textarea
     resize: none;
 }
 
+#categoryCode {
+    width: 218px; /* 원하는 너비로 조정 */
+    height: 35.5px; /* 원하는 높이로 조정 */
+    font-size: 16px; /* 글자 크기 */
+    padding: 5px 10px; /* 내부 여백 */
+}
+
+/* DatePicker 스타일 */
+.react-datepicker-wrapper {
+    width: 200px; /* DatePicker의 너비 */
+}
+
+.react-datepicker__input-container input {
+    width: 100%; /* 입력 필드가 wrapper의 전체 너비를 차지하도록 */
+    height: 15px; /* 높이 조정 */
+    font-size: 16px; /* 글자 크기 */
+    padding: 5px 10px; /* 내부 여백 */
+}
+
+/* DatePicker 캘린더 팝업의 크기 조정 (선택사항) */
+.react-datepicker {
+    font-size: 1em; /* 전체적인 크기 조정 */
+}
+
+.react-datepicker__header {
+    padding-top: 0.8em;
+}
+
+.react-datepicker__month {
+    margin: 0.4em 1em;
+}
+
+.react-datepicker__day-name, .react-datepicker__day {
+    width: 1.9em;
+    line-height: 1.9em;
+    margin: 0.166em;
+}
 
 

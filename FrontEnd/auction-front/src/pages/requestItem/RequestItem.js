@@ -10,6 +10,7 @@ const RequestItem = () => {
     const navigate = useNavigate();
     const { user } = useLogin();
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const userCode = sessionStorage.getItem("userCode");
 
     const [formData, setFormData] = useState({
         categoryCode: '',
@@ -28,7 +29,7 @@ const RequestItem = () => {
         if (isLoggedIn) {
             setFormData(prevState => ({
                 ...prevState,
-                userCode: user?.userCode
+                userCode: userCode
             }));
         }
     }, [user]);
@@ -94,7 +95,7 @@ const RequestItem = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user?.userCode)
+        console.log(userCode)
         console.log(formData);
 
         try {

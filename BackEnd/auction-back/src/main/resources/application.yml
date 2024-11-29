@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   tomcat:
     uri-encoding: UTF-8
 spring:
@@ -25,4 +25,4 @@ payment:
   confirm-endpoint: /confirm
 file:
   upload-dir: "C:\\20240801-gangnam\\Project\\img"  # Windows 경로에서 백슬래시 두 개 사용
-  base-url: "http://112.221.66.174:8080/images/"
+  base-url: "http://112.221.66.174:8081/images/"

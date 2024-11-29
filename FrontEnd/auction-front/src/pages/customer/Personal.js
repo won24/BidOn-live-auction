@@ -10,6 +10,7 @@ const Personal = () => {
     const [userPosts, setUserPosts] = useState([]);
     const [error, setError] = useState(null);
     const [openItems, setOpenItems] = useState([]);
+    const userCode = sessionStorage.getItem("userCode");
 
     useEffect(() => {
         const fetchUserPosts = async () => {
@@ -19,7 +20,6 @@ const Personal = () => {
             }
 
             try {
-                const userCode = user?.userCode; // 세션에서 가져온 userCode 사용
                 console.log("Fetching posts for user:", userCode);
                 const response = await axios.post('/customer/personal', { userCode });
                 // console.log("Full response:", response);
@@ -47,16 +47,6 @@ const Personal = () => {
         navigate('/customer/personalinquire');
     };
 
-    const formatDate = (dateString) => {
-        if (!dateString) return 'N/A';
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) {
-            console.error('Invalid date:', dateString);
-            return 'Invalid Date';
-        }
-        return date.toLocaleDateString();
-    };
-
     const toggleContent = (index) => {
         setOpenItems(prevOpenItems => {
             const newOpenItems = [...prevOpenItems];
@@ -69,7 +59,7 @@ const Personal = () => {
         <div className="personal-container">
             <h2>1:1 문의</h2>
             <div className="user-posts">
-                <h3>내 게시물</h3>
+                <h3>내 문의</h3>
                 {userPosts.length > 0 ? (
                     <table className="personal-table">
                         <tbody>
@@ -77,15 +67,15 @@ const Personal = () => {
                                 <React.Fragment key={index}>
                                     <tr className="personal-item" onClick={() => toggleContent(index)}>
                                         <td className="personal-title" colSpan="2">
-                                            {post.title} - {formatDate(post.createdAt)}
+                                           {post.title}
                                         </td>
                                     </tr>
                                     {openItems[index] && (
                                         <tr className="personal-item">
                                             <td className="personal-content" colSpan="2">
-                                                <p><strong>문의 내용:</strong> {post.content}</p>
+                                                <p><strong>문의 내용 : </strong> {post.content}</p>
                                                 {post.answer && (
-                                                    <p><strong>답변:</strong> {post.answer}</p>
+                                                    <p><strong>답변 : </strong> {post.answer}</p>
                                                 )}
                                             </td>
                                         </tr>
@@ -95,10 +85,10 @@ const Personal = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <p>작성한 게시물이 없습니다.</p>
+                    <p>1:1문의 내역이 없습니다.</p>
                 )}
             </div>
-            <button onClick={handleCreatePost}>새 게시물 작성</button>
+            <button onClick={handleCreatePost}>1:1 문의 작성</button>
         </div>
     );
 }

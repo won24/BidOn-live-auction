@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ParticipateDTO {
 
-    private int postId;
-    private String title;
-    private String content;
-    private int userCode;
+    private int categoryCode;  // 경매품 카테고리 코드
+    private String content;    // 경매품 설명
+    private int userCode;      // 회원 유저코드
+    private String title;      // 경매 제목
+    private Double finalCash; // 현재 가격
 }

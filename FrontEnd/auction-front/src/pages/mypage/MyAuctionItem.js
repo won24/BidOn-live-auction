@@ -39,7 +39,7 @@ const MyAuctionItem = () => {
 
     return (
         <div className="auctionitem-container">
-            <h1 className="auctionitem-title">신청한 경매품</h1><hr/>
+            <h1 className="auctionitem-title">신청한 경매품</h1><hr />
             <table className="auctionitem-subheading">
                 <thead>
                 <tr>
@@ -49,13 +49,13 @@ const MyAuctionItem = () => {
                     <th>최종가격</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className="auctionitem-list">
                 {auctionItems.map((item, index) => (
                     <tr key={item.postId}>
-                        <td className="auction-index">{index + 1}</td>
-                        <td className="auction-title">{item.title}</td>
-                        <td className="auction-categoryCode">{item.categoryCode}</td>
-                        <td className="acution-finalCash">{item.finalCash || "미정"}</td>
+                        <td>{index + 1}</td>
+                        <td>{item.title}</td>
+                        <td>{item.categoryCode}</td>
+                        <td>{item.finalCash || "미정"}</td>
                     </tr>
                 ))}
                 </tbody>

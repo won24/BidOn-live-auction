@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLogin } from '../login/LoginContext';
-import "../../css/Auction.css";
+import '../../css/MyAuction.css';
 
 const MyAuctions = () => {
     const { user } = useLogin();
@@ -17,6 +17,8 @@ const MyAuctions = () => {
             const response = await axios.get('http://localhost:8080/mypage/successbid', {
                 params: { userCode: user.userCode },
             });
+            console.log(response.data);  // 반환된 데이터 확인
+
             if (response.data) {
                 setWonAuctions(response.data); // 서버에서 반환된 데이터 할당
             } else {
@@ -39,7 +41,7 @@ const MyAuctions = () => {
     }, [user]); // user 값이 변경될 때마다 경매 목록을 다시 가져옴
 
     if (loading) {
-        return <div>불러오는 중입니다...</div>;
+        return <div className="auction-loading">불러오는 중입니다...</div>;
     }
 
     if (error) {
@@ -48,29 +50,34 @@ const MyAuctions = () => {
 
     return (
         <div className="auction-wrapper">
-            <h1>낙찰받은 경매</h1>
-            <div className="auction">
-                {wonAuctions.length > 0 ? (
-                    wonAuctions.map((auction) => (
-                        <div key={auction.postId} className="auctionpostid">
-                            <h3 className="auctiontitle">{auction.title}</h3>
-                            <div className="auctiondescription">
-                                <p>경매품 : {auction.postId}</p>
-                            </div>
-                            <div className="auctioninfo">
-                                <p>내용: {auction.content}</p>
-                            </div>
-                            <div className="auctionlistuser">
-                                <p>작성자 ID: {auction.userCode}</p>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>낙찰받은 경매가 없습니다.</p>
-                )}
-            </div>
+            <h1 className="auction-list-title">낙찰 경매품 목록</h1><hr />
+            {wonAuctions.length > 0 ? (
+                <table className="auction-table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>경매품명</th>
+                        <th>내용</th>
+                        <th>회원코드</th>
+                    </tr>
+                    </thead>
+                    <tbody className="auction-table-list">
+                    {wonAuctions.map((auction, index) => (
+                        <tr key={auction.postId}>
+                            <td>{index + 1}</td>
+                            <td>{auction.title}</td>
+                            <td>{auction.content}</td>
+                            <td>{auction.userCode}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p className="no-auctions">낙찰받은 경매가 없습니다.</p>
+            )}
         </div>
     );
+
 };
 
 export default MyAuctions;

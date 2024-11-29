@@ -68,44 +68,44 @@ const MyFar = () => {
         <div className="favorites-container">
             <h1 className="favorites-title">즐겨찾기</h1>
             <hr />
+
             {favorites.length > 0 ? (
-                <div className="favorites-table">
-                    <table className="favorites-title-list-table">
-                        <thead className="favorites-list-table"></thead>
-                        {favorites.map((favorite, index) => (
-                            <tr key={favorite.postId}>
-                                <td className="favo-list-index">{index + 1}</td>
-                                <td className="favo-list-link">
-                                    <Link to={`/auction/${favorite.postId}`}>{favorite.title}</Link>
-                                </td>
-                                <td className="favo-list-image">
-                                    {favorite.imageUrl ? (
-                                        <img
-                                            src={favorite.imageUrl}
-                                            alt={favorite.title}
-                                            className="favorites-image"
-                                        />
-                                    ) : (
-                                        "이미지 없음"
-                                    )}
-                                </td>
-                                <td className="favo-list-deletebutton">
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => handleDelete(favorite.postId)}
-                                    >
-                                        삭제
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </table>
-                </div>
+                <table className="favorites-list-table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>즐겨찾기 목록</th>
+                        <th>이미지</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {favorites.map((favorite, index) => (
+                        <tr key={favorite.postId}>
+                            <td>{index + 1}</td>
+                            <td className="favo-list-link"><Link to={`/auction/${favorite.postId}`}>{favorite.title}</Link></td>
+                            <td className="favo-list-image">
+                                {favorite.imageUrl ? (
+                                    <img
+                                        src={favorite.imageUrl}
+                                        alt={favorite.title}
+                                        className="favorites-image"
+                                    />
+                                ) : ("이미지 없음")}
+                            </td>
+                            <td className="favo-list-deletebutton">
+                                <button className="delete-button" onClick={() => handleDelete(favorite.postId)}>삭제</button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             ) : (
                 <p className="no-favorites">즐겨찾기 항목이 없습니다.</p>
             )}
         </div>
     );
+
 };
 
 export default MyFar;

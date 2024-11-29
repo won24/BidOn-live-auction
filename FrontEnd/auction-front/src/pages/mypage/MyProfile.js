@@ -33,12 +33,12 @@ const MyProfile = () =>
 
     if (!user)
     {
-        return <div>사용자 정보를 불러오는 중입니다...</div>;
+        return <div className="myprofileinfoing">사용자 정보를 불러오는 중입니다...</div>;
     }
 
     return (
         <div className="profile-container">
-            <h1>내 정보</h1>
+            <h1 className="profile-title">내 정보</h1><hr/>
             <div className="profile-table">
                 {[
                     { label: "아이디", value: user.id },
@@ -57,6 +57,26 @@ const MyProfile = () =>
                     </div>
                 ))}
             </div>
+
+            {/*<table className="profile-table-list">*/}
+            {/*    <thead>*/}
+            {/*    <tr>*/}
+            {/*        <th>아이디</th>*/}
+            {/*        <th>이름</th>*/}
+            {/*        <th>닉네임</th>*/}
+            {/*        <th>생년월일</th>*/}
+            {/*        <th>이메일</th>*/}
+            {/*        <th>휴대전화</th>*/}
+            {/*        <th>주소</th>*/}
+            {/*    </tr>*/}
+            {/*    </thead>*/}
+            {/*    <tbody>*/}
+            {/*        <td>*/}
+            {/*            */}
+            {/*        </td>*/}
+            {/*    </tbody>*/}
+            {/*</table>*/}
+
         </div>
     );
 };

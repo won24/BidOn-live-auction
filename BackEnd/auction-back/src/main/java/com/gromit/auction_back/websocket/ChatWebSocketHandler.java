@@ -37,6 +37,17 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         Message msg = mapper.registerModule(new JavaTimeModule()).readValue(payload, Message.class);
 
+        if ("admin".equals(msg.getType()) && "ban".equals(msg.getAction()))
+        {
+            // Ban action - Suspend the user for 7 days
+            String nickname = msg.getTarget();
+            LocalDateTime isSuspended = msg.getIsSuspended();
+
+            // Update the user's suspension in the database
+            updateUserSuspension(nickname, isSuspended);
+            System.out.println(nickname + isSuspended);
+
+        }
         synchronized (session) {
             for (WebSocketSession session2 : sessions) {
                 if (!session2.equals(session)) {
@@ -46,16 +57,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                         session2.sendMessage(new TextMessage("Left: " + msg.getNickname()));
                     } else if ("message".equals(msg.getType())) {
                         session2.sendMessage(new TextMessage(msg.getNickname() + ": " + msg.getMessage()));
-                    } else if ("admin".equals(msg.getType()) && "ban".equals(msg.getAction())) {
-                        // Ban action - Suspend the user for 7 days
-                        String nickname = msg.getTarget();
-                        LocalDateTime isSuspended = msg.getIsSuspended();
-
-                        // Update the user's suspension in the database
-                        updateUserSuspension(nickname, isSuspended);
-
-                        // Send feedback to the admin
-                        session2.sendMessage(new TextMessage(nickname + " has been banned for 7 days."));
                     }
                 }
             }

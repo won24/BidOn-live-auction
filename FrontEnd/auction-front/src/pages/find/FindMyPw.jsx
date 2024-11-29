@@ -144,7 +144,7 @@ const FindMyPw = () =>
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/finder/pw?${queryParams.toString()}`,
+                `http://112.221.66.174:3001/api/finder/pw?${queryParams.toString()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -185,7 +185,7 @@ const FindMyPw = () =>
         };
 
         try {
-            const response = await fetch("http://localhost:8080/api/finder/pw/update", 
+            const response = await fetch("http://112.221.66.174:3001/api/finder/pw/update", 
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

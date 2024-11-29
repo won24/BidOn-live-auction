@@ -109,7 +109,7 @@ const FindMyId = () =>
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/finder/id?${queryParams.toString()}`,
+                `http://112.221.66.174:3001/api/finder/id?${queryParams.toString()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },

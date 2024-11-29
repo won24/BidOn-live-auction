@@ -119,9 +119,4 @@ public class UserController
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    public static void banUser(String nickname, LocalDateTime suspensionEndTime)
-    {
-        userRepository.updateSuspensionStatus(nickname, suspensionEndTime);
-    }
 }

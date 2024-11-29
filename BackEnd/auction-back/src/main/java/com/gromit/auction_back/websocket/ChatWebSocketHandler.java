@@ -2,105 +2,94 @@ package com.gromit.auction_back.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.gromit.auction_back.User.UserController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-public class ChatWebSocketHandler extends TextWebSocketHandler
-{
+public class ChatWebSocketHandler extends TextWebSocketHandler {
 
-    private static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
-    private static ObjectMapper mapper = new ObjectMapper(); // For mapping JSON to Message object
-    private UserController userController;
+    private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
+    private static final ObjectMapper mapper = new ObjectMapper(); // For mapping JSON to Message object
+
+    @Autowired
+    public ChatWebSocketHandler(JdbcTemplate jdbcTemplate) {
+    }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception
-    {
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
         System.out.println("Connected: " + session.getId());
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
-    {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("Received: " + message.getPayload());
         String payload = message.getPayload();
-        System.out.println("Received: " + payload);
-
-        // Deserialize the message
         Message msg = mapper.registerModule(new JavaTimeModule()).readValue(payload, Message.class);
 
-        synchronized (session)
-        {
-            for (WebSocketSession session2 : sessions)
-            {
-                if (!session2.equals(session))
-                {
-                    if ("join".equals(msg.getType()))
-                    {
-                        session2.sendMessage(new TextMessage(msg.getNickname() + " has joined the chat."));
-                    }
-                    else if ("leave".equals(msg.getType()))
-                    {
-                        session2.sendMessage(new TextMessage(msg.getNickname() + " has left the chat."));
-                    }
-                    else if ("message".equals(msg.getType()))
-                    {
+        synchronized (session) {
+            for (WebSocketSession session2 : sessions) {
+                if (!session2.equals(session)) {
+                    if ("join".equals(msg.getType())) {
+                        session2.sendMessage(new TextMessage("Joined: " + msg.getNickname()));
+                    } else if ("leave".equals(msg.getType())) {
+                        session2.sendMessage(new TextMessage("Left: " + msg.getNickname()));
+                    } else if ("message".equals(msg.getType())) {
                         session2.sendMessage(new TextMessage(msg.getNickname() + ": " + msg.getMessage()));
-                    }
-                    else if ("admin".equals(msg.getType()))
-                    {
-                        // Admin commands (e.g., ban user)
-                        handleAdminCommand(session2, msg);
+                    } else if ("admin".equals(msg.getType()) && "ban".equals(msg.getAction())) {
+                        // Ban action - Suspend the user for 7 days
+                        String nickname = msg.getTarget();
+                        LocalDateTime isSuspended = msg.getIsSuspended();
+
+                        // Update the user's suspension in the database
+                        updateUserSuspension(nickname, isSuspended);
+
+                        // Send feedback to the admin
+                        session2.sendMessage(new TextMessage(nickname + " has been banned for 7 days."));
                     }
                 }
             }
         }
     }
 
-    private void handleAdminCommand(WebSocketSession session, Message msg) throws Exception
-    {
-        if ("ban".equals(msg.getAction()))
-        {
-            String targetUser = msg.getTarget();
-            LocalDateTime suspensionEndTime = msg.getSuspensionEndTime();
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-            if (targetUser != null && suspensionEndTime != null)
-            {
-                // Call the UserController or a service to update the suspension status
-                userController.banUser(targetUser, suspensionEndTime);
+    private void updateUserSuspension(String nickname, LocalDateTime suspensionEndTime) {
+        String sql = "UPDATE users SET isSuspended = ? WHERE nickname = ?";
 
-                session.sendMessage(new TextMessage("User " + targetUser + " has been banned until " + suspensionEndTime));
-            }
-            else
-            {
-                session.sendMessage(new TextMessage("Invalid ban command. Usage: /ban <nickname> <suspensionEndTime>"));
-            }
-        }
-        else
-        {
-            session.sendMessage(new TextMessage("Unknown admin action: " + msg.getAction()));
+        // Log the query and parameters to confirm
+        System.out.println("Executing query: " + sql);
+        System.out.println("With parameters: " + suspensionEndTime + ", " + nickname);
+
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, suspensionEndTime, nickname);
+            System.out.println("Rows affected: " + rowsAffected); // Should be 1 if successful
+        } catch (Exception e) {
+            System.out.println("Error executing update: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
 
     @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception
-    {
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         System.out.println("Error: " + session.getId());
         exception.printStackTrace();
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception
-    {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessions.remove(session);
         System.out.println("Disconnected: " + session.getId());
     }

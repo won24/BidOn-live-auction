@@ -72,7 +72,7 @@ const Login = () =>
         e.preventDefault();
     
         try {
-            const response = await fetch("http://localhost:8080/api/auth/login", 
+            const response = await fetch("http://112.221.66.174:8081/api/auth/login",
             {
                 method: "POST",
                 credentials: "include",

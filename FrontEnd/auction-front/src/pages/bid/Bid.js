@@ -24,7 +24,7 @@ const Bid = () => {
         const fetchUserInfo = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(`/admin/bid/${userCode}`);
+                    const response = await axios.get(`http://112.221.66.174:8081/admin/bid/${userCode}`);
                     setUserInfo(response.data);
                     console.log(response.data);
                 } catch (error) {
@@ -52,7 +52,7 @@ const Bid = () => {
     useEffect(() => {
         const fetchAuctionItem = async () => {
             try {
-                const response = await axios.get(`/auction/${postId}`);
+                const response = await axios.get(`http://112.221.66.174:8081/auction/${postId}`);
                 setAuctionItem(response.data);
                 setCurrentBid(response.data.startCash);
             } catch (error) {
@@ -64,11 +64,6 @@ const Bid = () => {
     }, [postId]);
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
     // WebSocket 연결 및 입찰 업데이트 처리
     useEffect(() => {
         const setupWebSocket = async () => {
@@ -93,7 +88,7 @@ const Bid = () => {
         if (newBid <= userInfo.cash) {
             try {
                 // 서버에 사용자의 입찰 내역을 확인
-                const response = await axios.get(` http://localhost:8080/bid/check/${postId}/${userCode}`);
+                const response = await axios.get(`http://112.221.66.174:8081/bid/check/${postId}/${userCode}`);
                 const userBidData = response.data;
 
                 if (userBidData===null) {
@@ -106,7 +101,7 @@ const Bid = () => {
                     });
                     // 사용자 캐시 차감
                     const updatedCash = userInfo.cash - newBid;
-                    await axios.put(`/admin/updatecash/${user.userCode}`, { cash: updatedCash });
+                    await axios.put(`http://112.221.66.174:8081/admin/updatecash/${user.userCode}`, { cash: updatedCash });
                     // 사용자 정보 업데이트
                     setUserInfo((prevUserInfo) => ({
                         ...prevUserInfo,
@@ -123,7 +118,7 @@ const Bid = () => {
                 } else {
                     // 사용자가 입찰 내역이 있는 경우, 입찰 진행
                     //이 포스트의 최고금액 가져와서 내 기존금액 빼고 어마운트금액 더 해주기
-                    const response = await axios.get(`http://localhost:8080/bid/check/${postId}`);
+                    const response = await axios.get(`http://112.221.66.174:8081/bid/check/${postId}`);
                     const otherBidData = response.data;
                     const updateBid = otherBidData - userBidData + amount
                     const topRate = otherBidData + amount
@@ -135,7 +130,7 @@ const Bid = () => {
                     });
                     // 사용자 캐시 차감
                     const updatedCash = userInfo.cash - updateBid;
-                    await axios.put(`/admin/updatecash/${userCode}`, { cash: updatedCash });
+                    await axios.put(`http://112.221.66.174:8081/admin/updatecash/${userCode}`, { cash: updatedCash });
 
                     // 사용자 정보 업데이트
                     setUserInfo((prevUserInfo) => ({
@@ -148,11 +143,7 @@ const Bid = () => {
                         const updatedBid = Math.max(prevBid, topRate);
                         localStorage.setItem(`currentBid-${postId}`, updatedBid); // 로컬 스토리지에 저장
                         return updatedBid;
-<<<<<<< HEAD
-                    });
-=======
                 });
->>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
                 }
                 alert('입찰이 성공적으로 처리되었습니다.');
             } catch (error) {
@@ -167,7 +158,7 @@ const Bid = () => {
 
     const fetchHighestBid = useCallback(async () => {
         try {
-            const response = await axios.get(`/bid/${postId}`);
+            const response = await axios.get(`http://112.221.66.174:8081/bid/${postId}`);
             const fetchedBid = response.data;
             console.log("fetchedBid", fetchedBid)
 
@@ -184,11 +175,6 @@ const Bid = () => {
         fetchHighestBid();
     }, [fetchHighestBid]);
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> efe741a60f0dd045e563f69add9a84ab33319551
     if (!auctionItem) return <div>로딩 중...</div>;
 
     const CurrentBid = React.memo(({ bid }) => (

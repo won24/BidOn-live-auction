@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useLogin } from '../../pages/login/LoginContext';
 import { useNavigate } from 'react-router-dom'; // useNavigate 추가
-
+const baseURL =process.env.REACT_APP_API_URL;
 const PersonalInquire = () => {
     const { user } = useLogin();
     const userCode = sessionStorage.getItem("userCode");
@@ -31,7 +31,7 @@ const PersonalInquire = () => {
         }
 
         try {
-            const response = await axios.post('/customer/personalinquire', {
+            const response = await axios.post('http://112.221.66.174:8081/customer/personalinquire', {
                 ...formData,
                 userCode: userCode
             });

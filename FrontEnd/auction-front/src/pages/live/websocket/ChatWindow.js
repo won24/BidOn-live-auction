@@ -71,7 +71,7 @@ const ChatWindow = () =>
         if (!isLoggedIn) return;
 
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-        const wsUrl = `${wsProtocol}localhost:8080/chat`;
+        const wsUrl = `${wsProtocol}112.221.66.174:8081/chat`;
         const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => 

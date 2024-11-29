@@ -29,7 +29,7 @@ export function SuccessPage() {
 
             if (user && user.userCode > 0) {
                 try {
-                    await axios.post('/toss/save', {
+                    await axios.post('http://112.221.66.174:8081/toss/save', {
                         userCode: user.userCode,
                         amount: Number(requestData.amount)
                     });

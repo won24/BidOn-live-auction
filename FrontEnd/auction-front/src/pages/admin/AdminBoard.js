@@ -6,8 +6,9 @@ import {updateRecentPosts} from "../../components/aside/RecentlyView";
 import Pagination from "../acution/common/paging/Pagination";
 import "../../css/AdminBoard.css";
 import usePagination from "../acution/common/paging/usePagination";
-
+const baseURL =process.env.REACT_APP_API_URL;
 const AdminBoard = () => {
+
     const [imgMap, setImgMap] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [allList, setAllList] = useState([]);

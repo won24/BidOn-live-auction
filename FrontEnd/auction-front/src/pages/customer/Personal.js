@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Personal.css";
 import { useLogin } from '../../pages/login/LoginContext'; // LoginContext import 추가
-
+const baseURL =process.env.REACT_APP_API_URL;
 const Personal = () => {
     const navigate = useNavigate();
     const { user } = useLogin(); // LoginContext에서 user 정보 가져오기
@@ -21,7 +21,7 @@ const Personal = () => {
 
             try {
                 console.log("Fetching posts for user:", userCode);
-                const response = await axios.post('/customer/personal', { userCode });
+                const response = await axios.post('http://112.221.66.174:8081/customer/personal', { userCode });
                 // console.log("Full response:", response);
                 // console.log("Response data:", response.data);
 

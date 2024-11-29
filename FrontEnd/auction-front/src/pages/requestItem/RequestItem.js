@@ -99,7 +99,7 @@ const RequestItem = () => {
         console.log(formData);
 
         try {
-            const response = await axios.post('http://localhost:8080/requestitem', formData, {
+            const response = await axios.post('http://112.221.66.174:8081/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -127,14 +127,14 @@ const RequestItem = () => {
         }
 
         try {
-            const response = await axios.post('/images/upload', formData, {
+            const response = await axios.post('http://112.221.66.174:8081/images/upload', formData, {
                 params: { postId }
             });
 
             if (response.status === 200 || response.status === 201) {
                 console.log('이미지 업로드 성공');
                 alert('경매품 등록을 완료했습니다. 자세한 사항은 1:1 문의에 보내드리겠습니다');
-                navigate('/customer/notice');
+                navigate('http://112.221.66.174:8081/customer/notice');
             } else {
                 throw new Error('이미지 업로드 실패');
             }

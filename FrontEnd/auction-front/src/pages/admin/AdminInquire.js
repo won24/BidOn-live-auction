@@ -14,7 +14,7 @@ const AdminInquire = () => {
 
     const fetchInquiries = async () => {
         try {
-            const response = await axios.get('/admin/inquire');
+            const response = await axios.get('http://112.221.66.174:8081/admin/inquire');
             console.log('Fetched inquiries:', response.data);
             setInquiries(response.data);
         } catch (error) {
@@ -38,7 +38,7 @@ const AdminInquire = () => {
         if (!selectedInquiry || !answer.trim()) return;
 
         try {
-            await axios.get(`/admin/answer`, {
+            await axios.get(`http://112.221.66.174:8081/admin/answer`, {
                 params: {
                     userCode: selectedInquiry.userCode,
                     answer: answer

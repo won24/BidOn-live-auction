@@ -31,7 +31,7 @@ const Nav = () =>
             localStorage.clear();
             setUser(null);
             // navigate(current, { replace: true });
-            navigate(0);
+            navigate("/");
         }
         else return;
     };

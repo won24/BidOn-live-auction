@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const ChatWindow = () => 
 {
-    const userId = sessionStorage.getItem("nickname");
+    const nickname = sessionStorage.getItem("nickname");
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 
@@ -11,12 +11,35 @@ const ChatWindow = () =>
         if (!timeString) return null;
     
         const parts = timeString.split(",").map((part) => parseInt(part, 10));
-        // Check for valid array length and values
         if (parts.length === 6) 
         {
             const [year, month, day, hour, minute, second] = parts;
-            // `month` in JavaScript's `Date` constructor is zero-based, so subtract 1
             return new Date(year, month - 1, day, hour, minute, second);
+        }
+        else if (parts.length < 6)
+        {
+            const [year, month, day, hour, minute] = parts;
+            return new Date(year, month - 1, day, hour, minute, "00");
+        }
+    
+        console.error("Invalid suspension time format:", timeString);
+        return null;
+    };
+
+    const parseSuspensionTimeReverse = (timeString) => 
+    {
+        if (!timeString) return null;
+    
+        const parts = timeString.replace("T", " ");
+        if (parts.length === 6) 
+        {
+            const [year, month, day, hour, minute, second] = parts;
+            return new Date(year, month - 1, day, hour, minute, second);
+        }
+        else if (parts.length < 6)
+        {
+            const [year, month, day, hour, minute] = parts;
+            return new Date(year, month - 1, day, hour, minute, "00");
         }
     
         console.error("Invalid suspension time format:", timeString);
@@ -60,7 +83,7 @@ const ChatWindow = () =>
                     message: "채팅 서버에 연결되었습니다. 바른말 고운말을 사용해주세요.",
                 },
             ]);
-            ws.send(JSON.stringify({ type: "join", userId }));
+            ws.send(JSON.stringify({ type: "join", nickname }));
         
             if (isSuspended) 
             {
@@ -77,7 +100,7 @@ const ChatWindow = () =>
                     ...prev,
                     {
                         type: "info",
-                        message: `${formattedSuspensionTime} 이후 재접속 시 다시 채팅이 가능합니다.`,
+                        message: `${formattedSuspensionTime} 이후 다시 채팅이 가능합니다.`,
                         color: "red"
                     },
                 ]);
@@ -115,11 +138,11 @@ const ChatWindow = () =>
         {
             if (ws) 
             {
-                ws.send(JSON.stringify({ type: "leave", userId }));
+                ws.send(JSON.stringify({ type: "leave", nickname }));
                 ws.close();
             }
         };
-    }, [isLoggedIn, isSuspended, userId]);
+    }, [isLoggedIn, isSuspended, nickname]);
 
     const sendMessage = () => 
     {
@@ -136,7 +159,7 @@ const ChatWindow = () =>
                 {
                     const sentMessage = { type: "sent", message: trimmedMessage };
                     webSocket.send(
-                        JSON.stringify({ type: "message", userId, message: trimmedMessage })
+                        JSON.stringify({ type: "message", nickname, message: trimmedMessage })
                     );
                     setMessage((prev) => 
                     {
@@ -158,14 +181,25 @@ const ChatWindow = () =>
             const targetUser = args[0];
             if (targetUser) 
             {
+                const suspensionEndTime = new Date();
+                suspensionEndTime.setDate(suspensionEndTime.getDate() + 7);
+    
                 webSocket.send(
-                    JSON.stringify({ type: "admin", action: "ban", target: targetUser, userId })
+                    JSON.stringify({
+                        type: "admin",
+                        action: "ban",
+                        target: targetUser,
+                        suspensionEndTime: suspensionEndTime,
+                        nickname,
+                    })
                 );
+    
                 setMessage((prev) => [
                     ...prev,
                     {
                         type: "admin-feedback",
-                        message: `User ${targetUser} has been banned.`,
+                        message: `${targetUser}님의 메시지 전송을 7일 동안 금지했습니다.`,
+                        color: "red",
                     },
                 ]);
             } 
@@ -175,7 +209,7 @@ const ChatWindow = () =>
                     ...prev,
                     {
                         type: "admin-feedback",
-                        message: "Usage: /ban <username>",
+                        message: "사용방법: /ban <nickname>",
                     },
                 ]);
             }
@@ -186,11 +220,12 @@ const ChatWindow = () =>
                 ...prev,
                 {
                     type: "admin-feedback",
-                    message: `Unknown command: ${cmd}`,
+                    message: `알 수 없는 커맨드: ${cmd}`,
                 },
             ]);
         }
     };
+        
 
     const handleKeyPass = (event) => 
     {

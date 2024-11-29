@@ -26,26 +26,6 @@ const ChatWindow = () =>
         return null;
     };
 
-    const parseSuspensionTimeReverse = (timeString) => 
-    {
-        if (!timeString) return null;
-    
-        const parts = timeString.replace("T", " ");
-        if (parts.length === 6) 
-        {
-            const [year, month, day, hour, minute, second] = parts;
-            return new Date(year, month - 1, day, hour, minute, second);
-        }
-        else if (parts.length < 6)
-        {
-            const [year, month, day, hour, minute] = parts;
-            return new Date(year, month - 1, day, hour, minute, "00");
-        }
-    
-        console.error("Invalid suspension time format:", timeString);
-        return null;
-    };
-
     const suspensionTime = sessionStorage.getItem("isSuspended");
     const isSuspendedDate = parseSuspensionTime(suspensionTime);
     const now = new Date();
@@ -58,7 +38,21 @@ const ChatWindow = () =>
                 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
     };
 
-    const [message, setMessage] = useState(() => 
+    const formatDate = (date) =>
+    {
+        if (!date || !(date instanceof Date)) return "";
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adds leading 0 if needed
+        const day = String(date.getDate()).padStart(2, '0'); // Adds leading 0 if needed
+        const hours = String(date.getHours()).padStart(2, '0'); // Adds leading 0 if needed
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // Adds leading 0 if needed
+        const seconds = String(date.getSeconds()).padStart(2, '0'); // Adds leading 0 if needed
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    };
+
+    const [message, setMessage] = useState(() =>
     {
         const savedMessages = localStorage.getItem("chatMessages");
         return savedMessages ? JSON.parse(savedMessages) : [];
@@ -71,7 +65,7 @@ const ChatWindow = () =>
         if (!isLoggedIn) return;
 
         const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-        const wsUrl = `${wsProtocol}112.221.66.174:8081/chat`;
+        const wsUrl = `${wsProtocol}112.221.66.174:8080/chat`;
         const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => 
@@ -173,27 +167,26 @@ const ChatWindow = () =>
         }
     };
 
-    const handleAdminCommand = (command) => 
-    {
+    const handleAdminCommand = (command) => {
         const [cmd, ...args] = command.split(" ");
-        if (cmd === "/ban") 
-        {
+        if (cmd === "/ban") {
             const targetUser = args[0];
-            if (targetUser) 
-            {
-                const suspensionEndTime = new Date();
-                suspensionEndTime.setDate(suspensionEndTime.getDate() + 7);
+            if (targetUser) {
+                const isSuspended = new Date();
+                isSuspended.setDate(isSuspended.getDate() + 7);
     
+                // Send ban message to the backend
                 webSocket.send(
                     JSON.stringify({
                         type: "admin",
                         action: "ban",
                         target: targetUser,
-                        suspensionEndTime: suspensionEndTime,
+                        isSuspended: formatDate(isSuspended),
                         nickname,
                     })
                 );
     
+                // Display feedback to the admin in the chat window
                 setMessage((prev) => [
                     ...prev,
                     {
@@ -202,9 +195,7 @@ const ChatWindow = () =>
                         color: "red",
                     },
                 ]);
-            } 
-            else 
-            {
+            } else {
                 setMessage((prev) => [
                     ...prev,
                     {
@@ -213,9 +204,42 @@ const ChatWindow = () =>
                     },
                 ]);
             }
-        } 
-        else 
-        {
+        }
+        else if (cmd === "/unban") {
+            const targetUser = args[0];
+            if (targetUser)
+            {
+                // Send ban message to the backend
+                webSocket.send(
+                    JSON.stringify({
+                        type: "admin",
+                        action: "unban",
+                        target: targetUser,
+                        isSuspended: null,
+                        nickname,
+                    })
+                );
+
+                // Display feedback to the admin in the chat window
+                setMessage((prev) => [
+                    ...prev,
+                    {
+                        type: "admin-feedback",
+                        message: `${targetUser}님의 메시지 전송 금지를 즉시 해제하였습니다.`,
+                        color: "red",
+                    },
+                ]);
+            } else {
+                setMessage((prev) => [
+                    ...prev,
+                    {
+                        type: "admin-feedback",
+                        message: "사용방법: /(un)ban <nickname>",
+                    },
+                ]);
+            }
+        }
+        else {
             setMessage((prev) => [
                 ...prev,
                 {
@@ -225,7 +249,8 @@ const ChatWindow = () =>
             ]);
         }
     };
-        
+
+
 
     const handleKeyPass = (event) => 
     {
@@ -240,12 +265,6 @@ const ChatWindow = () =>
             <div
                 id="chatwindow"
                 className="chat-window"
-                style={{
-                    border: "1px solid #ccc",
-                    height: "400px",
-                    backgroundColor: "#fff",
-                    overflowY: "scroll",
-                }}
             >
                 {message.map((msg, index) => 
                 {

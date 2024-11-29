@@ -1,16 +1,98 @@
+/*.sendedmessage {*/
+/*    margin: 5px;*/
+/*    padding: 8px;*/
+/*    border-radius: 5px;*/
+/*    max-width: 80%;*/
+/*  }*/
+/*  */
+/*  .message.sent {*/
+/*    background-color: #DCF8C6;*/
+/*    align-self: flex-end;*/
+/*  }*/
+/*  */
+/*  .message.received {*/
+/*    background-color: #E5E5EA;*/
+/*    align-self: flex-start;*/
+/*  }*/
+
+.toggleChat{
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #454545;
+    color: #ffffff;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 700px; /* 채팅창 너비 조정 */
+    margin: 0 auto;
+}
+
+.chat-window {
+    border: 1px solid #ccc;
+    height: 400px;
+    background-color: #fff;
+    overflow-y: scroll;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
 .sendedmessage {
-    margin: 5px;
+    margin-top: 5px;
     padding: 8px;
-    border-radius: 5px;
+    border-radius: 10px;
     max-width: 80%;
-  }
-  
-  .message.sent {
-    background-color: #DCF8C6;
-    align-self: flex-end;
-  }
-  
-  .message.received {
-    background-color: #E5E5EA;
-    align-self: flex-start;
-  }
+    word-wrap: break-word;
+}
+
+.sendedmessage.sent {
+    background-color: #e0f7fa;
+}
+
+.sendedmessage.info {
+    background-color: #f0f0f0;
+}
+
+.sendedmessage.admin-feedback {
+    background-color: #e8f4fc;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-box {
+    width: 80%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.send-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4e4e4e;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.send-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.send-button:hover:enabled {
+    background-color: #343434;
+}
+
+.input-box:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+}

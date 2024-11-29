@@ -32,7 +32,7 @@ public class UserDTO
     private Boolean isAdult;
     private Boolean isAdmin;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime isSuspended = null;
 
     private boolean sendEmail;

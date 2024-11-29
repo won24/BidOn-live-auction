@@ -22,7 +22,7 @@
 
     <select id="getUserPost" resultMap="userPostResultMap">
         SELECT
-        *
+            *
         FROM userPost
         WHERE postId = #{postId} and userCode = #{userCode}
     </select>

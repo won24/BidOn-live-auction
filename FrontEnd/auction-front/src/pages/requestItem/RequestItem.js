@@ -134,7 +134,7 @@ const RequestItem = () => {
             if (response.status === 200 || response.status === 201) {
                 console.log('이미지 업로드 성공');
                 alert('경매품 등록을 완료했습니다. 자세한 사항은 1:1 문의에 보내드리겠습니다');
-                navigate('http://112.221.66.174:8081/customer/notice');
+                navigate('/customer/notice');
             } else {
                 throw new Error('이미지 업로드 실패');
             }

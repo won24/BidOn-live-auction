@@ -24,7 +24,7 @@ const Bid = () => {
         const fetchUserInfo = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(`http://112.221.66.174:8081/admin/bid/${userCode}`);
+                    const response = await axios.get(`http://112.221.66.174:8081/adminuser/bid/${userCode}`);
                     setUserInfo(response.data);
                     console.log(response.data);
                 } catch (error) {
@@ -101,7 +101,7 @@ const Bid = () => {
                     });
                     // 사용자 캐시 차감
                     const updatedCash = userInfo.cash - newBid;
-                    await axios.put(`http://112.221.66.174:8081/admin/updatecash/${user.userCode}`, { cash: updatedCash });
+                    await axios.put(`http://112.221.66.174:8081/adminuser/updatecash/${user.userCode}`, { cash: updatedCash });
                     // 사용자 정보 업데이트
                     setUserInfo((prevUserInfo) => ({
                         ...prevUserInfo,
@@ -130,7 +130,7 @@ const Bid = () => {
                     });
                     // 사용자 캐시 차감
                     const updatedCash = userInfo.cash - updateBid;
-                    await axios.put(`http://112.221.66.174:8081/admin/updatecash/${userCode}`, { cash: updatedCash });
+                    await axios.put(`http://112.221.66.174:8081/adminuser/updatecash/${userCode}`, { cash: updatedCash });
 
                     // 사용자 정보 업데이트
                     setUserInfo((prevUserInfo) => ({

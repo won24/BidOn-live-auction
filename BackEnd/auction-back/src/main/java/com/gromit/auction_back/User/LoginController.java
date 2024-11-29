@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://112.221.66.174:3001")
 public class LoginController
 {
     @Autowired

@@ -16,7 +16,7 @@ const AdminUserDetail = () => {
             try {
                 setLoading(true);
                 console.log("파람스 유저코드 확인 "+userCode);
-                const response = await axios.get(`http://112.221.66.174:8081/admin/users/${userCode}`);
+                const response = await axios.get(`http://112.221.66.174:8081/adminuser/users/${userCode}`);
                 setUser(response.data);
                 console.log(response.data+"디테일")
                 setLoading(false);

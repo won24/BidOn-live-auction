@@ -41,6 +41,7 @@ const AuctionDetailPage = () =>{
                 setPostStatus(data.postStatus);
 
                 const imageUrls = await getPostImages(postId);
+                console.log(imageUrls)
                 setImg(imageUrls);
 
                 if (data.startDay) {
@@ -199,16 +200,18 @@ const AuctionDetailPage = () =>{
     const renderImageSlider = () => (
         <div>
             <div className="imageSlider">
-                <button onClick={handlePrev} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faChevronLeft} style={{ color: "#454545", fontSize: "40px" }} />
+                <button onClick={handlePrev} className="sliderButton"
+                        style={{background: "none", border: "none", cursor: "pointer"}}>
+                    <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545", fontSize: "40px"}}/>
                 </button>
                 <img className="sliderImage"
                      src={img[currentImgIndex]}
                      alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
                      onClick={openModal}
-                     loading="lazy" />
-                <button onClick={handleNext} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faChevronRight} style={{ color: "#454545", fontSize: "40px" }} />
+                     loading="lazy"/>
+                <button onClick={handleNext} className="sliderButton"
+                        style={{background: "none", border: "none", cursor: "pointer"}}>
+                    <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545", fontSize: "40px"}}/>
                 </button>
             </div>
 
@@ -247,7 +250,7 @@ const AuctionDetailPage = () =>{
                 <div className="detail-page_top">
                     <div className="detail-page_top_leftSide">
                         <h2 className="detail-page_title">{board.title}</h2>
-                            {renderFavoriteButton()}
+                        {renderFavoriteButton()}
                     </div>
                     <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>

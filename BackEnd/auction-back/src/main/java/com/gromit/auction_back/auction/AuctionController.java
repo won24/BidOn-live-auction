@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/auction")
 public class AuctionController {
 
-    @Autowired
-    AuctionService auctionService;
+
+    private final AuctionService auctionService;
 
     public AuctionController(AuctionService auctionService) {
         this.auctionService = auctionService;
@@ -183,7 +183,7 @@ public class AuctionController {
     @PostMapping("/endlive/{postId}")
     public ResponseEntity<?> setPostStatus(@PathVariable int postId) {
         try {
-            System.out.println("와이낫");
+
             int result = auctionService.setPostStatus(postId);
             if (result > 0) {
 
@@ -219,7 +219,6 @@ public class AuctionController {
         try {
             int result = auctionService.updatePostAfterLive(auctionDTO);
             if (result > 0) {
-                System.out.println("라이브 경매 후 board 정보 업데이트 성공");
                 return ResponseEntity.noContent().build();
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("라이브 후 정보 수정 실패");

@@ -5,6 +5,7 @@ import axios from "axios";
 import Bid from "../bid/Bid";
 import '../../css/LiveDetail.css'
 import SuccessfulBidderModal from "./SuccessfulBidderModal";
+import {insertUserPost} from "../acution/common/AuctionAPIs";
 
 const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const [remainingTime, setRemainingTime] = useState(0);
@@ -15,8 +16,6 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const userCode = sessionStorage.getItem("userCode");
     const [requestSent, setRequestSent] = useState(false);
-    const [auctionEnded, setAuctionEnded] = useState(false);
-    const [user,setUser] = useState("")
     const [bidFinalCash, setBidFinalCash] = useState(0);
     const [isBidModalOpen, setIsBidModalOpen] = useState(false);
 
@@ -65,35 +64,49 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
             const executeRequests = async () => {
                 try {
                     // 낙찰자 정보
-                    const response = await axios.get(`http://localhost:8080/bid/top/${postId}`);
-                    const data = (response.data);
+                    const response = await axios.get(`http://112.221.66.174:8081/bid/top/${postId}`);
+                    const data = response.data;
                     setBidFinalCash(data.currentCash);
-                    setUser(data.userCode);
 
+                    // userPost 업데이트
+                    const userPostData = {
+                        postId: postId,
+                        userCode: data.userCode,
+                    }
+                    await api.insertUserPost(userPostData);
+
+                    // userPost 가져오기
+                    const resp = await api.getUserPost(postId,userCode);
+                    const userData = resp.data;
+                    console.log(userData)
+
+
+                    // 낙찰자 모달
+                    if (userData === null){
+                        console.log("로그인 유저", userCode, "낙찰자", data.userCode);
+                        if (userCode == data.userCode) {
+                            setIsBidModalOpen(true);
+                        }
+                    }
+
+
+                    // 경매 정보 업데이트
                     const formData = {
                         postId: postId,
                         finalCash: data.currentCash,
                         endDay: new Date().toISOString(),
                     };
 
-                    console.log("로그인 유저", userCode, "낙찰자", data.userCode);
-                    if (userCode == data.userCode) {
-                        setIsBidModalOpen(true);
-                    }
-                    setAuctionEnded(true);
-
-                    // 경매 정보 업데이트
-                    await axios.post('http://localhost:8080/auction/final', formData, {
+                    await axios.post('http://112.221.66.174:8081/auction/final', formData, {
                         headers: { 'Content-Type': 'application/json' },
                     });
 
                     // 낙찰자 외 환불 요청
-                    await axios.get(`http://localhost:8080/bid/end/${postId}`);
+                    await axios.get(`http://112.221.66.174:8081/bid/end/${postId}`);
 
                 } catch (error) {
                     console.error('요청 실행 실패', error);
                 }
-
             };
 
             executeRequests();

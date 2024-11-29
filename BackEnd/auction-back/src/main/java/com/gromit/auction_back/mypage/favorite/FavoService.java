@@ -31,7 +31,6 @@ public class FavoService {
 
     public List<FavoDTO> getMyFav (int postId, int userCode) {
         return favoDAO.getMyFav(postId, userCode);
-
     }
 
     // 즐겨찾기 목록 조회

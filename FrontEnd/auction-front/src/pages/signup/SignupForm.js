@@ -111,7 +111,11 @@ const SignupForm = () =>
         };
 
         try {
+<<<<<<< HEAD
             const response = await fetch('http://112.221.66.174:8081/api/signup',
+=======
+            const response = await fetch('http://112.221.66.174:3001/api/signup', 
+>>>>>>> 814a9c68f195ae2646d8a46aa62ac41e01908759
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

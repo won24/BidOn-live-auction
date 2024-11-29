@@ -36,9 +36,5 @@ public interface UserRepository extends JpaRepository<UserDTO, Integer>
     boolean existsByIdAndNameAndEmail(@Param("id") String id, @Param("name") String name, @Param("email") String email);
 
     UserDTO findById(String id);
-
-    @Modifying
-    @Query("UPDATE UserDTO u SET u.isSuspended = :suspensionEndTime WHERE u.nickname = :nickname")
-    void updateSuspensionStatus(@Param("nickname") String nickname, @Param("suspensionEndTime") LocalDateTime suspensionEndTime);
 }
 

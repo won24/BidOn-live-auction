@@ -53,7 +53,11 @@ const IdInput = ({ value, onChange, validate }) =>
     
         setIsChecking(true);
         try {
+<<<<<<< HEAD
             const response = await fetch("http://112.221.66.174:8081/api/check-id?id=" + value,
+=======
+            const response = await fetch("http://112.221.66.174:3001/api/check-id?id=" + value,
+>>>>>>> 814a9c68f195ae2646d8a46aa62ac41e01908759
             {
                 method: "GET",
                 headers: 

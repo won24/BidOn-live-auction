@@ -48,6 +48,22 @@ const MyAuctions = () => {
         return <div className="error">{error}</div>;
     }
 
+    function applyTruncate(selector, maxLength) {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+            const text = el.textContent.trim();
+            if (text.length > maxLength) {
+                el.textContent = text.substring(0, maxLength) + '...';
+                el.setAttribute('title', text); // 전체 텍스트를 툴팁으로 표시
+            }
+        });
+    }
+
+// 예제: 20자 이상 잘라내기
+    applyTruncate('.truncate', 20);
+
+
+
     return (
         <div className="auction-wrapper">
             <h1 className="auction-list-title">낙찰 경매품 목록</h1><hr />
@@ -66,7 +82,13 @@ const MyAuctions = () => {
                         <tr key={auction.postId}>
                             <td>{index + 1}</td>
                             <td>{auction.title}</td>
-                            <td>{auction.content}</td>
+                            <td className="auction-content-truncate"
+                                style={{
+                                maxWidth: '500px',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                            }}>{auction.content}</td>
                             <td>{auction.userCode}</td>
                         </tr>
                     ))}

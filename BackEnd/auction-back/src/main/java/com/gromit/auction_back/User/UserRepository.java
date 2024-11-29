@@ -2,9 +2,11 @@ package com.gromit.auction_back.User;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -34,5 +36,9 @@ public interface UserRepository extends JpaRepository<UserDTO, Integer>
     boolean existsByIdAndNameAndEmail(@Param("id") String id, @Param("name") String name, @Param("email") String email);
 
     UserDTO findById(String id);
+
+    @Modifying
+    @Query("UPDATE UserDTO u SET u.isSuspended = :suspensionEndTime WHERE u.nickname = :nickname")
+    void updateSuspensionStatus(@Param("nickname") String nickname, @Param("suspensionEndTime") LocalDateTime suspensionEndTime);
 }
 

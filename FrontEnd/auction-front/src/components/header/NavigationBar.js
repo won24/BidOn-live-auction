@@ -1,23 +1,19 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
 import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import {useCallback, useEffect} from "react";
 
 const Nav = () => 
 {
     const navigate = useNavigate();
-    const location = useLocation();
-    const current = location.pathname;
 
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
-    const cash = sessionStorage.getItem("cash");
+    const cash = parseInt(sessionStorage.getItem("cash"), 10) || 0;
     const nickname = sessionStorage.getItem("nickname");
     const id = sessionStorage.getItem("id");
-
-    const [hideCash, setHideCash] = useState(false);
 
     const { user, setUser } = useLogin();
 
@@ -35,35 +31,39 @@ const Nav = () =>
             localStorage.clear();
             setUser(null);
             // navigate(current, { replace: true });
-            navigate(0);
+            navigate("/");
         }
         else return;
     };
 
-    const updateCash = async () =>
+    const updateCash = useCallback(async () => 
     {
         if (!id) return;
-
+    
         try {
             const response = await fetch(`http://localhost:8080/api/id/${id}`);
-            if (response.ok)
+            if (response.ok) 
             {
-                const userData = await response.json(); // Assuming the API returns the full user object
-                const updatedCash = userData.cash; // Extract the `cash` field
-                sessionStorage.setItem("cash", updatedCash); // Update sessionStorage
-                setUser((prev) => ({ ...prev, cash: updatedCash })); // Update context with only the cash value
-            }
-            else
+                const userData = await response.json();
+                const updatedCash = userData.cash
+                sessionStorage.setItem("cash", updatedCash);
+                setUser((prev) => ({ ...prev, cash: updatedCash }));
+            } 
+            else 
             {
                 console.error("Failed to fetch updated cash.");
             }
         } catch (error) {
             console.error("Error fetching updated cash:", error);
         }
-    };
-    useEffect(() => {
-        updateCash()
-    }, [id]);
+    }, [id, setUser]);
+    
+    useEffect(() => 
+    {
+        if (isLoggedIn) updateCash();
+    }, [isLoggedIn, updateCash]);
+    
+    
 
     const truncateNickname = (nickname, maxLength) => 
     {
@@ -73,11 +73,6 @@ const Nav = () =>
         }
         return nickname;
     };
-
-    useEffect(() =>
-    {
-        setHideCash(current.includes("auction"));
-    }, [current]);
 
     return (
         <div className="navContainer">
@@ -116,7 +111,7 @@ const Nav = () =>
                             로그아웃
                         </button>
                     </div>
-                    {!isAdmin && !hideCash && (
+                    {!isAdmin && (
                         <div className="user-info-container">
                             <span className="main-page_cash" onClick={openCheckoutPopup}>
                                 충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시

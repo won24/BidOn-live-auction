@@ -175,6 +175,7 @@ const Bid = () => {
         fetchHighestBid();
     }, [fetchHighestBid]);
 
+
     if (!auctionItem) return <div>로딩 중...</div>;
 
     const CurrentBid = React.memo(({ bid }) => (

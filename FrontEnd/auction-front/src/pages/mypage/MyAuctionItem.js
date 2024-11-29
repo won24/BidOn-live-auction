@@ -20,7 +20,7 @@ const MyAuctionItem = () => {
     useEffect(() => {
         const fetchAuctionItems = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/mypage/myauctionitem", {
+                const response = await axios.get("http://112.221.66.174:8081/mypage/myauctionitem", {
                     params: { userCode: user.userCode } // 현재 로그인된 사용자의 userCode를 전달
                 });
                 setAuctionItems(response.data);

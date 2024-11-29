@@ -14,7 +14,7 @@ const MyPageLayout = () => {
     useEffect(() => {
         if (!isLoggedIn) {
             alert("로그인이 필요합니다.");
-            navigate("/member/login");
+            navigate("http://112.221.66.174:8081/member/login");
             return;
         }
     }, [isLoggedIn, navigate, user]);

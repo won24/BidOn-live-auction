@@ -16,7 +16,7 @@ const MyFar = () => {
     useEffect(() => {
         if (!isLoggedIn) {
             alert("로그인이 필요합니다.");
-            navigate("/member/login");
+            navigate("http://112.221.66.174:8081/member/login");
             return;
         }
 
@@ -29,7 +29,7 @@ const MyFar = () => {
                     return;
                 }
 
-                const axiosResponse = await axios.get("http://localhost:8080/favo/favolist", {
+                const axiosResponse = await axios.get("http://112.221.66.174:8081/favo/favolist", {
                     params: { userCode: user.userCode },
                 });
 

@@ -14,7 +14,7 @@ const MyAuctions = () => {
         if (!user?.userCode) return;
 
         try {
-            const response = await axios.get('http://localhost:8080/mypage/successbid', {
+            const response = await axios.get('http://112.221.66.174:8081/mypage/successbid', {
                 params: { userCode: user.userCode },
             });
             console.log(response.data);  // 반환된 데이터 확인

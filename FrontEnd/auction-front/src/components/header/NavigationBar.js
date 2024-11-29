@@ -41,7 +41,7 @@ const Nav = () =>
         if (!id) return;
     
         try {
-            const response = await fetch(`http://localhost:8080/api/id/${id}`);
+            const response = await fetch(`http://112.221.66.174:8081/api/id/${id}`);
             if (response.ok) 
             {
                 const userData = await response.json();

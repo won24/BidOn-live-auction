@@ -1,9 +1,9 @@
 import axios from "axios";
 const BASE_URL = "http://112.221.66.174:8081/auction";
 
-export const totalAuctionList = () => axios.get(`${BASE_URL}`);
+export const totalAuctionList = () => axios.get(`http://112.221.66.174:8081/auction`);
 
-export const antiqueList = () => axios.get(`${BASE_URL}/antique`);
+export const antiqueList = () => axios.get(`http://112.221.66.174:8081/auction/antique`);
 
 export const limitedList = () => axios.get(`${BASE_URL}/limited`);
 

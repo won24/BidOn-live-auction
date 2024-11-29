@@ -173,7 +173,7 @@ const PostEditPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/images/upload', formData, {
+            const response = await axios.post('http://112.221.66.174:8081/images/upload', formData, {
                 params: {postId}
             });
 
@@ -192,7 +192,7 @@ const PostEditPage = () => {
     // 저장 이미지 개별 삭제
     const handleImageDelete = async (index, url) => {
         try {
-            const response = await axios.delete('http://localhost:8080/images/delete', {
+            const response = await axios.delete('http://112.221.66.174:8081/images/delete', {
                 params: {imageUrl: url, postId}
             });
 

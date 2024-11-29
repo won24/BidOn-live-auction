@@ -204,7 +204,42 @@ const ChatWindow = () =>
                     },
                 ]);
             }
-        } else {
+        }
+        else if (cmd === "/unban") {
+            const targetUser = args[0];
+            if (targetUser) 
+            {
+                // Send ban message to the backend
+                webSocket.send(
+                    JSON.stringify({
+                        type: "admin",
+                        action: "unban",
+                        target: targetUser,
+                        isSuspended: null,
+                        nickname,
+                    })
+                );
+    
+                // Display feedback to the admin in the chat window
+                setMessage((prev) => [
+                    ...prev,
+                    {
+                        type: "admin-feedback",
+                        message: `${targetUser}님의 메시지 전송 금지를 즉시 해제하였습니다.`,
+                        color: "red",
+                    },
+                ]);
+            } else {
+                setMessage((prev) => [
+                    ...prev,
+                    {
+                        type: "admin-feedback",
+                        message: "사용방법: /(un)ban <nickname>",
+                    },
+                ]);
+            }
+        }
+        else {
             setMessage((prev) => [
                 ...prev,
                 {

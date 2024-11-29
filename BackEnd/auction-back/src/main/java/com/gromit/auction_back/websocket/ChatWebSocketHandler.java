@@ -48,6 +48,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             System.out.println(nickname + isSuspended);
 
         }
+        else if ("admin".equals(msg.getType()) && "unban".equals(msg.getAction()))
+        {
+            // Ban action - Suspend the user for 7 days
+            String nickname = msg.getTarget();
+
+            // Update the user's suspension in the database
+            updateUserSuspension(nickname, null);
+        }
         synchronized (session) {
             for (WebSocketSession session2 : sessions) {
                 if (!session2.equals(session)) {

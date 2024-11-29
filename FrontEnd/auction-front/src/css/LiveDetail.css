@@ -252,25 +252,37 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; /* 높은 z-index 설정 */
 }
 
 .modal-content {
-    background: white;
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%; /* 너비를 50%로 설정 */
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    align-items: center; /* 모든 요소를 수평으로 중앙 정렬 */
 }
+
+
+.modal-content p {
+    text-align: center; /* p 태그 중앙 정렬 */
+    margin: 10px 0; /* 각 p 태그 간 여백 설정 */
+}
+
 
 .modal-close-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background: #007bff;
+    background: #454545;
     color: white;
     border: none;
     border-radius: 5px;
@@ -278,5 +290,5 @@
 }
 
 .modal-close-button:hover {
-    background: #0056b3;
+    background: #343434;
 }

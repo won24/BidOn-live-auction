@@ -183,6 +183,7 @@ public class AuctionController {
     @PostMapping("/endlive/{postId}")
     public ResponseEntity<?> setPostStatus(@PathVariable int postId) {
         try {
+            System.out.println("와이낫");
             int result = auctionService.setPostStatus(postId);
             if (result > 0) {
 

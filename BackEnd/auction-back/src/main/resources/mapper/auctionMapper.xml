@@ -148,7 +148,6 @@
     <update id="updatePostAfterLive">
         UPDATE board
         SET
-            postStatus = 'done',
             finalCash = #{finalCash},
             endDay = #{endDay}
         WHERE postId = #{postId}

@@ -14,10 +14,11 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     const navigate = useNavigate();
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const userCode = sessionStorage.getItem("userCode");
-    const [finalBid, setFinalBid] = useState(0);
     const [requestSent, setRequestSent] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [auctionEnded, setAuctionEnded] = useState(false);
+    const [user,setUser] = useState("")
+    const [bidFinalCash, setBidFinalCash] = useState(0);
+    const [isBidModalOpen, setIsBidModalOpen] = useState(false);
 
     useEffect(() => {
         const fiveMinute = 5 * 60 * 1000;
@@ -30,20 +31,19 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
             if (now < startTimestamp) { // 경매 시작 전
                 setStarted(false);
                 setRemainingTime(startTimestamp - now);
-            } else if (now < endTimestamp) { // 경매 시작 후
+            } else if (now < endTimestamp) { // 경매 중
                 setStarted(true);
                 setRemainingTime(endTimestamp - now);
             } else if (now >= endTimestamp && now < endTimestamp + fiveMinute) { //경매 끝 ~ 끝+5분
                 setStarted(true);
                 setEnded(true);
                 setRemainingTime(endTimestamp + fiveMinute - now);
-            } else if (!postStatusChanged) {  // 경매끝 + 5분
-                setRemainingTime(0);
+            } else if(!postStatusChanged){  // 경매끝 + 5분
                 setPostStatusChanged(true);
-
+                setRemainingTime(0)
                 try {
                     await api.setPostStatus(postId);
-                    alert('실시간 경매가 종료되었습니다.');
+                    alert('채팅이 종료되었습니다.');
                     navigate('/auction');
                 } catch (error) {
                     console.error('경매 상태 변경 실패:', error);
@@ -66,18 +66,21 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 try {
                     // 낙찰자 정보
                     const response = await axios.get(`http://localhost:8080/bid/top/${postId}`);
-                    const data = response.data;
-                    setFinalBid(data.currentCash);
-
-                    if(userCode===data.userCode){
-                        setIsModalOpen(true);
-                    }
+                    const data = (response.data);
+                    setBidFinalCash(data.currentCash);
+                    setUser(data.userCode);
 
                     const formData = {
                         postId: postId,
                         finalCash: data.currentCash,
                         endDay: new Date().toISOString(),
                     };
+
+                    console.log("로그인 유저", userCode, "낙찰자", data.userCode);
+                    if (userCode == data.userCode) {
+                        setIsBidModalOpen(true);
+                    }
+                    setAuctionEnded(true);
 
                     // 경매 정보 업데이트
                     await axios.post('http://localhost:8080/auction/final', formData, {
@@ -90,11 +93,12 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                 } catch (error) {
                     console.error('요청 실행 실패', error);
                 }
+
             };
 
             executeRequests();
         }
-    }, [remainingTime, ended, postId, requestSent]);
+    }, [remainingTime, ended, postId, requestSent, userCode]);
 
 
 
@@ -112,6 +116,7 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                             <p className="live-detail-page_timer_text">경매가 종료되었습니다.</p>
                         ) : (
                             <div className="live-detail-page_after_timer">
+                                <p className="live-detail-page_after_timer_time">경매종료</p>
                                 <p className="live-detail-page_after_timer_time">{formatTime(remainingTime)}</p>
                                 <p className="live-detail-page_after_timer_text">후에 채팅이 종료됩니다.</p>
                             </div>
@@ -133,15 +138,11 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                         <p className="live-detail-page_timer_time">{formatTime(remainingTime)}</p>
                     </div>
                 )}
-
             {/* 낙찰자 모달 */}
-            <SuccessfulBidderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <h2>축하합니다!</h2>
-                <p>경매에서 낙찰되었습니다.</p>
-                <p>최종 낙찰가는 {finalBid.toLocaleString()}원 입니다.</p>
-                <p>배송 방법은 택배배송, 방문수거 두 가지 입니다.</p>
-                <p>자세한 안내사항은 공지사항을 확인해주세요.</p>
-            </SuccessfulBidderModal>
+            <SuccessfulBidderModal isOpen={isBidModalOpen}
+                                   onClose={() => setIsBidModalOpen(false)}
+                                   bidFinalCash={bidFinalCash}
+            />
         </div>
     );
 };

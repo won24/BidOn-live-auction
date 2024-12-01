@@ -6,7 +6,7 @@
 <summary>목차</summary>
 
 1. [프로젝트 소개](#intro)
-2. [요구사항](#requirements)
+2. [요구사항](#reqirements)
 3. [팀원 소개](#members)
 4. [페이지별 기능](#page)
 5. [개발 환경](#env)

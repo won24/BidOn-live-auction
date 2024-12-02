@@ -64,10 +64,10 @@
 24.11.11 ~ 24. 11. 29
 
 #### 시스템 구성도
-<img src="" alt="Architecture" />
+<img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/%EC%95%84%ED%82%A4%ED%85%8C%EC%B2%98.png?raw=true" alt="Architecture" />
 
 #### UML
-<img src="https://private-user-images.githubusercontent.com/177177917/391394944-4cc92004-6e82-4c08-ab5b-b21a4db6a14e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzMxMDgyMzEsIm5iZiI6MTczMzEwNzkzMSwicGF0aCI6Ii8xNzcxNzc5MTcvMzkxMzk0OTQ0LTRjYzkyMDA0LTZlODItNGMwOC1hYjViLWIyMWE0ZGI2YTE0ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMjAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTIwMlQwMjUyMTFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT02M2U5MzhkZWQxYzUxNzk4MGQ4NDM3MWQ0ZWMxYzA5MTYxNTU3NmI4ZmIzNWRiYjU1MGFhMTcwZmYwYjdkN2U5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.1Hyh4A85NncQvhdSJmaPrkEQplZ8kUzgh6OebOU8GAA"/>
+<img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/uml.png?raw=true"/>
 
 #### 데이터베이스
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/ER.png?raw=true" alt="ERD" />

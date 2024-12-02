@@ -72,8 +72,7 @@
 
 #### 기술 스택
 <p>
-  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=OpenJDK&logoColor=white" alt="Java" />
-  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white" alt="spring"/>
   <img src="https://img.shields.io/badge/WebSocket-61DAFB?style=for-the-badge&logo=WebSocket&logoColor=white" alt="websocket" />
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white" alt="React" />
 </p>

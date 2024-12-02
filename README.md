@@ -1,6 +1,5 @@
 # 실시간 경매 BID ON
-![main_page]
-  
+<img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/logo.png?raw=true"/>  
 <br>
 
 <summary>목차</summary>

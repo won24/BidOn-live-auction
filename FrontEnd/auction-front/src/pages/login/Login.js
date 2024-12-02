@@ -25,8 +25,8 @@ const Login = () =>
     const [cookies, setCookie, removeCookie] = useCookies(["rememberId"]);
     const [modalSwitch, setModalSwitch] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
-    // const location = useLocation();
-    // const current = location.pathname;
+    const location = useLocation();
+    const current = location.pathname;
 
     const toggleModal = () => 
     {
@@ -72,15 +72,8 @@ const Login = () =>
         e.preventDefault();
     
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             const response = await fetch("http://112.221.66.174:8081/api/auth/login",
-=======
-            const response = await fetch("http://112.221.66.174:3001/api/auth/login", 
->>>>>>> 814a9c68f195ae2646d8a46aa62ac41e01908759
-=======
-            const response = await fetch("http://112.221.66.174:3001/api/auth/login",
->>>>>>> 3b6d00067ae95e5dd9d0ae3bc8a76109c2491e6c
             {
                 method: "POST",
                 credentials: "include",
@@ -103,7 +96,7 @@ const Login = () =>
                 // 데이터 전달 33한지 확인하기
                 // console.log("User Data Saved in Session:", data);
                 // navigate(current, { replace: true });
-                navigate(0);
+                navigate("/");
             } 
             else 
             {

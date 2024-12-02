@@ -68,12 +68,6 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
                     const data = response.data;
                     setBidFinalCash(data.currentCash);
 
-                    // userPost 업데이트
-                    const userPostData = {
-                        postId: postId,
-                        userCode: data.userCode,
-                    }
-                    await api.insertUserPost(userPostData);
 
                     // userPost 가져오기
                     const resp = await api.getUserPost(postId,userCode);
@@ -82,8 +76,15 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
 
 
                     // 낙찰자 모달
-                    if (userData === null){
-                        console.log("로그인 유저", userCode, "낙찰자", data.userCode);
+                    if (userData.length === 0){
+                        // userPost 업데이트
+                        const userPostData = {
+                            postId: postId,
+                            userCode: data.userCode,
+                        }
+                        await api.insertUserPost(userPostData);
+
+                        // 모달 열기
                         if (userCode == data.userCode) {
                             setIsBidModalOpen(true);
                         }
@@ -124,33 +125,33 @@ const AuctionTimer = ({ startTime, postId, onUpdate }) => {
     return (
         <div>
             {started ? (
-                    ended ? (
-                        postStatusChanged ? (
-                            <p className="live-detail-page_timer_text">경매가 종료되었습니다.</p>
-                        ) : (
-                            <div className="live-detail-page_after_timer">
-                                <p className="live-detail-page_after_timer_time">경매종료</p>
-                                <p className="live-detail-page_after_timer_time">{formatTime(remainingTime)}</p>
-                                <p className="live-detail-page_after_timer_text">후에 채팅이 종료됩니다.</p>
-                            </div>
-                        )
+                ended ? (
+                    postStatusChanged ? (
+                        <p className="live-detail-page_timer_text">경매가 종료되었습니다.</p>
                     ) : (
-                        <div className="liveOn_container">
-                            <div className="live-detail-page_timer">
-                                <div className="live-detail-page_timer_text">경매 종료</div>
-                                <div className="live-detail-page_timer_time">{formatTime(remainingTime)}</div>
-                            </div>
-                            <div className="liveOn-detail-page_bid">
-                                {isLoggedIn ? <Bid/> : <></> }
-                            </div>
+                        <div className="live-detail-page_after_timer">
+                            <p className="live-detail-page_after_timer_time">경매종료</p>
+                            <p className="live-detail-page_after_timer_time">{formatTime(remainingTime)}</p>
+                            <p className="live-detail-page_after_timer_text">후에 채팅이 종료됩니다.</p>
                         </div>
                     )
                 ) : (
-                    <div className="live-detail-page_timer">
-                        <p className="live-detail-page_timer_text">곧 라이브 경매가 시작됩니다.</p>
-                        <p className="live-detail-page_timer_time">{formatTime(remainingTime)}</p>
+                    <div className="liveOn_container">
+                        <div className="live-detail-page_timer">
+                            <div className="live-detail-page_timer_text">경매 종료</div>
+                            <div className="live-detail-page_timer_time">{formatTime(remainingTime)}</div>
+                        </div>
+                        <div className="liveOn-detail-page_bid">
+                            {isLoggedIn ? <Bid/> : <></> }
+                        </div>
                     </div>
-                )}
+                )
+            ) : (
+                <div className="live-detail-page_timer">
+                    <p className="live-detail-page_timer_text">곧 라이브 경매가 시작됩니다.</p>
+                    <p className="live-detail-page_timer_time">{formatTime(remainingTime)}</p>
+                </div>
+            )}
             {/* 낙찰자 모달 */}
             <SuccessfulBidderModal isOpen={isBidModalOpen}
                                    onClose={() => setIsBidModalOpen(false)}

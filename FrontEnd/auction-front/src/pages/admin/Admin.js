@@ -42,15 +42,7 @@ const Admin = () => {
     }, []);
 
     // 이미지 GET 요청 후 출력하기
-    const fetchImage = async (url) => {
-        try {
-            const response = await axios.get(url, { responseType: 'blob' }); // 이미지 데이터를 blob 형태로 요청
-            const imageUrl = URL.createObjectURL(response.data); // blob 데이터를 URL로 변환
-            return imageUrl; // 반환된 URL을 이미지 src로 사용
-        } catch (error) {
-            console.error("이미지 로딩 실패:", error);
-        }
-    };
+
 
     return (
         <div>

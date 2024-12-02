@@ -174,7 +174,7 @@ const AuctionDetailPage = () =>{
         console.log(response.data);
         alert("승인 완료")
 
-        navigate('/auction/{postId}')
+        navigate('/admin/posts')
     }
 
     // 관리자 모드

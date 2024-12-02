@@ -84,5 +84,4 @@
 
 ## 6. <sapn id="try">시연 영상</span>
 
-#### Back-end
 <video src="https://github.com/gangnam-auction/gangnam-auction/raw/refs/heads/main/FrontEnd/auction-front/src/assets/%EC%A0%9C%EB%AA%A9%20%EC%97%86%EB%8A%94%20%EB%8F%99%EC%98%81%EC%83%81%20-%20Clipchamp%EB%A1%9C%20%EC%A0%9C%EC%9E%91.mp4" muted="muted"/>

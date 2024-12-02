@@ -9,7 +9,7 @@
 3. [팀원 소개](#members)
 4. [페이지별 기능](#page)
 5. [개발 환경](#env)
-6. [프로젝트 구조](#tree)
+6. [프로젝트 구조](#try)
 
 
 ## 1. <span id="intro">프로젝트 소개</span>
@@ -82,115 +82,7 @@
 
 <br>
 
-## 6. <sapn id="tree">프로젝트 구조</span>
+## 6. <sapn id="try">시연 영상</span>
 
 #### Back-end
 
-```
-├── src
-│     ├── faq
-│     │     ├── FaqController
-│     │     ├── FaqDAO
-│     │     ├── FaqDTO
-│     │     └── FaqService
-│     ├── notice
-│     │     ├── NoticeController
-│     │     ├── NoticeDTO
-│     │     ├── NoticeMapper
-│     │     └── NoticeService
-│     ├── personal
-│           ├── PersonalController
-│     │     ├── PersonalDAO
-│     │     ├── PersonalDTO
-│     │     └── PersonaleService
-│     ├── user
-│     │     ├── LoginController
-│     │     ├── LoginRequest
-│     │     ├── PasswordController
-│     │     ├── PasswordUpdateRequest
-│     │     ├── SignupRequest
-│     │     ├── UserController
-│     │     ├── UserDAO
-│     │     ├── UserDTO
-│     │     ├── UserNotFoundException
-│     │     ├── UserRepository
-│     │     └── UserService.java
-│     ├── admin
-│     │     ├── userDetail
-│     │     │     ├── UserDetailController
-│     │     │     ├── UserDetailDAO
-│     │     │     ├── UserDetailDTO
-│     │     │     └── UserDetailService
-│     │     ├── AdminController
-│     │     ├── AdminDAO
-│     │     ├── AdminDTO
-│     │     └── AdminService
-│     ├── auction
-│     │     ├── AuctionController
-│     │     ├── AuctionDAO
-│     │     ├── AuctionDTO
-│     │     ├── AuctionService
-│     │     └── GlobalExceptionHandler
-│     ├── common
-│     │     ├── config
-│     │     │     ├── WebConfig
-│     │     │     └── WebSocketConfig
-│     │     ├── tossPay
-│     │     │     ├── PaymentException
-│     │     │     ├── TossController
-│     │     │     ├── TossDAO
-│     │     │     ├── TossDTO
-│     │     │     ├── TossService
-│     │     │     └── TosspaymentConfig
-│     ├── mypage
-│     │     ├── auctionItem
-│     │     │     ├── ItemController
-│     │     │     ├── ItemDAO
-│     │     │     ├── ItemDTO
-│     │     │     └── ItemService
-│     │     ├── favorite
-│     │     │     ├── FavoController
-│     │     │     ├── FavoDAO
-│     │     │     ├── FavoDTO
-│     │     │     └── FavoService
-│     │     ├── myinfo
-│     │     │     ├── InfoController
-│     │     │     ├── InfoDAO
-│     │     │     ├── InfoDTO
-│     │     │     └── InfoService
-│     │     ├── participate
-│     │     │     ├── ParticipateController
-│     │     │     ├── ParticipateDAO
-│     │     │     ├── ParticipateDTO
-│     │     │     └── ParticipateService
-│     ├── payment
-│     │     └── WidgetController
-│     ├── requestItem
-│     │     ├── ImageUpload
-│     │     │     ├── image
-│     │     │     │     ├── ImageController
-│     │     │     │     ├── ImageDTO
-│     │     │     │     └── ImageService
-│     │     │     └── mapper
-│     │     │           └── ImageMapper
-│     │     ├── RequestItemController
-│     │     ├── RequestItemDAO
-│     │     ├── RequestItemDTO
-│     │     └── RequestItemService
-│     └── websocket
-│          └── Globalstyled.jsx
-│              
-└── resources
-      ├── mapper
-      │     ├── BidMapper.xml
-      │     ├── adminMapper.xml
-      │     ├── auctionMapper.xml
-      │     ├── faqMapper.xml
-      │     ├── favoMapper.xml
-      │     ├── infoMapper.xml
-      │     ├── itemMapper.xml
-      │     ├── participateMapper.xml
-      │     ├── requestItemMapper.xml
-      │     └── userMapper.xml
-      └── application.yml 
-  

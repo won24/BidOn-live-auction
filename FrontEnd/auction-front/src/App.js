@@ -62,7 +62,7 @@ function App() {
                         <Route path="myauctionitem" element={<MyAuctionItem/>}/>
                     <Route path="auction/:postId" element={<AuctionDetailPage/>} />
                     <Route path="/auction/update/:postId" element={<PostEditPage/>}/>
-                    <Route path="/mypage/*" element={<MyPageLayout />} >
+                    <Route path="/mypage" element={<MyPageLayout />} >
                         <Route path="myauction" element={<MyAuction/>}/>
                         <Route path="myprofile" element={<MyProfile/>}/>
                         <Route path="myfar" element={<MyFar/>}/>
@@ -78,7 +78,7 @@ function App() {
                         <Route path="notice" element={<Notice />} />
                     </Route>
                     <Route path="/admin" element={<AdminLayout />}>
-                        <Route index element={<Admin />} />
+                        <Route index element={<AdminInquire />} />
                         <Route path="inquiries" element={<AdminInquire />} />
                         <Route path="posts" element={<AdminBoard />} />
                         <Route path="users" element={<AdminUsers />} />

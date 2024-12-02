@@ -41,6 +41,7 @@ const AuctionDetailPage = () =>{
                 setPostStatus(data.postStatus);
 
                 const imageUrls = await getPostImages(postId);
+                console.log(imageUrls)
                 setImg(imageUrls);
 
                 if (data.startDay) {
@@ -173,7 +174,7 @@ const AuctionDetailPage = () =>{
         console.log(response.data);
         alert("승인 완료")
 
-        navigate('/auction/{postId}')
+        navigate('/admin/posts')
     }
 
     // 관리자 모드
@@ -199,16 +200,18 @@ const AuctionDetailPage = () =>{
     const renderImageSlider = () => (
         <div>
             <div className="imageSlider">
-                <button onClick={handlePrev} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faChevronLeft} style={{ color: "#454545", fontSize: "40px" }} />
+                <button onClick={handlePrev} className="sliderButton"
+                        style={{background: "none", border: "none", cursor: "pointer"}}>
+                    <FontAwesomeIcon icon={faChevronLeft} style={{color: "#454545", fontSize: "40px"}}/>
                 </button>
                 <img className="sliderImage"
                      src={img[currentImgIndex]}
                      alt={`슬라이드 이미지 ${currentImgIndex + 1}`}
                      onClick={openModal}
-                     loading="lazy" />
-                <button onClick={handleNext} className="sliderButton" style={{ background: "none", border: "none", cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faChevronRight} style={{ color: "#454545", fontSize: "40px" }} />
+                     loading="lazy"/>
+                <button onClick={handleNext} className="sliderButton"
+                        style={{background: "none", border: "none", cursor: "pointer"}}>
+                    <FontAwesomeIcon icon={faChevronRight} style={{color: "#454545", fontSize: "40px"}}/>
                 </button>
             </div>
 
@@ -247,7 +250,7 @@ const AuctionDetailPage = () =>{
                 <div className="detail-page_top">
                     <div className="detail-page_top_leftSide">
                         <h2 className="detail-page_title">{board.title}</h2>
-                            {renderFavoriteButton()}
+                        {renderFavoriteButton()}
                     </div>
                     <p className="detail-page_boardStatus">{postStatus === "off" && "none" ? "| 경매예정 |" : "| 낙찰완료 |"}</p>
                 </div>
@@ -268,9 +271,9 @@ const AuctionDetailPage = () =>{
                             </div>
                             <div className="detail-page_middle_info_value">
                                 {postStatus === "done" && (
-                                    <p className="detail-page_finalCash">{board.finalCash}원</p>
+                                    <p className="detail-page_finalCash">{board.finalCash.toLocaleString()}원</p>
                                 )}
-                                <p className="detail-page_cash">{board.startCash}원</p>
+                                <p className="detail-page_cash">{board.startCash.toLocaleString()}원</p>
                                 <p className="detail-page_date">{formatToKoreanDate(board.startDay)}</p>
                             </div>
                         </div>

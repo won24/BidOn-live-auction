@@ -1,3 +1,4 @@
+/* 라이브 디테일 전체 기본 스타일*/
 .live-detail-page{
     width: 1200px; /* 전체 폭 설정 */
     margin: 0 auto; /* 가운데 정렬 */
@@ -7,6 +8,7 @@
     color: #222; /* 값 색상 */
 }
 
+/* 상위 컴포넌트 */
 .live-detail-page_top{
     display: flex;
     justify-content: space-between; /* 좌우 끝 배치 */
@@ -14,6 +16,7 @@
     margin-top: 20px;
 }
 
+/* 경매품 이름, 즐겨찾기 */
 .live-detail-page_top_left{
     display: flex;
     justify-content: space-between; /* 수평 정렬 */
@@ -26,7 +29,142 @@
     font-weight: bold;
 }
 
+/* 입찰, 타이머 */
+/* 경매 후 */
+.live-detail-page_after_timer {
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: row; /* 자식 요소를 수평 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 자식 요소를 부모 안에서 가운데 정렬 */
+    gap: 10px; /* 자식 요소 간 간격 설정 */
+}
+.live-detail-page_after_timer_time{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
 
+.live-detail-page_after_timer_text{
+    font-size: 20px;
+    color: #222;
+}
+
+/* 경매전, 중 타이머 */
+.live-detail-page_timer {
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소를 수직 방향으로 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+}
+
+.live-detail-page_timer_text {
+    font-size: 20px;
+    color: #222;
+    margin-bottom: 0;
+}
+
+.live-detail-page_timer_time {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+
+/* 경매중일때  */
+.liveOn_container {
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 자식 요소를 양 끝으로 배치 */
+    align-items: center; /* 자식 요소를 수직 중앙 정렬 */
+    width: 100%; /* 부모 컨테이너 너비를 꽉 채움 */
+    gap: 150px;
+    margin-top: 10px;
+}
+
+
+/* 입찰 */
+.bid-container {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: space-between; /* 자식 요소를 양 끝으로 배치 */
+    align-items: center; /* 자식 요소 수직 중앙 정렬 */
+    gap: 150px;
+}
+
+/* 현재 경매가*/
+.bid-currentBid{
+    display: flex; /* Flexbox 활성화 */
+    justify-content: space-between; /* 자식 요소를 양 끝으로 배치 */
+    align-items: center; /* 자식 요소 수직 중앙 정렬 */
+    gap: 10px;
+
+}
+
+.bid-text{
+    font-size: 20px;
+    color: #222;
+}
+
+.bid-value{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.bid-live{
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소를 수직 방향으로 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+
+}
+
+.bid-button-container {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 자식 요소를 가운데 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px; /* 버튼 간 간격 */
+    margin-top: 10px;
+}
+
+.bid-button{
+    background-color: #343434;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px 13px;
+    border-radius: 5px;
+    border: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* 그림자와 크기 변화 */
+}
+
+.bid-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+.bid-info {
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소를 수직 방향으로 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+
+}
+
+.bid-info-text{
+    font-size: 20px;
+    color: #222;
+    margin-bottom: 0;
+}
+
+.bid-info-value{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+
+/* 중간 컴포넌트 */
 .live-detail-page_middle{
     display: flex;
     justify-content: space-between; /* 좌우 정렬 */
@@ -34,10 +172,12 @@
     gap: 40px; /* 좌우 간격 */
 }
 
+/* 중간 왼쪽 - 사진, 기본 정보 */
 .live-detail-page_leftSide{
     display: flex;
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 자식 요소를 가운데 정렬 */
+    width: 40%;
 }
 
 .live-detail-page_img{
@@ -46,9 +186,6 @@
     padding-bottom: 10px;
 }
 
-.live-timer{
-
-}
 
 .live-detail-page_info{
     flex: 1;
@@ -75,6 +212,7 @@
 }
 
 
+/* 채팅방 */
 .live-detail-page_rightSide{
     flex: 1;
     display: flex;
@@ -82,12 +220,12 @@
     margin-top: 30px;
 }
 
+/* 하위 상세내용 컴포넌트 */
 .live-detail-page_infoText{
     font-size: 20px;
     font-weight: bold;
     margin: 30px 0;
 }
-
 
 .content-display{
     font-size: 16px;
@@ -101,8 +239,56 @@
 
 .live-detail-page_bottom{
     display: flex;
-    justify-content: flex-start; /* 오른쪽 정렬 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
     align-items: center; /* 수직 정렬 */
     margin-top: 20px;
     padding-right: 20px; /* 오른쪽 여백 추가 */
+}
+
+/* 낙찰 모달 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 높은 z-index 설정 */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%; /* 너비를 50%로 설정 */
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    align-items: center; /* 모든 요소를 수평으로 중앙 정렬 */
+}
+
+
+.modal-content p {
+    text-align: center; /* p 태그 중앙 정렬 */
+    margin: 10px 0; /* 각 p 태그 간 여백 설정 */
+}
+
+
+.modal-close-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #454545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    background: #343434;
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../../css/Notice.css";
-
+const baseURL =process.env.REACT_APP_API_URL;
 const Notice = () =>{
     const [noticeData, setNoticeData] = useState([]);
     const [openItems, setOpenItems] = useState([]);
@@ -16,7 +16,7 @@ const Notice = () =>{
         const signal = controller.signal;
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/customer/notice', { signal });
+                const response = await fetch(`http://112.221.66.174:8081/customer/notice`, { signal });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

@@ -1,14 +1,8 @@
 .inquire-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    font-family: Arial, sans-serif;
-}
-
-.inquire-container h2 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
 }
 
 .inquiry-content {
@@ -17,70 +11,70 @@
 }
 
 .inquiry-list {
-    flex: 1;
+    flex: 2;
+    width: 300px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* 테이블이 길어질 경우 스크롤 */
 }
 
 .inquiry-list table {
     width: 100%;
+    table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
     border-collapse: collapse;
 }
 
 .inquiry-list th, .inquiry-list td {
-    border: 1px solid #ddd;
-    padding: 12px;
+    padding: 10px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
+    height: 10px; /* 행의 높이를 50px로 고정 */
 }
 
-.inquiry-list th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+/* 제목 열의 너비를 늘리고 사용자 및 작성일 열 고정 */
+.inquiry-list th:nth-child(1), .inquiry-list td:nth-child(1) {
+    width: 50%; /* 제목 열 넓이 */
 }
 
-.inquiry-list tr:hover {
-    background-color: #f9f9f9;
-    cursor: pointer;
+.inquiry-list th:nth-child(2), .inquiry-list td:nth-child(2){
+    width: 15%;
 }
-
-.inquiry-list tr.selected {
-    background-color: #e6f7ff;
+.inquiry-list th:nth-child(3), .inquiry-list td:nth-child(3) {
+    width: 25%; /* 사용자 및 작성일 열 고정 크기 */
+}
+.inquiry-list th:nth-child(1),
+.inquiry-list th:nth-child(3) {
+    text-align: center; /* 중앙 정렬 */
 }
 
 .inquiry-detail {
     flex: 1;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-.inquiry-detail h3, .inquiry-detail h4 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.inquiry-detail p {
-    margin-bottom: 20px;
-    line-height: 1.6;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px; /* 최소 높이 설정 */
 }
 
 .inquiry-textarea {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    resize: vertical;
     margin-bottom: 10px;
+    resize: vertical;
 }
 
-.inquiry-submit {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+.answer-section {
+    margin-top: auto; /* 상단 여백을 자동으로 설정하여 하단으로 밀어냄 */
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
 }
 
-.inquiry-submit:hover {
-    background-color: #45a049;
-}
+

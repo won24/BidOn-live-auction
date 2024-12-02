@@ -1,6 +1,6 @@
 import "../../css/FAQ.css";
 import React, { useEffect, useState } from 'react';
-
+const baseURL =process.env.REACT_APP_API_URL;
 const FAQ = () => {
     const [faqData, setFaqData] = useState([]);
     const [openItems, setOpenItems] = useState([]);
@@ -16,7 +16,7 @@ const FAQ = () => {
         const signal = controller.signal;
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/customer/faq', { signal });
+                const response = await fetch(`http://112.221.66.174:8081/customer/faq`, { signal });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

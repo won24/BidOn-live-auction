@@ -55,7 +55,7 @@ const ChangePassword = () =>
         };
 
         try {
-            const response = await fetch("http://localhost:8080/api/finder/pw/update", 
+            const response = await fetch("http://112.221.66.174:8081/api/finder/pw/update",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

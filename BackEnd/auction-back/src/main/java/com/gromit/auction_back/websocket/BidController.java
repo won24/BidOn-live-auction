@@ -32,4 +32,13 @@ public class BidController {
     public BidDTO toprateUser(@PathVariable int postId){
         return bidService.toprateUser(postId);
     }
+    @GetMapping("/check/{postId}/{userCode}")
+    public Integer checkUserBid(@PathVariable int postId, @PathVariable int userCode) {
+        return bidService.checkUserBid(postId, userCode);
+    }
+    @GetMapping("/check/{postId}")
+    public Integer checkPostBid(@PathVariable int postId){
+        return  bidService.checkPostBid(postId);
+    }
+
 }

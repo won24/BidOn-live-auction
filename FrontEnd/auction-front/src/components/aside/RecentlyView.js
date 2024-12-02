@@ -8,6 +8,7 @@ const RecentlyView = () => {
     const getRecentPosts = () => JSON.parse(localStorage.getItem("recentPosts")) || [];
     const [recentViews, setRecentViews] = useState(getRecentPosts());
 
+
     // 브라우저 뒤로가기, 페이지 이동 감지
     useEffect(() => {
         const handlePopState = () =>{
@@ -25,7 +26,7 @@ const RecentlyView = () => {
 
     const onItemClick = async (post) => {
         const updatedPosts = await updateRecentPosts(post);
-        setRecentViews(updatedPosts); // 반환값으로 상태 동기화
+        setRecentViews(updatedPosts);
     };
 
 
@@ -65,7 +66,7 @@ export const updateRecentPosts = async (post) => {
         const data = response.data;
 
         // 첫 번째 이미지 URL만 가져오기
-        const firstImageUrl = data.length > 0 ? data[0].imageUrl : null;
+        const firstImageUrl = data.length > 0 ? data[0].imageUrl : 'default-image-url.jpg';
         const postWithImage = { ...post, imageUrl: firstImageUrl };
 
         const updatedPostsWithImages = [
@@ -77,7 +78,7 @@ export const updateRecentPosts = async (post) => {
         localStorage.setItem("recentPosts", JSON.stringify(updatedPostsWithImages));
         return updatedPostsWithImages; // 변경된 게시물 목록 반환
     } catch (error) {
-        console.error("게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
+        console.error("(최근본게시물)게시글 이미지를 불러오는 중 오류가 발생했습니다:", error);
         return recentPosts;
     }
 };

@@ -8,6 +8,10 @@ export function SuccessPage() {
     const [searchParams] = useSearchParams();
     const { user } = useLogin();
     const hasRun = useRef(false);
+    const handleClose = () => {
+        window.close(); // 현재 창을 닫습니다.
+    };
+
 
     useEffect(() => {
         const requestData = {
@@ -25,7 +29,7 @@ export function SuccessPage() {
 
             if (user && user.userCode > 0) {
                 try {
-                    await axios.post('/toss/save', {
+                    await axios.post('http://112.221.66.174:8081/toss/save', {
                         userCode: user.userCode,
                         amount: Number(requestData.amount)
                     });
@@ -46,12 +50,12 @@ export function SuccessPage() {
     }, [navigate, searchParams, user]);
 
     return (
-        <div className="result wrapper">
-            <div className="box_section">
+        <div className="result-wrapper">
+            <div className="box-section">
                 <h2>결제 성공</h2>
-                <p>{`주문번호: ${searchParams.get("orderId")}`}</p>
-                <p>{`결제 금액: ${Number(searchParams.get("amount")).toLocaleString()}원`}</p>
-                <p>{`paymentKey: ${searchParams.get("paymentKey")}`}</p>
+                <h3>{`주문번호: ${searchParams.get("orderId")}`}</h3>
+                <h3>{`결제 금액: ${Number(searchParams.get("amount")).toLocaleString()}원`}</h3>
+                <button className="main-page_button" onClick={handleClose}>닫기</button>
             </div>
         </div>
     );

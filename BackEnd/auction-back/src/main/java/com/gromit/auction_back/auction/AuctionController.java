@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/auction")
 public class AuctionController {
 
-    @Autowired
-    AuctionService auctionService;
+
+    private final AuctionService auctionService;
 
     public AuctionController(AuctionService auctionService) {
         this.auctionService = auctionService;
@@ -128,10 +128,10 @@ public class AuctionController {
             if (result > 0) {
                 return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 수정 실패");
             }
         } catch (Exception e) {
-            logger.error("수정 중 에러 발생: {}", e.getMessage());
+            logger.error("게시글 수정 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -147,10 +147,10 @@ public class AuctionController {
             if (result > 0) {
                 return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 삭제 실패");
             }
         }catch (Exception e) {
-            logger.error("삭제 중 에러 발생: {}", e.getMessage());
+            logger.error("게시글 삭제 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -164,10 +164,10 @@ public class AuctionController {
             if (result > 0) {
                 return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 승인 실패");
             }
         } catch (Exception e) {
-            logger.error("승인 중 에러 발생: {}", e.getMessage());
+            logger.error("게시글 승인 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -176,22 +176,23 @@ public class AuctionController {
     // 라이브 리스트
     @GetMapping("/live")
     public ResponseEntity<List<AuctionDTO>> getLiveList() {
-        return getAuctionList(auctionService::getLiveList, "방송중");
+        return getAuctionList(auctionService::getLiveList, "라이브 방송 중");
     }
 
     // 라이브 경매 상태 변경
     @PostMapping("/endlive/{postId}")
     public ResponseEntity<?> setPostStatus(@PathVariable int postId) {
         try {
+
             int result = auctionService.setPostStatus(postId);
             if (result > 0) {
 
                 return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("라이브 후 게시글 상태 변경 실패");
             }
         } catch (Exception e) {
-            logger.error("on-> done 상태 변경 중 에러 발생: {}", e.getMessage());
+            logger.error("게시글 상태 on-> done 변경 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -204,14 +205,29 @@ public class AuctionController {
             if (result > 0) {
                 return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("승인 실패");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("라이브 상태로 변경 실패");
             }
         } catch (Exception e) {
-            logger.error("off-> on 상태 변경 중 에러 발생: {}", e.getMessage());
+            logger.error("게시글 상태 off-> on 변경 중 에러 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    // 라이브 경매 후 board 정보 업데이트
+    @PostMapping("/final")
+    public ResponseEntity<?> updatePostAfterLive(@RequestBody AuctionDTO auctionDTO) {
+        try {
+            int result = auctionService.updatePostAfterLive(auctionDTO);
+            if (result > 0) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("라이브 후 정보 수정 실패");
+            }
+        } catch (Exception e) {
+            logger.error("라이브 후 정보 수정 중 에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }
 

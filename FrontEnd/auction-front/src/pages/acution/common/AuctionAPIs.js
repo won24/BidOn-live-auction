@@ -1,7 +1,9 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:8080/auction";
+axios.defaults.withCredentials = true;
 
-export const totalAuctionList = () => axios.get(`${BASE_URL}`);
+const BASE_URL = "http://112.221.66.174:8081/auction";
+
+export const totalAuctionList = () => axios.get(`${BASE_URL}/all`);
 
 export const antiqueList = () => axios.get(`${BASE_URL}/antique`);
 
@@ -35,22 +37,22 @@ export const searchItemAllList = (searchItem) => {
 
 
 export const addFavorite = (postId, userCode) => {
-    return axios.post("http://localhost:8080/favo/addfav",
+    return axios.post("http://112.221.66.174:8081/favo/addfav",
         {postId, userCode});
 }
 
 export const getMyFav = (postId, userCode)=>{
-    return axios.get("http://localhost:8080/favo/getfav", {
+    return axios.get("http://112.221.66.174:8081/favo/getfav", {
         params: { postId, userCode },
     });
 }
 
 export const deleteFavorite = (postId, userCode) => {
-    return axios.delete(`http://localhost:8080/favo/deletefav?postId=${postId}&userCode=${userCode}`);
+    return axios.delete(`http://112.221.66.174:8081/favo/deletefav?postId=${postId}&userCode=${userCode}`);
 }
 
 export const getBoardImg = (postId) =>{
-    return axios.get(`http://localhost:8080/images/${postId}`);
+    return axios.get(`http://112.221.66.174:8081/images/id/${postId}`);
 }
 
 export const updatePost = async (formData) => {
@@ -83,4 +85,16 @@ export const setPostStatus = (postId) =>{
 
 export const updateLive = (postId) =>{
     return axios.post(`${BASE_URL}/startlive/${postId}`)
+}
+
+export const insertUserPost = (formData)=>{
+    return axios.put('http://112.221.66.174:8081/afterlive/putuserpost',formData,{
+        headers: { 'Content-Type': 'application/json' },
+    });
+}
+
+export const getUserPost = (postId, userCode)=>{
+    return axios.get(`http://112.221.66.174:8081/afterlive/getuserpost`, {
+        params: { postId, userCode },
+    });
 }

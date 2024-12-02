@@ -69,33 +69,51 @@ export function CheckoutPage() {
             <div className="box_section">
                 <div id="payment-method"/>
                 <div id="agreement"/>
-                <input
-                    type="number"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                />
-                <button
-                    className="payment-button"
-                    disabled={!ready}
-                    onClick={async () => {
-                        try {
-                            setAmount((prevAmount) => ({
-                                ...prevAmount,
-                                value: parseInt(inputValue, 10),
-                            }));
-                            await widgets.requestPayment({
-                                orderId: generateRandomString(),
-                                orderName: "포인트",
-                                successUrl: window.location.origin + "/tosspaySuccess",
-                                failUrl: window.location.origin + "/tosspayFail",
-                            });
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    }}
-                >
-                    결제하기
-                </button>
+                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: '30px', gap: '5px'}}>
+                    <input
+                        className="tossinput"
+                        type="number"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        style={{
+                            width: '200px',
+                            padding: '10px',
+                            fontSize: '16px',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc'
+                        }}
+                    />
+                    <button
+                        className="main-page_button"
+                        disabled={!ready}
+                        onClick={async () => {
+                            try {
+                                setAmount((prevAmount) => ({
+                                    ...prevAmount,
+                                    value: parseInt(inputValue, 10),
+                                }));
+                                await widgets.requestPayment({
+                                    orderId: generateRandomString(),
+                                    orderName: "포인트",
+                                    successUrl: window.location.origin + "/tosspaySuccess",
+                                    failUrl: window.location.origin + "/tosspayFail",
+                                });
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }}
+                        style={{
+                            width: '150px',
+                            padding: '10px',
+                            fontSize: '16px',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        결제하기
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -26,8 +26,11 @@ const parseSessionUserData = () =>
         isAdult: userData.isAdult === "true",
         sendEmail: userData.sendEmail === "true",
         sendMessage: userData.sendMessage === "true",
-        cash: parseInt(userData.userCash, 10) || 0,
+        cash: parseInt(userData.cash, 10) || 0,
         userCode: parseInt(userData.userCode, 10) || 0,
+        birth: userData.birth
+            ? new Date(userData.birth.replace(" ", "T")) 
+            : null
     };
 };
 

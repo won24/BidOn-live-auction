@@ -10,7 +10,8 @@ import {getPostImages} from "../acution/common/Images";
 import ChatWindow from "./websocket/ChatWindow";
 import ImageModal from "../acution/detail/ImageModal";
 import '../../css/LiveDetail.css'
-import Bid from "../bid/Bid";
+import SuccessfulBidderModal from "./SuccessfulBidderModal";
+import axios from "axios";
 
 const LiveDetail = () => {
     const { postId } = useParams();
@@ -26,6 +27,10 @@ const LiveDetail = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isChatVisible, setIsChatVisible] = useState(false); // State to toggle ChatWindow
     const navigate = useNavigate();
+    // const [bidFinalCash, setBidFinalCash] = useState(0);
+    // const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+    // const [user,setUser] = useState("")
+
 
     useEffect(() => {
         const getBoard = async () => {
@@ -154,6 +159,47 @@ const LiveDetail = () => {
         setIsChatVisible((prev) => !prev);
     };
 
+    //
+    // useEffect(() => {
+    //
+    //         const executeRequests = async () => {
+    //             try {
+    //                 // 낙찰자 정보 가져오기
+    //                 const response = await axios.get(`http://localhost:8080/bid/top/${postId}`);
+    //                 const data = (response.data);
+    //                 console.log(data)
+    //                 setBidFinalCash(data.currentCash);
+    //                 setUser(data.userCode);
+    //             } catch (error) {
+    //                 console.error('요청 실행 실패', error);
+    //             }
+    //         }
+    //
+    //         executeRequests();
+    //
+    // }, [postId]);
+    //
+    // const [auctionEnded, setAuctionEnded] = useState(false);
+    //
+    // useEffect(() => {
+    //     const now = Date.now();
+    //     const fiveMinute = 5 * 60 * 1000;
+    //     const startTimestamp = new Date(board.startDay).getTime();
+    //     const endTimestamp = startTimestamp + fiveMinute;
+    //
+    //     if (now >= endTimestamp && !auctionEnded) {
+    //         console.log(now);
+    //         console.log(startTimestamp);
+    //         console.log(endTimestamp);
+    //         console.log("로그인 유저", userCode, "낙찰자", user);
+    //
+    //         if (userCode == user) {
+    //             setIsBidModalOpen(true);
+    //         }
+    //         setAuctionEnded(true);
+    //     }
+    // }, [auctionEnded, board, user, userCode]);
+
 
     return (
         <>
@@ -172,7 +218,6 @@ const LiveDetail = () => {
                     <hr className="top_line"/>
 
                     {<AuctionTimer startTime={board.startDay} postId={postId}/>}
-                    <Bid/>
 
                     <div className="live-detail-page_middle">
 
@@ -186,14 +231,14 @@ const LiveDetail = () => {
                                     <p className="live-detail-page_text">경매 날짜</p>
                                 </div>
                                 <div className="live-detail-page_info_value">
-                                    <p className="live-detail-page_cash">{board.startCash}</p>
+                                    <p className="live-detail-page_cash">{board.startCash.toLocaleString()}원</p>
                                     <p className="live-detail-page_date">{formatToKoreanDate(board.startDay)}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="live-detail-page_rightSide">
-                            <button onClick={toggleChat} style={{margin: "10px", padding: "5px 10px"}}>
+                            <button onClick={toggleChat} className="toggleChat">
                                 {isChatVisible ? "채팅창 닫기" : "채팅창 열기"}
                             </button>
 
@@ -216,6 +261,12 @@ const LiveDetail = () => {
                     </div>
                 </div>
                 )}
+            {/*/!* 낙찰자 모달 *!/*/}
+            {/*<SuccessfulBidderModal isOpen={isBidModalOpen}*/}
+            {/*                   onClose={() => setIsBidModalOpen(false)}*/}
+            {/*                   bidFinalCash={bidFinalCash}*/}
+            {/*/>*/}
+
         </>
     )
 }

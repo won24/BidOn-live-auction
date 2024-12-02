@@ -3,6 +3,7 @@ package com.gromit.auction_back.common.config;
 import com.gromit.auction_back.websocket.ChatWebSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -18,7 +19,7 @@ public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBro
 
     @Bean
     public ChatWebSocketHandler chatWebSocketHandler() {
-        return new ChatWebSocketHandler();
+        return new ChatWebSocketHandler(new JdbcTemplate());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBro
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:3000")
+                .setAllowedOrigins("http://localhost:3001")
                 .withSockJS();
     }
 }

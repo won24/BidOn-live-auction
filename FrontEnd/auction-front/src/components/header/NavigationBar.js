@@ -1,16 +1,17 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavigationBar.css";
 import { useLogin } from "../../pages/login/LoginContext";
+import {faArrowRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useCallback, useEffect} from "react";
 
 const Nav = () => 
 {
     const navigate = useNavigate();
-    const location = useLocation();
-    const current = location.pathname;
 
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
-    const cash = sessionStorage.getItem("cash");
+    const cash = parseInt(sessionStorage.getItem("cash"), 10) || 0;
     const nickname = sessionStorage.getItem("nickname");
     const id = sessionStorage.getItem("id");
 
@@ -30,23 +31,23 @@ const Nav = () =>
             localStorage.clear();
             setUser(null);
             // navigate(current, { replace: true });
-            navigate(0);
+            navigate("/");
         }
         else return;
     };
 
-    const updateCash = async () => 
+    const updateCash = useCallback(async () => 
     {
         if (!id) return;
     
         try {
-            const response = await fetch(`http://localhost:8080/api/id/${id}`);
+            const response = await fetch(`http://112.221.66.174:8081/api/id/${id}`);
             if (response.ok) 
             {
-                const userData = await response.json(); // Assuming the API returns the full user object
-                const updatedCash = userData.cash; // Extract the `cash` field
-                sessionStorage.setItem("cash", updatedCash); // Update sessionStorage
-                setUser((prev) => ({ ...prev, cash: updatedCash })); // Update context with only the cash value
+                const userData = await response.json();
+                const updatedCash = userData.cash
+                sessionStorage.setItem("cash", updatedCash);
+                setUser((prev) => ({ ...prev, cash: updatedCash }));
             } 
             else 
             {
@@ -55,7 +56,14 @@ const Nav = () =>
         } catch (error) {
             console.error("Error fetching updated cash:", error);
         }
-    };
+    }, [id, setUser]);
+    
+    useEffect(() => 
+    {
+        if (isLoggedIn) updateCash();
+    }, [isLoggedIn, updateCash]);
+    
+    
 
     const truncateNickname = (nickname, maxLength) => 
     {
@@ -87,39 +95,36 @@ const Nav = () =>
                         관리자페이지
                     </NavLink>
                 ) : (
-                    <NavLink to="/mypage/myprofile" className="nav-link">
+                    <NavLink to="/mypage" className="nav-link">
                         마이페이지
                     </NavLink>
                 )}
             </div>
             {isLoggedIn ? (
                 <div>
-                    <div style={{ marginBottom: "3px" }}>
+                    <div>
                         <span className="user-welcome">
                             {isAdmin ? "[관리자] " : ""}
                             {truncateNickname(nickname, 50)}님, 환영합니다.
                         </span>
-                        <button className="login-button2" onClick={handleLogout}>
+                        <button className="main-page_button" onClick={handleLogout}>
                             로그아웃
                         </button>
                     </div>
                     {!isAdmin && (
                         <div className="user-info-container">
-                            <span className="user-welcome">
-                                충전된 캐시: {user?.cash || cash} 캐시
+                            <span className="main-page_cash" onClick={openCheckoutPopup}>
+                                충전된 캐시: {user?.cash.toLocaleString() || cash.toLocaleString()} 캐시
                             </span>
-                            <button className="login-button2" onClick={updateCash}>
-                                새로고침
-                            </button>
-                            <button className="login-button2" onClick={openCheckoutPopup}>
-                                충전하기
+                            <button className="login-button_return" onClick={updateCash}>
+                                <FontAwesomeIcon icon={faArrowRotateLeft} style={{color: "#2d2d2d",}} />
                             </button>
                         </div>
                     )}
                 </div>
             ) : (
                 <button
-                    className="login-button2"
+                    className="main-page_button"
                     onClick={() => navigate("/member/login")}
                 >
                     로그인

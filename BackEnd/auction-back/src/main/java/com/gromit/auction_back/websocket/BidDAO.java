@@ -55,4 +55,11 @@ public interface BidDAO {
                 "ORDER BY currentCash DESC " +
                 "LIMIT 1")
         BidDTO toprateUser(int postId);
+
+
+        @Select("SELECT MAX(currentCash) FROM bid WHERE postId = #{postId} AND userCode = #{userCode}")
+        Integer checkUserBid(int postId, int userCode);
+
+        @Select("SELECT MAX(currentCash) FROM bid WHERE postId = #{postId}")
+        Integer checkPostBid(int postId);
 }

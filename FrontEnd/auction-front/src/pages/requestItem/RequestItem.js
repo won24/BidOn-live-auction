@@ -10,6 +10,7 @@ const RequestItem = () => {
     const navigate = useNavigate();
     const { user } = useLogin();
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const userCode = sessionStorage.getItem("userCode");
 
     const [formData, setFormData] = useState({
         categoryCode: '',
@@ -28,7 +29,7 @@ const RequestItem = () => {
         if (isLoggedIn) {
             setFormData(prevState => ({
                 ...prevState,
-                userCode: user?.userCode
+                userCode: userCode
             }));
         }
     }, [user]);
@@ -94,11 +95,11 @@ const RequestItem = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user?.userCode)
+        console.log(userCode)
         console.log(formData);
 
         try {
-            const response = await axios.post('http://localhost:8080/requestitem', formData, {
+            const response = await axios.post('http://112.221.66.174:8081/requestitem', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -120,13 +121,14 @@ const RequestItem = () => {
     };
 
     const handleImageUpload = async (postId) => {
+
         const formData = new FormData();
         for (const element of imageFiles) {
             formData.append('images', element);
         }
 
         try {
-            const response = await axios.post('/images/upload', formData, {
+            const response = await axios.post('http://112.221.66.174:8081/images/upload', formData, {
                 params: { postId }
             });
 

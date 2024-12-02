@@ -48,7 +48,7 @@ const NicknameInput = ({ value, onChange }) =>
     
         setIsChecking(true);
         try {
-            const response = await fetch("http://localhost:8080/api/check-nickname?nickname=" + value,
+            const response = await fetch("http://112.221.66.174:8081/api/check-nickname?nickname=" + value,
             {
                 method: "GET",
                 headers: 

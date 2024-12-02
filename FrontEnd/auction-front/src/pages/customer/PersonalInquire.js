@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useLogin } from '../../pages/login/LoginContext'; // LoginContext import 추가
-
+import { useLogin } from '../../pages/login/LoginContext';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
+const baseURL =process.env.REACT_APP_API_URL;
 const PersonalInquire = () => {
-    const { user } = useLogin(); // LoginContext에서 user 정보 가져오기
-    const userCode = sessionStorage.getItem("userCode")
+    const { user } = useLogin();
+    const userCode = sessionStorage.getItem("userCode");
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    const navigate = useNavigate(); // useNavigate 훅 사용
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
-        userCode: user ? user.userCode : null // 세션에서 가져온 userCode 사용
+        userCode: user ? user.userCode : null
     });
 
     const handleChange = (e) => {
@@ -23,20 +26,21 @@ const PersonalInquire = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isLoggedIn) {
-            console.error('로그인 정보가 없습니다.');
+            alert('로그인 정보가 없습니다.');
             return;
         }
 
         try {
-            const response = await axios.post('/customer/personalinquire', {
+            const response = await axios.post('http://112.221.66.174:8081/customer/personalinquire', {
                 ...formData,
-                userCode: userCode // 세션에서 가져온 userCode 사용
+                userCode: userCode
             });
             console.log('문의가 성공적으로 제출되었습니다:', response.data);
-            // 여기에 성공 메시지를 표시하거나 다른 페이지로 리디렉션하는 로직을 추가할 수 있습니다.
+            alert('문의가 성공적으로 제출되었습니다.');
+            navigate(-1); // 이전 페이지로 리다이렉트
         } catch (error) {
             console.error('문의 제출 중 오류 발생:', error);
-            // 여기에 오류 메시지를 표시하는 로직을 추가할 수 있습니다.
+            alert('문의 제출 중 오류가 발생했습니다.');
         }
     };
 
@@ -58,6 +62,7 @@ const PersonalInquire = () => {
                 <div className="form-group">
                     <label htmlFor="content">내용:</label>
                     <textarea
+                        className="Inquire-contentBox"
                         id="content"
                         name="content"
                         value={formData.content}
@@ -65,7 +70,7 @@ const PersonalInquire = () => {
                         required
                     ></textarea>
                 </div>
-                <button type="submit">제출</button>
+                <button type="submit" className="Inquire-submit-btn">제출</button>
             </form>
         </div>
     );

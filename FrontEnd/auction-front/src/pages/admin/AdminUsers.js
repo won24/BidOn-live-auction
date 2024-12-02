@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import "../../css/AdminUsers.css"
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ const AdminUsers = () => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/admin/users');
+            const response = await axios.get('http://112.221.66.174:8081/adminuser/users');
             setUsers(response.data);
             console.log(users);
             setLoading(false);
@@ -37,10 +38,10 @@ const AdminUsers = () => {
     return (
         <div className="users-container">
             <h2>사용자 관리</h2>
-            <table>
+            <table className="users-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th colSpan="3">ID</th>
                         <th>이름</th>
                         <th>가입일</th>
                     </tr>
@@ -52,7 +53,7 @@ const AdminUsers = () => {
                             onClick={() => handleUserClick(user)}
                             style={{ cursor: 'pointer' }}
                         >
-                            <td>{user.id}</td>
+                            <td colSpan="3" >{user.id}</td>
                             <td>{user.name}</td>
                             <td>{new Date(user.createUser).toLocaleDateString()}</td>
                         </tr>

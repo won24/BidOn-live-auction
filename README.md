@@ -76,7 +76,7 @@
 #### 기술 스택
 <p>
   <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white" alt="spring"/>
-  <img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style={{width:"10px" height:"auto"}} />
+<img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style="width:20px; height:auto;" />
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/MySQL-61DAFB?style=for-the-badge&logo=MySQL&logoColor=white" alt="mySQL" />
 </p>

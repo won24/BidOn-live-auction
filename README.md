@@ -78,6 +78,7 @@
   <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white" alt="spring"/>
   <img src="https://img.shields.io/badge/WebSocket-61DAFB?style=for-the-badge&logo=WebSocket&logoColor=white" alt="websocket" />
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/MySQL-61DAFB?style=for-the-badge&logo=MySQL&logoColor=white" alt="mySQL" />
 </p>
 
 <br>

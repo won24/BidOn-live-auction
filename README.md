@@ -54,6 +54,21 @@
 <br>
 
 ## 4. <span id="page">페이지별 기능</span>
+| **메인페이지** | **로그인** |
+| :------------: | :------------: |
+| <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true" alt="mainpage" /> | <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EB%A1%9C%EA%B7%B8%EC%9D%B8.png?raw=true" alt="login" /> |
+| 최근 본 게시글 / 메인 이미지를 통해 해당 아이템 상세보기 / 캐쉬충전 / 로그인 / 로그아웃 | 아이디 저장/ 회원가입/ 아이디, 비밀번호 찾기 |
+
+| **회원가입** | **회원가입 정보입력** |
+| :------------: | :------------: |
+| <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.png?raw=true" alt="signup" /> | <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%EC%A0%95%EB%B3%B4%EC%9E%91%EC%84%B1.png?raw=true" alt="signup input" /> |
+| 약관동의 후 정보입력 | 정보 입력, 유효성 평가 후 회원가입 |
+
+| **게시글 리스트** | **상세페이지** |
+| :------------: | :------------: |
+| <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EB%A6%AC%EC%8A%A4%ED%8A%B8.png?raw=true" alt="board" /> | <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true" alt="board detail"/> |
+| 검색, 카테고리별 보기, 상태별 보기 | 해당 경매품 이미지, 상세 정보, 즐겨찾기, 경매상태 확인 |
+
 
 
 <br>

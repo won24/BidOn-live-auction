@@ -75,10 +75,10 @@
 
 #### 기술 스택
 <p>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCYhyRdLfsTs-6oNgoecS-fbb7-wm0ZEsotQ&s" alt="spring" style="width:50px; height:auto;"/>
-<img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style="width:50px; height:auto;" />
-  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/MySQL-61DAFB?style=for-the-badge&logo=MySQL&logoColor=white" alt="mySQL" />
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCYhyRdLfsTs-6oNgoecS-fbb7-wm0ZEsotQ&s" alt="spring" style="width:100px; height:auto;"/>
+  <img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style="width:100px; height:auto;" />
+  <img src="https://i.sstatic.net/kyKz5.png" alt="React" style="width:100px; height:auto;" />
+  <img src="https://download.logo.wine/logo/MySQL/MySQL-Logo.wine.png" alt="mySQL" style="width:100px; height:auto;"/>
 </p>
 
 <br>

@@ -75,10 +75,10 @@
 
 #### 기술 스택
 <p>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCYhyRdLfsTs-6oNgoecS-fbb7-wm0ZEsotQ&s" alt="spring" style="width:100px; height:auto;"/>
-  <img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style="width:100px; height:auto;" />
-  <img src="https://i.sstatic.net/kyKz5.png" alt="React" style="width:100px; height:auto;" />
-  <img src="https://download.logo.wine/logo/MySQL/MySQL-Logo.wine.png" alt="mySQL" style="width:100px; height:auto;"/>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCYhyRdLfsTs-6oNgoecS-fbb7-wm0ZEsotQ&s" alt="spring" style="width:120px; height:50px;"/>
+  <img src="https://velog.velcdn.com/images/exceed96/post/500d9e8f-968d-47de-9670-c765fb0c7420/image.jpeg" alt="websocket" style="width:120px; height:50px;" />
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRojHAMdobLOrzBSklOvxV3qz4_pjv5T4t8VQ&s" alt="React" style="width:120px; height:50px;" />
+  <img src="https://download.logo.wine/logo/MySQL/MySQL-Logo.wine.png" alt="mySQL" style="width:120px; height:50px;"/>
 </p>
 
 <br>

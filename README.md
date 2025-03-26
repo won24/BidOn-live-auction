@@ -2,19 +2,25 @@
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/logo.png?raw=true"/>  
 <br>
 
+> 본 README는 BID ON 프로젝트에서 제가 맡은 기능에 한해 포트폴리오 용도로 일부 수정하였습니다.
+전체 프로젝트는 아래 원본 저장소에서 확인할 수 있습니다.
+> [원본 GitHub Repository](https://github.com/gangnam-auction/gangnam-auction)
+>
+
 <summary>목차</summary>
 
 1. [프로젝트 소개](#intro)
 2. [요구사항](#reqirements)
-3. [팀원 소개](#members)
-4. [페이지별 기능](#page)
-5. [개발 환경](#env)
+3. [맡은 기능](#my)
+4. [트러블 슈팅](#troubleShooting)
+5. [페이지별 기능](#page)
+6. [개발 환경](#env)
 
 <br>
 
 ## 1. <span id="intro">프로젝트 소개</span>
-
-✔ 비드온은 온라인 실시간 경매 사이트 입니다.
+**BID ON**은 실시간 입찰과 채팅이 가능한 온라인 경매 플랫폼입니다.  
+사용자는 경매 품목을 등록하고, 실시간으로 입찰에 참여하며, 낙찰 여부에 따라 금액이 처리되는 실시간 시스템을 경험할 수 있습니다.
 
 ✔ 모든 사용자는 실시간 경매 참관, 경매품 리스트를 볼 수 있습니다.
 
@@ -46,14 +52,34 @@
 
 <br>
   
-## 3. <span id="members">팀원</span>
-| **장근우** | **손정원** | **진원** | **김수아** |
-| :-------: | :-------: | :-------: | :-------: |
-| 로그인 <br>회원가입 <br>이이디/비밀번호 찾기 <br>실시간 채팅 | 결제 <br> 경매품 신청 <br>고객센터 <br>관리자페이지 <br>실시간 입찰 | 메인페이지 <br> 라이브 게시판 <br> 경매품 게시판 <br>게시판 관리자모드 | 마이페이지 | 
+## 3. <span id="my">맡은 기능</span>
+#### 기획, 디자인, 프론트엔드, 백엔드
+| **기능 페이지** | **주요 내용** |
+| :-------: | :-------: |
+| 메인페이지 | 최근 본 게시글 구현 <br> 배너를 통해 해당 아이템 상세보기 <br> 홈페이지 전체 레이아웃 |
+| 라이브 경매 게시판 | 시간에 따른 채팅/입찰/낙찰 후 환불 기능 활성화 <br> 낙찰자 안내 모달창 |
+| 경매품 게시판 | 경매 목록 <br> 필터링 <br> 검색 <br> 즐겨찾기 <br> 경매품 상세보기 페이지 |
+| 관리자 모드 | 게시글 승인/수정/삭제 기능 <br> 권한 분리 |
 
 <br>
 
-## 4. <span id="page">페이지별 기능</span>
+## 4. <span id="troubleShooting">트러블 슈팅</span>
+
+#### 최근 본 게시물 – 브라우저 뒤로가기 시 상태 미반영 문제
+
+- 로컬스토리지를 기반으로 게시물을 보여주도록 구현했으나, 브라우저 뒤로가기 시 `useEffect`가 재실행되지 않아 상태가 갱신되지 않는 문제 발생  
+- `window.addEventListener('popstate', ...)`를 통해 뒤로가기 이벤트 감지 후 상태를 업데이트하여 해결  
+- **SPA 라우팅과 상태 관리 간의 연결을 명확히 이해하고 대응할 수 있었던 경험**
+
+#### 경매 종료 후 환불 로직 반복 실행 문제
+
+- 경매 종료 후, 낙찰자를 제외한 사용자에게 금액을 환불하는 로직이 타이머가 작동하는 5분간 계속 반복되어 **중복 환불 발생**  
+- `requestSent` 상태 플래그를 도입해 로직을 최초 1회만 실행하도록 조건 분기하여 API 호출 중복을 방지  
+- **실시간 로직에서의 비동기 제어와 상태 플래그 사용의 중요성을 체감**
+
+<br>
+
+## 5. <span id="page">페이지별 기능</span>
 | **메인페이지** | **로그인** |
 | :------------: | :------------: |
 | <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true" alt="mainpage" /> | <img src="https://github.com/gangnam-auction/gangnam-auction/blob/won/FrontEnd/auction-front/src/assets/readMe_%EB%A1%9C%EA%B7%B8%EC%9D%B8.png?raw=true" alt="login" /> |
@@ -91,10 +117,11 @@
 
 <br>
 
-## 5. <span id="env">개발 기간 및 환경</span>
+## 6. <span id="env">개발 기간 및 환경</span>
 
-#### 개발기간 
+#### 프로젝트 기간
 24.11.11 ~ 24. 11. 29
+(4인 팀 프로젝트)
 
 #### 시스템 구성도
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/%EC%95%84%ED%82%A4%ED%85%8C%EC%B2%98.png?raw=true" alt="Architecture" />

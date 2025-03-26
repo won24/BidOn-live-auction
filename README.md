@@ -123,13 +123,13 @@
 24.11.11 ~ 24. 11. 29
 (4인 팀 프로젝트)
 
-#### 시스템 구성도
+#### Architecture
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/%EC%95%84%ED%82%A4%ED%85%8C%EC%B2%98.png?raw=true" alt="Architecture" />
 
 #### UML
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/uml.png?raw=true" alt="UML"/>
 
-#### 데이터베이스
+#### ERD
 <img src="https://github.com/gangnam-auction/gangnam-auction/blob/main/FrontEnd/auction-front/src/assets/ER.png?raw=true" alt="ERD" />
 
 
